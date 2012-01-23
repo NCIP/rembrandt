@@ -8,9 +8,9 @@
 <a href="javascript: Help.popHelp('<%=act%>_Statistic_tooltip');">[?]</a>    
 <!--  <app:help help="Leave as Default, or select Advanced and click + for more options." />-->
 </legend>
-<input type="radio" class="radio" name="statistic" value="default" onclick="tdiv(this,'advStatistic','cc');" checked />Default<br /><br />
+<input type="radio" id="DefaultStat" class="radio" name="statistic" value="default" onclick="tdiv(this,'advStatistic','cc');" checked /><label for="DefaultStat">Default</label><br /><br />
 
-<input type="radio" class="radio" name="statistic" value="advanced" />Advanced
+<input type="radio" id="AdvancedStat" class="radio" name="statistic" value="advanced" /><label for="AdvancedStat">Advanced</label>
 &nbsp;&nbsp;<a href='#' id="pm" class="exp" onclick="javascript:toggleSDiv('advStatistic','pm');return false;">&nbsp;+&nbsp;</a>
 
   <script language="javascript">
@@ -90,13 +90,13 @@
 
 <fieldset class="gray">
 <legend class="red">a)</legend>
- Statistical Method
+ <label for="statMethod">Statistical Method</label>
 	<html:select styleId="statMethod" property="statisticalMethod" onchange="clearGroupBox();">
 		<html:optionsCollection property="statisticalMethodCollection"/>
 	</html:select><br /><br />
 	
-Multiple Comparison Adjustment
-	<html:select property="comparisonAdjustment">
+<label for="comparisonAdjustment">Multiple Comparison Adjustment</label>
+	<html:select styleId="comparisonAdjustment" property="comparisonAdjustment">
 		
 		<html:optionsCollection property="comparisonAdjustmentCollection"/>
 	</html:select> <br /><br />

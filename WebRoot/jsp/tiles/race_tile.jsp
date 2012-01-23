@@ -10,19 +10,19 @@
 
 </legend>
 
-<html:checkbox styleClass="radio" property="caucasion" value="Specify" />
-<%= RaceType.WHITE.toString()%><!-- Caucasion -->
-<html:checkbox styleClass="radio" property="africanAmerican" value="Specify" />
-<%= RaceType.BLACK_OR_AFRICAN_AMERICAN.toString()%> <!-- African American -->
-<html:checkbox styleClass="radio" property="nativeHawaiian"  value="Specify" />
-<%=RaceType.NATIVE_HAWAIIAN_OR_PACIFIC_ISLANDER.toString()%> <!--  Native Hawaiian -->
+<html:checkbox styleId="caucasion" styleClass="radio" property="caucasion" value="Specify" />
+<label for="caucasion"><%= RaceType.WHITE.toString()%></label><!-- Caucasion -->
+<html:checkbox styleId="africanAmerican" styleClass="radio" property="africanAmerican" value="Specify" />
+<label for="africanAmerican"><%= RaceType.BLACK_OR_AFRICAN_AMERICAN.toString()%></label> <!-- African American -->
+<html:checkbox styleId="nativeHawaiian" styleClass="radio" property="nativeHawaiian"  value="Specify" />
+<label for="nativeHawaiian"><%=RaceType.NATIVE_HAWAIIAN_OR_PACIFIC_ISLANDER.toString()%></label> <!--  Native Hawaiian -->
 <br/>
-<html:checkbox styleClass="radio" property="asian" value="Specify" />
-<%=RaceType.ASIAN.toString()%> <!--  Asian -->
-<html:checkbox styleClass="radio" property="other" value="Specify" />
-<%=RaceType.OTHER.toString()%> <!--  Other -->
-<html:checkbox styleClass="radio" property="unknown" value="Specify"  />
-<%=RaceType.UNKNOWN.toString()%> <!--  Unknown -->
+<html:checkbox styleId="asian" styleClass="radio" property="asian" value="Specify" />
+<label for="asian"><%=RaceType.ASIAN.toString()%></label> <!--  Asian -->
+<html:checkbox styleId="other" styleClass="radio" property="other" value="Specify" />
+<label for="other"><%=RaceType.OTHER.toString()%></label> <!--  Other -->
+<html:checkbox styleId="unknown" styleClass="radio" property="unknown" value="Specify"  />
+<label for="unknown"><%=RaceType.UNKNOWN.toString()%></label> <!--  Unknown -->
 &nbsp;&nbsp;
 	
 

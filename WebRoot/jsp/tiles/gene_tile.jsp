@@ -144,14 +144,14 @@ String act = request.getParameter("act");
 
 <A NAME="geneTile">
 <fieldset class="gray">
-<legend class="red">Gene
+<legend class="red"><label for="geneOption1">Gene</label>
     <a href="javascript: Help.popHelp('<%=act%>_Gene_tooltip');">[?]</a>    
 	<!-- <app:help help="Search on a gene identifier, a gene list, or All Genes. " />-->
 </legend>
 
 <br/>
-<html:radio property="geneOption" styleClass="radio" value="standard" onclick="submitStandardQuery();"/>
-	Type Genes:&nbsp;&nbsp;
+<html:radio styleId="geneOption1" property="geneOption" styleClass="radio" value="standard" onclick="submitStandardQuery();"/>
+	<label for="geneType">Type Genes:&nbsp;&nbsp;</label>
 	<html:select property="geneType" styleId="geneType" disabled="false" onchange="checkStandardOption();GeneAlias.armAliasLink();">
 		<html:optionsCollection property="geneTypeColl" />
 	</html:select>
@@ -163,16 +163,16 @@ String act = request.getParameter("act");
 	-->
 	
 	<span valign="middle">
-		<a href="#" id="aliasLink" onclick="GeneAlias.checkAlias($('geneList').value);return false;">check aliases</a>
+		<a href="#" id="aliasLink" onclick="GeneAlias.checkAlias($('geneList').value);return false;">check aliases</a><label for="geneList">&nbsp;</label>
 	</span>			
-	<img src="images/indicator.gif" id="indicator" style="display:none;"/>
+	<img alt="indicator" src="images/indicator.gif" id="indicator" style="display:none;"/>
 	<br/><br/>
 	<div id="gAliases" style="display:none; margin-left:20px;border:1px solid #AB0303;"></div>
 	<br/><br/>
 			
-	<html:radio property="geneOption" styleClass="radio" value="geneList" disabled="false" onclick="submitStandardQuery();" styleId="geneOptionGeneList"/>
+	<html:radio property="geneOption" styleClass="radio" value="geneList" disabled="false" onclick="submitStandardQuery();" styleId="geneOptionGeneList"/><label for="geneOptionGeneList">&nbsp;</label>
 		
-		Choose a saved Gene List:&nbsp;&nbsp;
+		<label for="geneFileDD">Choose a saved Gene List:&nbsp;&nbsp;</label>
 	<html:select property="geneFile" disabled="false" styleId="geneFileDD">
 		<html:optionsCollection property="savedGeneList" />
 	</html:select>
@@ -202,7 +202,7 @@ String act = request.getParameter("act");
 	</logic:present>
 -->
 <br/>
-<html:radio property="geneOption" styleClass="radio" value="allGenes" onclick="submitAllGenesQuery();" />All Genes Query
+<html:radio styleId="geneOption2" property="geneOption" styleClass="radio" value="allGenes" onclick="submitAllGenesQuery();" /><label for="geneOption2">All Genes Query</label>
 		
 </fieldset>	
 </A>

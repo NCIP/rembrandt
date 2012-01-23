@@ -21,10 +21,12 @@
 <!--  end lists related -->
 
 <div width="100%">
-<table width="100%"><tr><td style="vertical-align:bottom;">
+<table width="100%">
+<tr><th></th><th></th></tr>
+<tr><td style="vertical-align:bottom;">
 <h3 style="vertical-align:bottom;">About</h3>
 </td><td width="40">
-<a href="javascript: Help.popHelp('Blue_panel');"><img align="right" src="images/help.png" border="0" onmouseover="return overlib('Click here for additional information about the side bar.', CAPTION, 'Help');" onmouseout="return nd();" /></a>
+<a href="javascript: Help.popHelp('Blue_panel');"><img align="right" alt="Help" src="images/help.png" border="0" onmouseover="return overlib('Click here for additional information about the side bar.', CAPTION, 'Help');" onmouseout="return nd();" /></a>
 </td></tr></table>
 <div style="font-size:0.8em;padding: 0px 0px 0px 0px;">
 	<span>Application Release: <b><%=System.getProperty("rembrandt.application.version")!=null ? System.getProperty("rembrandt.application.version") : "1.5"%></b>
@@ -79,6 +81,7 @@ if(queryCollection != null)	{
 		}
 %>
 		<table border="0" style="font-size:.9em">
+			<tr><th></th></tr>
 			<tr>
 				<td><%=query%>
 <%
@@ -103,6 +106,7 @@ if(queryCollection != null)	{
 		
 %>
 		<table border="0" style="font-size:.9em">
+			<tr><th></th></tr>
 			<tr>
 				<td><%=cquery%>
 
@@ -147,7 +151,7 @@ if(j !=0 && j>=2)	{
 	<div style="text-align:left; margin-top:10px;">
 		<b><%=label%> Lists:</b>
 		<div id="sidebar<%=label%>UL">
-			<img src="images/indicator.gif"/>
+			<img alt="indicator" src="images/indicator.gif"/>
 		</div>	
 	</div>
 <%

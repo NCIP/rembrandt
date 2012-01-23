@@ -12,19 +12,20 @@
 <fieldset class="grayRefine">
 <legend class="red">Step 1: Refine your result set</legend>
 	
-    <input type="radio" name="isAllGenesQuery" class="radio" value="false" checked="true" onclick="javascript:onRadio(this, 0);"/>Please refine your results by grouping the queries<br />
+    <input type="radio" id="isAllGenesQuery1" name="isAllGenesQuery" class="radio" value="false" checked="true" onclick="javascript:onRadio(this, 0);"/><label for="isAllGenesQuery1">Please refine your results by grouping the queries</label><br />
     <div id="qrows">
 	<table align="center" border="0" width="95%" cellpadding="2" cellspacing="1" id="rosso">
+		<tr><th></th></tr>
 		<tr>
 			<td colspan="4" class="message">
 				Group Your Queries<BR>
 			</td>
 		</tr>
 		<tr>
-			<td class="message" width="10%">(</td>
-			<td class="message" width="30%">Query Name</td>
-			<td class="message" width="10%">)</td>
-			<td class="message" width="10%">and/or</td>
+			<td class="message" width="10%"><label for="leftParen">(</label></td>
+			<td class="message" width="30%"><label for="queryName">Query Name</label></td>
+			<td class="message" width="10%"><label for="rightParen">)</label></td>
+			<td class="message" width="10%"><label for="operand">and/or</label></td>
 		</tr>
 		<!-- BEGIN  Selected Queries -->
 		<nested:nest>
@@ -41,18 +42,18 @@
 		<!-- End  Selected Queries -->
 	</table><br />
 	</div>
-	<input type="radio" name="isAllGenesQuery" class="radio" value="true"  onclick="javascript:onRadio(this, 1);" />Please select an "All Genes" query
-    <html:select property="allGeneQuery" disabled="true">
+	<input id="isAllGenesQuery2" type="radio" name="isAllGenesQuery" class="radio" value="true"  onclick="javascript:onRadio(this, 1);" /><label for="isAllGenesQuery2">Please select an "All Genes" query</label>
+    <html:select styleId="allGeneQuery" property="allGeneQuery" disabled="true">
      		<option/>
 		    <html:optionsCollection property="allGenesQueries" label="queryName" value="queryName" />
-	 </html:select>
+	 </html:select><label for="allGeneQuery">&nbsp;</label>
 
 </fieldset>
 <br clear="all"/>
 <!--Step 2-->
 <fieldset class="grayRefine">
 <legend class="red">Step 2: Select Result set (mandatory for "All Genes" queries)</legend>
-&nbsp;&nbsp;&nbsp;Select Result set to apply the above Query:
+<label for="srs">&nbsp;&nbsp;&nbsp;Select Result set to apply the above Query:</label>
 
 <script type='text/javascript' src='dwr/interface/UserListHelper.js'></script>
 <script language="javascript">
@@ -86,8 +87,9 @@
 <br clear="all"/>
 <!--Step 3-->
 <fieldset class="grayRefine">
-<legend class="red">Step 3: Validate your query</legend>
+<legend class="red"><label for="queryText">Step 3: Validate your query</label></legend>
 	<table border="0" cellpadding="2" cellspacing="2">
+		<tr><th></th><th></th></tr>
 		<tr>
 			<td align="center">&nbsp;&nbsp;&nbsp;
 			<!--JavaScript added here to reset the response target back to the submitting window-->
@@ -97,7 +99,7 @@
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			</td>
 			<td align="right">
-				<html:textarea property="queryText"  style="width:300px; height:40px;"></html:textarea>
+				<html:textarea styleId="queryText" property="queryText"  style="width:300px; height:40px;"></html:textarea>
 			</td>
 			
 		</tr>
@@ -107,10 +109,11 @@
 <br clear="all"/>
 <!--Step 4-->
 <fieldset class="grayRefine">
-<legend class="red">Step 4: Please select a View</legend>	
+<legend class="red"><label for="compoundView">Step 4: Please select a View</label></legend>	
 	<table width="100%" border="0">
+		<tr><th></th></tr>
 		<tr><td>
-				<html:select property="compoundView" onchange="" style="width:300px">
+				<html:select styleId="compoundView" property="compoundView" onchange="" style="width:300px">
 				    <html:optionsCollection property="compoundViewColl" />
 				</html:select><html:errors property="compoundView"/>
 			</td>
@@ -122,10 +125,11 @@
 <br clear="all"/>
 <!--Step 5-->
 <fieldset class="grayRefine">
-<legend class="red">Step 5: Please select data source(s) to filter the query by ( Optional )</legend>	
+<legend class="red"><label for="instituteView">Step 5: Please select data source(s) to filter the query by ( Optional )</label></legend>	
 	<table width="100%" border="0">
+		<tr><th></th></tr>
 		<tr><td>
-				<html:select property="instituteView" multiple="true" onchange="">
+				<html:select styleId="instituteView" property="instituteView" multiple="true" onchange="">
 					 <!--  <option value ="ALL" selected="selected">ALL</option>  -->
 				    <html:optionsCollection property="institueViewColl" label="displayName" value="displayName"/>
 				</html:select><html:errors property="instituteView"/>

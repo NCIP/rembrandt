@@ -1,6 +1,9 @@
 <!-- Start Footer Table -->
 <div class="content">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<th></th><th></th>
+	</tr>
 <!--  
 	<tr>
 		<td colspan="2" style="text-align:center;">

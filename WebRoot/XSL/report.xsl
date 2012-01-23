@@ -51,7 +51,7 @@
   <body onload="javascript:A_clearTmpSamples();return false;">
   <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;">Help</div>
 
-  <div style="background-color: #ffffff"><img src="images/smallHead.jpg" /></div>
+  <div style="background-color: #ffffff"><img alt="Rembrandt" src="images/smallHead.jpg" /></div>
   <p align="center" style="background:red; color:#ffffff; font-size:12px; font-weight:bold;"><xsl:value-of select="$statusMsg" /></p>
  
    <xsl:for-each select="Report">
@@ -77,12 +77,12 @@
 	
     <span style="z-index:900; float:right;position:absolute;top:10px;right:10px;">
 	  <!-- navigation icons courtesy of:  Anthony J. Brutico, D.O. -->
-	  <a href="#" onclick="javascript:window.close();"><img align="right" src="images/close.png" border="0" onmouseover="return overlib('Close this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/> </a> 
-	  <a href="javascript: HelpWrapper('{$helpLink}');"><img align="right" src="images/help.png" border="0" onmouseover="return overlib('Click here for additional information about this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();" /></a>
+	  <a href="#" onclick="javascript:window.close();"><img alt="Close" align="right" src="images/close.png" border="0" onmouseover="return overlib('Close this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/> </a> 
+	  <a href="javascript: HelpWrapper('{$helpLink}');"><img alt="Help" align="right" src="images/help.png" border="0" onmouseover="return overlib('Click here for additional information about this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();" /></a>
 	  <a href="#" onclick="javascript:stupidXSLEscape('{$qName}', '{$rType}')"><img align="right" src="images/excel.png" border="0" alt="download for excel" onmouseover="return overlib('Download for Excel.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/></a>
-	  <a href="#" onclick="javascript:window.print();"><img align="right" src="images/print.png" border="0" onmouseover="return overlib('Print this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/> </a> 
-	  <a href="#queryInfo"><img align="right" src="images/text.png" border="0" onmouseover="return overlib('View Query Information.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/></a>
-	  <a href="#" onclick="javascript:toggleDiv('hideme');return false;"><img align="right" src="images/tools.png" border="0" onmouseover="return overlib('Show or Hide Report Tools.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/></a>
+	  <a href="#" onclick="javascript:window.print();"><img alt="Print" align="right" src="images/print.png" border="0" onmouseover="return overlib('Print this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/> </a> 
+	  <a href="#queryInfo"><img alt="View Query Info" align="right" src="images/text.png" border="0" onmouseover="return overlib('View Query Information.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/></a>
+	  <a href="#" onclick="javascript:toggleDiv('hideme');return false;"><img alt="Show or Hide Report Tools" align="right" src="images/tools.png" border="0" onmouseover="return overlib('Show or Hide Report Tools.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/></a>
    	</span>
 
 	<form action="runReport.do?method=runGeneViewReport" name="paginate" method="post">
@@ -123,7 +123,7 @@
 			<xsl:if test="$rType = 'Clinical'">
 			<span style="margin-left:15px; ">
 				 <a style="text-decoration:none;margin-left:2px;font-weight:normal; font-size:11px;" href="#" onclick="javascript:spawnx('clinicalPlots.do?taskId={$qName}',900,600,'clinicalPlots');">Show Clinical Plots for these samples
-				 <img src="images/plotSmall.png" style="padding:1px;border:1px solid red; vertical-align:middle; margin-left:1px;margin-right:5px; height:13px; width: 28px;" />
+				 <img alt="Clinical Plot" src="images/plotSmall.png" style="padding:1px;border:1px solid red; vertical-align:middle; margin-left:1px;margin-right:5px; height:13px; width: 28px;" />
 				 </a>
 				 <br/>
 				 <a style="text-decoration:none;margin-left:2px;font-weight:normal; font-size:11px;" href="#" onclick="javascript:clinical2km();">[view KM plot: all samples in report vs.  rest of samples]</a>
@@ -139,9 +139,9 @@
 	  <form style="margin-bottom:0;" action="runReport.do?method=runGeneViewReport" method="post" name="filter_form">
 		<b><span class="lb">Filter:</span></b> 
 		<xsl:text>&#160;</xsl:text>
-		<span id="showOnlyLabel"><input type="radio" class="checkorradio" name="filter_type" id="showOnly_radio" value="show" />Show Only</span>
-		<span id="hideLabel"><input type="radio" class="checkorradio" name="filter_type" id="hide_radio" checked="true" value="hide"/>Hide</span>		
-		<select name="filter_element" onchange="javascript: showCNumberFilter(this.value, 'cNumberFilter')">
+		<span id="showOnlyLabel"><input type="radio" class="checkorradio" name="filter_type" id="showOnly_radio" value="show" /><label for="showOnly_radio">Show Only</label></span>
+		<span id="hideLabel"><input type="radio" class="checkorradio" name="filter_type" id="hide_radio" checked="true" value="hide"/><label for="hide_radio">Hide</label></span>		
+		<select id="filter_element" name="filter_element" onchange="javascript: showCNumberFilter(this.value, 'cNumberFilter')">
 			<xsl:if test="$rType = 'Gene Expression Sample' or $rType = 'Gene Expression Disease'">
 			<option value="gene">Gene(s)</option>
 			</xsl:if>
@@ -150,11 +150,11 @@
 			<option value="copy number">Copy Number</option>
 			</xsl:if>
 			<option value="reporter">Reporters</option>
-		</select>
+		</select><label for="filter_element">&#160;</label>
 		<span id="fb">
 		<input type="text" name="filter_string"/>
 		<input type="hidden" name="queryName" value="{$qName}"/>
-		<input type="submit" name="filter_submit" value="Filter" onclick="javascript:return checkElement(filter_form.filter_string);"/>
+		<input type="submit" id="filter_submit1" name="filter_submit" value="Filter" onclick="javascript:return checkElement(filter_form.filter_string);"/><label for="filter_submit1">&#160;</label>
 		
 		<input type="button" name="filter_submit" onclick="javascript:doShowAllValues('{$qName}', false);" value="Reset (show all)" />
 	<!--	<input type="button" name="filter_submit" onclick="javascript:clearFilterForm(document.forms['filter_form']);" value="Reset (show all)" /> -->
@@ -169,8 +169,8 @@
 	  <form style="margin-bottom:0;margin:0;" action="runReport.do?method=runFilterCopyNumber" method="post" name="cfilter_form">
 		<b><span class="lb">Filter Options:</span></b> 
 		<xsl:text>&#160;</xsl:text>
-		No. of Consecutive SNPs:
-		<select name="filter_value5">
+		<label for="filter_value5">No. of Consecutive SNPs:</label>
+		<select if="filter_value5" name="filter_value5">
 			<option value="1">1</option>
 			<option value="2">2</option>
 			<option value="3">3</option>
@@ -185,7 +185,7 @@
 		<xsl:text>&#160;</xsl:text>
 		<input type="checkbox" class="checkorradio" name="filter_value4" value="and" />And (Or by default)
 		<xsl:text>&#160;</xsl:text>
-		% SNPs that match criteria
+		<label for="filter_value6">% SNPs that match criteria</label>
 		<select name="filter_value6">
 			<option value="0"></option>
 			<option value="10">10%</option>
@@ -223,21 +223,21 @@
 			
 	  <div class="filterForm">
 	  <form style="margin-bottom:0;" action="runReport.do?method=runGeneViewReport" method="post" name="highlight_form">
-		<b><span class="lb">Highlight:</span></b> 
+		<b><span class="lb"><label for="filter_value1">Highlight:</label></span></b> 
 		<xsl:text>&#160;</xsl:text>
-		highlight values 
-		<select name="filter_value4">
+		<label for="filter_value4">highlight values</label> 
+		<select id="filter_value4" name="filter_value4">
 			<option value="gt">&gt;</option>
 			<option value="lt">&lt;</option>
 			<option value="eq">=</option>
 			<option value="lte">&lt;=</option>
 			<option value="gte">&gt;=</option>
 		</select>
-		<input type="text" name="filter_value1" size="4" value="{$filter_value1}" />
+		<input type="text" id="filter_value1" name="filter_value1" size="4" value="{$filter_value1}" />
 		<input type="hidden" name="queryName" value="{$qName}"/>
 		<input type="hidden" name="filter_value2" value="{$filter_value2}"/>
 		<input type="hidden" name="filter_value3" value="{$filter_value3}"/>
-		<input type="submit" name="filter_submit" value="Highlight" />
+		<input type="submit" id="filter_submit" name="filter_submit" value="Highlight" /><label for="filter_submit">&#160;</label>
 		<input type="hidden" name="showAllValues" value="{$showAllValues}"/>
 		<input type="submit" name="filter_submit" value="Clear Highlighting" onclick="javascript:document.highlight_form.filter_value1.value='';" />
 	  </form>
@@ -245,7 +245,7 @@
 	  
 	  <xsl:if test="$showSampleSelect != 'false' and contains($qName, 'previewResults') = false">
 	  <div class="filterForm">
-		<b><span class="lb">Select Samples:</span></b> 
+		<b><span class="lb"><label for="tmp_prb_queryName">Select Samples:</label></span></b> 
 		<xsl:text>&#160;</xsl:text>
 		<input type="text" size="30" id="tmp_prb_queryName" name="tmp_prb_queryName" value="{$qName}" />
 		<input type="button" name="filter_submit" value="Save Samples" onclick="javascript:saveSamples();" />
@@ -278,9 +278,9 @@
 		  	<xsl:for-each select="Cell">
 			  	<xsl:if test="@group!='header'">
 						<xsl:variable name="currentGroup" select="@group" />
-						<input class="checkorradio" type="checkbox" onclick="javascript:goFilterColumnMg(this, '{$currentGroup}')"/>
+						<input class="checkorradio" id="{$currentGroup}" type="checkbox" onclick="javascript:goFilterColumnMg(this, '{$currentGroup}')"/>
 						<xsl:value-of select="$currentGroup"/>
-						<xsl:text>&#160;</xsl:text>
+						<xsl:text>&#160;</xsl:text><label for="{$currentGroup}">&#160;</label>
 				</xsl:if>
 			</xsl:for-each>
 		</xsl:for-each>
@@ -292,11 +292,11 @@
 	  
 	  <xsl:if test="$rType = 'Clinical' and $showSaveSamples != 'false'">
 	  <div class="filterForm">
-	  	<input type="text" name="sampleGroupName" id="sampleGroupName" value="{$qName}_samples"/>
+	  	<input type="text" name="sampleGroupName" id="sampleGroupName" value="{$qName}_samples"/><label for="sampleGroupName">&#160;</label>
 	  	<xsl:text>&#160;</xsl:text>
 	  	<input type="button" value="save selected samples" onclick="javascript:A_saveSamples();" />
 	  	<xsl:text>&#160;</xsl:text>
-	  	<span id="checkAllBlock"><input type="checkbox" name="checkAll" id="checkAll" class="checkorradio" onclick="javascript:manageCheckAll(this);"/> All</span>
+	  	<span id="checkAllBlock"><input type="checkbox" name="checkAll" id="checkAll" class="checkorradio" onclick="javascript:manageCheckAll(this);"/> <label for="checkAll">All</label></span>
 	  	<xsl:text>&#160;</xsl:text>
 	  	<a href="#" onclick="javascript:return false;" onmouseover="javascript:return showHelp(savedHeader + currentTmpSamples);" onmouseout="return nd();" id="sampleCount"></a> 	
 	  	<xsl:text>&#160;</xsl:text>
@@ -345,7 +345,7 @@
 	  </xsl:if>
 	  <xsl:text>&#160;</xsl:text>
 	  <xsl:text>&#160;</xsl:text>
-	  <select name="changeStep" onchange="javascript: goPageChangeStep('{$filter_value2}', this.value);">
+	  <select id="changeStep" name="changeStep" onchange="javascript: goPageChangeStep('{$filter_value2}', this.value);">
 	  	<option value=""><xsl:value-of select="$filter_value3"/> per page</option>
 	  	<option value="1">1</option>
 	  	<option value="5">5</option>
@@ -354,7 +354,7 @@
 	  	<option value="50">50</option>
 	  	<option value="100">100</option>
 	  </select>
-	 
+	  <label for="changeStep">&#160;</label>
 	  <xsl:text>&#160;</xsl:text>
 	  <xsl:text>&#160;</xsl:text>
 	  <xsl:text>&#160;</xsl:text>
@@ -404,6 +404,7 @@
 					</xsl:otherwise>
 			</xsl:choose>
 		    </xsl:for-each>
+		    <label for="grpcheck">&#160;</label>
 		    </tr>
 		</xsl:for-each>
 		
@@ -482,7 +483,7 @@
 			      			<xsl:when test="$class = 'sample'">
 			      				<xsl:variable name="sample" select="Data"  />
 			      				<xsl:if test="$showSaveSamples != 'false'">
-				      				<input type="checkbox" class="checkorradio" id="samples" name="samples" value="{$sample}" onclick="javascript:A_saveTmpSample(this);" />
+				      				<input type="checkbox" class="checkorradio" id="{$sample}" name="samples" value="{$sample}" onclick="javascript:A_saveTmpSample(this);" /><label for="{$sample}">&#160;</label>
 				      			</xsl:if>
 			      				<xsl:value-of select="Data"/>
 			   

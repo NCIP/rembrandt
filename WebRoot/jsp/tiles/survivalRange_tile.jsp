@@ -12,7 +12,7 @@
 	
 	
 		
-	&nbsp;&nbsp;&nbsp;lower:&nbsp;
+	<label for="survivalLower">&nbsp;&nbsp;&nbsp;lower:&nbsp;</label>
 		<!--- <select property="survivalLower">
 			<option>0</option>
 			<option>10</option>
@@ -26,12 +26,12 @@
 			<option>90</option>
 		</select>&nbsp;&nbsp; --->
 		
-		<html:select property="survivalLower">
+		<html:select styleId="survivalLower" property="survivalLower">
 	    <html:optionsCollection property="survivalLowerColl" />
         </html:select><html:errors property="survivalLower"/>
 		
 		
-		upper:&nbsp;
+		<label for="survivalUpper">upper:&nbsp;</label>
 		
 		<!--- <select property="survivalUpper">
 			<option>0</option>
@@ -47,7 +47,7 @@
 			<option>90+</option>
 		</select> --->
 		
-		<html:select property="survivalUpper">
+		<html:select styleId="survivalUpper" property="survivalUpper">
 	    <html:optionsCollection property="survivalUpperColl" />
         </html:select><html:errors property="survivalUpper"/>
 		&nbsp;<b class="message">(months)</b>
@@ -59,7 +59,7 @@
 	<a href="javascript: Help.popHelp('<%=act%>_AgeatDX_tooltip');">[?]</a>    
 	</legend><br />
 		
-	&nbsp;&nbsp;&nbsp;lower:&nbsp;
+	<label for="ageLower">&nbsp;&nbsp;&nbsp;lower:&nbsp;</label>
 		<!--- <select property="ageLower">
 			<option>0</option>
 			<option>10</option>
@@ -73,10 +73,10 @@
 			<option>90</option>
 		</select>&nbsp;&nbsp; --->
 		
-		<html:select property="ageLower">
+		<html:select styleId="ageLower" property="ageLower">
 	    <html:optionsCollection property="ageLowerColl" />
         </html:select><html:errors property="ageLower"/>
-		upper:&nbsp;
+		<label for="ageUpper">upper:&nbsp;</label>
 		
 		<!--- <select property="ageUpper">
 			<option>0</option>
@@ -92,7 +92,7 @@
 			<option>90+</option>
 		</select> --->
 		
-		<html:select property="ageUpper">
+		<html:select styleId="ageUpper" property="ageUpper">
 	    <html:optionsCollection property="ageUpperColl" />
         </html:select><html:errors property="ageUpper"/>
 		&nbsp;<b class="message">(years)</b>
@@ -100,7 +100,7 @@
 		<br /><br />
 		
 	<fieldset class="gray">
-	<legend class="red">Gender
+	<legend class="red"><label for="genderType">Gender</label>
 	<!-- <app:help help="Select the gender of the patient."/>-->
 	<a href="javascript: Help.popHelp('<%=act%>_Gender_tooltip');">[?]</a>    
 	
@@ -112,7 +112,7 @@
 				<OPTION>other</OPTION>
 			</select>&nbsp; --->
 			
-			&nbsp;&nbsp;<html:select property="genderType">
+			&nbsp;&nbsp;<html:select styleId="genderType" property="genderType">
 	        <html:optionsCollection property="genderTypeColl" />
             </html:select><html:errors property="genderType"/>
       </fieldset>

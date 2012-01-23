@@ -30,28 +30,28 @@
 	        <h5>Gene Expression-based  and Copy Number-based Graphs&nbsp;&nbsp;&nbsp;&nbsp;
 	        <!-- <app:help help="Select a search method and enter search criteria, such as a HUGO gene symbol." />-->
 	        </h5>
-	        <input type="radio" checked="checked" name="plot" class="radio" value="geneExpPlot" onclick="javascript:onRadio(this,0);needGVal = true;">
-	        Gene Expression plot&nbsp;<br />
+	        <input type="radio" checked="checked" name="plot" id="geneExpPlot" class="radio" value="geneExpPlot" onclick="javascript:onRadio(this,0);needGVal = true;">
+	        <label for="geneExpPlot">Gene Expression plot&nbsp;</label><br />
 	        
-	        <input type="radio" name="plot" class="radio" value="kapMaiPlotGE" onclick="javascript:onRadio(this,1);needGVal = true;">
-	        Kaplan-Meier survival plot for Gene Expression Data&nbsp;<br />
+	        <input type="radio" name="plot" class="radio" id="kapMaiPlotGE" value="kapMaiPlotGE" onclick="javascript:onRadio(this,1);needGVal = true;">
+	        <label for="kapMaiPlotGE">Kaplan-Meier survival plot for Gene Expression Data&nbsp;</label><br />
 	        
 	        <!-- <h5>Copy Number-based Graph&nbsp;&nbsp;&nbsp;&nbsp;
 	        <app:help help="Enter a HUGO gene symbol (such as EGFR,WT1) or an Affymetrix 100K SNP Probeset ID (reporter) to plot a Kaplan-Meier survival plot based on the Gene copy number or the SNP reporter respectively." /></h5>
 	        -->
-	        <input type="radio" name="plot" class="radio" value="kapMaiPlotCN" onclick="javascript:onRadio(this,2);needGVal = true;">
-	        Kaplan-Meier survival plot for Copy Number Data<br/>
+	        <input type="radio" name="plot" id="kapMaiPlotCN" class="radio" value="kapMaiPlotCN" onclick="javascript:onRadio(this,2);needGVal = true;">
+	        <label for="kapMaiPlotCN">Kaplan-Meier survival plot for Copy Number Data</label><br/>
 	           
 	     <!--     <hr width=100% color="#002185" size="1px" /> -->
 	        
-	        <br/>
-	        <select name="quickSearchType" style="width:140px">
+	        <label for="quickSearchType">&#160;</label><br/>
+	        <select name="quickSearchType" id="quickSearchType" style="width:140px">
 	       		<option>Gene Keyword</option>
 	        </select>
 
         </logic:empty>
         <logic:empty name="quickSearchForm" property="allGeneAlias">
-        	<input type="text" name="quickSearchName" id="quickSearchName" value="" size="40" />&nbsp;
+        	<input type="text" name="quickSearchName" id="quickSearchName" value="" size="40" />&nbsp;<label for="quickSearchName">&#160;</label>
         	
         	<!--  RCL testing -->
         	<script language="javascript">
@@ -118,7 +118,7 @@
         	<span id="indic" class="message" style="display:none;"><img src="images/indicator.gif"/>validating...</span>
         	<!--  <a href="#" onclick="DynamicListHelper.getGeneAliases($('quickSearchName').value, geneLookup_cb);">[v]</a> -->
         	<div id="gAliases" style="display:none; border:1px solid red; border-top:4px solid red;padding:5px;margin:10px; width:95%;  "></div>
-        	<br/>Restrict to sample group: 
+        	<br/><label for="baselineGroupName">Restrict to sample group: </label>
         	 <html:select property="baselineGroup" styleId="baselineGroupName" disabled="true">
 			 	<html:optionsCollection property="sampleGroupsList" />
 			</html:select>
@@ -128,8 +128,9 @@
 	        <!--  sample based plots -->
 	        <h5>Sample-based Graph&nbsp;&nbsp;&nbsp;&nbsp;</h5>
 	        <input id="samplePlotRadio" type="radio" name="plot" class="radio" value="<%=CaIntegratorConstants.SAMPLE_KMPLOT%>" onclick="javascript:onRadio(this,3); needGVal = false;">
-	        Kaplan-Meier survival plot for Sample Data&nbsp;
+	        <label for="samplePlotRadio">Kaplan-Meier survival plot for Sample Data&nbsp;</label>
 	        <br/><br/>
+	        <label for="groupName">&#160;</label>
 	        <html:select property="groupName" style="margin-left:20px;width:200px;" styleId="groupName" disabled="false" onchange="examineGroups(this);needGVal = false;">
 			 	<html:optionsCollection property="sampleGroupsList" />
 			</html:select>
@@ -138,13 +139,13 @@
 	        <input type="text" id="groupName" name="groupName" style="margin-left:25px"/> vs.
 	        <input type="text" id="groupNameCompare" name="groupNameCompare"/>
 	        -->
-	         vs. 
+	         vs.
 	         <html:select property="groupNameCompare" styleId="groupNameCompare" style="width:200px;" disabled="false" onchange="examineGroups(this);needGVal = false;">	         	
 			 	<html:optionsCollection property="sampleGroupsList" />
 			 	<option value="none" selected="true">None</option>
 			 	<option value="Rest of the Gliomas">Rest of the Gliomas</option>
 			</html:select>
-	        <br/>
+	        <label for="groupNameCompare">&#160;</label><br/>
 	        <script language="javascript">
 	        	try	{
 	        		//this overwrites the 'all' that is added in the qsForm as a placeholder

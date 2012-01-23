@@ -48,12 +48,12 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 
 <span style="z-index:1000; float:right;">
 	<!-- navigation icons courtesy of:  Anthony J. Brutico, D.O. -->
-	<a href="javascript:top.close()"><img align="right" src="images/close.png" border="0"></a>
-	<a href="javascript: Help.popHelp('PCA_report');"><img align="right" src="images/help.png" border="0" onmouseover="return overlib('Click here for additional information about this report.', CAPTION, 'Help');" onmouseout="return nd();" /></a>
-	<a href="#" onclick="javascript:window.print();"><img align="right" src="images/print.png" border="0" onmouseover="return overlib('Print this report.', CAPTION, 'Help');" onmouseout="return nd();"/> </a> 
+	<a href="javascript:top.close()"><img alt="Close" align="right" src="images/close.png" border="0"></a>
+	<a href="javascript: Help.popHelp('PCA_report');"><img alt="Help" align="right" src="images/help.png" border="0" onmouseover="return overlib('Click here for additional information about this report.', CAPTION, 'Help');" onmouseout="return nd();" /></a>
+	<a href="#" onclick="javascript:window.print();"><img alt="Print" align="right" src="images/print.png" border="0" onmouseover="return overlib('Print this report.', CAPTION, 'Help');" onmouseout="return nd();"/> </a> 
 	
 </span>
-<div style="background-color: #ffffff"><img src="images/smallHead.jpg" /></div>
+<div style="background-color: #ffffff"><img alt="Rembrandt" src="images/smallHead.jpg" /></div>
 
 
 <%
@@ -132,7 +132,7 @@ else
 		</td>
 		<td style="vertical-align:top">
 		<div style="border:1px dashed silver;height:300px;width:100px; margin-left:10px; margin-top:30px; overflow:auto;" id="sample_list">
-			<div style="background-color: #ffffff; width:100px; font-weight: bold; text-align:center;">Samples:</div><br/>
+			<div style="background-color: #ffffff; width:100px; font-weight: bold; text-align:center;"><label for="sampleGroupName">Samples:</label></div><br/>
 			<div style="font-size:9px; text-align:center;" id="sampleCount"></div><br/>
 			<span id="pending_samples" style="font-size:11px"></span>
 		</div>

@@ -21,28 +21,28 @@
 <html:errors property="copyNumberAllGenesAmp"/></br>
 <html:errors property="copyNumberAllGenesDel"/></br>
 	
-<html:radio property="copyNumber" value="amplified" styleClass="radio"/> Amplified &ge;
-				<html:text property="cnAmplified" onfocus="javascript:radioFold(this);" />&nbsp;copies</br>
+<html:radio styleId="copyNumber1" property="copyNumber" value="amplified" styleClass="radio"/> <label for="copyNumber1">Amplified</label> &ge;
+				<html:text styleId="cnAmplified" property="cnAmplified" onfocus="javascript:radioFold(this);" /><label for="cnAmplified">&nbsp;copies</label></br>
 <html:errors property="cnAmplified"/>
-<html:radio property="copyNumber" value="deleted" styleClass="radio"/> Deleted &nbsp;&nbsp;&le;
-				<html:text property="cnDeleted" onfocus="javascript:radioFold(this);" />&nbsp;copies</br>
+<html:radio styleId="copyNumber2" property="copyNumber" value="deleted" styleClass="radio"/> <label for="copyNumber2">Deleted</label> &nbsp;&nbsp;&le;
+				<html:text styleId="cnDeleted" property="cnDeleted" onfocus="javascript:radioFold(this);" /><label for="cnDeleted">&nbsp;copies</label></br>
 <html:errors property="cnDeleted"/>			
-<html:radio property="copyNumber" value="ampdel" styleClass="radio"/> Amplified or Deleted &nbsp;
+<html:radio styleId="copyNumber3" property="copyNumber" value="ampdel" styleClass="radio"/> <label for="copyNumber3">Amplified or Deleted</label> &nbsp;
 
 <blockquote>
 Amplified&nbsp;&nbsp;&nbsp; &ge;
- <html:text property="cnADAmplified" onfocus="javascript:radioFold(this);" />&nbsp;copies
+ <html:text styleId="cnADAmplified" property="cnADAmplified" onfocus="javascript:radioFold(this);" /><label for="cnADAmplified">&nbsp;copies</label>
 &nbsp;
 <html:errors property="cnADAmplified"/>	
 <Br>
 Deleted&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &le;
-<html:text property="cnADDeleted" onfocus="javascript:radioFold(this);" />&nbsp;copies
+<html:text styleId="cnADDeleted" property="cnADDeleted" onfocus="javascript:radioFold(this);" /><label for="cnADDeleted">&nbsp;copies</label>
 &nbsp;
 <html:errors property="cnADDeleted"/>	
 </blockquote>
-<html:radio property="copyNumber" value="unchange" styleClass="radio"/>Unchanged&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<html:text property="cnUnchangeFrom" onfocus="javascript:radioFold(this);" />-to-
-				<html:text property="cnUnchangeTo" onfocus="javascript:radioFold(this);" />&nbsp;copies
+<html:radio styleId="copyNumber4" property="copyNumber" value="unchange" styleClass="radio"/><label for="copyNumber4">Unchanged&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				<html:text styleId="cnUnchangeFrom" property="cnUnchangeFrom" onfocus="javascript:radioFold(this);" /><label for="cnUnchangeFrom">-to-</label>
+				<html:text styleId="cnUnchangeTo" property="cnUnchangeTo" onfocus="javascript:radioFold(this);" /><label for="cnUnchangeTo">&nbsp;copies</label>
 <html:errors property="cnUnchangeFrom"/>	
 <html:errors property="cnUnchangeTo"/>	
 <html:errors property="cnerror"/></br>

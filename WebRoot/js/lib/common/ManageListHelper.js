@@ -66,18 +66,19 @@
 						tst +=  "<div id='"
 		                	+ theName
 		                    + "' class='dlistListing'>" 
-		                    + "<input type='checkbox' style='border:0px;' id='' name='" + listType + "' value='" +theName+ "'/>"
-		                    + "<b style='"+lstyle+"' onmouseover=\"overlib('" + lib +"', CAPTION, '"+ theName+ "');\" onmouseout='return nd();'>"
-		                    + shortName + "</b><br/><div style='margin-left:10px;'>" + listSubType 
+		                    + "<input type='checkbox' style='border:0px;' id='" + shortName + "' name='" + listType + "' value='" +theName+ "'/>"
+		                    + "<b style='"+lstyle+"' onmouseover=\"overlib('" + lib +"', CAPTION, '"+ theName+ "');\" onmouseout='return nd();'><label for='"
+		                    + shortName + "'>"
+		                    + shortName + "</label></b><br/><div style='margin-left:10px;'>" + listSubType 
 		                    + "<span id='"+theName+"_count'>" + itemCount + "</span> item(s)" 
 		                    + "<div style='cursor:pointer;margin-left:20px;width:100px;display:inline;' onclick='ManageListHelper.getDetails(\""
 		                    + theName
 		                    + "\");return false;'>"
-		                    + "<img src='images/arrowPane20.png' border='0' style='vertical-align:text-bottom'/>details" + status + "</div>"
+		                    + "<img alt='Details' src='images/arrowPane20.png' border='0' style='vertical-align:text-bottom'/>details" + status + "</div>"
 		                    + "<div style='cursor:pointer;margin-left:20px;width:200px;display:inline;'  onclick='ManageListHelper.deleteList(\""
 		                    + theName
 		                    + "\");return false;'>"
-		                    + "<img src='images/deleteCross20.png' border='0' style='vertical-align:text-bottom;'/>delete</div>"
+		                    + "<img alt='Delete' src='images/deleteCross20.png' border='0' style='vertical-align:text-bottom;'/>delete</div>"
 		                    + "</div><br /><div id='"
 		                    + theName
 		                    + "details'></div>\n</div>\n";    

@@ -97,7 +97,7 @@ function addLoadEvent(func) {
 			<div id="<%=label%>ListDiv"></div>	
 			
 			<div id="<%=label%>UniteDiv" />
-				New List Name:<input type="text" id="<%=label%>GroupName"/>
+				<label for="<%=label%>GroupName">New List Name:</label><input type="text" id="<%=label%>GroupName"/>
 				<b><input type="button" onclick="ManageListHelper.groupSelectedLists('<%=label%>','<%=label%>ListsFS', $('<%=label%>GroupName').value,'join')" value="Join"/></b>	
 				<b><input type="button" onclick="ManageListHelper.groupSelectedLists('<%=label%>','<%=label%>ListsFS', $('<%=label%>GroupName').value,'intersect')" value="Intersect"/></b>	
 				<b><input type="button" onclick="ManageListHelper.groupSelectedLists('<%=label%>','<%=label%>ListsFS', $('<%=label%>GroupName').value,'difference')" value="Difference"/></b>	
@@ -134,7 +134,7 @@ function addLoadEvent(func) {
 		<table border="0" cellspacing="2" cellpadding="2">
 			<tr>
 				<td>
-					Choose the list type:
+					<label for="typeSelector">Choose the list type:</label>
 				</td>
 				<td colspan="2">
 					<select id="typeSelector" name="type">
@@ -166,7 +166,7 @@ function addLoadEvent(func) {
 			</tr>
 			<tr id="uploadRow">
 				<td>
-					Upload file:
+					<label for="upload">Upload file:</label>
 				</td>
 				<td colspan="2">
 					<input type="file" id="upload" name="upload" size="25">
@@ -174,7 +174,7 @@ function addLoadEvent(func) {
 			</tr>
 			<tr id="textRow" style="display:none">
 				<td>
-					Type Ids:<br/> (one per line)
+					<label for="typeListIds">Type Ids:</label><br/> (one per line)
 				</td>
 				<td colspan="2">
 					<textarea id="typeListIds" style="width:150px; height:100px;"></textarea>
@@ -182,7 +182,7 @@ function addLoadEvent(func) {
 			</tr>
 			<tr>
 				<td>
-					Name list:
+					<label for="listName">Name list:</label>
 				</td>
 				<td colspan="2">
 					<input type="text" id="listName" name="listName" size="30">
@@ -208,10 +208,10 @@ function addLoadEvent(func) {
 	</legend>
 	<br/>
 	<div>
-		Type a Comma Separated list of Gene Symbols:<br/>
+		<label for="commaAliasGenes">Type a Comma Separated list of Gene Symbols:</label><br/>
 		<input type="text" style="width:250px" id="commaAliasGenes"/>
 		<input type="button" value="Lookup" onclick="AliasLookup.setupLookup($F('commaAliasGenes'));"/>
-		<img src="images/indicator.gif" id="aliasIndic" style="display:none;"/>
+		<img alt="aliasIndic" src="images/indicator.gif" id="aliasIndic" style="display:none;"/>
 		<div id="gAliases" style="display:none">
 		
 		</div>
