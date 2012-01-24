@@ -6,14 +6,10 @@ org.dom4j.Document,org.dom4j.io.XMLWriter,org.dom4j.io.OutputFormat"
 %><%
 response.setDateHeader ("Expires", -1);
 
-String igv = "false";
-if(request.getParameter("igv")!=null)
-	igv = (String) request.getParameter("igv");
-	
 String csv = "false";
 if(request.getParameter("csv")!=null)
 	csv = (String) request.getParameter("csv");
-	
+
 if(csv.equals("true"))	{
 	//generate the CSV
 	response.setContentType("application/csv");
@@ -21,21 +17,7 @@ if(csv.equals("true"))	{
 	try{	
 	Document reportXML = (Document)request.getAttribute(RembrandtConstants.REPORT_XML);
 	if(reportXML != null)
-		ReportGeneratorHelper.renderReport(request, reportXML,"csv.xsl",out,igv);
-	else
-		out.println("No Records Available for this query");
-	}
-	catch(Exception e)	{
-		out.println("Error Generating the report");
-	}
-}else if(igv.equals("true"))	{
-	//generate the CSV
-	response.setContentType("application/txt");
-	response.setHeader("Content-Disposition", "attachment; filename=report.seg");
-	try{	
-	Document reportXML = (Document)request.getAttribute(RembrandtConstants.REPORT_XML);
-	if(reportXML != null)
-		ReportGeneratorHelper.renderReport(request, reportXML,"csv.xsl",out,igv);
+		ReportGeneratorHelper.renderReport(request, reportXML,"csv.xsl",out);
 	else
 		out.println("No Records Available for this query");
 	}
@@ -65,7 +47,7 @@ response.setHeader("Cache-Control","no-store"); //HTTP 1.1
 		Document reportXML = (Document)request.getAttribute(RembrandtConstants.REPORT_XML);
 		
 		if(reportXML!=null)
-			ReportGeneratorHelper.renderReport(request, reportXML,(String)request.getAttribute(RembrandtConstants.XSLT_FILE_NAME),out,igv);
+			ReportGeneratorHelper.renderReport(request, reportXML,(String)request.getAttribute(RembrandtConstants.XSLT_FILE_NAME),out);
 		else	{ 
 		//we still need to know if this is due to no records in the result, or system failure
 		//from here on down is not-good-code, will be cleaned up later

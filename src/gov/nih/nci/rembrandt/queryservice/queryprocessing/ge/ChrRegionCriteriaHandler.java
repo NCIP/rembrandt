@@ -4,7 +4,6 @@ import gov.nih.nci.caintegrator.dto.critieria.RegionCriteria;
 import gov.nih.nci.caintegrator.dto.de.BasePairPositionDE;
 import gov.nih.nci.caintegrator.dto.de.ChromosomeNumberDE;
 import gov.nih.nci.caintegrator.dto.de.CytobandDE;
-import gov.nih.nci.rembrandt.dbbean.ArraySNPSegmentFact;
 import gov.nih.nci.rembrandt.dbbean.CytobandPosition;
 import gov.nih.nci.rembrandt.dbbean.GeneClone;
 import gov.nih.nci.rembrandt.dbbean.ProbesetDim;
@@ -165,18 +164,16 @@ final public class ChrRegionCriteriaHandler {
             return reporterIDCrit;
     }
     private static ReportQueryByCriteria buildSNPProbeIDCrit(PersistenceBroker pb, StartEndPosition posObj) throws Exception {
-        String snpSegmentIDCol = QueryHandler.getColumnNameForBean(pb, ArraySNPSegmentFact.class.getName(), ArraySNPSegmentFact.SNP_SEGMENT_ID);
-        String startPositionCol = QueryHandler.getColumnNameForBean(pb, ArraySNPSegmentFact.class.getName(), ArraySNPSegmentFact.CHR_SEGMENT_START);
-        String endPositionCol = QueryHandler.getColumnNameForBean(pb, ArraySNPSegmentFact.class.getName(), ArraySNPSegmentFact.CHR_SEGMENT_END);
-
-        String chrCol = QueryHandler.getColumnNameForBean(pb, ArraySNPSegmentFact.class.getName(), ArraySNPSegmentFact.CHROMOSOME);
+        String snpProbeIDCol = QueryHandler.getColumnNameForBean(pb, SnpProbesetDim.class.getName(), SnpProbesetDim.SNP_PROBESET_ID);
+        String positionCol = QueryHandler.getColumnNameForBean(pb, SnpProbesetDim.class.getName(), SnpProbesetDim.PHYSICAL_POSITION);
+        String chrCol = QueryHandler.getColumnNameForBean(pb, SnpProbesetDim.class.getName(), SnpProbesetDim.CHROMOSOME);
 
         Criteria c = new Criteria();
         c.addColumnEqualTo(chrCol, posObj.getChrNumber().getValueObject());
-        c.addGreaterOrEqualThan(startPositionCol, new Long(posObj.getStartPosition().getValueObject().longValue()));
-        c.addLessOrEqualThan(endPositionCol, new Long(posObj.getEndPosition().getValueObject().longValue()));
+        c.addGreaterOrEqualThan(positionCol, new Long(posObj.getStartPosition().getValueObject().longValue()));
+        c.addLessOrEqualThan(positionCol, new Long(posObj.getEndPosition().getValueObject().longValue()));
 
-        ReportQueryByCriteria snpProbeIDQuery = QueryFactory.newReportQuery(ArraySNPSegmentFact.class, new String[] {snpSegmentIDCol}, c, false );
+        ReportQueryByCriteria snpProbeIDQuery = QueryFactory.newReportQuery(SnpProbesetDim.class, new String[] {snpProbeIDCol}, c, false );
         return snpProbeIDQuery;
     }
 

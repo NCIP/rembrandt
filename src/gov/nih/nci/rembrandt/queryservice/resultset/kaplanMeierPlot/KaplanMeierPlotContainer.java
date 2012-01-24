@@ -249,23 +249,6 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 	     }     
 	     return new ArrayList(positionReporterMap.values());
 	 }
-	 public List getAssociatedCopyNumberReporters(){
-		  Set reporterResultsets = new HashSet();
-		  Set reporters = new HashSet();
-		     Collection<SampleResultset> samples = this.getSampleResultsets();
-		     for(SampleResultset sampleResultset:samples ){
-		      SampleKaplanMeierPlotResultset kmSample = (SampleKaplanMeierPlotResultset)sampleResultset;
-		      reporterResultsets.addAll(kmSample.getReporterResultsets());
-		     }     
-		     for(Object reporter:reporterResultsets){
-		      ReporterResultset reporterResultset = (ReporterResultset)reporter;
-		      if(reporterResultset.getReporter()!= null){
-		       String reporterName = reporterResultset.getReporter().getValue().toString();
-		       reporters.add(reporterName);
-		      }
-		     }     
-		     return new ArrayList(reporters);
-		 }
 	@SuppressWarnings("unchecked")
 	 public List getAssociatedGEReportersSortedByMeanIntensity(){
 	  Set reporters = new HashSet();
@@ -305,18 +288,15 @@ public class KaplanMeierPlotContainer extends SampleViewResultsContainer {
 	     }
 	     //Make labels verbose
 	     // For the first one
-	     if ( reporterList != null && !reporterList.isEmpty() ) {
-		     String firstReporter = (String) reporterList.get(0);
-		     String lastReporter = (String) reporterList.get(reporterList.size()-1);
-		     firstReporter = firstReporter.concat(CaIntegratorConstants.HIGHEST_GEOMETRIC_MEAN_INTENSITY);
-		     lastReporter = lastReporter.concat(CaIntegratorConstants.LOWEST_GEOMETRIC_MEAN_INTENSITY);
-		     reporterList.remove(0);
-		     reporterList.add(0,firstReporter);
-		     reporterList.remove(reporterList.size()-1);
-		     reporterList.add(reporterList.size(),lastReporter);
-		     return reporterList;
-	     }
-	     return null;
+	     String firstReporter = (String) reporterList.get(0);
+	     String lastReporter = (String) reporterList.get(reporterList.size()-1);
+	     firstReporter = firstReporter.concat(CaIntegratorConstants.HIGHEST_GEOMETRIC_MEAN_INTENSITY);
+	     lastReporter = lastReporter.concat(CaIntegratorConstants.LOWEST_GEOMETRIC_MEAN_INTENSITY);
+	     reporterList.remove(0);
+	     reporterList.add(0,firstReporter);
+	     reporterList.remove(reporterList.size()-1);
+	     reporterList.add(reporterList.size(),lastReporter);
+	     return reporterList;
 	 }
 	/**
 	 * @return mean of all reporters

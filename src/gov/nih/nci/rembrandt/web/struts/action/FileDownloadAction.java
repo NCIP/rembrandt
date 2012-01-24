@@ -7,8 +7,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import gov.nih.nci.rembrandt.dbbean.DownloadFile;
 import gov.nih.nci.rembrandt.dto.lookup.DownloadFileLookup;
-import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletOutputStream;
@@ -106,29 +104,28 @@ public class FileDownloadAction extends DispatchAction{
 		HttpServletResponse response)
 		throws Exception {
 		
-		String fileName = request.getParameter("fileId")!=null ? (String) request.getParameter("fileId") : null;
-		if (fileName == null){
+		String id = request.getParameter("fileId")!=null ? (String) request.getParameter("fileId") : null;
+		if (id == null){
 			logger.info("File Id not available from URL.");
 			return null;
 		}
-		//Long fileId = new Long(id);
+		Long fileId = new Long(id);
 		DownloadFile downloadFile = null;
-//		List fileList = (ArrayList)request.getSession().getAttribute("downloadFileList");
-		List<DownloadFileLookup> fileList = LookupManager.getDownloadFileList(null);
-
+		List fileList = (ArrayList)request.getSession().getAttribute("downloadFileList");
+		
 		if (fileList == null || fileList.isEmpty()){
 			logger.info("No downloadable files are available for this user.");
 			return null;
 		}
 		for (int i = 0; i < fileList.size(); i++){
 			DownloadFileLookup lookup = (DownloadFileLookup)fileList.get(i);
-			if (fileName.equals(lookup.getFileName())){
+			if (fileId.equals(lookup.getFileId())){
 				downloadFile = (DownloadFile)lookup;
 				break;
 			}
 		}
 		
-		if (downloadFile != null && downloadFile.getFileName() == null || downloadFile.getFilePath() == null){
+		if (downloadFile.getFileName() == null || downloadFile.getFilePath() == null){
 			logger.info("File name or file path is not available.");
 			return null;
 		}

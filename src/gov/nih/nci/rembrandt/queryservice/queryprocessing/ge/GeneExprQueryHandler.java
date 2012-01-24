@@ -7,7 +7,6 @@ import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
 import gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE;
 import gov.nih.nci.caintegrator.dto.view.ClinicalSampleView;
 import gov.nih.nci.caintegrator.dto.view.CopyNumberSampleView;
-import gov.nih.nci.caintegrator.dto.view.CopyNumberSegmentView;
 import gov.nih.nci.caintegrator.dto.view.GeneExprDiseaseView;
 import gov.nih.nci.caintegrator.dto.view.GeneExprSampleView;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
@@ -120,7 +119,6 @@ final public class GeneExprQueryHandler extends QueryHandler {
     	if (geQuery.getAssociatedView() instanceof GeneExprSampleView ||
         		geQuery.getAssociatedView()instanceof GeneExprDiseaseView ||
         		geQuery.getAssociatedView()instanceof ClinicalSampleView ||
-        		geQuery.getAssociatedView()instanceof CopyNumberSegmentView ||
         		geQuery.getAssociatedView()instanceof CopyNumberSampleView)
                 factHandler = new GEFactHandler();
         else throw new Exception("Illegal View.  This view is not supported in this Query:");

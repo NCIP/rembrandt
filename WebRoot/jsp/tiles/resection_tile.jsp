@@ -14,7 +14,7 @@
 </legend><br />
 
 &nbsp;&nbsp;
-<input type="checkbox" name="excludeResections" class="radio" >Exclude Re-Resection Tumor Samples
+<input id="excludeResections" type="checkbox" name="excludeResections" class="radio" ><label for="excludeResections">Exclude Re-Resection Tumor Samples</label>
 &nbsp;&nbsp;
 <html:errors property="excludeResections"/>
 </fieldset>

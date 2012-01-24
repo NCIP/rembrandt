@@ -219,7 +219,7 @@ public class KMPlotManager {
             copyNumberQuery.setQueryName("CopyNumberKMPlot");
             copyNumberQuery.setInstitutionCriteria(instCrit);
             copyNumberQuery.setAssociatedView(ViewFactory
-                    .newView(ViewType.COPYNUMBER_GENE_SAMPLE_VIEW));
+                    .newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
             copyNumberQuery.setGeneIDCrit(geneCrit);
             copyNumberQuery.setAssayPlatformCrit(new AssayPlatformCriteria(
                     new AssayPlatformDE(Constants.AFFY_100K_SNP_ARRAY)));
@@ -246,7 +246,7 @@ public class KMPlotManager {
             
             copyNumberQuery.setQueryName("CopyNumberKMPlot");
             copyNumberQuery.setAssociatedView(ViewFactory
-                    .newView(ViewType.COPYNUMBER_GENE_SAMPLE_VIEW));
+                    .newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
             copyNumberQuery.setSNPCrit(snpCrit);
             copyNumberQuery.setInstitutionCriteria(instCrit);
             copyNumberQuery.setAssayPlatformCrit(new AssayPlatformCriteria(

@@ -5,7 +5,7 @@
 
 <fieldset class="gray">
 <legend class="red">
-
+<label for="platSelect">
 <logic:present name="geneexpressionForm">
 Array Platform
 </logic:present>
@@ -21,6 +21,7 @@ Step 3: Select Array Platform
 <logic:present name="hierarchicalClusteringForm">
 Step 4: Select Array Platform
 </logic:present>
+</label>
 <%
 	String act = request.getParameter("act");
 %>

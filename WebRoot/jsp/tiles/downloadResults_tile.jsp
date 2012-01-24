@@ -83,24 +83,21 @@
      
 	
 </fieldset>
-
+</html:form>
 
 <br/><br/>
 <fieldset>
-	<legend>File Downloads <a href="javascript: Help.popHelp('Brb_download_tooltip');">[?]</a></legend>
-	
-	   <logic:notEmpty name="downloadFileList">
-        	<html:select property="downloadFile" onchange="DynamicListHelper.getFileNamesForFileType(this.value, function(fileId) { DWRUtil.removeAllOptions('idfile'); DWRUtil.addOptions('idfile', fileId);})">
-        		<option value=" "></option>
-				<option value="BRB">BRB Format</option>
-        		<option value="GENE_EXP">Gene Expression Analysis</option>
-        	</html:select>
-        	<html:select styleId="idfile" property="idfile" style="width:300px">
-					<option value="" />
-						<html:optionsCollection property="fileId" label="fileId"
-							value="fileName" />
-			</html:select>
- 	        <input type="button" onclick="getDL($('idfile'))" value="download" style="width:70px"/>
+	<legend>BRB File Downloads <a href="javascript: Help.popHelp('Brb_download_tooltip');">[?]</a></legend>
+    <logic:notEmpty name="downloadFileList">
+        	<select>
+        		<option>BRB Format</option>
+        	</select>
+        	<select id="idfile" style="width:300px">
+		        <logic:iterate name="downloadFileList" id="downloadFile">
+			       <option value="<bean:write name="downloadFile" property="fileId"/>"><bean:write name="downloadFile" property="fileName"/></option>
+		        </logic:iterate>
+	        </select>
+	        <input type="button" onclick="getDL($('idfile'))" value="download" style="width:70px"/>
      	</logic:notEmpty>
 	    <logic:empty name="downloadFileList">
 		    <strong>There are no files to download at this time.</strong>
@@ -111,4 +108,3 @@
 	    <a href="http://linus.nci.nih.gov/BRB-ArrayTools.html" target="_blank"><span style="font-size:.8em;text-align:left;"> BRB-Array Tools </span></a>
 	  	<br /><br />
 </fieldset>
-</html:form>

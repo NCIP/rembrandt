@@ -13,30 +13,29 @@
 <!-- <b class="message">(Paste comma separated SNP list, or upload file using Browse button)</b>-->
 <br /><br />
 
-<html:radio property="snpId" value="specify" styleClass="radio" onfocus="javascript:onRadio(this,0);" />
-Type SNP's:&nbsp;&nbsp;
-<html:select property="snpList" disabled="false">
+<html:radio styleId="snpId" property="snpId" value="specify" styleClass="radio" onfocus="javascript:onRadio(this,0);" />
+<label for="snpId">Type SNP's:&nbsp;&nbsp;</label>
+<html:select styleId="snpList" property="snpList" disabled="false">
 	<html:optionsCollection property="snpTypes" />
-</html:select>
-&nbsp;
-<html:text property="snpListSpecify" disabled="false" onfocus="javascript:radioFold(this);"  onblur="javascript:cRadio(this, document.forms[0].snpId[0]);"/>
+</html:select><label for="snpList">&nbsp;</label>
+<html:text styleId="snpListSpecify" property="snpListSpecify" disabled="false" onfocus="javascript:radioFold(this);"  onblur="javascript:cRadio(this, document.forms[0].snpId[0]);"/><label for="snpListSpecify">&nbsp;</label>
 <br/>
 
 <html:radio property="snpId" value="snpList" styleClass="radio" styleId="snpIdSnpList" onfocus="javascript:onRadio(this,1);" />
-Choose a saved SNP list:&nbsp;&nbsp;
+<label for="snpIdSnpList">Choose a saved SNP list:&nbsp;&nbsp;</label>
 <html:select property="snpListFile" disabled="false" styleId="snpListFileDD">
 	<html:optionsCollection property="savedSnpList" />
-</html:select>
+</html:select><label for="snpListFileDD">&nbsp;</label>
 <!-- 
 <html:file property="snpListFile" disabled="true" onblur="javascript:cRadio(this, document.forms[0].snpId[1]);" onfocus="javascript:document.forms[0].snpId[1].checked = true;" />
 -->
 
 <br/>
 &nbsp;&nbsp;Validated SNPs:&nbsp;&nbsp;
-<html:radio property="validatedSNP" value="all"  disabled="true" styleClass="radio"/>&nbsp;&nbsp;All
-<html:radio property="validatedSNP" value="excluded"  disabled="true" styleClass="radio"/>&nbsp;&nbsp;Excluded
-<html:radio property="validatedSNP" value="included" disabled="true" styleClass="radio"/>&nbsp;&nbsp;Included
-<html:radio property="validatedSNP" value="only" disabled="true" styleClass="radio"/>&nbsp;&nbsp;Only
+<html:radio styleId="validatedSNP1" property="validatedSNP" value="all"  disabled="true" styleClass="radio"/><label for="validatedSNP1">&nbsp;&nbsp;All</label>
+<html:radio styleId="validatedSNP2" property="validatedSNP" value="excluded"  disabled="true" styleClass="radio"/><label for="validatedSNP2">&nbsp;&nbsp;Excluded</label>
+<html:radio styleId="validatedSNP3" property="validatedSNP" value="included" disabled="true" styleClass="radio"/><label for="validatedSNP3">&nbsp;&nbsp;Included</label>
+<html:radio styleId="validatedSNP4" property="validatedSNP" value="only" disabled="true" styleClass="radio"/><label for="validatedSNP4">&nbsp;&nbsp;Only</label>
 <br/>
 <html:errors property="snpId"/>
 </fieldset>

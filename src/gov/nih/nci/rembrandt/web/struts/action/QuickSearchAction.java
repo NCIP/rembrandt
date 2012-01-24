@@ -383,9 +383,7 @@ public class QuickSearchAction extends DispatchAction {
 				presentationTierCache.addNonPersistableToSessionCache(request.getSession().getId(),"MyKaplainMeierContainer",kmResultsContainer);
 				presentationTierCache.addSessionGraphingData(request.getSession().getId(), storedData);
 				if(kmplotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)){
-//		            kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedSNPReportersSortedByPosition(), kmplotType, kmForm);
-		            kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedCopyNumberReporters(), kmplotType, kmForm);
-
+		            kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedSNPReportersSortedByPosition(), kmplotType, kmForm);
 				}else if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)){	
 		            kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedGEReportersSortedByMeanIntensity(), kmplotType, kmForm);
 				}
@@ -477,12 +475,7 @@ public class QuickSearchAction extends DispatchAction {
 				kmForm.setPlotVisible(false);
 			}
 				if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
-					List geReporters = kmResultsContainer.getAssociatedGEReportersSortedByMeanIntensity();
-					if ( geReporters == null || geReporters.size() == 0 ) {
-						return mapping.findForward("kmplot");
-					}
-					//kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedGEReportersSortedByMeanIntensity(), kmplotType, kmForm);
-					kmForm = KMDataSetHelper.populateReporters(geReporters, kmplotType, kmForm);
+					kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedGEReportersSortedByMeanIntensity(), kmplotType, kmForm);
 					if (reporter.equals(
 							CaIntegratorConstants.GRAPH_MEAN)) {
 						kmSampleInfos = kmResultsContainer.getMeanKMPlotSamples();
@@ -493,9 +486,7 @@ public class QuickSearchAction extends DispatchAction {
 						kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(reporter);
 					}
 				} else if (kmplotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)) {
-					//kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedSNPReportersSortedByPosition(), kmplotType, kmForm);
-		            kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedCopyNumberReporters(), kmplotType, kmForm);
-
+					kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedSNPReportersSortedByPosition(), kmplotType, kmForm);
 					if (reporter.equals(
 							CaIntegratorConstants.GRAPH_MEAN)) {
 						kmSampleInfos = kmResultsContainer.getMeanKMPlotSamples();

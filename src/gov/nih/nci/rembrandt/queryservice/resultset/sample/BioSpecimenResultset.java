@@ -10,7 +10,6 @@ import java.sql.Date;
 
 import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
-import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.de.DomainElement;
 import gov.nih.nci.caintegrator.dto.de.GenderDE;
 import gov.nih.nci.caintegrator.dto.de.KarnofskyClinicalEvalDE;
@@ -113,7 +112,8 @@ public abstract class  BioSpecimenResultset implements Serializable , Cloneable{
 	private String antiConvulsantStatuses;
 	private String neuroExamDescs;
 	private String mriScoreDescs;
-	private DiseaseNameDE disease = null;
+
+
 	
 	  private String priorRadiationTimePoints;
 	  private String priorRadiationRadiationSites;
@@ -1055,18 +1055,6 @@ public abstract class  BioSpecimenResultset implements Serializable , Cloneable{
 		this.institutionName = institutionName;
 	}
 	/**
-	 * @return Returns the disease.
-	 */
-	public DiseaseNameDE getDisease() {
-		return this.disease;
-	}
-	/**
-	 * @param disease The disease to set.
-	 */
-	public void setDisease(DiseaseNameDE disease) {
-		this.disease = disease;
-	}
-	/**
 	 * Overrides the protected Object.clone() method exposing it as public.
 	 * It performs a 2 tier copy, that is, it does a memcopy of the instance
 	 * and then sets all the non-primitive data fields to clones of themselves.
@@ -1082,6 +1070,5 @@ public abstract class  BioSpecimenResultset implements Serializable , Cloneable{
 		
 		return myClone;
 	}
-
 
 }

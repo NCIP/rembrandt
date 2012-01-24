@@ -28,7 +28,7 @@
 	String act = request.getParameter("act");
 
 %>
-<legend class="red">Sample Identifier
+<legend class="red"><label for="sampleGroup1">Sample Identifier</label>
 	<!-- <app:help help="Enter comma-delimited IDs or select a saved list." />-->
 <a href="javascript: Help.popHelp('<%=act%>_Sample_tooltip');">[?]</a>    
 	
@@ -36,13 +36,13 @@
 <br/>	
 &nbsp;&nbsp;
 
-<html:radio property="sampleGroup" value="Specify" styleClass="radio" onfocus="javascript:onRadio(this,0);"/>
-<html:text property="sampleList" disabled="false" onfocus="javascript:radioFold(this);" onblur="javascript:cRadio(this, document.forms[0].sampleGroup[0]);" />
-&nbsp;-or-&nbsp;
-<html:radio property="sampleGroup" value="Upload" styleClass="radio" onfocus="javascript:onRadio(this,1);"/>
+<html:radio styleId="sampleGroup1" property="sampleGroup" value="Specify" styleClass="radio" onfocus="javascript:onRadio(this,0);"/>
+<html:text styleId="sampleList" property="sampleList" disabled="false" onfocus="javascript:radioFold(this);" onblur="javascript:cRadio(this, document.forms[0].sampleGroup[0]);" />
+<label for="sampleGroup2">&nbsp;-or-&nbsp;</label>
+<html:radio styleId="sampleGroup2" property="sampleGroup" value="Upload" styleClass="radio" onfocus="javascript:onRadio(this,1);"/>
 <html:select property="sampleFile" styleId="sampleFile" disabled="false"  onblur="javascript:cRadio(this, document.forms[0].sampleGroup[1]);" onfocus="javascript:document.forms[0].sampleGroup[1].checked = true; updateG()">
  	<html:optionsCollection property="savedSampleList" />
-</html:select>
+</html:select><label for="sampleList">&nbsp;</label><label for="sampleFile">&nbsp;</label>
 <script language="javascript">
 		updateG();
 </script>

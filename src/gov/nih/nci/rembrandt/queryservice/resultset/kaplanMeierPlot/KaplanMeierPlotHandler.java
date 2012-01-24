@@ -5,8 +5,6 @@ import gov.nih.nci.caintegrator.dto.de.CytobandDE;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
-import gov.nih.nci.caintegrator.dto.view.GroupType;
-import gov.nih.nci.caintegrator.util.MathUtil;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.lookup.PatientDataLookup;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh.CopyNumber;
@@ -17,11 +15,6 @@ import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.UnifiedGeneExpr.Uni
 import gov.nih.nci.rembrandt.queryservice.resultset.ClinicalResultSet;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
-import gov.nih.nci.rembrandt.queryservice.resultset.ViewByGroupResultsetHandler;
-import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberGeneViewResultsContainer;
-import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.SampleCopyNumberValuesResultset;
-import gov.nih.nci.rembrandt.queryservice.resultset.gene.DiseaseTypeResultset;
-import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
@@ -147,7 +140,7 @@ public class KaplanMeierPlotHandler {
  				}
           	}//for
  			if(copyNumberObjects.length > 0){
-	 	 		kaplanMeierPlotContainer.setCytobandDE(new CytobandDE(copyNumberObjects[0].getGeneSymbol()));//TODO NEED GeneSymbol in CopyNumber
+	 	 		kaplanMeierPlotContainer.setCytobandDE(new CytobandDE(copyNumberObjects[0].getCytoband()));//TODO NEED GeneSymbol in CopyNumber
 	 			Collection samples = kaplanMeierPlotContainer.getSampleResultsets();
 	 			Map paitentDataLookup = LookupManager.getPatientDataMapForKM();
 		    	for (Iterator sampleIterator = samples.iterator(); sampleIterator.hasNext();) {
@@ -175,8 +168,7 @@ public class KaplanMeierPlotHandler {
 		SampleKaplanMeierPlotResultset sampleResultset = null;
 		ReporterResultset reporterResultset = null;
       	if (kaplanMeierPlotContainer != null && copyNumberObj != null){
-      		//kaplanMeierPlotContainer.setCytobandDE(new CytobandDE (copyNumberObj.getCytoband()));
- 	 		kaplanMeierPlotContainer.setGeneSymbol(new GeneIdentifierDE.GeneSymbol(copyNumberObj.getGeneSymbol()));
+      		kaplanMeierPlotContainer.setCytobandDE(new CytobandDE (copyNumberObj.getCytoband()));
       		sampleResultset = handleSampleKaplanMeierPlotResultset(kaplanMeierPlotContainer, copyNumberObj);
       		reporterResultset = handleCopyNumberReporterResultset(sampleResultset,copyNumberObj);
       		sampleResultset.addReporterResultset(reporterResultset);
@@ -189,29 +181,28 @@ public class KaplanMeierPlotHandler {
         //populate ReporterResultset with the approciate one
         ReporterResultset reporterResultset = null;
         if(sampleResultset != null && copyNumberObj != null){
-            if(copyNumberObj.getGeneSymbol() != null ){
-                DatumDE reporter = new DatumDE(DatumDE.PROBESET_ID,copyNumberObj.getGeneSymbol());
-                reporterResultset = sampleResultset.getReporterResultset(copyNumberObj.getGeneSymbol());
+            if(copyNumberObj.getSnpProbesetName() != null ){
+                DatumDE reporter = new DatumDE(DatumDE.PROBESET_ID,copyNumberObj.getSnpProbesetName());
+                reporterResultset = sampleResultset.getReporterResultset(copyNumberObj.getSnpProbesetName().toString());
                 if(reporterResultset == null){
                     reporterResultset = new ReporterResultset(reporter);                    
                     }   
             }
-            Double calulatedCopyNumber = MathUtil.getAntiLog2(copyNumberObj.getSegmentMean()*2);
-            reporterResultset.setValue(new DatumDE(DatumDE.COPY_NUMBER,calulatedCopyNumber));
-           // reporterResultset.setStartPhysicalLocation(new BasePairPositionDE.StartPosition(copyNumberObj.getPhysicalPosition()));
-           // if(copyNumberObj.getAnnotations() != null){
-           //     CopyNumber.SNPAnnotation annotation = copyNumberObj.getAnnotations();
-           //     if(annotation.getAccessionNumbers()!= null){
-           //         reporterResultset.setAssiciatedGenBankAccessionNos(annotation.getAccessionNumbers());
-           //     }
-           //     if(annotation.getLocusLinkIDs()!=null){
-           //         reporterResultset.setAssiciatedLocusLinkIDs(copyNumberObj.getAnnotations().getLocusLinkIDs());
-           //     }
-           //     if(annotation.getGeneSymbols()!=null){
-           //         reporterResultset.setAssiciatedGeneSymbols(copyNumberObj.getAnnotations().getGeneSymbols());
-           //     }
+            reporterResultset.setValue(new DatumDE(DatumDE.COPY_NUMBER,copyNumberObj.getCopyNumber()));
+            reporterResultset.setStartPhysicalLocation(new BasePairPositionDE.StartPosition(copyNumberObj.getPhysicalPosition()));
+            if(copyNumberObj.getAnnotations() != null){
+                CopyNumber.SNPAnnotation annotation = copyNumberObj.getAnnotations();
+                if(annotation.getAccessionNumbers()!= null){
+                    reporterResultset.setAssiciatedGenBankAccessionNos(annotation.getAccessionNumbers());
+                }
+                if(annotation.getLocusLinkIDs()!=null){
+                    reporterResultset.setAssiciatedLocusLinkIDs(copyNumberObj.getAnnotations().getLocusLinkIDs());
+                }
+                if(annotation.getGeneSymbols()!=null){
+                    reporterResultset.setAssiciatedGeneSymbols(copyNumberObj.getAnnotations().getGeneSymbols());
+                }
                 
-           //  }
+            }
             
         }
         return reporterResultset;

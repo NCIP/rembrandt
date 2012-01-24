@@ -11,10 +11,10 @@
 </legend>
 
 	
-<input type="checkbox" name="firstPresentation" class="radio" disabled="true" >First Presentation
+<input type="checkbox" id="firstPresentation" name="firstPresentation" class="radio" disabled="true" ><label for="firstPresentation">First Presentation</label>
 &nbsp;&nbsp;
-<input type="checkbox" name="recur" class="radio"  disabled="true"
-onclick="javascript:document.forms[0].rec.disabled=(!(document.forms[0].rec.disabled));">Recurrence&nbsp;&nbsp;
+<input id="recur" type="checkbox" name="recur" class="radio"  disabled="true"
+onclick="javascript:document.forms[0].rec.disabled=(!(document.forms[0].rec.disabled));"><label for="recur">Recurrence&nbsp;&nbsp;</label>
 	<!--- <select property="recurrence" name="rec" disabled="true">
 		<option>any</option>
 		<option>1</option>
@@ -22,9 +22,9 @@ onclick="javascript:document.forms[0].rec.disabled=(!(document.forms[0].rec.disa
 		<option>3</option>
 	</select>	  --->
 	
-	<html:select property="recurrence" disabled="true">
+	<html:select styleId="recurrence" property="recurrence" disabled="true">
 	<html:optionsCollection property="recurrenceTypeColl" />
-    </html:select><html:errors property="recurrence"/> 
+    </html:select><label for="recurrence">&nbsp;</label><html:errors property="recurrence"/> 
 	
 
 </ fieldset>

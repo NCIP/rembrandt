@@ -4,7 +4,6 @@
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>
 <%@taglib uri='/WEB-INF/caintegrator-graphing.tld' prefix='graphing' %>
-<%@ page import="java.util.*" %>
 
 <div><html:errors /> <%
    String km = "kmplotGE";
@@ -50,12 +49,15 @@
 		<b>Constrained to group: <%=baselineGroup%></b><br/><br/>
 	<% } %>
 		<table style="border:1px solid silver" cellpadding="4" cellspacing="4">
+			<tr>
+				<th></th><th></th>
+			</tr>
 			<tr>			
 				<td>
 					<!-- Upregulated/Amplified  -->
-					<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="upOrAmplified" /></span>
+					<span style="font-size:.9em"><label for="upFold"><bean:write name="kmDataSetForm" property="upOrAmplified" /></label></span>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&ge;&nbsp; 
-					<html:select property="upFold">
+					<html:select styleId="upFold" property="upFold">
 						<html:options property="folds" />
 					</html:select>
 					<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="changeType" /></span>
@@ -65,8 +67,8 @@
 					<!--make sure plot is GE and not Copy # before giving option of algorithm to use-->
 					<logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">						
 						<!--Unified or regular algorithm-->
-						<span style="font-size:.9em;margin-left:10px">Reporter Type</span>			
-						<html:select property="reporterSelection" onchange="$('redrawGraphButton').disabled = 'true';$('redrawGraphButton').style.color='gray'; document.forms[0].selectedReporter.selectedIndex=0;  document.forms[0].submit();">
+						<span style="font-size:.9em;margin-left:10px"><label for="reporterType">Reporter Type</label></span>			
+						<html:select styleId="reporterType" property="reporterSelection" onchange="$('redrawGraphButton').disabled = 'true';$('redrawGraphButton').style.color='gray'; document.forms[0].selectedReporter.selectedIndex=0;  document.forms[0].submit();">
 							<html:options property="algorithms" />
 						</html:select> &nbsp; 	
 					</logic:equal>		
@@ -78,18 +80,18 @@
 			<tr>
 				<td>
 				<!-- Downregulated/Deleted -->
-				<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="downOrDeleted" /></span>			
+				<span style="font-size:.9em"><label for="downFold"><bean:write name="kmDataSetForm" property="downOrDeleted" /></label></span>			
 				
 				<!--check to see if it is copy number km plot or GE km plot. if it is, change the deleted fold change values-->
 				<logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">						
 					&nbsp;&ge;&nbsp; 
-					<html:select property="downFold">
+					<html:select styleId="downFold" property="downFold">
 						<html:options property="folds" />
 					</html:select>
 				</logic:equal>
 				<logic:equal name="kmDataSetForm" property="plotType" value="COPY_NUM_KM_PLOT">						
 					&nbsp;&le;&nbsp; 
-					<html:select property="downFold">
+					<html:select styleId="downFold" property="downFold">
 						<html:options property="copyNumberDownFolds" />
 					</html:select>
 				</logic:equal>
@@ -100,8 +102,8 @@
 				
 				<!--Reporters-->
 				<td>
-					<span style="font-size:.9em;margin-left:10px">Reporters</span>
-					<html:select property="selectedReporter">
+					<span style="font-size:.9em;margin-left:10px"><label for="selectedReporter">Reporters</label></span>
+					<html:select styleId="selectedReporter" property="selectedReporter">
 						<html:options property="reporters" />
 					</html:select>
 				</td>
@@ -109,12 +111,12 @@
 			
 			<tr>
 				<td align="center" colspan="2" style="font-size:.9em;margin-left:10px">
-					<p align="left">Select which plots should be visible in the redrawn graph:<br/></p>
+					<p align="left">Select which plots should be visible in the redrawn graph:<label for="item">&#160;</label><br/></p>
 				    <logic:iterate id="item" property="items" name="kmDataSetForm">
-				      	<html:multibox property="selectedItems" name="kmDataSetForm">
+				      	<html:multibox styleId="item" property="selectedItems" name="kmDataSetForm">
 				       		<bean:write name="item"/> 
 				      	</html:multibox> 
-				       	<bean:write name="item"/> 
+				       	<bean:write name="item"/>
 				    </logic:iterate>
 				</td>
 			</tr>
@@ -145,61 +147,19 @@
 		<!--  BEGIN LEGEND: LINKS TO CLINICAL -->
 		
 		View Clinical Reports<br />
+	
 		
-		<bean:define id="selectedItemsId" name="kmDataSetForm" property="selectedItems" />
-		<% 
-		String[] selectedGroups = (String[])selectedItemsId; 
-		List selectedGrpList = Arrays.asList(selectedGroups);
-		%>
-
 		<!--check what type of plot it is as to display the correct link text-->
 		<logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">		
-			<%
-			if ( selectedGrpList != null && selectedGrpList.contains("Up-Regulated") ) {
-			%>
-				<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=up',700,500,'clinicalPlots');"/>Upregulating Samples</a>
-			<%
-			}
-			if ( selectedGrpList != null && selectedGrpList.contains("Down-Regulated") ) {
-			%>
-		 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=down',700,500,'clinicalPlots');"/>Downregulating samples</a>
-			<%
-			}
-			%>
-			<!--  
 			<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=up',700,500,'clinicalPlots');"/>Upregulating Samples</a>
 		 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=down',700,500,'clinicalPlots');"/>Downregulating samples</a>
-			-->
 		</logic:equal>
 		<logic:equal name="kmDataSetForm" property="plotType" value="COPY_NUM_KM_PLOT">		
-			<%
-			if ( selectedGrpList != null && selectedGrpList.contains("Up-Regulated") ) {
-			%>
-				<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=up',700,500,'clinicalPlots');"/>Samples with Amplification</a>
-			<%
-			}
-			if ( selectedGrpList != null && selectedGrpList.contains("Down-Regulated") ) {
-			%>
-		 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=down',700,500,'clinicalPlots');"/>Samples with Deletion</a>
-			<%
-			}
-			%>
-			<!--  
 			<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=up',700,500,'clinicalPlots');"/>Samples with Amplification</a>
 		 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=down',700,500,'clinicalPlots');"/>Samples with Deletion</a>
-			-->
 		</logic:equal>
 		<logic:notEqual name="kmDataSetForm" property="plotType" value="SAMPLE_KM_PLOT">
-			<%
-			if ( selectedGrpList != null && selectedGrpList.contains("Intermediate") ) {
-			%>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=inter',700,500,'clinicalPlots');"/>Intermediate Samples</a>
-			<%
-			}
-			%>
-			<!--  
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=inter',700,500,'clinicalPlots');"/>Intermediate Samples</a>
-			-->		
 		</logic:notEqual>
 		<logic:equal name="kmDataSetForm" property="plotType" value="SAMPLE_KM_PLOT">
 			<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=list1',700,500,'clinicalPlots');return false;"/><bean:write name="kmDataSetForm" property="storedData.samplePlot1Label" /></a>
@@ -212,6 +172,9 @@
 		<fieldset class="gray" style="text-align:left">
 		<legend class="red">Statistical	Report:</legend>
 		<table class="graphTable" border="0" cellpadding="2" cellspacing="0">
+			<tr>
+				<th colspan="2"></th>
+			</tr>
 			<logic:present name="kmDataSetForm" property="geneOrCytoband">
 				<tr>
 					<td colspan="2" id="reportBold">
@@ -351,7 +314,7 @@
 		
 	</logic:equal> <!-- TAG CREATION WOULD NEED TO CONTAIN THE ABOVE --> 
 	<logic:equal name="kmDataSetForm" property="plotVisible" value="false">
-		<p>To display graph, Please select a(nother) Reporter for the Gene: 
+		<p>To display graph, Please select a Reporter for the Gene: 
 		<bean:write	name="kmDataSetForm" property="geneOrCytoband" /> and select "Redraw Graph"
 		</p>
 	</logic:equal>

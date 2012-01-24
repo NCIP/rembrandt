@@ -51,6 +51,7 @@ if(queryCollection == null){
 %>
 <br clear="both"/>
 <table border="0" cellspacing="4" cellpadding="3">
+  <tr><th></th></tr>	
   <tr><td>
   
   <fieldset style="width:500px;">
@@ -61,6 +62,7 @@ if(queryCollection == null){
 		
 		
 			<table border="0" cellpadding="3" cellspacing="3">
+			<tr><th></th></tr>
 			<tr><td>
 			    <html:form action="/geneexpression">
 			       <html:submit styleClass="xbutton" property="method" style="width:200px;margin-bottom: 5px;">

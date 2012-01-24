@@ -72,6 +72,9 @@
 
 <table id="loginTable">
 	<tr>
+		<th></th><th></th>
+	</tr>
+	<tr>
 	<td width="40%" style="border-right:1px dashed gray;">
 	<script type="text/javascript">Help.insertHelp("Logging_in", "", "float:right;padding:_8px;");</script>	
 	<br clear="both"/>
@@ -85,8 +88,8 @@
 		<html:errors property="invalidLogin" />
 		<br/><br/>
 			<div class="h">Login:</div>
-			<div class="r"><label>Username:</label> <input type="text" name="userName" id="userName"/></div>
-			<div class="r"><label>Password:</label> <input type="password" name="password" id="password"/></div>
+			<div class="r"><label for="userName">Username:</label> <input type="text" name="userName" id="userName"/></div>
+			<div class="r"><label for="password">Password:</label> <input type="password" name="password" id="password"/></div>
 			<div class="rb" style="text-align:center">
 				<input style="" type="submit" value="login"/>
 			</div>
@@ -98,7 +101,7 @@
 			<div class="h">Rembrandt User List Serve:</div>
 			<div class="r" style="text-align:left">The list serve periodically informs Rembrandt users on application and data updates.</div>
 			
-			<div class="r"><label>Email*:</label> <input type="text" name="listemail" id="listemail"/></div>
+			<div class="r"><label for="listemail">Email*:</label> <input type="text" name="listemail" id="listemail"/></div>
 			<div class="r"><label for="join_listServe">Join the List:</label><input  checked type="radio" name="listserve_radio" id="join_listServe" value="JOIN" /></div>
 			<div class="r"></div>
 			<div class="r"><label for="leave_listServe">Leave the List:</label><input  type="radio" name="listserve_radio" id="leave_listServe" value="LEAVE" /></div>
@@ -120,23 +123,23 @@
 		<br/>
 	
 	<div id="regErr" class="mmsg"></div><br/>
-	<div><label>&nbsp;</label>* required field</div>
+	<div><label for="Registration">&nbsp;</label>* required field<input type="hidden" id="registration" value=""/></div>
 	<div class="h">Name:</div>
-	<div class="r"><label>First name*:</label>  <input type="text" id="firstName"/></div>
-	<div class="r"><label>Last name*:</label>  <input type="text" id="lastName"/></div>
-	<div class="h">Contact Information:</div>
-	<div class="r"><label>Email*:</label>  <input type="text" id="email"/></div>
-	<div class="r"><label>-<br/><br/></label>Your account information will be sent to this address</div>
-	<div class="r"><label>Phone*:</label><input type="text" id="phone"/></div>
-	<div class="r"><label>Institution*:</label> <input type="text" id="institution"/></div>
-	<div class="r"><label>Department:</label><input type="text" id="dept"/></div>
+	<div class="r"><label for="firstName">First name*:</label>  <input type="text" id="firstName"/></div>
+	<div class="r"><label for="lastName">Last name*:</label>  <input type="text" id="lastName"/></div>
+	<div class="h">Contact Information:<input type="hidden" id="contact_info" value=""/></div>
+	<div class="r"><label for="email">Email*:</label>  <input type="text" id="email"/></div>
+	<div class="r"><label for="contact_info">-<br/><br/></label>Your account information will be sent to this address</div>
+	<div class="r"><label for="phone">Phone*:</label><input type="text" id="phone"/></div>
+	<div class="r"><label for="institution">Institution*:</label> <input type="text" id="institution"/></div>
+	<div class="r"><label for="dept">Department:</label><input type="text" id="dept"/></div>
 <!-- 	<div class="r"><label for="listServe">Join Rembrandt User's List Serve?</label><input  type="checkbox" id="listServe"/><br/><br/></div>
 	<div class="r"><label>-<br/><br/></br></label>By joining the Rembrandt User's List Serve, you will periodically receive information on application and data updates </div>
 -->
 	<div class="h">Verification:</div>
-	<div class="r"><label>Image*:</label><img src="Captcha.jpg"/></div>
-	<div class="r"><label>-<br/><br/></label>Please type the text below, displayed in the image above</div>
-	<div class="rb"><label>&nbsp;</label><input type="text" id="cap"/></div>
+	<div class="r"><label for="captcha_image">Image*:</label><img alt="Captcha Image" src="Captcha.jpg"/><input type="hidden" id="captcha_image" value=""/></div>
+	<div class="r"><label for="type_text_below">-<br/><br/></label>Please type the text below, displayed in the image above<input type="hidden" id="type_text_below" value=""/></div>
+	<div class="rb"><label for="cap">&nbsp;</label><input type="text" id="cap"/></div>
 
 	<div style="text-align:center" id="regButtons">
 		<input type="reset" value="Reset"/>

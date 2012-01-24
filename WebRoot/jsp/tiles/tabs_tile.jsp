@@ -16,7 +16,7 @@
 		
 		if(txt == "false")	{
 			if(el.innerHTML.indexOf("circle.gif") == -1 && count<1)
-				el.innerHTML += "<img id='statusImg' src='images/circle.gif' border='0'/>";
+				el.innerHTML += "<img id='statusImg' alt='loading' src='images/circle.gif' border='0'/>";
 		}
 		else if(txt == 'true')	{
 			//hide the circle

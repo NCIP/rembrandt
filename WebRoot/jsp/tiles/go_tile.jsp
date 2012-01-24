@@ -15,7 +15,7 @@
 	}
 </script>
 <br>
-<b class="message">(Type GO format as 'GO:XXXXXXX' where number is XXXXXXX)</b><br>
+<b class="message"><label for="goClassification">(Type GO format as 'GO:XXXXXXX' where number is XXXXXXX)</label></b><br>
 <html:textarea styleId="goClassification" property="goClassification" rows="5" cols="40"></html:textarea>
 <html:errors property="goClassification"/>
 <!-- 

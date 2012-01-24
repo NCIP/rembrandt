@@ -34,8 +34,12 @@
 		<tiles:insert attribute="crumbMenu"/> 
 		<table cellspacing="0" cellpadding="0" border="0" width="100%">
 			<tr>
+				<th></th><th></th>
+			</tr>
+			<tr>
 				<td width="575"> 
 					<table cellpadding="4" cellspacing="2" border="0" width="100%"> 
+						<tr><th></th></tr>
 						<tr class="report">
 							<td>
 						    	<h3 style="padding:0px; margin:0px;"><tiles:getAsString name="title"/></h3>

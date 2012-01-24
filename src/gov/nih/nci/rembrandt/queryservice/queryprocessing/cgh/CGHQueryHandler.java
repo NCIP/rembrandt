@@ -95,9 +95,8 @@ public class CGHQueryHandler extends QueryHandler {
     boolean includeSNPs;
     private List eventList = Collections.synchronizedList(new ArrayList());
 
-    private Collection allSNPSegmentIDs = Collections.synchronizedCollection(new HashSet());
+    private Collection allSNPProbesetIDs = Collections.synchronizedCollection(new HashSet());
     public ResultSet[] handle(Query query) throws Exception{
-    	ResultSet[] results = null;
         ComparativeGenomicQuery cghQuery = (ComparativeGenomicQuery) query;
 
         final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
@@ -107,24 +106,19 @@ public class CGHQueryHandler extends QueryHandler {
         if (allGenesCrit!=null && allGenesCrit.isAllGenes() ) {
              if (null == cghQuery.getSampleIDCrit())
                 throw new Exception("Sample IDs are required when All Genes is specified");
-             results =  new CGHFactHandler.SingleCGHFactHandler().executeSampleQueryForAllGenes(cghQuery);
+             return new CGHFactHandler.SingleCGHFactHandler().executeSampleQueryForAllGenes(cghQuery);
         }
-        if (cghQuery.getRegionCriteria() != null  && cghQuery.getGeneIDCriteria() == null) {
-        	handleSNPCriteria( cghQuery, pb);
-            pb.close();
-            ThreadController.sleepOnEvents(eventList);
-            results =  new CGHFactHandler.SingleCGHFactHandler().executeRegionQuery(allSNPSegmentIDs, cghQuery);
-        }
-        if (cghQuery.getGeneIDCriteria() != null && cghQuery.getRegionCriteria() == null ) {
-        	//handleGeneCriteria( cghQuery, pb);
-            //pb.close();
-            //ThreadController.sleepOnEvents(eventList);
-            results =  new CGHFactHandler.SingleCGHFactHandler().executeGeneQuery(cghQuery);
-        }
+
+        handleSNPCriteria( cghQuery, pb);
+
         if(cghQuery.getCloneOrProbeIDCriteria() != null) {
             throw new Exception (" Only BACClone will be implemented post Nautilus ");
         }
-        return results;
+
+        pb.close();
+        ThreadController.sleepOnEvents(eventList);
+
+        return new CGHFactHandler.SingleCGHFactHandler().executeSampleQuery(allSNPProbesetIDs, cghQuery);
 
     }
 
@@ -186,31 +180,30 @@ public class CGHQueryHandler extends QueryHandler {
         else throw new Exception("Assay Platform can not be null");
     }
     private void handleSNPCriteria(ComparativeGenomicQuery cghQuery,PersistenceBroker pb) throws Exception{
-        if (cghQuery.getRegionCriteria() != null  && cghQuery.getGeneIDCriteria() == null) {
+        if (cghQuery.getGeneIDCriteria() != null) {
+            CGHReporterIDCriteria geneIDCrit = GeneIDCriteriaHandler.buildReporterIDCritForCGHQuery(cghQuery.getGeneIDCriteria(), includeSNPs, includeCGH, pb);
+            assert(geneIDCrit != null);
+            SelectHandler handler = new SelectHandler.GeneIDSelectHandler(geneIDCrit, allSNPProbesetIDs);
+            eventList.add(handler.getDbEvent());
+            new Thread(handler).start();
+        }
+        if (cghQuery.getRegionCriteria() != null) {
             CGHReporterIDCriteria  regionCrit = ChrRegionCriteriaHandler.buildCGHRegionCriteria(cghQuery.getRegionCriteria(), includeSNPs, includeCGH, pb);
             assert(regionCrit != null);
-            SelectHandler handler = new SelectHandler.RegionSelectHandler(regionCrit, allSNPSegmentIDs);
+            SelectHandler handler = new SelectHandler.RegionSelectHandler(regionCrit, allSNPProbesetIDs);
             eventList.add(handler.getDbEvent());
             new Thread(handler).start();
         }
 
-//        if (cghQuery.getSNPCriteria() != null  ) {
-//            CGHReporterIDCriteria  snpCrit = buildSNPCriteria(cghQuery.getSNPCriteria(), pb);
-//            assert(snpCrit != null);
-//            SelectHandler handler = new SelectHandler.SNPSelectHandler(snpCrit, allSNPSegmentIDs);
-//            eventList.add(handler.getDbEvent());
-//            new Thread(handler).start();
-//        }
-    }
-    private void handleGeneCriteria(ComparativeGenomicQuery cghQuery,PersistenceBroker pb) throws Exception{
-        if (cghQuery.getGeneIDCriteria() != null && cghQuery.getRegionCriteria() == null) {
-            CGHReporterIDCriteria geneIDCrit = GeneIDCriteriaHandler.buildReporterIDCritForCGHQuery(cghQuery.getGeneIDCriteria(), includeSNPs, includeCGH, pb);
-            assert(geneIDCrit != null);
-            SelectHandler handler = new SelectHandler.GeneIDSelectHandler(geneIDCrit, allSNPSegmentIDs);
+        if (cghQuery.getSNPCriteria() != null) {
+            CGHReporterIDCriteria  snpCrit = buildSNPCriteria(cghQuery.getSNPCriteria(), pb);
+            assert(snpCrit != null);
+            SelectHandler handler = new SelectHandler.SNPSelectHandler(snpCrit, allSNPProbesetIDs);
             eventList.add(handler.getDbEvent());
             new Thread(handler).start();
         }
     }
+
 	public Integer getCount(Query query) throws Exception {
         ComparativeGenomicQuery cghQuery = (ComparativeGenomicQuery) query;
 
@@ -226,7 +219,7 @@ public class CGHQueryHandler extends QueryHandler {
         pb.close();
         ThreadController.sleepOnEvents(eventList);
 
-        return new CGHFactHandler.SingleCGHFactHandler().getSampleQueryCount(allSNPSegmentIDs, cghQuery);
+        return new CGHFactHandler.SingleCGHFactHandler().getSampleQueryCount(allSNPProbesetIDs, cghQuery);
 	}
 
 }

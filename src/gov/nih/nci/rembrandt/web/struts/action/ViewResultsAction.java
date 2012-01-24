@@ -107,7 +107,7 @@ public class ViewResultsAction extends Action{
 		HttpServletResponse response)
 		throws Exception {
 		
-		List fileList = LookupManager.getDownloadFileList("BRB");
+		List fileList = LookupManager.getDownloadBRBFileList();
 		if (fileList == null || fileList.isEmpty())
 		{
 			request.setAttribute("downloadFileList", new ArrayList());
@@ -119,10 +119,10 @@ public class ViewResultsAction extends Action{
 
 		for (int i = 0; i < fileList.size(); i++){
 			DownloadFileLookup lookup = (DownloadFileLookup)fileList.get(i);
-			//if (lookup.getAccessCode().equals(new Long(8))){
-			//	downloadFileList.add(lookup);
-			//	continue;
-			//}
+			if (lookup.getAccessCode().equals(new Long(8))){
+				downloadFileList.add(lookup);
+				continue;
+			}
 			for (Iterator it = collection.iterator(); it.hasNext();){
 				InstitutionDE de = (InstitutionDE)it.next();
 			

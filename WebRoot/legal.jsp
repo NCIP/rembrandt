@@ -7,6 +7,9 @@
 <body>
 <!--header NCI-->
 <table align="center" width="765" border="0" cellspacing="0" cellpadding="0" bgcolor="#A90101">
+<tr>
+	<th></th><th></th><th></th>
+</tr>
 <tr bgcolor="#A90101">
 		<td width="283" height="37" align="left"><a href="http://www.cancer.gov"><img src="images/logotype.gif" width="283" height="37" border="0"></a></td>
 		<td>&nbsp;</td>
@@ -98,6 +101,9 @@
 <!--begin NCI footer-->
 <div>
 <table width="765" border="0" cellspacing="0" cellpadding="0" style="margin-top:5px">
+<tr>
+	<th></th>
+</tr>
 <tr>
 <td valign="top"><div align="center">
 	<a href="http://www.cancer.gov/"><img src="images/footer_nci.gif" width="63" height="31" alt="National Cancer Institute" border="0"></a>

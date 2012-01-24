@@ -5,7 +5,6 @@
 package gov.nih.nci.rembrandt.queryservice;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.view.GroupType;
-import gov.nih.nci.caintegrator.dto.view.GroupType.DiseaseTypeGroup;
 import gov.nih.nci.rembrandt.dbbean.PatientData;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh.CopyNumber;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneExpr;
@@ -18,10 +17,6 @@ import gov.nih.nci.rembrandt.queryservice.resultset.DimensionalViewContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultsContainer;
-import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberGeneBasedResultsContainer1;
-import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberGeneBasedViewHandler;
-import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberGeneViewResultsContainer;
-import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberSegmentViewResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberSingleViewHandler;
 import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberSingleViewResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprDiseaseGroupViewHandler;
@@ -183,17 +178,17 @@ public class ResultsetProcessor {
         }//for
         return resultsContainer;
 	}
-	public static ResultsContainer handleCopyNumberSegmentView(Resultant resultant, CopyNumber[] copyNumberObjects, GroupType groupType) throws Exception{
+	public static ResultsContainer handleCopyNumberSingleView(Resultant resultant, CopyNumber[] copyNumberObjects, GroupType groupType) throws Exception{
  		ResultsContainer resultsContainer = null;
  		DimensionalViewContainer dimensionalViewContainer = null;
- 		CopyNumberSegmentViewResultsContainer copyNumberSegmentViewResultsContainer = null;
+ 		CopyNumberSingleViewResultsContainer copyNumberSingleViewResultsContainer = null;
     	SampleViewResultsContainer sampleViewResultsContainer = null;
   		if(resultant != null && resultant.getResultsContainer() instanceof DimensionalViewContainer){
  			dimensionalViewContainer = (DimensionalViewContainer) resultant.getResultsContainer();
   	    	sampleViewResultsContainer = dimensionalViewContainer.getSampleViewResultsContainer();
- 			copyNumberSegmentViewResultsContainer = dimensionalViewContainer.getCopyNumberSegmentViewResultsContainer();
- 			if(copyNumberSegmentViewResultsContainer == null){
- 	  			copyNumberSegmentViewResultsContainer = new CopyNumberSegmentViewResultsContainer();
+ 			copyNumberSingleViewResultsContainer = dimensionalViewContainer.getCopyNumberSingleViewContainer();
+ 			if(copyNumberSingleViewResultsContainer == null){
+ 	  			copyNumberSingleViewResultsContainer = new CopyNumberSingleViewResultsContainer();
  			}
  			try {
 				sampleViewResultsContainer = SampleViewHandler.populateWithClinicalData( sampleViewResultsContainer, copyNumberObjects);
@@ -204,7 +199,7 @@ public class ResultsetProcessor {
  		}
   		else{
   			dimensionalViewContainer = new DimensionalViewContainer();
-  			copyNumberSegmentViewResultsContainer = new CopyNumberSegmentViewResultsContainer();
+  			copyNumberSingleViewResultsContainer = new CopyNumberSingleViewResultsContainer();
   	    	//sampleViewResultsContainer = new SampleViewResultsContainer();
 	         //Populate sampleViewResultsContainer with ClinicalData
 	        try {
@@ -222,11 +217,11 @@ public class ResultsetProcessor {
             	if (obj instanceof CopyNumber)  {
 	              	//Propulate the CopyNumberSingleViewResultsContainer
             		CopyNumber  copyNumberObj = (CopyNumber) obj;
-            		copyNumberSegmentViewResultsContainer = CopyNumberSingleViewHandler.handleCopyNumberSegmentView(copyNumberSegmentViewResultsContainer,copyNumberObj);
+            		copyNumberSingleViewResultsContainer = CopyNumberSingleViewHandler.handleCopyNumberSingleView(copyNumberSingleViewResultsContainer,copyNumberObj, groupType);
 	               	//Populate the SampleViewResultsContainer
 	               	sampleViewResultsContainer = SampleViewHandler.handleSampleView(sampleViewResultsContainer,copyNumberObj,groupType);
 	               	dimensionalViewContainer.setSampleViewResultsContainer(sampleViewResultsContainer);
-	               	dimensionalViewContainer.setCopyNumberSegmentViewResultsContainer(copyNumberSegmentViewResultsContainer);
+	               	dimensionalViewContainer.setCopyNumberSingleViewContainer(copyNumberSingleViewResultsContainer);
 	               	resultsContainer = dimensionalViewContainer;
                }
     		}
@@ -234,57 +229,7 @@ public class ResultsetProcessor {
 
         return resultsContainer;
 	}
-	public static ResultsContainer handleCopyNumberGeneBasedView(Resultant resultant, CopyNumber[] copyNumberObjects, GroupType groupType) throws Exception{
- 		ResultsContainer resultsContainer = null;
- 		DimensionalViewContainer dimensionalViewContainer = null;
- 		CopyNumberGeneViewResultsContainer copyNumberGeneViewResultsContainer = null;
-    	SampleViewResultsContainer sampleViewResultsContainer = null;
-  		if(resultant != null && resultant.getResultsContainer() instanceof DimensionalViewContainer){
- 			dimensionalViewContainer = (DimensionalViewContainer) resultant.getResultsContainer();
-  	    	sampleViewResultsContainer = dimensionalViewContainer.getSampleViewResultsContainer();
-  	    	copyNumberGeneViewResultsContainer = dimensionalViewContainer.getCopyNumberGeneViewResultsContainer();
- 			if(copyNumberGeneViewResultsContainer == null){
- 				copyNumberGeneViewResultsContainer = new CopyNumberGeneViewResultsContainer();
- 			}
- 			try {
-				sampleViewResultsContainer = SampleViewHandler.populateWithClinicalData( sampleViewResultsContainer, copyNumberObjects);
-			} catch (Exception e) {
-				logger.error(e.getMessage());
-				throw e;
-			}
- 		}
-  		else{
-  			dimensionalViewContainer = new DimensionalViewContainer();
-  			copyNumberGeneViewResultsContainer = new CopyNumberGeneViewResultsContainer();
-  	    	//sampleViewResultsContainer = new SampleViewResultsContainer();
-	         //Populate sampleViewResultsContainer with ClinicalData
-	        try {
-	        	sampleViewResultsContainer = new SampleViewResultsContainer();
-				sampleViewResultsContainer = SampleViewHandler.populateWithClinicalData( sampleViewResultsContainer, copyNumberObjects);
-			} catch (Exception e) {
-				logger.error(e.getMessage());
-				throw e;
-			}
-  		}
 
-          for (int i = 0; i < copyNumberObjects.length; i++) {
-    		if(copyNumberObjects[i] != null) {
-            ResultSet obj = copyNumberObjects[i];
-            	if (obj instanceof CopyNumber)  {
-	              	//Propulate the CopyNumberSingleViewResultsContainer
-            		CopyNumber  copyNumberObj = (CopyNumber) obj;
-            		copyNumberGeneViewResultsContainer = CopyNumberGeneBasedViewHandler.handleCopyNumberGeneBasedView(copyNumberGeneViewResultsContainer,copyNumberObj, groupType);
-	               	//Populate the SampleViewResultsContainer
-	               	sampleViewResultsContainer = SampleViewHandler.handleSampleView(sampleViewResultsContainer,copyNumberObj,groupType);
-	               	dimensionalViewContainer.setSampleViewResultsContainer(sampleViewResultsContainer);
-	               	dimensionalViewContainer.setCopyNumberGeneViewResultsContainer(copyNumberGeneViewResultsContainer);
-	               	resultsContainer = dimensionalViewContainer;
-               }
-    		}
-        }//for
-
-        return resultsContainer;
-	}
 	/**
 	 * @param groups
 	 * @return
@@ -424,13 +369,6 @@ public class ResultsetProcessor {
 	 		}//if
  	        return resultsContainer;
 	}
-
-//	public static ResultsContainer handleCopyNumberSegmentView(
-//			Resultant resultant, CopyNumber[] resultsets,
-//			DiseaseTypeGroup diseaseTypeGroup) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 
 
 }

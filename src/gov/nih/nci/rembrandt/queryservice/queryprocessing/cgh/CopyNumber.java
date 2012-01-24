@@ -85,22 +85,7 @@ public class CopyNumber implements ResultSet, ClinicalResultSet
   private String ageGroup;
   private Long biospecimenId;
   private Double channelRatio;
-  private String chromosome;
-  private String geneSymbol;
-  private Long chromosomeStart;
-  
-  private Long chromosomeEnd;
-  
-  private Double segmentMean;
-
-  private Double calculatedCopyNumber;
-  
-  private Long numberMark;
-  
-  private String analysisType;
-  
-  private String specimenType;
-
+  private Double copyNumber;
   private Double copynoPval;
   private String sampleId;
   private String cytoband;
@@ -110,12 +95,13 @@ public class CopyNumber implements ResultSet, ClinicalResultSet
   private String whoGrade;
   private Double loh;
   private String lossGain;
-  private Long snpSegmentId;
-  private String snpSegmentName ;
+  private Long snpProbesetId;
+  private String snpProbesetName ;
   private String survivalLengthRange;
   private Long timecourseId;
   private Long physicalPosition;
   private SNPAnnotation annotations;
+  private String chromosome;
   private String timePoint;  
   private String timePoints;  
   private String institutionName;
@@ -1193,6 +1179,14 @@ public void setRace(String race) {
         this.channelRatio = channelRatio;
     }
 
+    public Double getCopyNumber() {
+        return copyNumber;
+    }
+
+    public void setCopyNumber(Double copyNumber) {
+        this.copyNumber = copyNumber;
+    }
+
     public Double getCopynoPval() {
         return copynoPval;
     }
@@ -1249,21 +1243,21 @@ public void setRace(String race) {
         this.lossGain = lossGain;
     }
 
-   // public Long getSnpProbesetId() {
-   //     return snpProbesetId;
-  //  }
+    public Long getSnpProbesetId() {
+        return snpProbesetId;
+    }
 
-   // public void setSnpProbesetId(Long snpProbesetId) {
-   //     this.snpProbesetId = snpProbesetId;
-   // }
+    public void setSnpProbesetId(Long snpProbesetId) {
+        this.snpProbesetId = snpProbesetId;
+    }
 
-    //public String getSnpProbesetName() {
-    //    return snpProbesetName;
-    //}
+    public String getSnpProbesetName() {
+        return snpProbesetName;
+    }
 
-   // public void setSnpProbesetName(String snpProbesetName) {
-   //     this.snpProbesetName = snpProbesetName;
-   // }
+    public void setSnpProbesetName(String snpProbesetName) {
+        this.snpProbesetName = snpProbesetName;
+    }
 
     public String getSurvivalLengthRange() {
         return survivalLengthRange;
@@ -1351,162 +1345,6 @@ public void setRace(String race) {
 	 */
 	public void setSpecimenName(String specimenName) {
 		this.specimenName = specimenName;
-	}
-
-	/**
-	 * @return the segmentMean
-	 */
-	public Double getSegmentMean() {
-		return segmentMean;
-	}
-
-	/**
-	 * @param segmentMean the segmentMean to set
-	 */
-	public void setSegmentMean(Double segmentMean) {
-		this.segmentMean = segmentMean;
-	}
-
-	/**
-	 * @return the censor
-	 */
-	public String getCensor() {
-		return censor;
-	}
-
-	/**
-	 * @param censor the censor to set
-	 */
-	public void setCensor(String censor) {
-		this.censor = censor;
-	}
-
-
-
-	/**
-	 * @return the calculatedCopyNumber
-	 */
-	public Double getCalculatedCopyNumber() {
-		return calculatedCopyNumber;
-	}
-
-	/**
-	 * @param calculatedCopyNumber the calculatedCopyNumber to set
-	 */
-	public void setCalculatedCopyNumber(Double calculatedCopyNumber) {
-		this.calculatedCopyNumber = calculatedCopyNumber;
-	}
-
-	/**
-	 * @return the numberMark
-	 */
-	public Long getNumberMark() {
-		return numberMark;
-	}
-
-	/**
-	 * @param numberMark the numberMark to set
-	 */
-	public void setNumberMark(Long numberMark) {
-		this.numberMark = numberMark;
-	}
-
-	/**
-	 * @return the analysisType
-	 */
-	public String getAnalysisType() {
-		return analysisType;
-	}
-
-	/**
-	 * @param analysisType the analysisType to set
-	 */
-	public void setAnalysisType(String analysisType) {
-		this.analysisType = analysisType;
-	}
-
-	/**
-	 * @return the specimenType
-	 */
-	public String getSpecimenType() {
-		return specimenType;
-	}
-
-	/**
-	 * @param specimenType the specimenType to set
-	 */
-	public void setSpecimenType(String specimenType) {
-		this.specimenType = specimenType;
-	}
-
-	/**
-	 * @return the snpSegmentId
-	 */
-	public Long getSnpSegmentId() {
-		return snpSegmentId;
-	}
-
-	/**
-	 * @param snpSegmentId the snpSegmentId to set
-	 */
-	public void setSnpSegmentId(Long snpSegmentId) {
-		this.snpSegmentId = snpSegmentId;
-	}
-
-	/**
-	 * @return the snpSegmentName
-	 */
-	public String getSnpSegmentName() {
-		return snpSegmentName;
-	}
-
-	/**
-	 * @param snpSegmentName the snpSegmentName to set
-	 */
-	public void setSnpSegmentName(String snpSegmentName) {
-		this.snpSegmentName = snpSegmentName;
-	}
-
-	/**
-	 * @return the geneSymbol
-	 */
-	public String getGeneSymbol() {
-		return geneSymbol;
-	}
-
-	/**
-	 * @param geneSymbol the geneSymbol to set
-	 */
-	public void setGeneSymbol(String geneSymbol) {
-		this.geneSymbol = geneSymbol;
-	}
-
-	/**
-	 * @return the chromosomeStart
-	 */
-	public Long getChromosomeStart() {
-		return chromosomeStart;
-	}
-
-	/**
-	 * @param chromosomeStart the chromosomeStart to set
-	 */
-	public void setChromosomeStart(Long chromosomeStart) {
-		this.chromosomeStart = chromosomeStart;
-	}
-
-	/**
-	 * @return the chromosomeEnd
-	 */
-	public Long getChromosomeEnd() {
-		return chromosomeEnd;
-	}
-
-	/**
-	 * @param chromosomeEnd the chromosomeEnd to set
-	 */
-	public void setChromosomeEnd(Long chromosomeEnd) {
-		this.chromosomeEnd = chromosomeEnd;
 	}
 
 

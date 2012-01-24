@@ -8,12 +8,12 @@
 
 
 <fieldset class="gray">
-<legend class="red">Specimen Type
+<legend class="red"><label for="specimenType">Specimen Type</label>
 <a href="javascript: Help.popHelp('<%=act%>_specimenType_tooltip');">[?]</a>   
 
 <!-- <app:help help="Indicate the tissue type that was used for the comparative genomic study."/>-->
 </legend><br />
-&nbsp;&nbsp;<html:select property="specimenType" onchange="">
+&nbsp;&nbsp;<html:select styleId="specimenType" property="specimenType" onchange="">
 	<html:option value="">&nbsp;</html:option>
     <html:option value="<%=SpecimenType.BLOOD.toString()%>"><%=SpecimenType.BLOOD.toString()%></html:option>
     <html:option value="<%=SpecimenType.TISSUE_BRAIN.toString()%>"><%=SpecimenType.TISSUE_BRAIN.toString()%></html:option>

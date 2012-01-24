@@ -48,9 +48,6 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
  * 
  * @author SahniH
  */
-import org.apache.struts.util.LabelValueBean;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 
 /**
@@ -143,11 +140,9 @@ public class LookupManager{
 	 */
 	public static CytobandLookup[] getCytobandPositions() throws Exception{
 		
-		if (cytobands == null){
-				Criteria crit = new Criteria();
-				crit.addOrderByAscending("chromosome");
-				cytobands = (CytobandLookup[]) QueryExecuter.executeQuery(CytobandPosition.class, crit,LookupManager.CYTOBAND_POSITION, true).toArray(new CytobandLookup[1]);
-			}
+		Criteria crit = new Criteria();
+		crit.addOrderByAscending("chrCytoband");
+		cytobands = (CytobandLookup[]) QueryExecuter.executeQuery(CytobandPosition.class, crit,LookupManager.CYTOBAND_POSITION, true).toArray(new CytobandLookup[1]);
 		
 		return cytobands;
 	}
@@ -177,19 +172,14 @@ public class LookupManager{
 		CytobandLookup[] cytobandLookups = getCytobandPositions();
 		if(cytobandLookups != null){
 			for (int i = 0;i < cytobandLookups.length;i++){
-				String chr = cytobandLookups[i].getChromosome();
-				if(chromosomeDE.getValue().toString().equals(chr)){
+				if(chromosomeDE.getValue().toString().equals(cytobandLookups[i].getChromosome())){
 					cytobandDE = new CytobandDE(cytobandLookups[i].getCytoband());
 					cytobandDEs.add(cytobandDE);	
 				}
 			}
 		}
-		if (cytobandDEs.size()>0){
-			return (CytobandDE[]) cytobandDEs.toArray(new CytobandDE[cytobandDEs.size()]);
-		}
-		return null;
+		return (CytobandDE[]) cytobandDEs.toArray(new CytobandDE[1]);
 	}
-
 	/**
 	 * @return Returns the pathways.
 	 */
@@ -238,17 +228,14 @@ public class LookupManager{
 	}
 	
 	/**
-	 * @param accessCollection 
-	 * @return Returns the DownloadFileLookup.
+	 * @return Returns the pathways.
 	 */
 	@SuppressWarnings({"deprecation","unchecked"})
-	public static List<DownloadFileLookup> getDownloadFileList(String fileType) {
+	public static List getDownloadBRBFileList() {
 		List<DownloadFileLookup> downloadFileList
 			= new ArrayList<DownloadFileLookup>();
 		Criteria crit = new Criteria();
-		if(fileType != null){
-			crit.addColumnEqualTo("FILE_TYPE",fileType);
-		}
+		crit.addColumnEqualTo("FILE_TYPE","BRB");
 		String filePath = System.getProperty("gov.nih.nci.rembrandt.brb_filepath");
 		ReportQueryByCriteria qbc = new ReportQueryByCriteria(DownloadFile.class, crit, false);
 		qbc.addOrderByAscending("fileId");
@@ -274,6 +261,7 @@ public class LookupManager{
 		}
 		return downloadFileList;
 	}
+	
 	/**
 	 * @return Returns the patientData.
 	 * @throws Exception

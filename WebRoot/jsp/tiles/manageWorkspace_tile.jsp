@@ -35,7 +35,7 @@ function confirmExit()
 <table border="0" cellpadding="10" cellspacing="3">
 	<tbody>
 		<tr>
-		
+			<th></th>
 			<td>
 				Organize your Queries and Lists by dragging items and creating
 				folders. Your current lists and queries will be saved for future
@@ -45,12 +45,12 @@ function confirmExit()
 				<br />
 				<div id="oQueryTree"></div>
 				<a href="#" onclick="TreeUtils.newFolder(oQueryTree);return false;">
-					<img src="components/treeManager/images/folder_add.png" border="0" /> new folder</a><br />
+					<img alt="New Folder" src="components/treeManager/images/folder_add.png" border="0" /> new folder</a><br />
 				<br clear="all" />
 			
 				<div id="oListTree"></div>
 				<a href="#" onclick="TreeUtils.newFolder(oListTree);return false;">
-					<img src="components/treeManager/images/folder_add.png" border="0" /> new folder</a><br />
+					<img alt="New Folder" src="components/treeManager/images/folder_add.png" border="0" /> new folder</a><br />
 				<br />
 				<div align="center">
 					 <!-- <button onclick="TreeUtils.saveTreeStructs();">Save</button>  -->  

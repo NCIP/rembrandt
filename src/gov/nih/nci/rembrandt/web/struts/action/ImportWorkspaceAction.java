@@ -10,9 +10,7 @@ import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE;
 import gov.nih.nci.caintegrator.dto.de.GeneOntologyDE;
 import gov.nih.nci.caintegrator.dto.de.PathwayDE;
 import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
-import gov.nih.nci.caintegrator.dto.de.SNPableDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
-import gov.nih.nci.caintegrator.dto.de.SegmentMeanDE;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
@@ -534,29 +532,12 @@ public class ImportWorkspaceAction extends Action{
 					comparativeGenomicForm.setCnAmplified( copyNumberDE );
 				else if ( copyNumberDE.getCGHType().equals(copyNumberDE.DELETION ))
 					comparativeGenomicForm.setCnDeleted( copyNumberDE );
-				else if ( copyNumberDE.getCGHType().equals(copyNumberDE.UNCHANGED_UPPER_LIMIT ))
+				else if ( copyNumberDE.getCGHType().equals(copyNumberDE.UNCHANGED_COPYNUMBER_UPPER_LIMIT ))
 					comparativeGenomicForm.setCnUnchangeTo( copyNumberDE );
-				else if ( copyNumberDE.getCGHType().equals(copyNumberDE.UNCHANGED_DOWN_LIMIT ))
+				else if ( copyNumberDE.getCGHType().equals(copyNumberDE.UNCHANGED_COPYNUMBER_DOWN_LIMIT ))
 					comparativeGenomicForm.setCnUnchangeFrom( copyNumberDE );
 			}
 			comparativeGenomicForm.setCopyNumber(cghQuery.getCopyNumberCriteria().getCopyNumber() );
-		}
-		
-		if ( cghQuery.getSegmentMeanCriteria() != null ) {
-			Iterator iterator = cghQuery.getSegmentMeanCriteria().getSegmentMeanData().iterator();
-			while ( iterator.hasNext() ) {
-				SegmentMeanDE segmentMeanDE = (SegmentMeanDE)iterator.next();
-				
-				if ( segmentMeanDE.getCGHType().equals(segmentMeanDE.AMPLIFICATION ))
-					comparativeGenomicForm.setCnAmplified( segmentMeanDE );
-				else if ( segmentMeanDE.getCGHType().equals(segmentMeanDE.DELETION ))
-					comparativeGenomicForm.setCnDeleted( segmentMeanDE );
-				else if ( segmentMeanDE.getCGHType().equals(segmentMeanDE.UNCHANGED_UPPER_LIMIT ))
-					comparativeGenomicForm.setCnUnchangeTo( segmentMeanDE );
-				else if ( segmentMeanDE.getCGHType().equals(segmentMeanDE.UNCHANGED_DOWN_LIMIT ))
-					comparativeGenomicForm.setCnUnchangeFrom( segmentMeanDE );
-			}
-			comparativeGenomicForm.setSegmentMean(cghQuery.getSegmentMeanCriteria().getSegmentMean() );
 		}
 
 		return comparativeGenomicForm;

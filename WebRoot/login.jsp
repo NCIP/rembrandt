@@ -51,9 +51,15 @@ pageContext.setAttribute("map", map);
 <!--content table--> 
 <table border="0" cellspacing="0" cellpadding="0" style="margin-top:2px; width:765">
 	<tr>
+		<th></th><th></th>
+	</tr>	
+	<tr>
 		<!--begin description cell-->
 		<td style="width:462; margin-bottom:0px; border-right:1px solid #374554; border-bottom: 1px solid #000000; border-left: 1px solid #fC4C5C5;">
 			<table width="100%" border="0">
+				<tr>
+					<th></th>
+				</tr>
 				<tr>
 					<td>
 						<p style="font-size:1.2em; font-weight:bold;padding:0px 5px 0px 5px">
@@ -101,6 +107,9 @@ pageContext.setAttribute("map", map);
 				<tr>
 					<td>
 						<table width="100%" align="center" id="statTable" style="">
+							<tr>
+								<th></th>
+							</tr>
 							<tr>
 								<td colspan="3">
 								<p style="font-size:1.2em; font-weight:bold;padding:0px 5px 0px 5px">
@@ -167,6 +176,9 @@ pageContext.setAttribute("map", map);
 		-->  		
   		<div id="browseRBTDiv" style="padding:15px; padding-bottom:10px;">
   		<table cellpadding="0" cellspacing="0" border="0">
+  			<tr>
+				<th></th><th></th>
+			</tr>
 	  		<tr>
 		  		<td style="vertical-align:middle;">
 		  			<b style="font-size:.8em;">For Access, new and existing <br/>users click the button below:</b><br/><br/>

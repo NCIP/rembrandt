@@ -54,9 +54,7 @@ package gov.nih.nci.rembrandt.queryservice;
 
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.query.OperatorType;
-import gov.nih.nci.caintegrator.dto.view.CopyNumberGeneBasedSampleView;
 import gov.nih.nci.caintegrator.dto.view.CopyNumberSampleView;
-import gov.nih.nci.caintegrator.dto.view.CopyNumberSegmentView;
 import gov.nih.nci.caintegrator.dto.view.GeneExprSampleView;
 import gov.nih.nci.caintegrator.dto.view.GroupType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
@@ -224,25 +222,14 @@ public class ResultsetManager {
 							resultant.setAssociatedView(associatedView);
 						} else if (resultsets instanceof CopyNumber[]) {
 							GroupType groupType = GroupType.DISEASE_TYPE_GROUP;
-							ResultsContainer resultsContainer = null;
 							if (associatedView instanceof CopyNumberSampleView) {
 								CopyNumberSampleView copyNumberView = (CopyNumberSampleView) associatedView;
 								groupType = copyNumberView.getGroupType();
-								//resultsContainer = ResultsetProcessor
-								//	.handleCopyNumberSingleView(resultant,
-								//			(CopyNumber[]) resultsets,
-								//			groupType);
-							}else if (associatedView instanceof CopyNumberGeneBasedSampleView) {
-									resultsContainer = ResultsetProcessor
-									.handleCopyNumberGeneBasedView(resultant,
-											(CopyNumber[]) resultsets,
-											GroupType.DISEASE_TYPE_GROUP);
-							}else if (associatedView instanceof CopyNumberSegmentView) {
-								resultsContainer = ResultsetProcessor
-								.handleCopyNumberSegmentView(resultant,
-										(CopyNumber[]) resultsets,
-										GroupType.DISEASE_TYPE_GROUP);
 							}
+							ResultsContainer resultsContainer = ResultsetProcessor
+									.handleCopyNumberSingleView(resultant,
+											(CopyNumber[]) resultsets,
+											groupType);
 							resultant.setResultsContainer(resultsContainer);
 							resultant.setAssociatedQuery(queryToExecute);
 							resultant.setAssociatedView(associatedView);
@@ -346,7 +333,7 @@ public class ResultsetManager {
 					resultant.setAssociatedView(associatedView);
 			} else if (queryToExecute instanceof ComparativeGenomicQuery) {
 				Viewable associatedView = ViewFactory
-						.newView(ViewType.COPYNUMBER_GENE_SAMPLE_VIEW);
+						.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW);
 				queryToExecute.setAssociatedView(associatedView);
 				ResultSet[] resultsets = QueryManager
 						.executeQuery(queryToExecute);

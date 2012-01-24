@@ -97,9 +97,8 @@ public class KMDataSetHelper {
 			}
 			if (_plotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)
 					&& reporters.size() > 1) {
-				reporters.add(0,CaIntegratorConstants.GRAPH_BLANK);
-				//reporters.add(0, CaIntegratorConstants.GRAPH_MEDIAN);
-				//reporters.add(1, CaIntegratorConstants.GRAPH_MEAN);
+				reporters.add(0, CaIntegratorConstants.GRAPH_MEDIAN);
+				reporters.add(1, CaIntegratorConstants.GRAPH_MEAN);
 
 			}
 			_kmForm.setReporters(reporters);

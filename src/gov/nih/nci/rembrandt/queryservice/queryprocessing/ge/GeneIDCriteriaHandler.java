@@ -5,7 +5,6 @@ import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.rembrandt.dbbean.GeneClone;
 import gov.nih.nci.rembrandt.dbbean.GeneLlAccSnp;
 import gov.nih.nci.rembrandt.dbbean.GeneSnp;
-import gov.nih.nci.rembrandt.dbbean.GeneSnpSegment;
 import gov.nih.nci.rembrandt.dbbean.LlSnp;
 import gov.nih.nci.rembrandt.dbbean.ProbesetDim;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
@@ -89,7 +88,7 @@ public class GeneIDCriteriaHandler {
      static HashMap data = new HashMap();
         static {
             data.put(GeneIdentifierDE.GeneSymbol.class.getName(),
-                            new TargetClass(GeneSnpSegment.class, GeneSnpSegment.SNP_SEGMENT_ID));
+                            new TargetClass(GeneSnp.class, GeneSnp.SNP_PROBESET_ID));
             data.put(GeneIdentifierDE.LocusLink.class.getName(),
                             new TargetClass(LlSnp.class, LlSnp.SNP_PROBESET_ID));
             data.put(GeneIdentifierDE.GenBankAccessionNumber.class.getName(),

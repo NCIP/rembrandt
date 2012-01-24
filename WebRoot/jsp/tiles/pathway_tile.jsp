@@ -13,8 +13,8 @@
 
 	
 <Br>
-<html:textarea property="pathways" rows="5" cols="40" readonly="true">
-			</html:textarea>
+<html:textarea styleId="pathways" property="pathways" rows="5" cols="40" readonly="true">
+			</html:textarea><label for="pathways">&nbsp;</label>
 			<html:errors property="pathways"/>
 
 &nbsp;&nbsp;
@@ -31,9 +31,9 @@
    }
 </script>
 
- <a href="javascript:browseKegg()"><img src="images/kegg.gif" border="0" /></a>&nbsp;
+ <a href="javascript:browseKegg()"><img alt="KEGG" src="images/kegg.gif" border="0" /></a>&nbsp;
 
- <a href="javascript:browseData()"><img src="images/btnBrowse2.gif" border="0" /></a>
+ <a href="javascript:browseData()"><img alt="Browse caBIO" src="images/btnBrowse2.gif" border="0" /></a>
 
      <br />
     <input type="button" class="xbutton" onclick="javascript:resetVal(pathways)" value="Clear Text Area" />

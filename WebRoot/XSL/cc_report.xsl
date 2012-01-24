@@ -54,7 +54,7 @@
 
   <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;">Help</div>
 
-  <div style="background-color: #ffffff"><img src="images/smallHead.jpg" /></div>
+  <div style="background-color: #ffffff"><img id="Rembrandt" src="images/smallHead.jpg" /></div>
   <p align="center" style="background:red; color:#ffffff; font-size:12px; font-weight:bold;"><xsl:value-of select="$statusMsg" /></p>
  
    <xsl:for-each select="Report">
@@ -89,12 +89,12 @@
 		
 	    <span style="z-index:900; float:right;position:absolute;top:10px;right:10px;">
 		  <!-- navigation icons courtesy of:  Anthony J. Brutico, D.O. -->
-		  <a href="#" onclick="javascript:window.close();"><img align="right" src="images/close.png" border="0" onmouseover="return overlib('Close this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/> </a> 
-		  <a href="javascript: Help.popHelp('Class_comparison_report');"><img align="right" src="images/help.png" border="0" onmouseover="return overlib('Click here for additional information about this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();" /></a>
+		  <a href="#" onclick="javascript:window.close();"><img alt="Close" align="right" src="images/close.png" border="0" onmouseover="return overlib('Close this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/> </a> 
+		  <a href="javascript: Help.popHelp('Class_comparison_report');"><img alt="Help" align="right" src="images/help.png" border="0" onmouseover="return overlib('Click here for additional information about this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();" /></a>
 		  <a href="#" onclick="javascript:runFindingCSV('{$key}')"><img align="right" src="images/excel.png" border="0" alt="download for excel" onmouseover="return overlib('Download for Excel.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/></a>
-		  <a href="#" onclick="javascript:window.print();"><img align="right" src="images/print.png" border="0" onmouseover="return overlib('Print this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/> </a> 
-		  <a href="#queryInfo"><img align="right" src="images/text.png" border="0" onmouseover="return overlib('View Query Information.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/></a>
-		  <a href="#" onclick="javascript:toggleDiv('hideme');return false;"><img align="right" src="images/tools.png" border="0" onmouseover="return overlib('Show or Hide Report Tools.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/></a>
+		  <a href="#" onclick="javascript:window.print();"><img align="right" alt="Print" src="images/print.png" border="0" onmouseover="return overlib('Print this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/> </a> 
+		  <a href="#queryInfo"><img align="right" alt="View Query Information" src="images/text.png" border="0" onmouseover="return overlib('View Query Information.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/></a>
+		  <a href="#" onclick="javascript:toggleDiv('hideme');return false;"><img align="right" alt="Show or Hide Report Tools" src="images/tools.png" border="0" onmouseover="return overlib('Show or Hide Report Tools.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/></a>
 	  	</span>
 
 		<form action="testReport.do?key={$key}" name="paginate" method="post">
@@ -138,10 +138,10 @@
 
 					<div class="filterForm">
 						<form style="margin-bottom:0;" action="testReport.do?key={$key}" method="post" name="pval_filter_form">
-							<b><span class="lb">Filter p-value:</span></b> 
+							<b><span class="lb"><label for="p_pval_filter_mode">Filter p-value:</label></span></b> 
 							<xsl:text>&#160;</xsl:text>
 							Show values:
-							<select name="p_pval_filter_mode">
+							<select id="p_pval_filter_mode" name="p_pval_filter_mode">
 								<option value="gt">&gt;</option>
 								<option value="lt">&lt;</option>
 								<option value="eq">=</option>
@@ -155,7 +155,7 @@
 							<xsl:text>&#160;</xsl:text>
 							<xsl:text>&#160;</xsl:text>
 							<!--  P-Value  -->
-							<input type="text" name="p_pval_filter_value" size="25" value="{$p_pval_filter_value}" />
+							<input type="text" id="p_pval_filter_value" name="p_pval_filter_value" size="25" value="{$p_pval_filter_value}" /><label for="p_pval_filter_value">&#160;</label>
 							<input type="hidden" name="p_page" value="0"/>
 							<input type="hidden" name="p_step" value="25"/>
 							<input type="hidden" name="p_sort_element" value="{$p_sort_element}"/>
@@ -171,15 +171,15 @@
 			<form style="margin-bottom:0;" action="testReport.do?key={$key}" method="post" name="highlight_form">
 				<b><span class="lb">Highlight:</span></b> 
 				<xsl:text>&#160;</xsl:text>
-				highlight values 
-				<select name="p_highlight_op">
+				<label for="p_highlight_op">highlight values</label> 
+				<select id="p_highlight_op" name="p_highlight_op">
 					<option value="gt">&gt;</option>
 					<option value="lt">&lt;</option>
 					<option value="eq">=</option>
 					<option value="lte">&lt;=</option>
 					<option value="gte">&gt;=</option>
 				</select>
-				<input type="text" name="p_highlight" size="4" value="{$p_highlight}" />
+				<input type="text" id="p_highlight" name="p_highlight" size="4" value="{$p_highlight}" /><label for="p_highlight">&#160;</label>
 				<input type="hidden" name="queryName" value="{$qName}"/>
 				<input type="hidden" name="p_page" value="{$p_page}"/>
 				<input type="hidden" name="p_step" value="{$p_step}"/>
@@ -192,15 +192,15 @@
 		</div>
 	  
 			<div class="filterForm" style="height:auto">
-				<b><span class="lb">Select Reporters:</span></b> 
+				<b><span class="lb"><label for="tmp_prb_queryName">Select Reporters:</label></span></b> 
 				<xsl:text>&#160;</xsl:text>
 				<input type="text" size="30" id="tmp_prb_queryName" name="tmp_prb_queryName" value="{$key}" />
-				Type:<select id="repSubType" name="repSubType"></select>
+				<label for="repSubType">Type:</label><select id="repSubType" name="repSubType"></select>
 				<script type="text/javascript">populateReporterTypeDD();</script>
 				<input type="button" name="filter_submit" value="Save Reporters" onclick="javascript:A_saveReporters();" />
 				<xsl:text>&#160;</xsl:text>
 				<br/>
-				<span style="margin-left:100px" id="checkAllBlock"><input type="checkbox" name="checkAll" id="checkAll" class="checkorradio" onclick="javascript:A_checkAllOnAll(this);"/> All on all pages</span>
+				<span style="margin-left:100px" id="checkAllBlock"><input type="checkbox" name="checkAll" id="checkAll" class="checkorradio" onclick="javascript:A_checkAllOnAll(this);"/> <label for="checkAll">All on all pages</label></span>
 				<span style="margin-left:100px" id="checkAllBlock"><input type="checkbox" name="checkAll" id="checkAll" class="checkorradio" onclick="javascript:A_checkAll(document.getElementsByName('tmpReporter'));"/> All on all this page</span>
 				
 				<!-- 
@@ -262,7 +262,7 @@
 	  </xsl:if>
 	  <xsl:text>&#160;</xsl:text>
 	  <xsl:text>&#160;</xsl:text>
-	  <select name="changeStep" onchange="javascript: goPageChangeStep('{$p_page}', this.value);">
+	  <select id="changeStep" name="changeStep" onchange="javascript: goPageChangeStep('{$p_page}', this.value);">
 	  	<option value=""><xsl:value-of select="$p_step"/> per page</option>
 	  	<option value="1">1</option>
 	  	<option value="5">5</option>
@@ -271,7 +271,7 @@
 	  	<option value="50">50</option>
 	  	<option value="100">100</option>
 	  	<!-- <option value="1000">1000</option> -->
-	  </select>
+	  </select><label for="changeStep">&#160;</label>
 	 
 	  <xsl:text>&#160;</xsl:text>
 	  <xsl:text>&#160;</xsl:text>
@@ -307,8 +307,8 @@
 					<xsl:variable name="currentone" select="position()"/>
 						<td style="color:red">
 							<xsl:value-of select="Data" />
-							<img id="{$currentone}_sort_img_up" style="margin-left:5px;" src="images/openUpArrow.png" onclick="javascript:goSort('{$currentone}','ascending', '{$key}');" />
-							<img id="{$currentone}_sort_img_down" style="margin-left:0px;" src="images/openDownArrow.png" onclick="javascript:goSort('{$currentone}','descending', '{$key}');" />
+							<img id="{$currentone}_sort_img_up" alt="Up" style="margin-left:5px;" src="images/openUpArrow.png" onclick="javascript:goSort('{$currentone}','ascending', '{$key}');" />
+							<img id="{$currentone}_sort_img_down" alt="Down" style="margin-left:0px;" src="images/openDownArrow.png" onclick="javascript:goSort('{$currentone}','descending', '{$key}');" />
 						</td>
 					</xsl:when>
 					<xsl:otherwise>
@@ -323,6 +323,7 @@
 					</xsl:otherwise>
 			</xsl:choose>
 		    </xsl:for-each>
+		    <label for="grpcheck">&#160;</label>
 		    </tr>
 		</xsl:for-each>
 		
@@ -415,7 +416,7 @@
 		</xsl:for-each>
 	</form> <!--  close PRB samples form -->
   	</table>
-  	
+    <label for="tmpReporter">&#160;</label>
   	<div id="query_details">
   	<a name="queryInfo"></a>
   	<xsl:for-each select="Query_details">

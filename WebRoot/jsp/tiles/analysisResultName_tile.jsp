@@ -25,7 +25,7 @@
 		<logic:present name="hierarchicalClusteringForm">
 		Step 5: 
 		</logic:present>
-		Name Analysis Result
+		<label for="analysisResultName">Name Analysis Result</label>
 <b class="req">*</b>
 <%
 	String act = request.getParameter("act");

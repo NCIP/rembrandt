@@ -174,7 +174,7 @@ public class CopyNumberSampleReport implements ReportGenerator{
 			        
 			        Element headerRow = report.addElement("Row").addAttribute("name", "headerRow");
 			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-				        data = cell.addElement("Data").addAttribute("type", "header").addText("Position");
+				        data = cell.addElement("Data").addAttribute("type", "header").addText("Cytoband");
 				        data = null;
 			        cell = null;
 			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
@@ -182,7 +182,7 @@ public class CopyNumberSampleReport implements ReportGenerator{
 			        data = null;
 		            cell = null;
 			        cell = headerRow.addElement("Cell").addAttribute("type", "header").addAttribute("class", "header").addAttribute("group", "header");
-				        data = cell.addElement("Data").addAttribute("type", "header").addText("Segment ID");
+				        data = cell.addElement("Data").addAttribute("type", "header").addText("Reporter");
 				        data = null;
 			        cell = null;
 			        
@@ -354,7 +354,7 @@ public class CopyNumberSampleReport implements ReportGenerator{
 					                       		if(sampleResultset2 != null){
 					                       			
 					                       			//JB Begin: Add for GForge # 17783 - Advance Query Reports - Make the report more user friendly (Provide tool tip)
-					                       			String tooltip = "Position = " + cytoband + ", Gene = " + genes + ", Reporter = " + reporterName + ", Sample = " + sampleId.getSampleId() + " (" + sampleId.getSpecimenName() + ")";
+					                       			String tooltip = "Cytoband = " + cytoband + ", Gene = " + genes + ", Reporter = " + reporterName + ", Sample = " + sampleId.getSampleId() + " (" + sampleId.getSpecimenName() + ")";
 						                       		//JB End: Add for GForge # 17783 - Advance Query Reports - Make the report more user friendly (Provide tool tip)
 					                       			
 					                       			if(sampleResultset2.isHighlighted())
@@ -363,13 +363,12 @@ public class CopyNumberSampleReport implements ReportGenerator{
 				                       					hClass = label;
 					                       			
 					                       			Double ratio = (Double) sampleResultset2.getCopyNumber().getValue();
-					                       			Double segMean = (Double) sampleResultset2.getSegmentMean().getValue();
-					                       			if(ratio != null  && segMean != null)	{
+					                       			if(ratio != null)	{
 					                       				//sb.append("<td class='"+label+"'>"+resultFormat.format(ratio)+"</td>");
 					                       				cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", hClass).addAttribute("group", label);
 						                       			//JB Begin: Add for GForge # 17783 - Advance Query Reports - Make the report more user friendly (Provide tool tip)
 					    					        	//data = cell.addElement("Data").addAttribute("type", "data").addText(resultFormat.format(ratio));
-					    					        	data = cell.addElement("Data").addAttribute("type", "data").addAttribute("datainfo", tooltip).addText(resultFormat.format(ratio) +"("+resultFormat.format(segMean)+ ")");
+					    					        	data = cell.addElement("Data").addAttribute("type", "data").addAttribute("datainfo", tooltip).addText(resultFormat.format(ratio));
 						                       			//JB End: Add for GForge # 17783 - Advance Query Reports - Make the report more user friendly (Provide tool tip)
 						    					        data = null;
 						    					        cell = null;

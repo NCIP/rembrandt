@@ -2,11 +2,9 @@ package gov.nih.nci.rembrandt.dto.query;
 
 import gov.nih.nci.caintegrator.dto.critieria.AllGenesCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.AlleleFrequencyCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.AnalysisTypeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.AssayPlatformCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.CloneOrProbeIDCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.CopyNumberCriteria;
-import gov.nih.nci.caintegrator.dto.critieria.SegmentMeanCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
@@ -21,14 +19,8 @@ import gov.nih.nci.caintegrator.dto.de.DomainElement;
 import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
-import gov.nih.nci.caintegrator.dto.view.CopyNumberSegmentView;
-import gov.nih.nci.caintegrator.dto.view.ViewFactory;
-import gov.nih.nci.caintegrator.dto.view.ViewType;
-import gov.nih.nci.caintegrator.dto.view.Viewable;
 import gov.nih.nci.caintegrator.enumeration.SpecimenType;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
-import gov.nih.nci.rembrandt.queryservice.queryprocessing.ThreadController;
-import gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh.CGHFactHandler;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 import java.io.Serializable;
@@ -118,8 +110,6 @@ public class ComparativeGenomicQuery extends Query implements Serializable,Clone
 
 	private CopyNumberCriteria copyNumberCriteria;
 
-	private SegmentMeanCriteria segmentMeanCriteria;
-
 	private RegionCriteria regionCriteria;
 
 	private CloneOrProbeIDCriteria cloneOrProbeIDCriteria;
@@ -129,8 +119,6 @@ public class ComparativeGenomicQuery extends Query implements Serializable,Clone
 	private AlleleFrequencyCriteria alleleFrequencyCriteria;
 
 	private AssayPlatformCriteria assayPlatformCriteria;
-	
-	private AnalysisTypeCriteria analysisTypeCriteria;
 
 	private QueryHandler HANDLER;
 
@@ -140,11 +128,7 @@ public class ComparativeGenomicQuery extends Query implements Serializable,Clone
 	}
 
 	public QueryType getQueryType() throws Exception {
-		QueryType queryType = QueryType.CGH_GENE_QUERY_TYPE;
-		if(getAssociatedView() instanceof CopyNumberSegmentView){
-			queryType = QueryType.CGH_QUERY_TYPE;
-		}
-		return queryType;
+		return QueryType.CGH_QUERY_TYPE;
 	}
 
 	public ComparativeGenomicQuery() {
@@ -191,9 +175,9 @@ public class ComparativeGenomicQuery extends Query implements Serializable,Clone
 			} else
 				logger.debug("This is not an All Genes Query");
 
-			// starting CopyNumberCriteria/SegmentMeanCriteria
-			String cnView = null;
-			CopyNumberCriteria thisCopyNumberCrit = this.getCopyNumberCriteria();
+			// starting CopyNumberCriteria
+			CopyNumberCriteria thisCopyNumberCrit = this
+					.getCopyNumberCriteria();
 
 			if ((thisCopyNumberCrit != null) && !thisCopyNumberCrit.isEmpty()
 					&& labels != null) {
@@ -212,33 +196,10 @@ public class ComparativeGenomicQuery extends Query implements Serializable,Clone
 											.lastIndexOf(".") + 1)) + ": "
 							+ de.getValue();
 				}
-				cnView = "calculatedCN";
 			} else {
-				SegmentMeanCriteria thisSegmentMeanCrit = this.getSegmentMeanCriteria();
-
-				if ((thisSegmentMeanCrit != null) && !thisSegmentMeanCrit.isEmpty() && labels != null) {
-					logger.debug(" I am in the SegmentMeanCriteria");
-					String thisCriteria = thisSegmentMeanCrit.getClass().getName();
-					OutStr += "<BR><B class='otherBold'>"
-							+ labels.getString(thisCriteria.substring(thisCriteria
-									.lastIndexOf(".") + 1)) + "</B>";
-					Collection segMeanObjects = thisSegmentMeanCrit.getSegmentMeanData();
-					for (Iterator iter = segMeanObjects.iterator(); iter.hasNext();) {
-						DomainElement de = (DomainElement) iter.next();
-						String thisDomainElement = de.getClass().getName();
-						OutStr += "<BR>&nbsp;&nbsp;"
-								+ labels.getString(thisDomainElement
-										.substring(thisDomainElement
-												.lastIndexOf(".") + 1)) + ": " + de.getValue();
-					}
-				}
-				cnView = "segmentMean";
-			} 
-			
-			if ( cnView == null ) {
-				logger.debug("Copy Number/Segment Mean Criteria is empty or Application Resources file is missing");
-			} // end of CopyNumberCriteria/SegmentMeanCriteria
-				
+				logger
+						.debug("Copy Number Criteria is empty or Application Resources file is missing");
+			} // end of CopyNumberCriteria
 
 			GeneIDCriteria thisGeneIDCrit = this.getGeneIDCriteria();
 			if ((thisGeneIDCrit != null) && !thisGeneIDCrit.isEmpty()
@@ -549,14 +510,6 @@ public class ComparativeGenomicQuery extends Query implements Serializable,Clone
 		this.copyNumberCriteria = copyNumberCriteria;
 	}
 
-	public SegmentMeanCriteria getSegmentMeanCriteria() {
-		return segmentMeanCriteria;
-	}
-
-	public void setSegmentMeanCriteria(SegmentMeanCriteria segmentMeanCriteria) {
-		this.segmentMeanCriteria = segmentMeanCriteria;
-	}
-
 	public CloneOrProbeIDCriteria getCloneOrProbeIDCriteria() {
 		return cloneOrProbeIDCriteria;
 	}
@@ -616,22 +569,6 @@ public class ComparativeGenomicQuery extends Query implements Serializable,Clone
 			return false;
 		}
 	}
-	
-	public Viewable getAssociatedView() {
-        AllGenesCriteria allGenesCrit = getAllGenesCrit();
-        Viewable associatedView = null;
-        if (allGenesCrit!=null && allGenesCrit.isAllGenes() ) {
-        	associatedView = ViewFactory.newView(ViewType.COPYNUMBER_GENE_SAMPLE_VIEW);
-        }
-        if (getRegionCriteria() != null  && getGeneIDCriteria() == null) {
-        	associatedView = ViewFactory.newView(ViewType.COPYNUMBER_SEGMENT_VIEW);
-       }
-        if (getGeneIDCriteria() != null && getRegionCriteria() == null ) {
-        	associatedView = ViewFactory.newView(ViewType.COPYNUMBER_GENE_SAMPLE_VIEW);
-       }
-        setAssociatedView(associatedView);
-		return associatedView;
-	}
 	/**
 	 * Overrides the protected Object.clone() method exposing it as public.
 	 * It performs a 2 tier copy, that is, it does a memcopy of the instance
@@ -657,9 +594,6 @@ public class ComparativeGenomicQuery extends Query implements Serializable,Clone
         if(copyNumberCriteria != null){
             myClone.copyNumberCriteria = (CopyNumberCriteria) copyNumberCriteria.clone();
         }
-        if(segmentMeanCriteria != null){
-            myClone.segmentMeanCriteria = (SegmentMeanCriteria) segmentMeanCriteria.clone();
-        }
         if(geneIDCriteria != null){
             myClone.geneIDCriteria = (GeneIDCriteria) geneIDCriteria.clone();
         }
@@ -669,26 +603,9 @@ public class ComparativeGenomicQuery extends Query implements Serializable,Clone
         if(snpCriteria != null){
             myClone.snpCriteria = (SNPCriteria) snpCriteria.clone();
         }
-        if(analysisTypeCriteria != null){
-            myClone.analysisTypeCriteria = (AnalysisTypeCriteria) analysisTypeCriteria.clone();
-        }
 		return myClone;
 	}
 
 	class Handler {
-	}
-
-	/**
-	 * @return the analysisTypeCriteria
-	 */
-	public AnalysisTypeCriteria getAnalysisTypeCriteria() {
-		return analysisTypeCriteria;
-	}
-
-	/**
-	 * @param analysisTypeCriteria the analysisTypeCriteria to set
-	 */
-	public void setAnalysisTypeCriteria(AnalysisTypeCriteria analysisTypeCriteria) {
-		this.analysisTypeCriteria = analysisTypeCriteria;
 	}
 }

@@ -10,7 +10,7 @@
 
 <fieldset class="gray">
 <legend class="red">
-<bean:message key="queryName.label"/>
+<label for="queryName"><bean:message key="queryName.label"/></label>
 <b class="req">*</b>
 <%
  String act = request.getParameter("act");
@@ -27,7 +27,7 @@
 
 <br>
 	
-<html:text property="queryName" size="50" /> (should be unique)
+<html:text styleId="queryName" property="queryName" size="50" /> (should be unique)
 <!-- <input type="text" name="queryName" size="50" >  -->
 <br /><html:errors property="queryName"/>
 	

@@ -19,21 +19,21 @@
 <br />
 
 
-<html:radio property="cloneId" value="list" styleClass="radio" onfocus="javascript:onRadio(this,0);" />
-Type Reporters:&nbsp;&nbsp;
-<html:select property="cloneList" disabled="false">
+<html:radio styleId="cloneId" property="cloneId" value="list" styleClass="radio" onfocus="javascript:onRadio(this,0);" />
+<label for="cloneId">Type Reporters:&nbsp;&nbsp;</label>
+<html:select styleId="cloneList" property="cloneList" disabled="false">
 	<html:optionsCollection property="cloneTypeColl" />
 </html:select>
-&nbsp;
-<html:text property="cloneListSpecify" disabled="false" onfocus="javascript:radioFold(this);"  onblur="javascript:cRadio(this, document.forms[0].cloneId[0]);" />
+<label for="cloneList">&nbsp;</label>
+<html:text styleId="cloneListSpecify" property="cloneListSpecify" disabled="false" onfocus="javascript:radioFold(this);"  onblur="javascript:cRadio(this, document.forms[0].cloneId[0]);" /><label for="cloneListSpecify">&nbsp;</label>
 	
 <br/>
 
 <html:radio property="cloneId" value="cloneList" styleId="cloneIdCloneList" styleClass="radio" onfocus="javascript:onRadio(this,1);" />
-Choose a saved Reporter List:&nbsp;&nbsp;
+<label for="cloneIdCloneList">Choose a saved Reporter List:&nbsp;&nbsp;</label>
 <html:select property="cloneListFile" disabled="false" styleId="cloneListFileDD">
 	<html:optionsCollection property="savedCloneList" />
-</html:select>
+</html:select><label for="cloneListFileDD">&nbsp;</label>
 <br/>
 
 <!--  <html:file property="cloneListFile" disabled="true"  onblur="javascript:cRadio(this, document.forms[0].cloneId[1]);" onfocus="javascript:document.forms[0].cloneId[1].checked = true;" /> -->

@@ -89,10 +89,10 @@ function turnOffLoadingMessage(){
 				</logic:present >
        			<tr> 
        				<td width="20%">
-       					GP job Number
+       					<label for="<%= jobIdSelect %>">GP job Number</label>
        				</td>
        				<td colspan="2" >
-       					GP Process
+       					<label for="<%= processSelect %>">GP Process</label>
        				</td>
        			</tr>
        			<logic:present name="jobId" >

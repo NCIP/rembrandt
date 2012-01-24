@@ -18,7 +18,7 @@
 					<!-- Fully qualified class name-->
 				</authorization-provider-class>
 				<hibernate-config-file>
-					/usr/local/jboss404/server/ncicb-app/conf/rembrandt.hibernate.cfg.xml
+					rembrandt.hibernate.cfg.xml
 				</hibernate-config-file>
 			</authorization>
 		</application>

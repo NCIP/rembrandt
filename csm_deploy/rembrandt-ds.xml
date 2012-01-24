@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ===================================================================== -->
+<!--                                                                       -->
+<!--  JBoss Server Configuration                                           -->
+<!--                                                                       -->
+<!-- ===================================================================== -->
+
+<!-- $Id: oracle-ds.xml.template,v 1.1 2005-11-18 04:32:37 bauerd Exp $ -->
+<!-- ==================================================================== -->
+<!--  Datasource config for Oracle                                        -->
+<!-- ==================================================================== -->
+<datasources>
+   <local-tx-datasource>
+               <jndi-name>rembrandt</jndi-name>
+               <connection-url>jdbc:oracle:thin:@ncidb-int-d.nci.nih.gov:1550:INTDEV</connection-url>
+               <user-name>rembdev</user-name>
+               <password>dev!234</password>
+               <driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
+               <exception-sorter-class-name>org.jboss.resource.adapter.jdbc.vendor.OracleExceptionSorter</exception-sorter-class-name>
+   </local-tx-datasource>
+   
+   <local-tx-datasource>
+               <jndi-name>rembrandtcsm</jndi-name>
+               <connection-url>jdbc:oracle:thin:@ncidb-int-d.nci.nih.gov:1550:INTDEV</connection-url>
+               <user-name>rembdev</user-name>
+               <password>dev!234</password>
+               <driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
+               <exception-sorter-class-name>org.jboss.resource.adapter.jdbc.vendor.OracleExceptionSorter</exception-sorter-class-name>
+   </local-tx-datasource>
+</datasources>
+

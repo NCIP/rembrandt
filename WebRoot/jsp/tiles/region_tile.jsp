@@ -15,46 +15,39 @@
 </legend>
 
 
-<br />	&nbsp;&nbsp;Chromosome Number&nbsp;			
-			<html:select  property="chromosomeNumber"
-				onchange="DynamicListHelper.getCytobandsForChromosome(this.value, function(cytobands) { DWRUtil.removeAllOptions('cytobandStart'); DWRUtil.addOptions('cytobandStart', cytobands);DWRUtil.removeAllOptions('cytobandEnd'); DWRUtil.addOptions('cytobandEnd', cytobands);})">
-				<option value="" />
-					<html:optionsCollection property="chromosomes" />
-			</html:select>
-			<br />
-			<html:errors property="chromosomeNumber" />
+	
+<br />	<label for="chromosomeNumber">&nbsp;&nbsp;Chromosome Number&nbsp;</label>
+	<html:select styleId="chromosomeNumber" property="chromosomeNumber" onchange="javascript:cytobandChange()">
+		    <option value=""/>
+		    <html:optionsCollection property="chromosomes"/>
+		</html:select>	<br />
+	<html:errors property="chromosomeNumber"/>
+
 	&nbsp;<br>
 	<blockquote>
-	<html:radio property="region" value="cytoband" styleClass="radio" />
-			Cytoband&nbsp;
-				<html:select styleId="cytobandStart" property="cytobandRegionStart"
-					onclick="javascript:radioFold(this);">
-					<option value="" />
-						<html:optionsCollection property="cytobands" label="cytoband"
-							value="cytoband" />
-				</html:select>
-				&nbsp;-to-&nbsp;
-				<html:select styleId="cytobandEnd" property="cytobandRegionEnd"
-					onclick="javascript:radioFold(this);">
-					<option value="" />
-						<html:optionsCollection property="cytobands" label="cytoband"
-							value="cytoband" />
-				</html:select>
-
-				<br />
-				<html:errors property="cytobandRegion" />
+	<html:radio styleId="cytoband" property="region" value="cytoband" styleClass="radio" />
+			<label for="cytoband">Cytoband&nbsp;</label>
+			 <html:select styleId="cytobandRegionStart" property="cytobandRegionStart" onclick="javascript:radioFold(this);">
+             	<option value=""/>
+             	<html:optionsCollection property="cytobands" label="cytoband" value="cytoband"/>	
+             </html:select> <label for="cytobandRegionStart">&nbsp;-to-&nbsp;</label>
+             <html:select styleId="cytobandRegionEnd" property="cytobandRegionEnd" onclick="javascript:radioFold(this);">
+          	<option value=""/>
+          	<html:optionsCollection property="cytobands" label="cytoband" value="cytoband"/>	
+          </html:select><label for="cytobandRegionEnd">&nbsp;</label>
+			<!--  <input type="button" class="sbutton" value="MAP Browser..." disabled="true"> -->
+			<html:errors property="cytobandRegion"/>
+			<br />
 			
-	<html:radio property="region" value="basePairPosition" styleClass="radio" />
-	        Base Pair Position (kb)&nbsp; 
+	<html:radio styleId="basePairPosition" property="region" value="basePairPosition" styleClass="radio" />
+	        <label for="basePairPosition">Base Pair Position (kb)&nbsp; </label>
 	        <p style="margin-left:30px">
-	        <html:text property="basePairStart" onclick="javascript:radioFold(this);" />
- 			&nbsp;-to-&nbsp;
- 			<html:text property="basePairEnd" onclick="javascript:radioFold(this);"/>
+	        <html:text styleId="basePairStart" property="basePairStart" onclick="javascript:radioFold(this);" />
+ 			<label for="basePairStart">&nbsp;-to-&nbsp;</label>
+ 			<html:text styleId="basePairEnd" property="basePairEnd" onclick="javascript:radioFold(this);"/><label for="basePairEnd">&nbsp;</label>
  			</p>
 				<html:errors property="basePairEnd" />
 	</blockquote>	
-	
-
 <!--
 <input type="radio" class="radio" name="region" value="cytoband" checked>&nbsp;
 Cytoband &nbsp;<input type="text" name="cytobandRegion">
@@ -81,7 +74,5 @@ function cytobandChange(){
   document.forms[0].multiUseButton.click();
 }
 </SCRIPT>
-
-
 
 

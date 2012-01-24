@@ -1,8 +1,5 @@
 package gov.nih.nci.rembrandt.web.struts.form;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
@@ -26,36 +23,10 @@ public class DownloadForm extends ActionForm{
 	private String arrayPlatform = "";
 	private String groupNameCompare = "";
 	private String fileType = "";
-	private String downloadFile = "";
-	private String idfile = "";
-	private List fileId = new ArrayList();
+	
 	//BRB download fields
 	
 	
-	/**
-	 * @return the downloadFile
-	 */
-	public String getDownloadFile() {
-		return downloadFile;
-	}
-	/**
-	 * @param downloadFile the downloadFile to set
-	 */
-	public void setDownloadFile(String downloadFile) {
-		this.downloadFile = downloadFile;
-	}
-	/**
-	 * @return the idfile
-	 */
-	public String getIdfile() {
-		return idfile;
-	}
-	/**
-	 * @param idfile the idfile to set
-	 */
-	public void setIdfile(String idfile) {
-		this.idfile = idfile;
-	}
 	public DownloadForm() {
 		super();
 	}
@@ -124,18 +95,5 @@ public class DownloadForm extends ActionForm{
 	public void setFileType(String fileType) {
 		this.fileType = fileType;
 	}
-	/**
-	 * @return the fileId
-	 */
-	public List getFileId() {
-		return fileId;
-	}
-	/**
-	 * @param fileId the fileId to set
-	 */
-	public void setFileId(List fileId) {
-		this.fileId = fileId;
-	}
-
 	
 }

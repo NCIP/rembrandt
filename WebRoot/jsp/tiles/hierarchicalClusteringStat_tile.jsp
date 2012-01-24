@@ -14,13 +14,13 @@ Step 2: Select Statistic
 
 	
 <br>
-Distance Matrix:
-&nbsp;&nbsp;<html:select property="distanceMatrix">
+<label for="distanceMatrix">Distance Matrix:</label>
+&nbsp;&nbsp;<html:select styleId="distanceMatrix" property="distanceMatrix">
 					<html:optionsCollection property="distanceMatrixCollection" /> 
 			</html:select>
 			&nbsp;&nbsp;
-Linkage Method:
-&nbsp;&nbsp;<html:select property="linkageMethod">
+<label for="linkageMethod">Linkage Method:</label>
+&nbsp;&nbsp;<html:select styleId="linkageMethod" property="linkageMethod">
 					<html:optionsCollection property="linkageMethodCollection" /> 
 			</html:select>
 			
