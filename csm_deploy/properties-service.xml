@@ -40,8 +40,8 @@
   <mbean code="org.jboss.varia.property.SystemPropertiesService" 
 	 name="jboss:type=Service,name=SystemProperties">
     <attribute name="Properties">
-      gov.nih.nci.rembrandt.properties=C:/local/content/rembrandt/config/rembrandt.properties
-      gov.nih.nci.rembrandtData.properties=C:/local/content/rembrandt/config/rembrandtData.properties
+      gov.nih.nci.rembrandt.properties=/local/content/rembrandt/config/rembrandt.properties
+      gov.nih.nci.rembrandtData.properties=/local/content/rembrandt/config/rembrandtData.properties
       gov.nih.nci.security.configFile=../default/conf/ApplicationSecurityConfig.xml
     </attribute>
   </mbean>

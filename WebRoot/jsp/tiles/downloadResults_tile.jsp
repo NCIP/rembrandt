@@ -51,22 +51,22 @@
 <fieldset>
 	<legend>caArray <a href="javascript: Help.popHelp('caarray_download_tooltip');">[?]</a></legend>
 	 	<fieldset class="gray">
-			<legend class="red">Step 1:Choose the saved List:</legend></br> 
+			<legend class="red"><label for="groupNameCompare">Step 1:Choose the saved List:</label></legend></br> 
 			<html:select property="groupNameCompare" styleId="groupNameCompare" style="width:200px;" disabled="false" onchange="">	         	
 	 			<html:optionsCollection name="sampleGroupsList" />
 	 		</html:select>
 		</fieldset>
 		<fieldset class="gray">
-			<legend class="red">Step 2:Choose Array Platform: </legend><br/>
-			<select name="arrayPlatform"> 		
+			<legend class="red"><label for="arrayPlatform">Step 2:Choose Array Platform: </label></legend><br/>
+			<select id="arrayPlatform" name="arrayPlatform"> 		
 		    	<!-- <option value="<%=Constants.ALL_PLATFROM%>">All</option>  -->
 				<option selected="true" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Oligo (Affymetrix U133 Plus 2.0)</option>
 				<option value="<%=Constants.AFFY_100K_SNP_ARRAY%>">Affymetrix 100K SNP Array</option> -->
 			</select>	
 		</fieldset>
 	    <fieldset class="gray">
-			<legend class="red">Step 3:Select file type to download:</legend><br/>
-			<select name="fileType">
+			<legend class="red"><label for="fileType">Step 3:Select file type to download:</label></legend><br/>
+			<select id="fileType" name="fileType">
 				<option>CEL</option>
 				<option>CHP</option>
 				<!-- <option>ALL</option>  -->
@@ -87,16 +87,16 @@
 
 <br/><br/>
 <fieldset>
-	<legend>BRB File Downloads <a href="javascript: Help.popHelp('Brb_download_tooltip');">[?]</a></legend>
+	<legend><label for="brbFormat">BRB File Downloads </label><a href="javascript: Help.popHelp('Brb_download_tooltip');">[?]</a></legend>
     <logic:notEmpty name="downloadFileList">
-        	<select>
+        	<select id="brbFormat">
         		<option>BRB Format</option>
         	</select>
         	<select id="idfile" style="width:300px">
 		        <logic:iterate name="downloadFileList" id="downloadFile">
 			       <option value="<bean:write name="downloadFile" property="fileId"/>"><bean:write name="downloadFile" property="fileName"/></option>
 		        </logic:iterate>
-	        </select>
+	        </select><label for="idfile">&#160;</label>
 	        <input type="button" onclick="getDL($('idfile'))" value="download" style="width:70px"/>
      	</logic:notEmpty>
 	    <logic:empty name="downloadFileList">

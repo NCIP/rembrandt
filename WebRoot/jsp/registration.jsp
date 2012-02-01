@@ -146,7 +146,7 @@
 		<input type="button" value="Register" onclick="Reg.pReg();"/>
 	</div>
 	<div id="regStatus" style="text-align:center;display:none;">
-		Processing...<br/><img src="images/ajax-bar-loader.gif"/>
+		Processing...<br/><img alt="Processing..." src="images/ajax-bar-loader.gif"/>
 	</div>
 	</fieldset>
 	</form>

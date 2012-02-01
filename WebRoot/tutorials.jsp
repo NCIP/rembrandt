@@ -38,11 +38,11 @@
 	<legend>Simple Search</legend><br clear="both"/>
 	<li>
 		<b>Gene Expression Plot</b>
-		<a href="javascript:spawnm('tutorials/Gene_search.htm');">View</a>* the Gene Expression Plot tutorial describes the Median, Geometric Mean, Log2 Intensity and Box and Whisker plots. (opens in a new window) 
+		<a title="This page shows a SWF Flash file." href="javascript:spawnm('tutorials/Gene_search.htm');">View</a>* the Gene Expression Plot tutorial describes the Median, Geometric Mean, Log2 Intensity and Box and Whisker plots. (opens in a new window) 
 	</li>
 	<li>
 		<b>Kaplan-Meier Survival Plot</b>
-		<a href="javascript:spawnm('tutorials/RBT_1_6_km.htm');">View</a>* the Kaplan-Meier Plot tutorial  (opens in a new window) 
+		<a  title="This page shows a SWF Flash file." href="javascript:spawnm('tutorials/RBT_1_6_km.htm');">View</a>* the Kaplan-Meier Plot tutorial  (opens in a new window) 
 	</li>
 
 </fieldset>
@@ -52,11 +52,11 @@
 	<legend>Advanced Search</legend><br clear="both"/>
 	<li>
 		<b>Advanced Search (Gene Expression)</b>
-		<a href="javascript:spawnm('tutorials/advanced_search_1.htm');">View</a>* the tutorial  (opens in a new window) 
+		<a  title="This page shows a SWF Flash file." href="javascript:spawnm('tutorials/advanced_search_1.htm');">View</a>* the tutorial  (opens in a new window) 
 	</li>
 	<li>
 		<b>Advanced Search (Copy Number)</b>
-		<a href="javascript:spawnm('tutorials/advanced_search_2.htm');">View</a>* the tutorial  (opens in a new window) 
+		<a  title="This page shows a SWF Flash file." href="javascript:spawnm('tutorials/advanced_search_2.htm');">View</a>* the tutorial  (opens in a new window) 
 	</li>
 </fieldset>
 <br/><br/>
@@ -65,19 +65,19 @@
  	<legend>High Order Analysis</legend><br clear="both"/>
 	<li>
 		<b>High Order Analysis (PCA)</b>
-		<a href="javascript:spawnm('tutorials/pca.htm');">View</a>* the tutorial  (opens in a new window) 
+		<a  title="This page shows a SWF Flash file." href="javascript:spawnm('tutorials/pca.htm');">View</a>* the tutorial  (opens in a new window) 
 	</li>
 	<li>
 		<b>High Order Analysis (Hierarchical Clustering)</b>
-		<a href="javascript:spawnm('tutorials/hc.htm');">View</a>* the tutorial  (opens in a new window) 
+		<a  title="This page shows a SWF Flash file." href="javascript:spawnm('tutorials/hc.htm');">View</a>* the tutorial  (opens in a new window) 
 	</li>
 	<li>
 		<b>Advanced Search/High Order Analysis (Class Comparison)</b>
-		<a href="javascript:spawnm('tutorials/ccX.htm');">View</a>* the tutorial  (opens in a new window) 
+		<a  title="This page shows a SWF Flash file." href="javascript:spawnm('tutorials/ccX.htm');">View</a>* the tutorial  (opens in a new window) 
 	</li>
 	<li>
 		<b>F-Test (Class Comparison)</b>
-		<a href="javascript:spawnm('tutorials/ftest.htm');">View</a>* the tutorial  (opens in a new window) 
+		<a  title="This page shows a SWF Flash file." href="javascript:spawnm('tutorials/ftest.htm');">View</a>* the tutorial  (opens in a new window) 
 	</li>
 </fieldset>
 <br/><br/>
@@ -86,7 +86,7 @@
 	<legend>Web Genome</legend><br clear="both"/>
 	<li>
 		<b>Web Genome Integration (Copy Number)</b>
-		<a href="javascript:spawnm('tutorials/webgenome.htm');">View</a>* the Advanced Search tutorial  (opens in a new window) 
+		<a  title="This page shows a SWF Flash file." href="javascript:spawnm('tutorials/webgenome.htm');">View</a>* the Advanced Search tutorial  (opens in a new window) 
 	</li>
 </fieldset>
 <br/><br/>
@@ -95,7 +95,7 @@
 	<legend>List Management</legend><br clear="both"/>
 	<li>
 		<b>List Management</b>
-		<a href="javascript:spawnm('tutorials/manage_lists2.htm');">View</a>* the tutorial  (opens in a new window) 
+		<a  title="This page shows a SWF Flash file." href="javascript:spawnm('tutorials/manage_lists2.htm');">View</a>* the tutorial  (opens in a new window) 
 	</li>
 </fieldset>
 <br/><br/>
@@ -103,7 +103,7 @@
 <fieldset>
 	<legend>*Requirements</legend>
 	<br/>
-	<a href="http://www.macromedia.com/go/getflashplayer/" target="_blank"><img align="right" src="images/get_flashplayer.gif" border="0"></a>
+	<a href="http://www.macromedia.com/go/getflashplayer/" target="_blank"><img align="right" alt="Get Flash player" src="images/get_flashplayer.gif" border="0"></a>
 	A monitor resolution of greater than 800x600 is highly recommended.  To view the online tutorials you may need to install the Flash Plug-in for your browser.  Please click the
 	"Flash Player" logo to go to the Macromedia website to download this free plug-in.<br>
 </fieldset>
