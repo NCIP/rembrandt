@@ -49,14 +49,14 @@ pageContext.setAttribute("map", map);
 <div style="width:765px;">
       
 <!--content table--> 
-<table border="0" cellspacing="0" cellpadding="0" style="margin-top:2px; width:765">
+<table border="0" cellspacing="0" cellpadding="0" style="margin-top:2px; width:765" summary="This table is used to format page content">
 	<tr>
 		<th></th><th></th>
 	</tr>	
 	<tr>
 		<!--begin description cell-->
 		<td style="width:462; margin-bottom:0px; border-right:1px solid #374554; border-bottom: 1px solid #000000; border-left: 1px solid #fC4C5C5;">
-			<table width="100%" border="0">
+			<table width="100%" border="0" summary="This table is used to format page content">
 				<tr>
 					<th></th>
 				</tr>
@@ -106,7 +106,7 @@ pageContext.setAttribute("map", map);
 				<!--  statistics data -->
 				<tr>
 					<td>
-						<table width="100%" align="center" id="statTable" style="">
+						<table width="100%" align="center" id="statTable" style="" summary="This table is used to format page content">
 							<tr>
 								<th></th>
 							</tr>
@@ -175,7 +175,7 @@ pageContext.setAttribute("map", map);
   		</div>
 		-->  		
   		<div id="browseRBTDiv" style="padding:15px; padding-bottom:10px;">
-  		<table cellpadding="0" cellspacing="0" border="0">
+  		<table cellpadding="0" cellspacing="0" border="0" summary="This table is used to format page content">
   			<tr>
 				<th></th><th></th>
 			</tr>
@@ -195,7 +195,7 @@ pageContext.setAttribute("map", map);
 	      <ul>
 	      <li style="list-style:none; color:#000;margin-left:-20px; text-decoration:underline;">Additional Information:</li>
 	      <li><a style="font-size: 0.9em;" href="http://www.ncbi.nlm.nih.gov/pubmed/19208739?ordinalpos=1&amp;itool=EntrezSystem2.PEntrez.Pubmed.Pubmed_ResultsPanel.Pubmed_DefaultReportPanel.Pubmed_RVDocSum" target="_blank">Rembrandt 2009 Publication [PMID: 19208739] in Molecular Cancer Research</a>&nbsp;<!-- a style="font-size: 0.9em;" href="docs/1541-7786.MCR-08-0435v1.pdf" target="_blank"></a --></li>	      
-          <li><a style="font-size:.9em;" href="docs/REMBRANDT_1.5_Users_Guide.pdf">Download User Guide (PDF)</a> <img src="images/link_pdf.gif" alt="pdf" /></li>
+          <li><a style="font-size:.9em;" href="javascript:spawnNewPage('userGuide.html',640,480);">Download User Guide (PDF)</a> <img src="images/link_pdf.gif" alt="pdf" /></li>
 	      <li><a style="font-size:.9em;" href="tutorials.jsp">View Tutorials</a></li>
 	      <li><a style="font-size:.9em" href="javascript:Help.popHelp('cite_data');">How to Cite Rembrandt Data</a></li>	      
 	      <li><a style="font-size:.9em;" href="mailto:REMBRANDT_UAT_L@list.nih.gov?subject=REMBRANDT feedback">Provide us your feedback</a></li>

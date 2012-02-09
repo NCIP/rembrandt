@@ -48,7 +48,7 @@
 	<% if(baselineGroup.length()>0)	{	%>
 		<b>Constrained to group: <%=baselineGroup%></b><br/><br/>
 	<% } %>
-		<table style="border:1px solid silver" cellpadding="4" cellspacing="4">
+		<table style="border:1px solid silver" cellpadding="4" cellspacing="4" summary="This table is used to format page content">
 			<tr>
 				<th></th><th></th>
 			</tr>

@@ -32,13 +32,13 @@
 	<div class="content">
 		<%-- include crumb menu --%>
 		<tiles:insert attribute="crumbMenu"/> 
-		<table cellspacing="0" cellpadding="0" border="0" width="100%">
+		<table cellspacing="0" cellpadding="0" border="0" width="100%" summary="This table is used to format page content">
 			<tr>
 				<th></th><th></th>
 			</tr>
 			<tr>
 				<td width="575"> 
-					<table cellpadding="4" cellspacing="2" border="0" width="100%"> 
+					<table cellpadding="4" cellspacing="2" border="0" width="100%" summary="This table is used to format page content"> 
 						<tr><th></th></tr>
 						<tr class="report">
 							<td>
@@ -49,6 +49,7 @@
 							<td>
 								<tiles:insert attribute="tabs"/>
 								<div id="main" style="min-height:370px;_height:390px;">
+									<a name="main_content"></a>
 									<%-- include the main form --%>
 									<tiles:insert attribute="mainForm"/> 
 									<div>

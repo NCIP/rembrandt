@@ -70,7 +70,7 @@
 	}
 </style>
 
-<table id="loginTable">
+<table id="loginTable" summary="This table is used to format page content">
 	<tr>
 		<th></th><th></th>
 	</tr>

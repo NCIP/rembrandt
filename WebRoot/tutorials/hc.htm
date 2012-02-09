@@ -1,4 +1,13 @@
 <HTML>
+<HEAD>
+<script>
+function spawnNewPage(url,winw,winh) {
+		var w = window.open(url, "_blank",
+  	"screenX=0,screenY=0,status=yes,toolbar=no,menubar=no,location=no,width=" + winw + ",height=" + winh + 
+  	",scrollbars=yes,resizable=yes, fullscreen=no");
+}
+</script>
+</HEAD>
 <BODY><center><OBJECT CLASSID="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" WIDTH="817" HEIGHT="593" CODEBASE="http://active.macromedia.com/flash5/cabs/swflash.cab#version=5,0,0,0">
 <PARAM NAME=movie VALUE="hc.swf">
 <PARAM NAME=play VALUE=true>
@@ -9,6 +18,6 @@
 </OBJECT>
 <p/>
 <p/>
-Disclaimer: This shows a flash file with video & instructions. For non-flash  users, please refer to the <a href="docs/REMBRANDT_1.5_Users_Guide.pdf">Rembrandt User Guide</a>
+Disclaimer: This shows a flash file with video & instructions. For non-flash  users, please refer to the <a href="javascript:spawnNewPage('../userGuide.html',640,480);">Rembrandt User Guide</a>
 </center>
 </BODY></HTML>

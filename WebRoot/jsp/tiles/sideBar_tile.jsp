@@ -21,7 +21,7 @@
 <!--  end lists related -->
 
 <div width="100%">
-<table width="100%">
+<table width="100%" summary="This table is used to format page content">
 <tr><th></th><th></th></tr>
 <tr><td style="vertical-align:bottom;">
 <h3 style="vertical-align:bottom;">About</h3>
@@ -80,7 +80,7 @@ if(queryCollection != null)	{
 			}
 		}
 %>
-		<table border="0" style="font-size:.9em">
+		<table border="0" style="font-size:.9em" summary="This table is used to format page content">
 			<tr><th></th></tr>
 			<tr>
 				<td><%=query%>
@@ -105,7 +105,7 @@ if(queryCollection != null)	{
 		j++;
 		
 %>
-		<table border="0" style="font-size:.9em">
+		<table border="0" style="font-size:.9em" summary="This table is used to format page content">
 			<tr><th></th></tr>
 			<tr>
 				<td><%=cquery%>

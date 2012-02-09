@@ -411,3 +411,10 @@ function popCoin(gene,key, alg)	{
 		spawnx(encodeURIComponent(url), 850, 500, "popGraph");
 	}
 }
+
+function spawnNewPage(url,winw,winh) {
+		var w = window.open(url, "_blank",
+  	"screenX=0,screenY=0,status=yes,toolbar=no,menubar=no,location=no,width=" + winw + ",height=" + winh + 
+  	",scrollbars=yes,resizable=yes, fullscreen=no");
+}
+

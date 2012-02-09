@@ -1,5 +1,5 @@
 <!--header NCI logo-->
-<table width="765" align="center" border="0" cellspacing="0" cellpadding="0" bgcolor="#A90101">
+<table width="765" align="center" border="0" cellspacing="0" cellpadding="0" bgcolor="#A90101" summary="This table is used to format page content">
 <tr>
 <th></th><th></th><th></th>
 </tr>

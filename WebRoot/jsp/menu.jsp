@@ -50,7 +50,7 @@ if(queryCollection == null){
  }
 %>
 <br clear="both"/>
-<table border="0" cellspacing="4" cellpadding="3">
+<table border="0" cellspacing="4" cellpadding="3" summary="This table is used to format page content">
   <tr><th></th></tr>	
   <tr><td>
   
@@ -61,7 +61,7 @@ if(queryCollection == null){
 		  <script type="text/javascript">Help.insertHelp("Advanced_overview", " align='right'", "padding:2px;");</script><br clear="left"/>
 		
 		
-			<table border="0" cellpadding="3" cellspacing="3">
+			<table border="0" cellpadding="3" cellspacing="3" summary="This table is used to format page content">
 			<tr><th></th></tr>
 			<tr><td>
 			    <html:form action="/geneexpression">

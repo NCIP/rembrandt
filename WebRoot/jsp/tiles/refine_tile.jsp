@@ -14,7 +14,7 @@
 	
     <input type="radio" id="isAllGenesQuery1" name="isAllGenesQuery" class="radio" value="false" checked="true" onclick="javascript:onRadio(this, 0);"/><label for="isAllGenesQuery1">Please refine your results by grouping the queries</label><br />
     <div id="qrows">
-	<table align="center" border="0" width="95%" cellpadding="2" cellspacing="1" id="rosso">
+	<table align="center" border="0" width="95%" cellpadding="2" cellspacing="1" id="rosso" summary="This table is used to format page content">
 		<tr><th></th></tr>
 		<tr>
 			<td colspan="4" class="message">
@@ -88,7 +88,7 @@
 <!--Step 3-->
 <fieldset class="grayRefine">
 <legend class="red"><label for="queryText">Step 3: Validate your query</label></legend>
-	<table border="0" cellpadding="2" cellspacing="2">
+	<table border="0" cellpadding="2" cellspacing="2" summary="This table is used to format page content">
 		<tr><th></th><th></th></tr>
 		<tr>
 			<td align="center">&nbsp;&nbsp;&nbsp;
@@ -110,7 +110,7 @@
 <!--Step 4-->
 <fieldset class="grayRefine">
 <legend class="red"><label for="compoundView">Step 4: Please select a View</label></legend>	
-	<table width="100%" border="0">
+	<table width="100%" border="0" summary="This table is used to format page content">
 		<tr><th></th></tr>
 		<tr><td>
 				<html:select styleId="compoundView" property="compoundView" onchange="" style="width:300px">
@@ -126,7 +126,7 @@
 <!--Step 5-->
 <fieldset class="grayRefine">
 <legend class="red"><label for="instituteView">Step 5: Please select data source(s) to filter the query by ( Optional )</label></legend>	
-	<table width="100%" border="0">
+	<table width="100%" border="0" summary="This table is used to format page content">
 		<tr><th></th></tr>
 		<tr><td>
 				<html:select styleId="instituteView" property="instituteView" multiple="true" onchange="">

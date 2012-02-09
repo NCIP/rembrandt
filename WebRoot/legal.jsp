@@ -6,7 +6,7 @@
 </head>
 <body>
 <!--header NCI-->
-<table align="center" width="765" border="0" cellspacing="0" cellpadding="0" bgcolor="#A90101">
+<table align="center" width="765" border="0" cellspacing="0" cellpadding="0" bgcolor="#A90101" summary="This table is used to format page content">
 <tr>
 	<th></th><th></th><th></th>
 </tr>
@@ -100,7 +100,7 @@
 
 <!--begin NCI footer-->
 <div>
-<table width="765" border="0" cellspacing="0" cellpadding="0" style="margin-top:5px">
+<table width="765" border="0" cellspacing="0" cellpadding="0" style="margin-top:5px" summary="This table is used to format page content">
 <tr>
 	<th></th>
 </tr>

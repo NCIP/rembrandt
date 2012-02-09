@@ -8,11 +8,13 @@
 <%@ page import="org.apache.log4j.Logger;" %>
 <div class="crumb">
 <span style="float:left">
+<a href="#main_content"><img src="../../images/skipnav.gif" alt="Skip Navigation Link" name="skipnav" width="1" height="1" border="0" id="skipnav"></a>
 <a style="font-size:.8em" href="menu.do">home</a>&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="javascript:Help.popHelp('Welcome');">help</a>&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="http://ncicb.nci.nih.gov/NCICB/support" target="_blank">support</a>&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="tutorials.jsp">tutorials</a>&nbsp;&nbsp;&nbsp;
-<a style="font-size:.8em" href="docs/REMBRANDT_1.5_Users_Guide.pdf">user guide</a>&nbsp;&nbsp;&nbsp;
+<a style="font-size:.8em" href="javascript:spawnNewPage('userGuide.html',640,480);">user guide</a>
+<!-- a style="font-size:.8em" target="_new" href="docs/REMBRANDT_1.5_Users_Guide.pdf">user guide</a -->&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="javascript:Help.popHelp('cite_data');">cite data</a>&nbsp;&nbsp;&nbsp;
 </span>
   <span style="text-align:right;font-size:.85em;">

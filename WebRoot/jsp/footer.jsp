@@ -1,6 +1,6 @@
 <!-- Start Footer Table -->
 <div class="content">
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" summary="This table is used to format page content">
 	<tr>
 		<th></th><th></th>
 	</tr>

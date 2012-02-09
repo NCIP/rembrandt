@@ -32,7 +32,7 @@ function confirmExit()
 <legend>Organize Workspace:</legend>
 			<script type="text/javascript">Help.insertHelp("organize_lists_help", " align='right'", "padding:2px;");</script><br clear="left"/>
 
-<table border="0" cellpadding="10" cellspacing="3">
+<table border="0" cellpadding="10" cellspacing="3" summary="This table is used to format page content">
 	<tbody>
 		<tr>
 			<th></th>
