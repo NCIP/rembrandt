@@ -192,10 +192,10 @@ public class RembrandtImageFileHandler {
 		
 		if ((imageWidth < 0)&&(imageHeight < 0)) {
 		  //this is for a case where the image width and height are not known.
-		  tag = "<img src=\""+getFinalURLPath()+"\"  id=\"rbt_image\" onmouseover=\"\" onmouseout=\"\" name=\"rbt_image\" border=\"0\" />";
+		  tag = "<img alt=\"This is a High Order Analysis Image\" src=\""+getFinalURLPath()+"\"  id=\"rbt_image\" onmouseover=\"\" onmouseout=\"\" name=\"rbt_image\" border=\"0\" />";
 		}
 		else {
-		  tag = "<img src=\""+getFinalURLPath()+"\" width=\""+imageWidth+"\" height=\""+imageHeight+"\" name=\"rbt_image\" id=\"rbt_image\" border=\"0\" />";
+		  tag = "<img alt=\"This is a High Order Analysis Image\" src=\""+getFinalURLPath()+"\" width=\""+imageWidth+"\" height=\""+imageHeight+"\" name=\"rbt_image\" id=\"rbt_image\" border=\"0\" />";
 		}
 		
 		logger.debug("Returned Image Tag: "+tag);
@@ -207,7 +207,7 @@ public class RembrandtImageFileHandler {
 	 * @return the final image tag
 	 */
     public String getImageTag(String mapFileName){
-    	String tag = "<img src=\""+getFinalURLPath()+"\" usemap=\"#"+mapFileName + "\"" + " id=\"geneChart\"" + " border=\"0\" />";
+    	String tag = "<img alt=\"This is a High Order Analysis Image\" src=\""+getFinalURLPath()+"\" usemap=\"#"+mapFileName + "\"" + " id=\"geneChart\"" + " border=\"0\" />";
     	logger.debug("Returned Image Tag: "+tag);
     	return tag;
     }
