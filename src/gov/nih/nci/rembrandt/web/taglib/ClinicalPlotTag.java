@@ -288,7 +288,7 @@ public class ClinicalPlotTag extends AbstractGraphingTag {
             //finalURLpath = finalURLpath.replace("\\", "/");
             finalURLpath = finalURLpath.replace("\\", "/");
             long randomness = System.currentTimeMillis(); //prevent image caching
-		    out.print("<img id=\"geneChart\" name=\"geneChart\" src=\""+finalURLpath+"?"+randomness+"\" usemap=\"#"+mapName + "\" border=\"0\" />");
+		    out.print("<img id=\"geneChart\" alt=\"geneChart\" name=\"geneChart\" src=\""+finalURLpath+"?"+randomness+"\" usemap=\"#"+mapName + "\" border=\"0\" />");
           
 		    //out.print("<img id=\"geneChart\" name=\"geneChart\" src=\""+finalURLpath+"\" usemap=\"#"+mapName + "\" border=\"0\" />");
             

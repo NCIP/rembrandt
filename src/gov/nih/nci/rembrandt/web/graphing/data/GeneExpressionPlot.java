@@ -423,7 +423,8 @@ public class GeneExpressionPlot {
 				int bwwidth = new BigDecimal(1.5).multiply(new BigDecimal(imgW)).intValue();
 				bwFilename = ServletUtilities.saveChartAsPNG(bwChart, bwwidth, 400, info, session);
 				CustomOverlibToolTipTagFragmentGenerator ttip = new CustomOverlibToolTipTagFragmentGenerator();
-				ttip.setExtra(" href='javascript:void(0);' "); //must have href for area tags to have cursor:pointer
+				String toolTip = " href='javascript:void(0);' alt='GeneChart JFreechart Plot' ";
+				ttip.setExtra(toolTip); //must have href for area tags to have cursor:pointer
 				ChartUtilities.writeImageMap(pw, bwFilename, info,
 						ttip,
 						new StandardURLTagFragmentGenerator());
@@ -432,8 +433,11 @@ public class GeneExpressionPlot {
 			}
 			//END  BW
 			log2Filename = ServletUtilities.saveChartAsPNG(log2Chart, imgW, 400, info, session);
+			CustomOverlibToolTipTagFragmentGenerator ttip = new CustomOverlibToolTipTagFragmentGenerator();
+			String toolTip = " alt='GeneChart JFreechart Plot' ";
+			ttip.setExtra(toolTip); //must have href for area tags to have cursor:pointer
 			ChartUtilities.writeImageMap(pw, log2Filename, info,
-					new CustomOverlibToolTipTagFragmentGenerator(),
+					ttip,
 					new StandardURLTagFragmentGenerator());
 			// clear the first one and overwrite info with our second one - no
 			// error bars
@@ -442,8 +446,11 @@ public class GeneExpressionPlot {
 			rawFilename = ServletUtilities.saveChartAsPNG(meanChart, imgW, 400, info, session);
 			// Write the image map to the PrintWriter
 			// can use a different writeImageMap to pass tooltip and URL custom
+			ttip = new CustomOverlibToolTipTagFragmentGenerator();
+			toolTip = " alt='GeneChart JFreechart Plot' ";
+			ttip.setExtra(toolTip); //must have href for area tags to have cursor:pointer
 			ChartUtilities.writeImageMap(pw, rawFilename, info,
-					new CustomOverlibToolTipTagFragmentGenerator(),
+					ttip,
 					new StandardURLTagFragmentGenerator());
 			
 			info.clear(); // lose the first one
@@ -452,9 +459,11 @@ public class GeneExpressionPlot {
 			
 			// Write the image map to the PrintWriter
 			// can use a different writeImageMap to pass tooltip and URL custom
-
+			ttip = new CustomOverlibToolTipTagFragmentGenerator();
+			toolTip = " alt='GeneChart JFreechart Plot' ";
+			ttip.setExtra(toolTip); //must have href for area tags to have cursor:pointer
 			ChartUtilities.writeImageMap(pw, medianFilename, info,
-					new CustomOverlibToolTipTagFragmentGenerator(),
+					ttip,
 					new StandardURLTagFragmentGenerator());
 			
 			// ChartUtilities.writeImageMap(pw, filename, info, true);

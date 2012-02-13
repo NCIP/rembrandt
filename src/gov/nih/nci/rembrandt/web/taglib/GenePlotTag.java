@@ -148,7 +148,7 @@ public class GenePlotTag extends AbstractGraphingTag {
 			if(reporter!=null){
 				out.print("<h2>" + reporter + "</h2>");
 			}
-			out.print("<div style=\"width:700px; overflow:auto;\"><img src=\""+ defaultURL+"\" border=0 usemap=\"#"+defaultFilename+"\" id=\"geneChart\"></div>");
+			out.print("<div style=\"width:700px; overflow:auto;\"><img alt=\"GeneChart JFreechart Plot\" src=\""+ defaultURL+"\" border=0 usemap=\"#"+defaultFilename+"\" id=\"geneChart\"></div>");
 			
 			if(reporter==null)	{
 				out.print("<div id=\"legend\">" + legendHtml + "</div>"); //this is for the custom legend

@@ -117,7 +117,8 @@ else
 %>
 <br/>
 </div>
-<table>
+<table summary="This is a layout table">
+	<tr><th></th></tr>
 	<tr>
 		<td>
 <% if(pcaView.equals("PC1vsPC2"))	{ %>
