@@ -1,7 +1,7 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <fieldset class="gray">
 <legend class="red">Result View <b class="req">*</b>
-<a href="javascript:void(0);" onmouseover="return overlib('Description of Gene View, Description of Sample View', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+<a href="javascript:void(0);" title="Description of Gene View, Description of Sample View">[?]</a>
 </legend>
 <%
 	String act = request.getParameter("act");

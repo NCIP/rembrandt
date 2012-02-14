@@ -77,12 +77,12 @@
 	
     <span style="z-index:900; float:right;position:absolute;top:10px;right:10px;">
 	  <!-- navigation icons courtesy of:  Anthony J. Brutico, D.O. -->
-	  <a href="#" onclick="javascript:window.close();"><img alt="Close" align="right" src="images/close.png" border="0" onmouseover="return overlib('Close this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/> </a> 
-	  <a href="javascript: HelpWrapper('{$helpLink}');"><img alt="Help" align="right" src="images/help.png" border="0" onmouseover="return overlib('Click here for additional information about this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();" /></a>
-	  <a href="#" onclick="javascript:stupidXSLEscape('{$qName}', '{$rType}')"><img align="right" src="images/excel.png" border="0" alt="download for excel" onmouseover="return overlib('Download for Excel.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/></a>
-	  <a href="#" onclick="javascript:window.print();"><img alt="Print" align="right" src="images/print.png" border="0" onmouseover="return overlib('Print this report.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/> </a> 
-	  <a href="#queryInfo"><img alt="View Query Info" align="right" src="images/text.png" border="0" onmouseover="return overlib('View Query Information.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/></a>
-	  <a href="#" onclick="javascript:toggleDiv('hideme');return false;"><img alt="Show or Hide Report Tools" align="right" src="images/tools.png" border="0" onmouseover="return overlib('Show or Hide Report Tools.', CAPTION, 'Help', CSSCLASS,TEXTFONTCLASS,'fontClass',FGCLASS,'fgClass',BGCLASS,'bgClass',CAPTIONFONTCLASS,'capfontClass', OFFSETX, -50);" onmouseout="return nd();"/></a>
+	  <a href="#" onclick="javascript:window.close();" title="Close this report."><img alt="Close" align="right" src="images/close.png" border="0" /> </a> 
+	  <a href="javascript: HelpWrapper('{$helpLink}');" title="Click here for additional information about this report."><img alt="Help" align="right" src="images/help.png" border="0"  /></a>
+	  <a href="#" onclick="javascript:stupidXSLEscape('{$qName}', '{$rType}')" title="Download for Excel."><img align="right" src="images/excel.png" border="0" alt="download for excel" /></a>
+	  <a href="#" onclick="javascript:window.print();" title="Print this report."><img alt="Print" align="right" src="images/print.png" border="0" /> </a> 
+	  <a href="#queryInfo" title="View Query Information."><img alt="View Query Info" align="right" src="images/text.png" border="0" /></a>
+	  <a href="#" onclick="javascript:toggleDiv('hideme');return false;" title="Show or Hide Report Tools."><img alt="Show or Hide Report Tools" align="right" src="images/tools.png" border="0" /></a>
    	</span>
 
 	<form action="runReport.do?method=runGeneViewReport" name="paginate" method="post">

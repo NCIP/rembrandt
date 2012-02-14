@@ -104,7 +104,7 @@
 	
 	<fieldset class="gray">
 <legend class="red">b) Select Constraint
-<a href="javascript:void(0);" onmouseover="return overlib('Future implementation', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+<a href="javascript:void(0);" title="Future implementation">[?]</a>
 </legend>
 
 	<html:radio property="foldChange" value="list" styleClass="radio"/>

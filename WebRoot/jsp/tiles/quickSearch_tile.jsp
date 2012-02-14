@@ -3,7 +3,7 @@
 <form action="#">
 <input type="radio" class="radio" name="menu" value="0" checked selected onclick="javascript:document.forms[0].rpt.disabled=true;">
 		Create a New Query/Report
-		<a href="javascript:void(0);" onmouseover="return overlib('Select this option if you do not have a saved query to upload.  You will be able to build a query based on the Advanced Search Areas listed below.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+		<a href="javascript:void(0);" title="Select this option if you do not have a saved query to upload.  You will be able to build a query based on the Advanced Search Areas listed below.">[?]</a>
 		<blockquote>
 				<table border="0" width="100%" style="">
 						<tr>
@@ -31,7 +31,7 @@
 		<br><br>
 		<input type="Radio" name="menu" class="radio" value="1" onclick="javascript:document.forms[0].rpt;" disabled="true">
 		Upload a saved Query
-		<a href="javascript:void(0);" onmouseover="return overlib('You may choose to start from an existing query.  Please upload that saved query here.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+		<a href="javascript:void(0);" title="You may choose to start from an existing query.  Please upload that saved query here.">[?]</a>
 		&nbsp;&nbsp;
 		<blockquote>
 			<input type="file" name="rpt" disabled="true">
@@ -44,6 +44,6 @@
 		</div>
      </form>
 		<div class="message">Note: Please move your mouse over the <br>
-		<a href="javascript:void(0);" onmouseover="return overlib('Help messages will appear here.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+		<a href="javascript:void(0);" title="Help messages will appear here.">[?]</a>
 		links for help throughout the application.		
 		</div>

@@ -26,7 +26,7 @@
 <tr><td style="vertical-align:bottom;">
 <h3 style="vertical-align:bottom;">About</h3>
 </td><td width="40">
-<a href="javascript: Help.popHelp('Blue_panel');"><img align="right" alt="Help" src="images/help.png" border="0" onmouseover="return overlib('Click here for additional information about the side bar.', CAPTION, 'Help');" onmouseout="return nd();" /></a>
+<a href="javascript: Help.popHelp('Blue_panel');" title="Click here for additional information about the side bar."><img align="right" alt="Help" src="images/help.png" border="0" /></a>
 </td></tr></table>
 <div style="font-size:0.8em;padding: 0px 0px 0px 0px;">
 	<span>Application Release: <b><%=System.getProperty("rembrandt.application.version")!=null ? System.getProperty("rembrandt.application.version") : "1.5"%></b>

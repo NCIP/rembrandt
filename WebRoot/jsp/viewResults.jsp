@@ -37,9 +37,9 @@ if (window.focus) {newwindow.focus()}
 -->
 <%
 String helpLink = "<a href=\"javascript: spawn('help.jsp";
-String helpLinkClose = "', 350, 500);\">"+
+String helpLinkClose = "', 350, 500);\" title=\"Click here for additional information about the view results page.\">"+
 				"<img align=\"right\" src=\"images/help.png\" border=\"0\" "+
-				"onmouseover=\"return overlib('Click here for additional information about the view results page.', CAPTION, 'Help', OFFSETX, -50);\" onmouseout=\"return nd();\">"+
+				">"+
 				"</a><br clear=\"all\">";
 %> 
 

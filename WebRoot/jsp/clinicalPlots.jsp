@@ -45,8 +45,8 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 <span style="z-index:1000; float:right;">
 	<!-- navigation icons courtesy of:  Anthony J. Brutico, D.O. -->
 	<a href="javascript:top.close()"><img align="right" src="images/close.png" border="0"></a>
-	<a href="javascript: HelpWrapper('clinicalPlot');"><img align="right" src="images/help.png" border="0" onmouseover="return overlib('Click here for additional information about this report.', CAPTION, 'Help');" onmouseout="return nd();" /></a>
-	<a href="#" onclick="javascript:window.print();"><img align="right" src="images/print.png" border="0" onmouseover="return overlib('Print this report.', CAPTION, 'Help');" onmouseout="return nd();"/> </a> 	
+	<a href="javascript: HelpWrapper('clinicalPlot');" title="Click here for additional information about this report."><img align="right" src="images/help.png" border="0" /></a>
+	<a href="#" onclick="javascript:window.print();" title="Print this report."><img align="right" src="images/print.png" border="0" /> </a> 	
 </span>
 
 <div style="background-color: #ffffff"><img src="images/smallHead.jpg" /></div>

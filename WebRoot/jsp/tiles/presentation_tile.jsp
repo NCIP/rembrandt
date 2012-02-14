@@ -9,7 +9,7 @@
 
 <br>
 		<B>1. Select Presentation Focus</B>&nbsp;&nbsp;
-		<a href="javascript:void(0);" onmouseover="return overlib('For \'Sample View\' all results are for returned samples that meets the query criteria and  \'GeneView\'  returns results for every Gene that meets the query criteria or select a previouly saved presentation template', CAPTION, 'Help');" onmouseout="return nd();">[?]</a><br>
+		<a href="javascript:void(0);" title="For 'Sample View' all results are for returned samples that meets the query criteria and  'GeneView'  returns results for every Gene that meets the query criteria or select a previouly saved presentation template" >[?]</a><br>
 		
 		<logic:equal name="selectPresentationForm" property="currentView" value="sample">
 			<br>
@@ -32,7 +32,7 @@
 			<br>
 		</logic:equal>
 			<div class="pOptions">
-			Select which elements you want to appear as columns in your Report (in order). <a href="javascript:void(0);" onmouseover="return overlib('Select the elements you want to appear in the report from the left box, and click \'>>\' to move them to the right box.  The elements in the right box will appear in the report.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+			Select which elements you want to appear as columns in your Report (in order). <a href="javascript:void(0);" title="Select the elements you want to appear in the report from the left box, and click '>>' to move them to the right box.  The elements in the right box will appear in the report.">[?]</a>
 					<table>
 						<tbody>
 						<tr>
@@ -43,8 +43,8 @@
 
 							</td>
 							<td align="center" valign="middle"><br><br><br>
-						  	 <input onclick="move(this.form.listTo,this.form.listFrom)" value="&lt;&lt;" onmouseover="return overlib('Remove selection from the report.', CAPTION, 'Help', DELAY, 500);" onmouseout="return nd();" type="button">
-							 <input onclick="move(this.form.listFrom,this.form.listTo)" value="&gt;&gt;" onmouseover="return overlib('Add selection to the report.', CAPTION, 'Help', DELAY, 500);" onmouseout="return nd();" type="button">
+						  	 <input onclick="move(this.form.listTo,this.form.listFrom)" value="&lt;&lt;" title="Remove selection from the report." type="button">
+							 <input onclick="move(this.form.listFrom,this.form.listTo)" value="&gt;&gt;" title="Add selection to the report." type="button">
 							</td>
 							<td>
  							 <html:select property="listTo" multiple="multiple" size="10" style="width: 150px;">
@@ -52,9 +52,9 @@
 
 							</td>
 							<td style="padding: 5px; vertical-align: middle;" valign="middle">
-							 <a href="javascript:void(0);" onmouseover="return overlib('You may highlight an item in the right box and select to move it up or down in the list.  This will control the order in which the field is displayed in the report.', CAPTION, 'Help');" onmouseout="return nd();">[?]</a><br><br>
-							 <input style="width: 20px; font-size: 16px; font-weight: normal;" value="/\" onmouseover="return overlib('Move the selection up.', CAPTION, 'Help', DELAY, 500);" onmouseout="return nd();" onclick="javascript:moveUpList(list2);" type="button"><br><br><!-- value="&uarr;" -->
-							 <input style="width: 20px; font-size: 16px; font-weight: normal;" value="\/" onmouseover="return overlib('Move the selection down.', CAPTION, 'Help', DELAY, 500);" onmouseout="return nd();" onclick="javascript:moveDownList(list2);" type="button">
+							 <a href="javascript:void(0);" title="You may highlight an item in the right box and select to move it up or down in the list.  This will control the order in which the field is displayed in the report.">[?]</a><br><br>
+							 <input style="width: 20px; font-size: 16px; font-weight: normal;" value="/\" title="Move the selection up." onclick="javascript:moveUpList(list2);" type="button"><br><br><!-- value="&uarr;" -->
+							 <input style="width: 20px; font-size: 16px; font-weight: normal;" value="\/" title="Move the selection down." onclick="javascript:moveDownList(list2);" type="button">
 							</td>
 						</tr>
 						</tbody>
@@ -62,7 +62,7 @@
 					<Br><a href="JavaScript:window.new('output_sample.html')">sample view example</a>
 		</div>
 		<br><br>
-		Apply a saved Template 	<a href="javascript:void(0);" onmouseover="return overlib('You can use a previously saved template', CAPTION, 'Help');" onmouseout="return nd();">[?]</a>
+		Apply a saved Template 	<a href="javascript:void(0);" title="You can use a previously saved template">[?]</a>
 		&nbsp;Upload Template:&nbsp;<input type="file">
 		<br>
 		<br>
