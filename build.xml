@@ -245,6 +245,11 @@
     <target name="deployWar" depends="build_war">
 
     </target>
+    
+    <target name="deploy_local" depends="build_war_anthill">
+    	<copy file="${anthill.artifacts.dir}/rembrandt.war" todir="${jboss.deploy.dir}" overwrite="true"/>
+    </target>
+    
     <!--
 		TARGET: build_war_anthill
 		This task is intended to be used to by anthill when built be SCM.
