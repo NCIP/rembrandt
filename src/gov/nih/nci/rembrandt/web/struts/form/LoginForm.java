@@ -129,13 +129,13 @@ public final class LoginForm extends ActionForm {
 			logger.error(e);
 		}
 
+		request.getSession().invalidate();
 		if (credentials != null && credentials.authenticated()) {
 			userLoggedIn = true;
 			request.getSession().setAttribute(RembrandtConstants.USER_CREDENTIALS,credentials);
 		} else {
 			errors.add("invalidLogin", new ActionError(
 					"gov.nih.nci.nautilus.ui.struts.form.invalidLogin.error"));
-			request.getSession().invalidate();
 		}
 
 		return errors;
