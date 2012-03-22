@@ -89,7 +89,7 @@
 		<br/><br/>
 			<div class="h">Login:</div>
 			<div class="r"><label for="userName">Username:</label> <input type="text" name="userName" id="userName"/></div>
-			<div class="r"><label for="password">Password:</label> <input type="password" name="password" id="password"/></div>
+			<div class="r"><label for="password">Password:</label> <input type="password" name="password" id="password" AUTOCOMPLETE = "off"/></div>
 			<div class="rb" style="text-align:center">
 				<input style="" type="submit" value="login"/>
 			</div>
