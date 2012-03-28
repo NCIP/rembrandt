@@ -52,7 +52,7 @@ function A_checkGenePatternStatus_cb(message){
 	var curElJobSelect = document.getElementById(sid+"_jobId");
 	var curElProcessSelect = document.getElementById(sid+"_process");
 	var curElSubmit = document.getElementById(sid+"_submit");
-	if(message == 'Completed')	{
+	if(message == 'completed')	{
 		//its done, see if the innerhtml already says done	
 		if(curEl.innerHTML != "Completed")	{
 			curEl.innerHTML = "Completed";
