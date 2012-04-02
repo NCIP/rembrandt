@@ -1,7 +1,7 @@
 <html>
 <head><title>REMBRANDT - Repository for Molecular Brain Neoplasia Data (Error)</title>
 <%@ include file="/jsp/tiles/htmlHead_tile.jsp" %>
-<script language="javascript" src="js/caIntScript.js"></script>
+<script language="javascript" src="<%=request.getContextPath()%>/js/caIntScript.js"></script>
 </head>
 <body>
 
