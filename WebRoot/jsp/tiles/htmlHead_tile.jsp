@@ -7,9 +7,9 @@
 	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 	<META HTTP-EQUIV="Expires" CONTENT="-1">
 
-	<link rel="shortcut icon" href="images/favicon.ico" />
+	<link rel="shortcut icon" href="<%=request.getContextPath()%>/images/favicon.ico" />
 	
-	<LINK href="css/bigStyle.css" rel="stylesheet" type="text/css">
+	<LINK href="<%=request.getContextPath()%>/css/bigStyle.css" rel="stylesheet" type="text/css">
 	<script language="javascript" src="<%=request.getContextPath()%>/js/caIntScript.js"></script>
 	<script language="javascript" src="<%=request.getContextPath()%>/js/rembrandtScript.js"></script>
 	<!-- JB Begin: GF#19875 Gene Alias validation - without clicking the 'check alias' -->
@@ -36,5 +36,5 @@
 	<script type='text/javascript' src='<%=request.getContextPath()%>/js/lib/common/SidebarHelper.js'></script>
 	<script type='text/javascript' src='<%=request.getContextPath()%>/js/lib/common/QueryDetailHelper.js'></script>
 	
-	<style type="text/css" media="screen">@import "css/tabs.css";</style>
+	<style type="text/css" media="screen">@import "<%=request.getContextPath()%>/css/tabs.css";</style>
 	
