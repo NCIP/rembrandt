@@ -16,6 +16,7 @@
 <a style="font-size:.8em" href="javascript:spawnNewPage('userGuide.html',640,480);">user guide</a>
 <!-- a style="font-size:.8em" target="_new" href="docs/REMBRANDT_1.5_Users_Guide.pdf">user guide</a -->&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="javascript:Help.popHelp('cite_data');">cite data</a>&nbsp;&nbsp;&nbsp;
+<a style="font-size:.8em" href="html/disclaimer.html" target="new">Disclaimer</a>&nbsp;&nbsp;&nbsp;
 </span>
   <span style="text-align:right;font-size:.85em;">
 <%
