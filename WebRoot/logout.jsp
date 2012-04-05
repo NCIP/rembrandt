@@ -3,6 +3,21 @@
 <%@ taglib uri="/WEB-INF/rembrandt.tld"  prefix="app" %>
 <script language="javascript" src="js/lib/scriptaculous/scriptaculous.js"></script>
 <script type="text/javascript">Help.insertHelp("Logging_out", " align='right'", "padding:2px;");</script>
+<%
+  String sID = request.getHeader("Referer");
+  
+  System.out.println(sID);
+    	
+   	// prevents Referer Header injection
+   	if ( sID != null && sID != "" && !sID.contains("rembrandt")) { 
+   		 //response.sendRedirect("error.jsp"); %>
+   		 <script language="javascript">
+		 	window.location = "error.jsp";
+		 </script>
+   	 <% 	 return;
+   	}
+ %>
+
  <html:form action="logout.do">
 	<fieldset class="gray">
 		<legend class="red">

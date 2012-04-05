@@ -111,6 +111,14 @@ public final class LoginAction extends Action
     	 * It also needs to have the logic added for reinstating a previously
     	 * saved session.
     	 */
+    	
+    	String sID = request.getHeader("Referer");
+    	
+    	// prevents Referer Header injection
+    	if ( sID != null && sID != "" && !sID.contains("rembrandt")) {
+    		return (mapping.findForward("failure"));
+    	}
+    	
         HttpSession session = request.getSession();
         ServletContext context = session.getServletContext();
         RembrandtListLoader myListLoader = (RembrandtListLoader) SpringContext.getBean("listLoader");
