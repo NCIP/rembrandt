@@ -172,9 +172,15 @@
     <forward name="failure" path="/error.jsp"/>
     </action>
     
-    <action path="/logoutPage"
-    		forward="nautilus.logout" />
-    
+	<action path="/logoutPage"
+           type="gov.nih.nci.rembrandt.web.struts.action.LogoutPageAction"
+           name="logoutForm"
+           scope="request">
+    <forward name="logout" path="nautilus.logout"/>
+    <forward name="failure" path="/error.jsp"/>
+   
+    </action>  
+        
     <action path="/logout"
            type="gov.nih.nci.rembrandt.web.struts.action.LogoutAction"
            name="logoutForm"
