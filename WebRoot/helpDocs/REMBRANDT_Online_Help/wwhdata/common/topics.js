@@ -47,7 +47,8 @@ if(P=="comparitivegenomic_Copynum_tooltip")C="rembrandt_Adv_Searches.6.6.html#11
 if(P=="comparitivegenomic_Array_tooltip")C="rembrandt_Adv_Searches.6.6.html#1145035";
 if(P=="Advanced_clinical_data")C="rembrandt_Adv_Searches.6.7.html#1111942";
 if(P=="clinical_Query_tooltip")C="rembrandt_Adv_Searches.6.7.html#1105729";
-if(P=="clinical_Disease_tooltip")C="rembrandt_Adv_Searches.6.7.html#1158205";
+if(P=="clinical_Disease_tooltip")C="rembrandt_Adv_Searches.6.7.html#1124174";
+if(P=="clinical_Grade_tooltip")C="rembrandt_Adv_Searches.6.7.html#1158205";
 if(P=="clinical_Sample_tooltip")C="rembrandt_Adv_Searches.6.7.html#1124192";
 if(P=="clinical_Occurrence_tooltip")C="rembrandt_Adv_Searches.6.7.html#1124222";
 if(P=="clinical_Prior_tooltip")C="rembrandt_Adv_Searches.6.7.html#1124229";

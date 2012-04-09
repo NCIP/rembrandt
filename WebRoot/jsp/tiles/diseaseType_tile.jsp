@@ -27,7 +27,7 @@
 				<html:option value="four">IV</html:option>
 				
 </html:select>
-<b><a href="javascript: Help.popHelp('<%=act%>_Grade_tooltip');">[?]</a>    </b>
+<b><!-- <a href="javascript: Help.popHelp('<%=act%>_Grade_tooltip');">[?]</a> -->   </b>
 
 <!-- <b><app:help help="This criteria will be implemented in the upcoming release "/></b>-->
 <html:errors property="tumorGrade"/>
