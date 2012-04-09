@@ -66,7 +66,9 @@ String act = request.getParameter("act");
 					}
 					else if(g.status == "invalid")	{
 						geneArray = geneArray.without(g.original);
-	        			gas+= "<a href='#' onclick=\"GeneAlias.handleSymbol('"+g.original+"');return false;\">"+g.original + "</a> - Invalid symbol or not in the database.<br/>";
+	        			//gas+= "<a href='#' onclick=\"GeneAlias.handleSymbol('"+g.original+"');return false;\">"+g.original + "</a> - Invalid symbol or not in the database.<br/>";
+	        			gas+= g.original + " - Invalid symbol or not in the database.<br/>";
+	        			
 					}
 				});
 				
