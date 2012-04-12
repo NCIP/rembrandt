@@ -65,7 +65,7 @@ pageContext.setAttribute("map", map);
 						<p style="font-size:1.2em; font-weight:bold;padding:0px 5px 0px 5px">
 							About this application<br />
 							<span style="font-size:.7em;text-align:right;">
-								Release <%=System.getProperty("rembrandt.application.version")!=null ? System.getProperty("rembrandt.application.version") : "1.5"%>
+								Release 1.5.6
 								<a style="font-size:1em;" href="#" onclick="$('releaseNotesDiv').toggle();return false;">[more info]</a>
 							</span>
 							<div id="releaseNotesDiv" style="padding:0px 0px 5px 5px;display:none;font-size:0.8em;background-color:#e0e0e0;">
