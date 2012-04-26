@@ -74,7 +74,7 @@
 			</select>
 		</fieldset><br/>
 			<logic:present name="disableDownload">
-				<legend class="red">caArray File Download is unavailable at this time <br>as we are unable to successfully connect with caArray server,<br> Please try again later</legend><br/>
+				<legend class="red">caArray File Download is unavailable at this time <br>as we are unable to successfully connect with caArray server,<br> Please visit http://array.nci.nih.gov to download the data directly.</legend><br/>
 	       		<input type="submit" value="download" style="width:70px" disabled/>	
 			</logic:present>
 			<logic:notPresent name="disableDownload">
