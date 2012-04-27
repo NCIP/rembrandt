@@ -48,7 +48,7 @@ String helpLinkClose = "', 350, 500);\" title=\"Click here for additional inform
     
     
     
-    <form action="#">    
+    <!--  form action="#" -->    
       
      <br /><br />
      <!--  <form> -->
