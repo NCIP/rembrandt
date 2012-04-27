@@ -386,7 +386,7 @@
 				}
 				else if(g.status == "invalid")	{
 					geneArray = geneArray.without(g.original);
-        			gas+= "<a href='#' onclick=\"AliasLookup.processClick('"+g.original+"');return false;\">"+g.original + "</a> - Invalid symbol or not in the database.<br/>";
+        			gas+= g.original + " - Invalid symbol or not in the database.<br/>";
 				}
 			});
 			var todo = "<br/><b>Click a symbol listed and it will be added to the list creation tool above</b>";
