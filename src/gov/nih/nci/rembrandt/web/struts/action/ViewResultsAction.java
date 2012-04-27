@@ -18,6 +18,7 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.actions.DispatchAction;
 /**
  * This action is associated with the refine_tile.jsp tile and is mapped
  * for buttons on the page.  This is basicly the UI mechanism for creating
@@ -87,7 +88,7 @@ import org.apache.struts.action.ActionMapping;
 * 
 */
 
-public class ViewResultsAction extends Action{
+public class ViewResultsAction extends DispatchAction{
     private static Logger logger = Logger.getLogger(RefineQueryAction.class);
 	private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	
@@ -106,7 +107,7 @@ public class ViewResultsAction extends Action{
 		HttpServletRequest request,
 		HttpServletResponse response)
 		throws Exception {
-		
+		request.getSession().setAttribute("currentPage", "0");
 		List fileList = LookupManager.getDownloadBRBFileList();
 		if (fileList == null || fileList.isEmpty())
 		{

@@ -53,7 +53,7 @@ public class DownloadAction extends DispatchAction {
 			HttpServletRequest request,
 			HttpServletResponse response)
 			throws Exception {
-		
+		request.getSession().setAttribute("currentPage", "0");
 		//prepopulate the fields for BRB downloads
 		List fileList = LookupManager.getDownloadBRBFileList();
 		if (fileList == null || fileList.isEmpty())	{
