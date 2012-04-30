@@ -39,9 +39,6 @@ public class HttpResponseSplittingPreventionFilter
                          FilterChain chain) 
         throws IOException, ServletException 
     { 
-//        if(response instanceof HttpServletResponse) 
-//            response = new Wrapper((HttpServletResponse)response); 
-        
         String requestUrl = ((HttpServletRequest)request).getRequestURL().toString();
         
         if(containsCRorLF(requestUrl)) 
@@ -59,61 +56,6 @@ public class HttpResponseSplittingPreventionFilter
     { 
     } 
 
-    class Wrapper 
-        extends HttpServletResponseWrapper 
-    { 
-        Wrapper(HttpServletResponse response) 
-        { 
-            super(response); 
-        } 
-
-        public void sendRedirect(String location) 
-            throws IOException 
-        { 
-            if(containsCRorLF(location)) 
-                throw new MalformedURLException("CR or LF detected in redirect URL: possible http response splitting attack"); 
-
-            super.sendRedirect(location); 
-        } 
-
-        public void setHeader(String name, String value) 
-        { 
-            if(containsCRorLF(value)) 
-                throw new IllegalArgumentException("Header value must not contain CR or LF characters"); 
-
-            super.setHeader(name, value); 
-        } 
-
-        public void addHeader(String name, String value) 
-        { 
-            if(containsCRorLF(value)) 
-                throw new IllegalArgumentException("Header value must not contain CR or LF characters"); 
-
-            super.addHeader(name, value); 
-        } 
-
-        private boolean containsCRorLF(String s) 
-        { 
-            if(null == s) return false; 
-
-            int length = s.length(); 
-
-            for(int i=0; i<length; ++i) 
-            { 
-                char c = s.charAt(i); 
-
-                if('\n' == c 
-                   || '\r' == c) 
-                    return true; 
-            } 
-            
-            if ( s.toLowerCase().contains("%0d") || s.toLowerCase().contains("%0a") )
-            	return true;
-
-            return false; 
-        } 
-    } 
-    
     private boolean containsCRorLF(String s) 
     { 
         if(null == s) return false; 
