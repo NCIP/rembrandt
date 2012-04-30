@@ -91,6 +91,16 @@
     			<param-value>false</param-value>
     		</init-param>
  	</servlet>
+ 	<filter>
+		<filter-name>httpResponseSplittingPreventionFilter</filter-name>
+		<filter-class>
+			gov.nih.nci.rembrandt.util.HttpResponseSplittingPreventionFilter
+		</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>httpResponseSplittingPreventionFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
    <servlet-mapping>
         <servlet-name>DisplayChart</servlet-name>
         <url-pattern>/servlet/DisplayChart</url-pattern>
