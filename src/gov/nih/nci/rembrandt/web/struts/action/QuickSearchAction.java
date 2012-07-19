@@ -22,6 +22,7 @@ import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot.KMPlotManager;
 import gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot.KaplanMeierPlotContainer;
+import gov.nih.nci.rembrandt.util.MoreStringUtils;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
@@ -147,7 +148,9 @@ public class QuickSearchAction extends DispatchAction {
 		//we will handle the error elsewhere, so no need to findForward("badgraph")
 		QuickSearchForm qsForm = (QuickSearchForm) form;
 		//need this to pass the geneSymbol to the JSP
-		request.setAttribute("geneSymbol", qsForm.getGeneSymbol());
+		//request.setAttribute("geneSymbol", qsForm.getGeneSymbol());
+		
+		request.setAttribute("geneSymbol", MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, qsForm.getGeneSymbol()));
 		
         //generator.setRequestAttributes(request);
         //generator.setSessionAttributes(request.getSession(true));
@@ -174,21 +177,21 @@ public class QuickSearchAction extends DispatchAction {
 		KMDataSetForm kmForm = (KMDataSetForm) form;
 		InstitutionCriteria institutionCriteria = InsitutionAccessHelper.getInsititutionCriteria(request.getSession());
 		ActionErrors errors = new ActionErrors();
-		String quickSearchVariableName = (String) request.getAttribute("quickSearchName");
+		String quickSearchVariableName = MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, ((String) request.getAttribute("quickSearchName")));
 		if (quickSearchVariableName != null) {
 			quickSearchVariableName = quickSearchVariableName.toUpperCase();
 		}
        
-		String quickSearchType = (String) request.getAttribute("quickSearchType");
+		String quickSearchType = MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, ((String) request.getAttribute("quickSearchType")));
 		if (quickSearchType == null) {
 			quickSearchType = RembrandtConstants.GENE_SYMBOL;
 		}
 		double upFold = kmForm.getUpFold();
 		double downFold = kmForm.getDownFold();
 		//TEMP COMENTED OUT
-		String kmplotType = (String) request.getAttribute("plotType");
-		String qsGroupName = (String) request.getAttribute("quickSearchGroupName");
-		String qsGroupNameCompare = (String) request.getAttribute("quickSearchGroupNameCompare");
+		String kmplotType = MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, ((String) request.getAttribute("plotType")));
+		String qsGroupName = MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, ((String) request.getAttribute("quickSearchGroupName")));
+		String qsGroupNameCompare = MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, ((String) request.getAttribute("quickSearchGroupNameCompare")));
 		//String kmplotType = CaIntegratorConstants.SAMPLE_KMPLOT;
 
        	kmForm.setPlotType(kmplotType);
@@ -201,7 +204,7 @@ public class QuickSearchAction extends DispatchAction {
 		
 		UserListBeanHelper helper = new UserListBeanHelper(request.getSession());
 		
-		String baselineGroup = request.getParameter("baselineGroup")!=null ? (String)request.getParameter("baselineGroup") : "ALL GLIOMA";
+		String baselineGroup = request.getParameter("baselineGroup")!=null ? MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, ((String)request.getParameter("baselineGroup"))) : "ALL GLIOMA";
 
 		UserList constrainSamplesUl = helper.getUserList(baselineGroup);
 		try	{
