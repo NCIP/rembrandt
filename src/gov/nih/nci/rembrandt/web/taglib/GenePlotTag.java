@@ -3,6 +3,7 @@ package gov.nih.nci.rembrandt.web.taglib;
 import gov.nih.nci.caintegrator.enumeration.GeneExpressionDataSetType;
 import gov.nih.nci.rembrandt.dto.lookup.DiseaseTypeLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
+import gov.nih.nci.rembrandt.util.MoreStringUtils;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.graphing.data.GeneExpressionPlot;
 
@@ -84,13 +85,13 @@ public class GenePlotTag extends AbstractGraphingTag {
 			String geneSymbol = "";
 			//can come from the action or via a get param..never both, never neither
 			if(request.getAttribute("geneSymbol") != null)	{
-				geneSymbol = (String) request.getAttribute("geneSymbol");
+				geneSymbol = MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, ((String) request.getAttribute("geneSymbol")));
 			}
 			else if(request.getParameter("geneSymbol") != null)	{
-				geneSymbol = (String) request.getParameter("geneSymbol");
+				geneSymbol = MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, ((String) request.getParameter("geneSymbol")));
 			}
 			
-			String reporter = request.getParameter("reporter") != null ? (String) request.getParameter("reporter") : null;
+			String reporter = request.getParameter("reporter") != null ? MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, ((String) request.getParameter("reporter"))) : null;
 			
 			GeneExpressionDataSetType geType = algorithm.equals(RembrandtConstants.REPORTER_SELECTION_AFFY) ? GeneExpressionDataSetType.GeneExpressionDataSet : GeneExpressionDataSetType.UnifiedGeneExpressionDataSet;
 			
