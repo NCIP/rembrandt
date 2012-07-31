@@ -9,6 +9,7 @@ import gov.nih.nci.caintegrator.application.download.DownloadTask;
 import gov.nih.nci.caintegrator.application.download.caarray.CaArrayFileDownloadManager;
 import gov.nih.nci.rembrandt.download.caarray.RembrandtCaArrayFileDownloadManager;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+import java.util.concurrent.TimeUnit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,8 @@ import junit.framework.TestCase;
  */
 public class CaArrayFileDownloadTest extends TestCase {
 	private List<String> specimenList = null;
-	private FileType type = FileType.AFFYMETRIX_CHP;
+//	private FileType type = FileType.AFFYMETRIX_CHP;
+	private FileType type = new FileType();
 	private final String session ="XYZ";
 	private final String taskId ="123";
 	private CaArrayFileDownloadManager rbtCaArrayFileDownloadManager;
@@ -57,15 +59,18 @@ public class CaArrayFileDownloadTest extends TestCase {
 //		specimenList.add("	E09233	");
 //		specimenList.add("	E09238	");
 //		specimenList.add("	E09262	");
-		System.setProperty(RembrandtCaArrayFileDownloadManager.SERVER_URL,"http://array.nci.nih.gov:8080");
-		System.setProperty(RembrandtCaArrayFileDownloadManager.GE_EXPERIMENT_NAME,"rembr-00037");
+		System.setProperty(RembrandtCaArrayFileDownloadManager.SERVER_URL,"http://array-stage.nci.nih.gov:8080");
+		System.setProperty(RembrandtCaArrayFileDownloadManager.GE_EXPERIMENT_NAME,"fine-00037");
 		System.setProperty(RembrandtCaArrayFileDownloadManager.CN_EXPERIMENT_NAME,"rembr-00086");
 		System.setProperty(RembrandtCaArrayFileDownloadManager.INPUT_DIR,"c:/caArrayDownloadTest12");
 		System.setProperty(RembrandtCaArrayFileDownloadManager.OUTPUT_ZIP_DIR,"c:/caArrayDownloadTest13");
 		System.setProperty(RembrandtCaArrayFileDownloadManager.DIR_IN_ZIP,"rembrandt");
 		System.setProperty(RembrandtCaArrayFileDownloadManager.ZIP_FILE_URL,"http://localhost:8080/rembrandt/log");
+		System.setProperty(RembrandtCaArrayFileDownloadManager.USER_NAME,"rembrandtread");
+		System.setProperty(RembrandtCaArrayFileDownloadManager.PWD,"Pass#1234");
 		rbtCaArrayFileDownloadManager = RembrandtCaArrayFileDownloadManager.getInstance();
 		rbtCaArrayFileDownloadManager.setBusinessCacheManager(ApplicationFactory.getBusinessTierCache());
+		type.setName("AFFYMETRIX_CEL");
 		
 //		<!--  Bean for thread pool -->
 //		<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
@@ -78,7 +83,10 @@ public class CaArrayFileDownloadTest extends TestCase {
         long keepAliveTime = 10;      
         ThreadPoolExecutor threadPoolExecutor = null;      
         final ArrayBlockingQueue<Runnable> queue = new ArrayBlockingQueue<Runnable>(200);
-		rbtCaArrayFileDownloadManager.setTaskExecutor(threadPoolExecutor);
+        
+        threadPoolExecutor = new ThreadPoolExecutor(poolSize, maxPoolSize,
+                keepAliveTime, TimeUnit.SECONDS, queue);
+        rbtCaArrayFileDownloadManager.setTaskExecutor(threadPoolExecutor);
 		super.setUp();
 	}
 

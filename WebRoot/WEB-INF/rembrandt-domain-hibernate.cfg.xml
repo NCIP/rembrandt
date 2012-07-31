@@ -14,7 +14,7 @@
 		<property name="hibernate.cache.use_second_level_cache">true</property>
 		<property name="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</property>
 		<!-- Enable Hibernate's automatic session context management -->
-		<property name="current_session_context_class">thread</property>
+		<!--  property name="current_session_context_class">thread</property -->
 
 		<!-- Database connection settings -->
 		<!-- CGLIB reflection_optimizer -->

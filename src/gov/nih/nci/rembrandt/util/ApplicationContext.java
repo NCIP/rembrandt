@@ -37,7 +37,9 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
-import com.sun.org.apache.xerces.internal.impl.xs.dom.DOMParser;
+import com.sun.org.apache.xerces.internal.parsers.DOMParser;
+
+//import com.sun.org.apache.xerces.internal.impl.xs.dom.DOMParser;
 
 
 

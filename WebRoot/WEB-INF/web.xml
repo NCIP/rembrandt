@@ -10,6 +10,16 @@
 			classpath*:/applicationContext-services.xml
 		</param-value>
 	</context-param>
+ 	<filter>
+		<filter-name>httpResponseSplittingPreventionFilter</filter-name>
+		<filter-class>
+			gov.nih.nci.rembrandt.util.HttpResponseSplittingPreventionFilter
+		</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>httpResponseSplittingPreventionFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 	<!--Register SessionListener
 		This is used by the caintegrator.application.cache package to 
 		watch for dead sessions and remove the caches.  For more
@@ -80,7 +90,6 @@
   		<servlet-class>
     			org.quartz.ee.servlet.QuartzInitializerServlet
   		</servlet-class>
-  		<load-on-startup>1</load-on-startup>
   		<init-param>
     			<param-name>shutdown-on-unload</param-name>
     			<param-value>true</param-value>
@@ -90,17 +99,8 @@
     			<param-name>start-scheduler-on-load</param-name>
     			<param-value>false</param-value>
     		</init-param>
+    	<load-on-startup>1</load-on-startup>
  	</servlet>
- 	<filter>
-		<filter-name>httpResponseSplittingPreventionFilter</filter-name>
-		<filter-class>
-			gov.nih.nci.rembrandt.util.HttpResponseSplittingPreventionFilter
-		</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>httpResponseSplittingPreventionFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
    <servlet-mapping>
         <servlet-name>DisplayChart</servlet-name>
         <url-pattern>/servlet/DisplayChart</url-pattern>

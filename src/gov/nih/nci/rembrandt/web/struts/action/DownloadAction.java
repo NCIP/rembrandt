@@ -173,9 +173,17 @@ public class DownloadAction extends DispatchAction {
 		FileType type = null;
 		String experimentName = null;
 		if (dlForm.getFileType().equals("CEL"))
-			type = FileType.AFFYMETRIX_CEL;
+		{	
+//			type = FileType.AFFYMETRIX_CEL;
+			type = new FileType();
+			type.setName("AFFYMETRIX_CEL");
+		}
 		else if (dlForm.getFileType().equals("CHP"))
-			type = FileType.AFFYMETRIX_CHP;
+		{
+//			type = FileType.AFFYMETRIX_CHP;
+			type = new FileType();
+			type.setName("AFFYMETRIX_CHP");
+		}
 
 		if (dlForm.getArrayPlatform().equals(Constants.AFFY_OLIGO_PLATFORM)){
 			experimentName = System.getProperty(RembrandtCaArrayFileDownloadManager.GE_EXPERIMENT_NAME);

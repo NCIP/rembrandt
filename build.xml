@@ -24,6 +24,9 @@
 			<property file="build.properties" />
 		</else>
 	</if>
+	
+	<property name="source.lib.client.dir" location="${source.lib.dir}/client" />
+
 	<target name="systemProperties">
 	            <echo message="${ant.home}"/>
 	            <echo message="Java Runtime Environment 
@@ -309,6 +312,9 @@
 		    <lib dir="${source.lib.dir}">
 		  	   <include name="*.jar"/>
 		    </lib>
+			<lib dir="${source.lib.client.dir}">
+		  	   <include name="*.jar"/>
+		    </lib>			
 		    <classes dir="${build.classes.dir}"/>
 		</war>
 		<antcall target="retrieve_deployment_artifacts"></antcall>
