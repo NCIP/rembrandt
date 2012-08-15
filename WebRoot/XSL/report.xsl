@@ -208,12 +208,13 @@
 	  </form>
 	  </div>
 	  <!-- Added for WebGenome Testing -->
-	  <!--  div class="filterForm" style="height:auto">
+	  <div class="filterForm" style="height:auto">
 	  <form action="null" method="post" name="reportGeneratorForm" style="padding:0px; margin:0px;">
-	    <b><span>WebGenome:</span></b> <input type="button" name="webGenome" onclick="javascript:webGenomePlotRequest('{$qName}'); return false;" value="View Plots (in WebGenome)" />
-	    <span id="wgThresh"></span>
-      </form>
-      </div -->
+	    <b><span>Integrative Genomics Viewer (IGV):</span></b> <input type="button" name="webGenome" onclick="javascript:igvEscape('{$qName}'); return false;" value="Download Data to View in IGV" />
+	  </form>
+      </div>
+
+      
       
       <script type="text/javascript">var totalSamples = '<xsl:value-of select="count(Row[@name='sampleRow']/Cell[@class != 'csv' and @class != 'header'])" />';</script>
 	  <script type="text/javascript">checkWGThresh(totalSamples, wgThresh);</script>

@@ -5,7 +5,7 @@
 <xsl:template match="/">
 <xsl:for-each select="Report">
 <span>
-	 <xsl:if test="@reportType != 'Gene Expression Disease' and @reportType != 'Clinical'" >
+	 <xsl:if test="@reportType != 'Copy Number' and @reportType != 'Clinical'" >
  
 		<xsl:value-of select="' , '"/>
 		<xsl:for-each select="Row[(@name='dataRow')]">
@@ -46,7 +46,7 @@
 		    </xsl:for-each>
 		</xsl:for-each>
 	</xsl:if>	
-	<xsl:if test="@reportType = 'Gene Expression Disease' or @reportType = 'Clinical'" >
+	<xsl:if test="@reportType = 'Copy Number' or @reportType = 'Clinical'" >
  		<xsl:for-each select="Row[@name='headerRow']">
 			<xsl:for-each select="Cell[@group = 'header']">
 				<xsl:value-of select="Data"/>

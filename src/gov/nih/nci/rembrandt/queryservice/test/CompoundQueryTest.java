@@ -314,7 +314,7 @@ public class CompoundQueryTest extends TestCase {
 			//CompoundQuery myCompoundQuery1 = new CompoundQuery(OperatorType.AND,geneQuery,genomicQuery);
 			CompoundQuery myCompoundQuery2 = new CompoundQuery(genomicQuery);
 
-			myCompoundQuery2.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
+			myCompoundQuery2.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GENE_SAMPLE_VIEW));
 			Resultant resultant = ResultsetManager.executeCompoundQuery(myCompoundQuery2);
 			System.out.println("Printing Query Output>>>>>>>>>>>>>>>>>>>>>>>");
 			print(resultant);
@@ -391,7 +391,7 @@ public class CompoundQueryTest extends TestCase {
 			sampleIDList.add("1397");
 			sampleIDList.add("1409");
 			String[] sampleIDs = (String[])sampleIDList.toArray(new String[sampleIDList.size()]);
-			myCompoundQuery1.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
+			myCompoundQuery1.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GENE_SAMPLE_VIEW));
 			
 
 			System.out.println("Now Constraint it by the following samples only");
@@ -637,7 +637,7 @@ public class CompoundQueryTest extends TestCase {
         genomicQuery = (ComparativeGenomicQuery) QueryManager.createQuery(QueryType.CGH_QUERY_TYPE);
         genomicQuery.setQueryName("CopyNumberQuery");
         genomicQuery.setGeneIDCrit(geneCrit);
-        genomicQuery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
+        genomicQuery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GENE_SAMPLE_VIEW));
         //genomicQuery.setRegionCrit(regionCrit);
         genomicQuery.setAssayPlatformCrit(snpPlatformCrit);
         genomicQuery.setCopyNumberCrit(copyNumberCrit);

@@ -418,7 +418,42 @@ function excel_export_cb(qnameAndrType) {
 	var dest = "runReport.do?method=exportToExcelForGeneView&queryName="+ escape(qnameAndrTypeArray[0])+"&reportType="+escape(qnameAndrTypeArray[1])+"&csv=true&checkedAll=true";
 	location.href = dest;
 }
+function igvEscape(qname)	{
+	// For Preview Results, no checkboxes are shown for Samples. So, Export All by default.
+	if ( qname === 'previewResults' ) {
+		var dest = "runReport.do?method=runIGVReport&queryName="+ escape(qname)+"&igv=true";
+		location.href = dest;
+		return;
+	}
+	
+	var savedSamples = Array();
+	var can_continue = false;
+	var rtype = "Copy Number";
+		can_continue = checkIfSamplesSelected( savedSamples );
+	
+	if ( can_continue ) {
+		try	{
+			if(savedSamples.length>0)	// only for Gene Expression Sample View or Copy Number View
+				DynamicReport.saveSamplesForExcelExport(savedSamples.join(","), qname, rtype, igv_export_cb);
+			else
+				DynamicReport.saveSamplesForExcelExport("", qname, rtype, igv_export_cb);	 // for clinical view, the selected records are already stored in session.
+		}
+		catch(e){alert("list did not save successfully");}
+	}
+	else
+	{
+		alert("You must select at least one sample or select Check All.");
+		return false;
+	}
+	
+}
 
+function igv_export_cb(qnameAndrType) {
+	var qnameAndrTypeArray = qnameAndrType.split(",");
+	var dest = "runReport.do?method=runIGVReport&queryName="+ escape(qnameAndrTypeArray[0])+"&reportType="+escape(qnameAndrTypeArray[1])+"&checkedAll=true"+"&igv=true";
+//	var dest = "runReport.do?method=runGeneViewReport&queryName="+ escape(qname)+"&igv=true";
+	location.href = dest;
+}
 function runFindingCSV(key)	{
 	if( currentTmpReportersCount == 0) {
 		alert("You must select at least one reporter.");

@@ -7,6 +7,7 @@
 package gov.nih.nci.rembrandt.queryservice.resultset.copynumber;
 
 import gov.nih.nci.caintegrator.dto.de.BasePairPositionDE;
+import gov.nih.nci.caintegrator.dto.de.ChromosomeNumberDE;
 import gov.nih.nci.caintegrator.dto.de.CytobandDE;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
@@ -81,12 +82,13 @@ public class CopyNumberViewHandler {
     protected static CytobandResultset handleCytobandResulset (CopyNumberResultsContainer copyNumberResultsContainer, CopyNumber copyNumberObj){
   		//get the gene accessesion number for this record
   		//check if the gene exsists in the CopyNumberResultsContainer, otherwise add a new one.
-		CytobandResultset cytobandResultset = copyNumberResultsContainer.getCytobandResultset(copyNumberObj.getCytoband());
+    	String segment = "chr:"+copyNumberObj.getChromosome()+" "+ copyNumberObj.getChromosomeStart()+"-"+copyNumberObj.getChromosomeEnd();
+		CytobandResultset cytobandResultset = copyNumberResultsContainer.getCytobandResultset(segment);
   		if(cytobandResultset == null){ // no record found
   			cytobandResultset = new CytobandResultset();
   		}
-  		if(copyNumberObj.getCytoband()!= null){
-  		cytobandResultset.setCytoband(new CytobandDE(copyNumberObj.getCytoband()));
+  		if(segment!= null){
+  		cytobandResultset.setCytoband(new CytobandDE(segment));
   		}
   		else{
   			cytobandResultset.setAnonymousCytoband(true);
@@ -99,15 +101,18 @@ public class CopyNumberViewHandler {
   		//populate ReporterResultset with the approciate one
 		ReporterResultset reporterResultset = null;
 		if(cytobandResultset != null && copyNumberObj != null){
-	    	if(copyNumberObj.getSnpProbesetName() != null ){
-	  			DatumDE reporter = new DatumDE(DatumDE.PROBESET_ID,copyNumberObj.getSnpProbesetName());
-	       		reporterResultset = cytobandResultset.getRepoterResultset(copyNumberObj.getSnpProbesetName().toString());
+	    	if(copyNumberObj.getSnpSegmentName() != null ){
+	  			DatumDE reporter = new DatumDE(DatumDE.PROBESET_ID,copyNumberObj.getSnpSegmentName());
+	       		reporterResultset = cytobandResultset.getRepoterResultset(copyNumberObj.getSnpSegmentName().toString());
 	      		if(reporterResultset == null){
 	      		 	reporterResultset = new ReporterResultset(reporter);                    
 	      			}  	
 	    	}
-            reporterResultset.setValue(new DatumDE(DatumDE.COPY_NUMBER,copyNumberObj.getCopyNumber()));
-            reporterResultset.setStartPhysicalLocation(new BasePairPositionDE.StartPosition(copyNumberObj.getPhysicalPosition()));
+            reporterResultset.setValue(new DatumDE(DatumDE.COPY_NUMBER,copyNumberObj.getCalculatedCopyNumber()));
+            reporterResultset.setStartPhysicalLocation(new BasePairPositionDE.StartPosition(copyNumberObj.getChromosomeStart()));
+            reporterResultset.setEndPhysicalLocation(new BasePairPositionDE.EndPosition(copyNumberObj.getChromosomeEnd()));
+    	  	reporterResultset.setChromosomeNumber(new ChromosomeNumberDE(copyNumberObj.getChromosome()));
+    	  	
 	  		if(copyNumberObj.getAnnotations() != null){
 	  			CopyNumber.SNPAnnotation annotation = copyNumberObj.getAnnotations();
                 if(annotation.getAccessionNumbers()!= null){

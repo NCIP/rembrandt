@@ -196,7 +196,9 @@ public class StatisticsInfoPlugIn implements PlugIn
 			{				
 				String dirPath = System.getProperty("gov.nih.nci.rembrandt.data_directory");
 				String fileRetentionPeriodInDays = MailConfig.getInstance(ApplicationContext.GOV_NIH_NCI_REMBRANDT_PROPERTIES).getFileRetentionPeriodInDays();
-
+				if(fileRetentionPeriodInDays == null){
+					fileRetentionPeriodInDays = "5";
+				}
 				deleteOldResultsFilesJob.getJobDataMap().put("dirPath", dirPath);
 				deleteOldResultsFilesJob.getJobDataMap().put("fileRetentionPeriodInDays", fileRetentionPeriodInDays);
 

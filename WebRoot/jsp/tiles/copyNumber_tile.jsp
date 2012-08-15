@@ -9,15 +9,12 @@
 
 %>
 <fieldset class="gray">
-<legend class="red">Copy Number
+<legend class="red">Computed Copy Number
 <!-- <app:help help="Specify the threshold for the copy number."/>-->
 <a href="javascript: Help.popHelp('<%=act%>_Copynum_tooltip');">[?]</a>    
 
-</legend><br />
+</legend>
 
-
-	
-	
 <html:errors property="copyNumberAllGenesAmp"/></br>
 <html:errors property="copyNumberAllGenesDel"/></br>
 	

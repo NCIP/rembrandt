@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp
+  spec="1.0+"
+  codebase="http://www.broadinstitute.org/igvdata/jws/prod">
+  <information>
+    <title>IGV 1.5</title>
+    <vendor>The Broad Institute</vendor>
+    <homepage href="http://www.broadinstitute.org/igv"/>
+    <description>Integrative Genomics Viewer</description>
+  </information>
+  <security>
+      <all-permissions/>
+  </security>
+  <resources>
+    <j2se version="1.5+" initial-heap-size="64m" max-heap-size="750m"/>
+    <jar href="igv.jar" download="eager" main="true"/>
+    <jar href="batik-codec.jar" download="eager"/>    
+    <property name="apple.laf.useScreenMenuBar" value="true"/>
+    <property name="com.apple.mrj.application.growbox.intrudes" value="false"/>
+    <property name="com.apple.mrj.application.live-resize" value="true"/>
+    <property name="com.apple.macos.smallTabs" value="true"/>
+  </resources>
+	
+    <resources os="Mac" arch="i386">
+        <property name="apple.awt.graphics.UseQuartz" value="false"/>
+        <nativelib href="hdfnative-macintel.jar"/> 
+    </resources>
+
+    <resources os="Mac" arch="ppc">
+        <property name="apple.awt.graphics.UseQuartz" value="false"/>
+        <nativelib href="hdfnative-macppc.jar"/> 
+    </resources>
+    
+    <resources os="Mac" arch="PowerPC">
+        <property name="apple.awt.graphics.UseQuartz" value="false"/>
+        <nativelib href="hdfnative-macppc.jar"/> 
+    </resources>
+
+    <resources os="Windows">
+        <property name="sun.java2d.noddraw" value="true"/>
+        <nativelib href="hdfnative-win.jar"/> 
+    </resources>
+
+    <resources os="Linux">
+        <nativelib href="hdfnative-linux64.jar"/> 
+    </resources>
+    
+    <application-desc main-class="org.broad.igv.ui.IGVMainFrame">
+<argument>{session_url}</argument>
+<argument>{locus}</argument>
+    </application-desc>
+</jnlp>

@@ -83,7 +83,7 @@ public class GeneResultset implements Serializable{
 	  private boolean isAnonymousGene = false;
 	  //private DataSetDE. dataset;
 	  private SortedMap reporters = new TreeMap();
-
+	  private SortedMap groupTypes = new TreeMap();
 
 	/**
 	 * @return Returns the geneSymbol.
@@ -152,6 +152,43 @@ public class GeneResultset implements Serializable{
     public List getReporterNames(){
     	return new ArrayList(reporters.keySet());
     }
-    
+	/**
+	 * @param groupResultset Adds groupResultset to this ReporterResultset object.
+	 */
+	public void addGroupByResultset(Groupable groupResultset){
+		if(groupResultset != null && groupResultset.getType() != null){
+			groupTypes.put(groupResultset.getType().getValue().toString(), groupResultset);
+		}
+	}
+	/**
+	 * @param groupResultset Removes groupResultset to this ReporterResultset object.
+	 */
+	public void removeGroupByResultset(Groupable groupResultset){
+		if(groupResultset != null && groupResultset.getType() != null){
+			groupTypes.remove(groupResultset.getType().getValue().toString());
+		}
+	}
+    /**
+     * @param disease
+	 * @return groupResultset Returns reporterResultset for this ReporterResultset.
+	 */
+    public Groupable getGroupByResultset(String groupType){
+    	if(groupType != null){
+			return (Groupable) groupTypes.get(groupType);
+		}
+    		return null;
+    }
+	/**
+	 * @return Collection Returns collection of GroupResultsets to this ReporterResultset object.
+	 */
+    public Collection getGroupByResultsets(){
+    		return groupTypes.values();
+    }
+	/**
+	 * @param none Removes all groupResultset in this ReporterResultset object.
+	 */
+    public void removeAllGroupByResultset(){
+    	groupTypes.clear();
+    }
     
 }

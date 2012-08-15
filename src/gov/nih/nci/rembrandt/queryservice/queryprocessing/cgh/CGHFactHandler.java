@@ -1,12 +1,16 @@
 package gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh;
 
+import gov.nih.nci.rembrandt.dbbean.ArrayGeneSegmentFact;
 import gov.nih.nci.rembrandt.dbbean.ArrayGenoAbnFact;
+import gov.nih.nci.rembrandt.dbbean.ArraySNPSegmentFact;
 import gov.nih.nci.rembrandt.dbbean.GeneLlAccSnp;
+import gov.nih.nci.rembrandt.dbbean.GeneSnpSegment;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.AllGenesCritValidator;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.CommonFactHandler;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.DBEvent;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ThreadController;
+import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.GeneIDCriteriaHandler;
 import gov.nih.nci.rembrandt.queryservice.resultset.ResultSet;
 import gov.nih.nci.rembrandt.util.ThreadPool;
 
@@ -100,9 +104,11 @@ abstract public class CGHFactHandler {
     List annotationEventList = Collections.synchronizedList(new ArrayList());
     abstract void addToResults(Collection results);
     abstract void addCountToResults(int count);
-    abstract ResultSet[] executeSampleQuery(final Collection allSNPProbeIDs, final ComparativeGenomicQuery cghQuery)
+    abstract ResultSet[] executeRegionQuery(final Collection allSNPProbeIDs, final ComparativeGenomicQuery cghQuery)
     throws Exception;
-    abstract ResultSet[] executeSampleQueryForAllGenes(final ComparativeGenomicQuery cghQuery)
+    abstract ResultSet[] executeGeneQuery(final ComparativeGenomicQuery cghQuery)
+    throws Exception;
+     abstract ResultSet[] executeSampleQueryForAllGenes(final ComparativeGenomicQuery cghQuery)
     throws Exception;
 
     private static void addCopyNumbFactCriteria(ComparativeGenomicQuery cghQuery, final Class targetFactClass, PersistenceBroker _BROKER, final Criteria sampleCrit) throws Exception {
@@ -132,6 +138,7 @@ abstract public class CGHFactHandler {
                 final Criteria sampleCrit = new Criteria();
                 //CommonFactHandler.addDiseaseCriteria(cghQuery, targetFactClass, _BROKER, sampleCrit);
                 CopyNumberCriteriaHandler.addCopyNumberCriteria(cghQuery, targetFactClass, _BROKER, sampleCrit);
+                CopyNumberCriteriaHandler.addAnalysisTypeCriteria(cghQuery, sampleCrit);
                 CommonFactHandler.addDiseaseSampleCriteria(cghQuery, targetFactClass, sampleCrit);
                 CommonFactHandler.addAccessCriteria(cghQuery, targetFactClass, sampleCrit);         
                 _BROKER.close();
@@ -210,8 +217,8 @@ abstract public class CGHFactHandler {
                 int endIndex = (i < arrayIDs.size()) ? endIndex = i : (arrayIDs.size());
                 values.addAll(arrayIDs.subList(begIndex,  endIndex));
                 final Criteria annotCrit = new Criteria();
-                annotCrit.addIn(GeneLlAccSnp.SNP_PROBESET_ID, values);
-                annotCrit.addNotNull(GeneLlAccSnp.GENE_SYMBOL);
+                annotCrit.addIn(GeneSnpSegment.SNP_SEGMENT_ID, values);
+                annotCrit.addNotNull(GeneSnpSegment.GENE_SYMBOL);
                 long time = System.currentTimeMillis();
                 String threadID = "CGHHandler.ThreadID:" + time;
                 final DBEvent.AnnotationRetrieveEvent dbEvent = new DBEvent.AnnotationRetrieveEvent(threadID);
@@ -222,18 +229,18 @@ abstract public class CGHFactHandler {
                               public void codeToRun() {
                                   final PersistenceBroker pb = PersistenceBrokerFactory.defaultPersistenceBroker();
                           ReportQueryByCriteria annotQuery =
-                          QueryFactory.newReportQuery(GeneLlAccSnp.class, annotCrit, false);
-                          annotQuery.setAttributes(new String[] {GeneLlAccSnp.SNP_PROBESET_ID, GeneLlAccSnp.GENE_SYMBOL}); //, GeneLlAccSnp.LOCUS_LINK_ID, GeneLlAccSnp.ACCESSION});
+                          QueryFactory.newReportQuery(GeneSnpSegment.class, annotCrit, false);
+                          annotQuery.setAttributes(new String[] {GeneSnpSegment.SNP_SEGMENT_ID, GeneSnpSegment.GENE_SYMBOL}); //, GeneLlAccSnp.LOCUS_LINK_ID, GeneLlAccSnp.ACCESSION});
                           assert(annotQuery != null);
                           Iterator iter =  pb.getReportQueryIteratorByQuery(annotQuery);
                           while (iter.hasNext()) {
                                Object[] attrs = (Object[]) iter.next();
-                               Long snpProbID = new Long(((BigDecimal)attrs[0]).longValue());
-                              if (snpProbID != null) { 
-                                CopyNumber.SNPAnnotation a = (CopyNumber.SNPAnnotation)annotations.get(snpProbID );
+                               Long snpSegmentID = new Long(((BigDecimal)attrs[0]).longValue());
+                              if (snpSegmentID != null) { 
+                                CopyNumber.SNPAnnotation a = (CopyNumber.SNPAnnotation)annotations.get(snpSegmentID );
                                  if (a == null) {
-                                   a = new CopyNumber.SNPAnnotation(snpProbID, new HashSet(), new HashSet(), new HashSet());
-                                   annotations.put(snpProbID, a);
+                                   a = new CopyNumber.SNPAnnotation(snpSegmentID, new HashSet(), new HashSet(), new HashSet());
+                                   annotations.put(snpSegmentID, a);
                                  }
                                  if(attrs[1] != null){
                                  a.getGeneSymbols().add(attrs[1]);
@@ -260,9 +267,9 @@ abstract public class CGHFactHandler {
 
             PersistenceBroker _BROKER = PersistenceBrokerFactory.defaultPersistenceBroker();
             final Criteria sampleCrit = new Criteria();
-            addCopyNumbFactCriteria(cghQuery, ArrayGenoAbnFact.class, _BROKER, sampleCrit);
+            addCopyNumbFactCriteria(cghQuery, ArraySNPSegmentFact.class, _BROKER, sampleCrit);
             org.apache.ojb.broker.query.Query sampleQuery =
-                QueryFactory.newQuery(ArrayGenoAbnFact.class, sampleCrit, false);
+                QueryFactory.newQuery(ArraySNPSegmentFact.class, sampleCrit, false);
 
 
 
@@ -275,7 +282,7 @@ abstract public class CGHFactHandler {
             Collection col = cghObjects.values();
             for (Iterator iterator = col.iterator(); iterator.hasNext();) {
                 CopyNumber o =  (CopyNumber)iterator.next();
-                allSNPProbeIDs.add(o.getSnpProbesetId());
+                allSNPProbeIDs.add(o.getSnpSegmentId());
             }
 
             //executeGeneAnnotationQuery(allSNPProbeIDs);
@@ -285,8 +292,8 @@ abstract public class CGHFactHandler {
             Collection c = cghObjects.values();
             for (Iterator iterator = c.iterator(); iterator.hasNext();) {
                 CopyNumber obj =  (CopyNumber)iterator.next();
-                if (obj.getSnpProbesetId() != null) {
-                    obj.setAnnotations((CopyNumber.SNPAnnotation)annotations.get(obj.getSnpProbesetId()));
+                if (obj.getSnpSegmentId() != null) {
+                    obj.setAnnotations((CopyNumber.SNPAnnotation)annotations.get(obj.getSnpSegmentId()));
                 }
             }
 
@@ -301,13 +308,13 @@ abstract public class CGHFactHandler {
         }
 
 
-        ResultSet[] executeSampleQuery( final Collection allSNPProbeIDs, final ComparativeGenomicQuery cghQuery)
+        ResultSet[] executeRegionQuery( final Collection allSNPSegmentIDs, final ComparativeGenomicQuery cghQuery)
         throws Exception {
-            logger.debug("Total Number Of SNP_PROBES:" + allSNPProbeIDs.size());
-            executeQuery(ArrayGenoAbnFact.SNP_PROBESET_ID, allSNPProbeIDs, ArrayGenoAbnFact.class, cghQuery);
+            logger.debug("Total Number Of SNP_SEGMENTS:" + allSNPSegmentIDs.size());
+            executeQuery(ArraySNPSegmentFact.SNP_SEGMENT_ID, allSNPSegmentIDs, ArraySNPSegmentFact.class, cghQuery);
 
             ThreadController.sleepOnEvents(factEventList);
-            executeGeneAnnotationQuery(allSNPProbeIDs);
+            executeGeneAnnotationQuery(allSNPSegmentIDs);
             ThreadController.sleepOnEvents(annotationEventList);
 
             // by now CopyNumberObjects and annotations would have populated
@@ -315,8 +322,8 @@ abstract public class CGHFactHandler {
             CopyNumber[] results = new CopyNumber[objs.length];
             for (int i = 0; i < objs.length; i++) {
                 CopyNumber obj = (CopyNumber) objs[i];
-                if (obj.getSnpProbesetId() != null) {
-                    obj.setAnnotations((CopyNumber.SNPAnnotation)annotations.get(obj.getSnpProbesetId()));
+                if (obj.getSnpSegmentId() != null) {
+                    obj.setAnnotations((CopyNumber.SNPAnnotation)annotations.get(obj.getSnpSegmentId()));
                 }
                 results[i] = obj;
             }
@@ -324,40 +331,65 @@ abstract public class CGHFactHandler {
         }
 
         void addToResults(Collection factObjects) {
-           for (Iterator iterator = factObjects.iterator(); iterator.hasNext();) {
-                ArrayGenoAbnFact factObj = (ArrayGenoAbnFact) iterator.next();
-                CopyNumber resObj = new CopyNumber();
-                copyTo(resObj, factObj);
-                cghObjects.put(resObj.getAgaID(), resObj);
-                resObj = null;
+        	for(Object factObj: factObjects){
+        	//for (Iterator iterator = factObjects.iterator(); iterator.hasNext();) {
+        		if(factObj instanceof ArraySNPSegmentFact){
+	                ArraySNPSegmentFact arraySNPSegmentFact = (ArraySNPSegmentFact)factObj;
+	                CopyNumber resObj = new CopyNumber();
+	                copyToArraySNPSegmentFact(resObj, arraySNPSegmentFact);
+	                cghObjects.put(resObj.getAgaID(), resObj);
+	                resObj = null;
+        		}else if(factObj instanceof ArrayGeneSegmentFact){
+        			ArrayGeneSegmentFact arrayGeneSegmentFact = (ArrayGeneSegmentFact)factObj;
+	                CopyNumber resObj = new CopyNumber();
+	                copyToArrayGeneSegmentFact(resObj, arrayGeneSegmentFact);
+	                cghObjects.put(resObj.getAgaID(), resObj);
+	                resObj = null;
+        		}
             }
         }
-        private void copyTo(CopyNumber resultObj, ArrayGenoAbnFact factObj) {
-            resultObj.setAgaID(factObj.getAgaId());
-            resultObj.setAgeGroup(factObj.getAgeGroup());
+        private void copyToArraySNPSegmentFact(CopyNumber resultObj, ArraySNPSegmentFact factObj) {
+        	resultObj.setAgaID(factObj.getASnpSegFId());
+        	resultObj.setSnpSegmentName(factObj.getSnpSegmentId().toString());
+        	resultObj.setSnpSegmentId(factObj.getSnpSegmentId());
             resultObj.setBiospecimenId(factObj.getBiospecimenId());
-            resultObj.setChannelRatio(factObj.getChannelRatio());
-            resultObj.setCopyNumber(factObj.getCopyNumber());
-            resultObj.setCytoband(factObj.getCytoband());
-            resultObj.setDiseaseType(factObj.getDiseaseType());
-            resultObj.setGenderCode(factObj.getGenderCode());
-            resultObj.setLoh(factObj.getLoh());
-            resultObj.setLossGain(factObj.getLossGain());
             resultObj.setSampleId(factObj.getSampleId());
             resultObj.setSpecimenName(factObj.getSpecimenName());
-            resultObj.setSnpProbesetId(factObj.getSnpProbesetId());
-            resultObj.setSnpProbesetName(factObj.getSnpProbesetName());
-            resultObj.setSurvivalLengthRange(factObj.getSurvivalLengthRange());
-            resultObj.setTimecourseId(factObj.getTimecourseId());
-            resultObj.setPhysicalPosition(factObj.getPhysicalPosition());
             resultObj.setChromosome(factObj.getChromosome());
             resultObj.setInstitutionName(factObj.getInstitutionName());
+            resultObj.setAnalysisType(factObj.getAnalysisType());
+            resultObj.setSpecimenType(factObj.getSpecimenType());
+            resultObj.setCalculatedCopyNumber(factObj.getCalculatedCopyNumber());
+            resultObj.setChromosomeEnd(factObj.getChromosomeEnd());
+            resultObj.setChromosomeStart(factObj.getChromosomeStart());
+            resultObj.setSegmentMean(factObj.getSegmentMean());
+            resultObj.setNumberMark(factObj.getNumberMark());
+            resultObj.setDiseaseType(factObj.getDiseaseType());
         }
 
+        private void copyToArrayGeneSegmentFact(CopyNumber resultObj, ArrayGeneSegmentFact factObj) {
+        	resultObj.setAgaID(factObj.getAGeneSegMWFId());
+        	//resultObj.setSnpSegmentName(factObj.getSnpSegmentId().toString());
+        	//resultObj.setSnpSegmentId(factObj.getSnpSegmentId());
+            resultObj.setBiospecimenId(factObj.getBiospecimenId());
+            resultObj.setSampleId(factObj.getSampleId());
+            resultObj.setSpecimenName(factObj.getSpecimenName());
+            resultObj.setSpecimenType(factObj.getSpecimenType());
+            resultObj.setChromosome(factObj.getChromosome());
+            resultObj.setInstitutionName(factObj.getInstitutionName());
+            resultObj.setAnalysisType(factObj.getAnalysisType());
+            resultObj.setCalculatedCopyNumber(factObj.getCalculatedCopyNumber());
+            resultObj.setChromosomeEnd(factObj.getChromosomeEnd());
+            resultObj.setChromosomeStart(factObj.getChromosomeStart());
+            resultObj.setSegmentMean(factObj.getWeightedMean());
+            resultObj.setGeneSymbol(factObj.getGeneSymbol());
+            resultObj.setDiseaseType(factObj.getDiseaseType());
+            //resultObj.setNumberMark(factObj.getNumberMark());
+        }
 
 		public Integer getSampleQueryCount(Collection allSNPProbesetIDs, ComparativeGenomicQuery cghQuery) throws Exception {
             logger.debug("Total Number Of SNP_PROBES:" + allSNPProbesetIDs.size());
-            executeQueryCount(ArrayGenoAbnFact.SNP_PROBESET_ID, allSNPProbesetIDs, ArrayGenoAbnFact.class, cghQuery);
+            executeQueryCount(ArraySNPSegmentFact.SNP_SEGMENT_ID, allSNPProbesetIDs, ArraySNPSegmentFact.class, cghQuery);
 
             ThreadController.sleepOnEvents(factEventList);
 
@@ -370,6 +402,33 @@ abstract public class CGHFactHandler {
 			copyNumberObjCount += count;
 			
 		}
+
+
+		@Override
+		ResultSet[] executeGeneQuery(ComparativeGenomicQuery cghQuery)
+		throws Exception {
+			
+            ArrayList geneIDs = GeneIDCriteriaHandler.getGeneIDValues(cghQuery.getGeneIDCriteria());
+            logger.debug("Total Number Of gene symbols:" + geneIDs.size());            
+            executeQuery(ArrayGeneSegmentFact.GENE_SYMBOL, geneIDs, ArrayGeneSegmentFact.class, cghQuery);
+
+            ThreadController.sleepOnEvents(factEventList);
+            //executeGeneAnnotationQuery(allSNPSegmentIDs);
+            //ThreadController.sleepOnEvents(annotationEventList);
+
+            // by now CopyNumberObjects and annotations would have populated
+            Object[]objs = (cghObjects.values().toArray());
+            CopyNumber[] results = new CopyNumber[objs.length];
+            for (int i = 0; i < objs.length; i++) {
+                CopyNumber obj = (CopyNumber) objs[i];
+                //if (obj.getSnpSegmentId() != null) {
+                //    obj.setAnnotations((CopyNumber.SNPAnnotation)annotations.get(obj.getSnpSegmentId()));
+                //}
+                results[i] = obj;
+            }
+            return results;
+		}
+
     }
 }
 

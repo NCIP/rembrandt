@@ -55,9 +55,9 @@ public class DownloadAction extends DispatchAction {
 			throws Exception {
 		request.getSession().setAttribute("currentPage", "0");
 		//prepopulate the fields for BRB downloads
-		List fileList = LookupManager.getDownloadBRBFileList();
+		List<DownloadFileLookup> fileList = LookupManager.getDownloadFileList(null);
 		if (fileList == null || fileList.isEmpty())	{
-			request.setAttribute("downloadFileList", new ArrayList());
+			request.setAttribute("downloadFileList", new ArrayList<DownloadFileLookup>());
 			return mapping.findForward("success");
 		}
 		List<DownloadFileLookup> downloadFileList = new ArrayList<DownloadFileLookup>();

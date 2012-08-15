@@ -92,6 +92,8 @@ public final class RembrandtConstants {
 	
 	public static final String REPORT_XML = "reportXML";
 	
+	public static final String REPORT_IGV = "reportIGV";
+	
 	public static final String TEMP_RESULTS = "Rembrandt_results ";
 	
 	public static final String DEFAULT_XSLT_FILENAME ="report.xsl";

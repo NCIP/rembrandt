@@ -72,7 +72,7 @@ public class Measurement {
 	private Long id;
 	/**
 	 * A standard of basic quantity or increment by which something is divided, counted, or described, such as ml, kg, mm, m/s,
-	 * F, etc.
+	 * °F, etc.
 	 */
 	private String unit;
 	/**

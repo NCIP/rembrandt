@@ -10,6 +10,7 @@ import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.AgeGroupResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.DiseaseTypeResultset;
+import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.SurvivalRangeResultset;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
@@ -120,6 +121,26 @@ public class ViewByGroupResultsetHandler {
   		else if(reporterResultset != null && resultObj != null &&  resultObj.getDiseaseType() == null){
   			DiseaseNameDE disease = new DiseaseNameDE(RembrandtConstants.UNASSIGNED);
   			diseaseResultset = (DiseaseTypeResultset) reporterResultset.getGroupByResultset(RembrandtConstants.UNASSIGNED);
+  		    if (diseaseResultset == null){
+  		    	diseaseResultset= new DiseaseTypeResultset(disease);
+	      		}
+      	}
+  		return diseaseResultset;
+    }
+    public static DiseaseTypeResultset handleDiseaseTypeResultset(GeneResultset geneResultset, ClinicalResultSet resultObj){
+  		//find out the disease type associated with the resultObj
+  		//populate the DiseaseTypeResultset
+		DiseaseTypeResultset diseaseResultset = null;
+  		if(geneResultset != null && resultObj != null &&  resultObj.getDiseaseType() != null){
+  			DiseaseNameDE disease = new DiseaseNameDE(resultObj.getDiseaseType().toString());
+  			diseaseResultset = (DiseaseTypeResultset) geneResultset.getGroupByResultset(resultObj.getDiseaseType().toString());
+  		    if (diseaseResultset == null){
+  		    	diseaseResultset= new DiseaseTypeResultset(disease);
+	      		}
+      	}
+  		else if(geneResultset != null && resultObj != null &&  resultObj.getDiseaseType() == null){
+  			DiseaseNameDE disease = new DiseaseNameDE(RembrandtConstants.UNASSIGNED);
+  			diseaseResultset = (DiseaseTypeResultset) geneResultset.getGroupByResultset(RembrandtConstants.UNASSIGNED);
   		    if (diseaseResultset == null){
   		    	diseaseResultset= new DiseaseTypeResultset(disease);
 	      		}

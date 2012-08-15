@@ -1,7 +1,16 @@
 package gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh;
 
+import gov.nih.nci.caintegrator.dto.critieria.AnalysisTypeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.CopyNumberCriteria;
+import gov.nih.nci.caintegrator.dto.critieria.SegmentMeanCriteria;
 import gov.nih.nci.caintegrator.dto.de.CopyNumberDE;
+import gov.nih.nci.caintegrator.dto.de.DomainElement;
+import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
+import gov.nih.nci.caintegrator.dto.de.SNPableDE;
+import gov.nih.nci.caintegrator.dto.de.SegmentMeanDE;
+import gov.nih.nci.caintegrator.dto.view.CopyNumberGeneBasedSampleView;
+import gov.nih.nci.caintegrator.enumeration.AnalysisType;
+import gov.nih.nci.caintegrator.util.MathUtil;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.QueryHandler;
 
@@ -85,31 +94,49 @@ public class CopyNumberCriteriaHandler {
     }
 
     private static void validateCopyNumberForAllGenes(CopyNumberCriteria copyNumberCrit) throws Exception {
-        CopyNumberDE c = (CopyNumberDE)copyNumberCrit.getCopyNummbers().toArray()[0];
+        SNPableDE c = (SNPableDE)copyNumberCrit.getCopyNummbers().toArray()[0];
         String type = c.getCGHType();
-        if (type.equals(CopyNumberDE.AMPLIFICATION)) {
+        if (type.equals(SNPableDE.AMPLIFICATION)) {
             if (c.getValueObject().compareTo(ALL_GENES_COPY_LIMIT) < 0) {
                 throw new Exception("Amplification must be at greater than or equal to " + ALL_GENES_COPY_LIMIT);
             }
         }
 
-        else if(type.equals(CopyNumberDE.DELETION)) {
+        else if(type.equals(SNPableDE.DELETION)) {
              if (c.getValueObject().compareTo(ALL_GENES_COPY_LIMIT) > 0) {
                 throw new Exception("Deletion must be at less than or equal to " + ALL_GENES_COPY_LIMIT);
             }
         }
     }
+    static void addAnalysisTypeCriteria(ComparativeGenomicQuery cghQuery, Criteria criteria) throws Exception {
+    	AnalysisTypeCriteria analysisTypeCriteria = cghQuery.getAnalysisTypeCriteria();
+        String columnName = "ANALYSIS_TYPE";
+        if (analysisTypeCriteria != null  && analysisTypeCriteria.getAnalysisType() != null) {
 
+        	AnalysisType analysisType = analysisTypeCriteria.getAnalysisType();
+               Criteria c = new Criteria();
+               c.addEqualTo(columnName, analysisType.name());
+               criteria.addAndCriteria(c);
+ 
+      }
+    }
     static void addCopyNumberCriteria(ComparativeGenomicQuery cghQuery, Class beanClass, PersistenceBroker pb, Criteria criteria) throws Exception {
         CopyNumberCriteria copyNumberCrit = cghQuery.getCopyNumberCriteria();
+        SegmentMeanCriteria segmentMeanCrit = cghQuery.getSegmentMeanCriteria();
+        String columnName = "SEGMENT_MEAN";
+        if(cghQuery.getAssociatedView() instanceof CopyNumberGeneBasedSampleView){
+        	columnName = "WEIGHT_MEAN";
+        }
         if (copyNumberCrit != null) {
-               String columnName = QueryHandler.getColumnName(pb, CopyNumberDE.class.getName(), beanClass.getName());
+            //String columnName = QueryHandler.getColumnName(pb, CopyNumberDE.class.getName(), beanClass.getName());
+            //String columnName = "WEIGHT_MEAN";
+
                Collection objs = copyNumberCrit.getCopyNummbers();
                Object[] copyObjs = objs.toArray();
 
                 // Either only UpRegulation or DownRegulation
                 if (copyObjs .length == 1) {
-                    CopyNumberDE copyObj = (CopyNumberDE) copyObjs [0];
+                    SNPableDE copyObj = (CopyNumberDE) copyObjs [0];
                     Double foldChange = new Double(copyObj.getValueObject().floatValue());
                     addSingleUpORDownCriteria(foldChange, copyObj.getCGHType(), columnName, criteria, pb);
                 }
@@ -117,10 +144,10 @@ public class CopyNumberCriteriaHandler {
                 // else it could be EITHER both (UpRegulation or DownRegulation) OR UnChangedRegulation
                 else if (copyObjs.length == 2) {
                    String type = ((CopyNumberDE)copyObjs[0]).getCGHType();
-                   if (type.equals(CopyNumberDE.UNCHANGED_COPYNUMBER_UPPER_LIMIT) || type.equals(CopyNumberDE.UNCHANGED_COPYNUMBER_DOWN_LIMIT) ) {
+                   if (type.equals(SNPableDE.UNCHANGED_UPPER_LIMIT) || type.equals(SNPableDE.UNCHANGED_DOWN_LIMIT) ) {
                        addUnChangedCriteria(copyObjs, columnName, criteria, pb);
                    }
-                   else if (type.equals(CopyNumberDE.AMPLIFICATION) || type.equals(CopyNumberDE.DELETION) ) {
+                   else if (type.equals(SNPableDE.AMPLIFICATION) || type.equals(SNPableDE.DELETION) ) {
                        addUpAndDownCriteria(copyObjs, columnName, criteria, pb);
                    }
                 }
@@ -128,48 +155,77 @@ public class CopyNumberCriteriaHandler {
                    throw new Exception("Invalid number of Copy Numnber Criteria objects: " + copyObjs.length);
                 }
          }
+        else if (segmentMeanCrit != null) {
+            //String columnName = QueryHandler.getColumnName(pb, SegmentMeanDE.class.getName(), beanClass.getName());
+            Collection objs = segmentMeanCrit.getSegmentMeanData();
+            Object[] segMeanObjs = objs.toArray();
+
+             // Either only UpRegulation or DownRegulation
+             if (segMeanObjs .length == 1) {
+            	 SegmentMeanDE segMeanObj = (SegmentMeanDE) segMeanObjs [0];
+                 Double foldChange = new Double(segMeanObj.getValueObject().floatValue());
+                 addSingleUpORDownCriteria(foldChange, segMeanObj.getCGHType(), columnName, criteria, pb);
+             }
+
+             // else it could be EITHER both (UpRegulation or DownRegulation) OR UnChangedRegulation
+             else if (segMeanObjs.length == 2) {
+                String type = ((SegmentMeanDE)segMeanObjs[0]).getCGHType();
+                if (type.equals(SNPableDE.UNCHANGED_UPPER_LIMIT) || type.equals(SNPableDE.UNCHANGED_DOWN_LIMIT) ) {
+                    addUnChangedCriteria(segMeanObjs, columnName, criteria, pb);
+                }
+                else if (type.equals(SNPableDE.AMPLIFICATION) || type.equals(SNPableDE.DELETION) ) {
+                    addUpAndDownCriteria(segMeanObjs, columnName, criteria, pb);
+                }
+             }
+             else {
+                throw new Exception("Invalid number of Segment Mean Criteria objects: " + segMeanObjs.length);
+             }
+      }
     }
 
-    private static void addUpAndDownCriteria(Object[] copyObjs, String columnName, Criteria criteria, PersistenceBroker pb) throws Exception {
-        String type1 = ((CopyNumberDE)copyObjs[0]).getCGHType();
-        Double copyChange1 = new Double(((CopyNumberDE)copyObjs[0]).getValueObject().floatValue());
+    private static void addUpAndDownCriteria(Object[] objs, String columnName, Criteria criteria, PersistenceBroker pb) throws Exception {
+
+    	if( objs instanceof SNPableDE[]){
+    	String type1 = ((SNPableDE)objs[0]).getCGHType();    	
+        Double change1 = new Double(((SNPableDE)objs[0]).getValueObject().floatValue());
         Criteria newCrit = new Criteria();
-        addSingleUpORDownCriteria(copyChange1, type1, columnName, newCrit, pb);
+        addSingleUpORDownCriteria(change1, type1, columnName, newCrit, pb);
 
-        String type2 = ((CopyNumberDE)copyObjs[1]).getCGHType();
-        Double copyChange2 = new Double(((CopyNumberDE)copyObjs[1]).getValueObject().floatValue());
-        Criteria copy2Crit = new Criteria();
-        addSingleUpORDownCriteria(copyChange2, type2, columnName, copy2Crit, pb);
+        String type2 = ((SNPableDE)objs[1]).getCGHType();
+        Double change2 = new Double(((SNPableDE)objs[1]).getValueObject().floatValue());
+        Criteria newCrit2 = new Criteria();
+        addSingleUpORDownCriteria(change2, type2, columnName, newCrit2, pb);
 
-        newCrit.addOrCriteria(copy2Crit);
+        newCrit.addOrCriteria(newCrit2);
 
         criteria.addAndCriteria(newCrit);
+    	}
     }
 
-    private static void addUnChangedCriteria(Object[] copyObjs, String columnName, Criteria criteria, PersistenceBroker pb) throws Exception {
+    private static void addUnChangedCriteria(Object[] objs, String columnName, Criteria criteria, PersistenceBroker pb) throws Exception {
 
-        String type1 = ((CopyNumberDE)copyObjs[0]).getCGHType();
-        Double upperLimit;
+        String type1 = ((SNPableDE)objs[0]).getCGHType();
+    	        Double upperLimit;
         Double lowerLimit;
 
-        if (type1.equals(CopyNumberDE.UNCHANGED_COPYNUMBER_UPPER_LIMIT)) {
-            upperLimit = new Double(((CopyNumberDE) copyObjs[0]).getValueObject().floatValue());
-            lowerLimit = new Double(((CopyNumberDE)copyObjs[1]).getValueObject().floatValue());
+        if (type1.equals(SNPableDE.UNCHANGED_UPPER_LIMIT)) {
+            upperLimit = new Double(((SNPableDE) objs[0]).getValueObject().floatValue());
+            lowerLimit = new Double(((SNPableDE)objs[1]).getValueObject().floatValue());
         }
         else {
-            upperLimit = new Double(((CopyNumberDE)copyObjs[1]).getValueObject().floatValue());
-            lowerLimit = new Double(((CopyNumberDE)copyObjs[0]).getValueObject().floatValue());
+            upperLimit = new Double(((SNPableDE)objs[1]).getValueObject().floatValue());
+            lowerLimit = new Double(((SNPableDE)objs[0]).getValueObject().floatValue());
         }
         criteria.addBetween(columnName, lowerLimit, upperLimit);
     }
 
-    private static void addSingleUpORDownCriteria(Double copyChange, String type, String colunName, Criteria subCrit, PersistenceBroker pb) throws Exception {
-        if (type.equals(CopyNumberDE.AMPLIFICATION))
-            subCrit.addGreaterOrEqualThan(colunName,copyChange);
-        else if (type.equals(CopyNumberDE.DELETION))
-            subCrit.addLessOrEqualThan(colunName, copyChange);
+    private static void addSingleUpORDownCriteria(Double change, String type, String colunName, Criteria subCrit, PersistenceBroker pb) throws Exception {
+        if (type.equals(SNPableDE.AMPLIFICATION))
+            subCrit.addGreaterOrEqualThan(colunName,change);
+        else if (type.equals(SNPableDE.DELETION))
+            subCrit.addLessOrEqualThan(colunName, change);
         else {
-            throw new Exception("Invalid Copy Nuumber: " + type + " Value:" + copyChange);
+            throw new Exception("Invalid Copy Nuumber: " + type + " Value:" + change);
         }
    }
 }

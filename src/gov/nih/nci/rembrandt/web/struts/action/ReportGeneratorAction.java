@@ -15,6 +15,7 @@ import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.service.findings.RembrandtTaskResult;
+import gov.nih.nci.rembrandt.util.IGVHelper;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ReportBean;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
@@ -25,6 +26,7 @@ import gov.nih.nci.rembrandt.web.struts.form.ClinicalDataForm;
 import gov.nih.nci.rembrandt.web.struts.form.ComparativeGenomicForm;
 import gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm;
 import gov.nih.nci.rembrandt.web.struts.form.ReportGeneratorForm;
+import gov.nih.nci.rembrandt.web.xml.CopyNumberIGVReport;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -133,6 +135,9 @@ public class ReportGeneratorAction extends DispatchAction {
     	String sessionId = request.getSession().getId();
     	//get the specified report bean from the cache using the query name as the key
     	ReportBean reportBean = presentationTierCache.getReportBean(sessionId,rgForm.getQueryName());
+    	String isIGV = "false";
+    	if(request.getParameter("igv")!=null)
+    		isIGV = (String) request.getParameter("igv");
     	/*
     	 * check to see if this is a filter submission.  If it is then
     	 * we are going to need to generate XML most likely.  WE should probably
@@ -164,7 +169,9 @@ public class ReportGeneratorAction extends DispatchAction {
     		}
     		//change the name of the associated query
     		cQuery.setQueryName(queryName);
-    		
+            if(isIGV!= null && isIGV.equals("true")){
+            	cQuery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_IGV ));
+           }
     		//Create a new bean to store the new resultant, name, param combination
     		ReportBean newReportBean = new ReportBean();
     		//set the retrieval key for the ReportBean
@@ -257,6 +264,136 @@ public class ReportGeneratorAction extends DispatchAction {
     	}
     	//Go to the geneViewReport.jsp to render the report
     	return mapping.findForward("runGeneViewReport");
+    }
+    /**
+     * This action method should be called when it is desired to actually render
+     * a Copy Number IGV report to a jsp.  It will grab the desired report XML to display from the cache
+     * and store it in the request so that it can be rendered.  
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward runIGVReport(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	throws Exception {
+    	ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
+    	String sessionId = request.getSession().getId();
+    	//get the specified report bean from the cache using the query name as the key
+    	ReportBean reportBean = presentationTierCache.getReportBean(sessionId,rgForm.getQueryName());
+    	/*
+    	 * check to see if this is a filter submission.  If it is then
+    	 * we are going to need to generate XML most likely.  WE should probably
+    	 * differentiate what are XML generation filter options and what are
+    	 * XSLT filter options.  But for now they are all contained in the 
+    	 * filterParams HashMap...  This could be clearer as it will definatley
+    	 * cause some confusion for maintenance.
+    	 * 
+    	 * --Dave 
+    	 */
+    	Map filterParams = rgForm.getFilterParams();
+    	/*
+    	 * If there is a filter_type specified, we know that the UI
+    	 * wants to perform a filter.  So we need to annotate the 
+    	 * queryName to show that it is filter report.
+    	 */
+    	if(filterParams!=null&&filterParams.containsKey("filter_type")) {
+    		//get the old resultant
+    		Resultant resultant = reportBean.getResultant();
+    		//get the old query
+    		CompoundQuery cQuery = ((CompoundQuery)(reportBean.getAssociatedQuery()));
+    		//Mark this as a filter report
+    		String queryName = cQuery.getQueryName();
+    		//don't mark it again as a filter report if it is already a filter 
+    		//report at present this will cause the old result in cache
+    		//to be overwritten...
+    		if(queryName.indexOf("filter report")<0) {
+    			queryName = queryName + RembrandtConstants.FILTER_REPORT_SUFFIX;
+    		}
+    		//change the name of the associated query
+    		cQuery.setQueryName(queryName);
+    		//Create a new bean to store the new resultant, name, param combination
+    		ReportBean newReportBean = new ReportBean();
+    		//set the retrieval key for the ReportBean
+    		newReportBean.setResultantCacheKey(queryName);
+//    		set the modified query in to the resultant and the report bean
+    		resultant.setAssociatedQuery(cQuery);
+    		newReportBean.setAssociatedQuery(cQuery);
+    		//add the resultant to the new bean
+    		newReportBean.setResultant(resultant);
+    		//put the new bean in cache
+    		BusinessCacheManager.getInstance().addToSessionCache(sessionId, queryName,newReportBean );
+    		/*
+    		 *  Generate new XML for the old resultant under the new QueryName.
+    		 *	The filter param maps is necesary because it contains data that
+    		 *  will be necesary to generate the correct XML for the filter
+    		 *  specified...  This does beg the question, Why are we 
+    		 *  regenerating the XML to apply a filter when we could do that in
+    		 *  XSL.  Need to take a look at that in subsequent releases.
+    		 *  
+    		 *  --Dave
+    		 *   
+    		 */
+    		
+    		ReportGeneratorHelper generatorHelper = new ReportGeneratorHelper(cQuery,filterParams); 
+    		//get the final constructed report bean
+    		reportBean = generatorHelper.getReportBean();
+    	}
+    	//Do we have a ReportBean... we have to have a ReportBean
+    	if(reportBean!=null) {
+
+    		CompoundQuery compoundQuery = ((CompoundQuery)(reportBean.getAssociatedQuery()));
+    		StringBuffer sb = new StringBuffer();
+    		if(compoundQuery != null) {			
+    			String theQuery  =  compoundQuery.toString();
+    	 		sb.append("<br><a name=\'queryInfo\'></a>Query: "+theQuery);
+    	 		sb.append("<table>");
+    	 		sb.append("<tr>");
+    	 		Query[] queries = compoundQuery.getAssociatiedQueries();
+    	 		for(int i = 0; i<queries.length; i++){
+    	 			sb.append("<td>");
+    	 			sb.append(queries[i]);
+    	 			sb.append("</td>");
+    	 		}
+    	 		sb.append("</tr>");
+    	 		sb.append("</table>");
+    		}
+    		
+    		String noHTMLString = sb.toString();
+    		//noHTMLString = noHTMLString.replaceAll("\\<.*?\\>","");
+    		noHTMLString = noHTMLString.replaceAll("<", "{");
+    		noHTMLString = noHTMLString.replaceAll(">", "}");
+    		noHTMLString = noHTMLString.replaceAll("&nbsp;", " ");
+    		rgForm.setQueryDetails(noHTMLString);
+    		
+	    	//add the Filter Parameters from the form to the forwarding request
+	    	request.setAttribute(RembrandtConstants.FILTER_PARAM_MAP, rgForm.getFilterParams());
+	    	//put the report xml in the request
+	    	CopyNumberIGVReport copyNumberIGVReport = new CopyNumberIGVReport();
+	    	StringBuffer stringBuffer = copyNumberIGVReport.getIGVReport(reportBean.getResultant());
+	    	String locus = "chr"+copyNumberIGVReport.getChr()+":"+copyNumberIGVReport.getStartLoc()+"-"+copyNumberIGVReport.getEndLoc(); //chromosome:start-end
+	    	String genome = "hg18";//TODO move to property file
+	    	String url = request.getRequestURL().toString();
+	    	url = url.substring(0, url.lastIndexOf("/")+1);
+	    	IGVHelper igvHelper = new IGVHelper(sessionId, genome,  locus,  url);
+	    	//fileDownload.do?method=brbFileDownload&fileId=
+	    	//url = url+"igvfileDownload.do?method=igvFileDownload&igv=";
+	    	String cnFileName = igvHelper.getIgvCopyNumberFileName();
+	    	igvHelper.writeStringtoFile(stringBuffer.toString(), cnFileName);
+	    	String igvURL = igvHelper.getIgvJNPL();
+	    	if(igvURL != null){
+	    		request.setAttribute(RembrandtConstants.REPORT_IGV, igvURL);
+	    	}
+    	}else {
+    		//Throw an exception because you should never call this action method
+    		//unless you have already generated the report and stored it in the cache
+    		logger.error( new IllegalStateException("Missing ReportBean for: "+rgForm.getQueryName()));
+    	}
+    	//Go to the geneViewReport.jsp to render the report
+    	return mapping.findForward("runIGVReport");
     }
     /**
      * This action method should be called when it is desired to actually render
@@ -601,12 +738,17 @@ public ActionForward exportToExcelForGeneView(ActionMapping mapping, ActionForm 
 	if(cquery!=null) {
 		if( reportType.equals( "Gene Expression Sample" ) )
 			cquery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
+		else if ( reportType.equals( "Gene Copy Number" ) )	
+			cquery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GENE_SAMPLE_VIEW ));
 		else if ( reportType.equals( "Copy Number" ) )	
-			cquery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW ));
+			cquery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_SEGMENT_VIEW ));
+		//else if ( reportType.equals( "Copy Number-IGV" ) )	
+		//	cquery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_IGV ));
 		else
 			cquery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
 		
 		cquery.setQueryName(prb_queryName);
+		
 		//This will generate the report and store it in the cache
 		//ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cquery, sampleIds, false );
 		ReportGeneratorHelper rgHelper = null;	
@@ -625,7 +767,54 @@ public ActionForward exportToExcelForGeneView(ActionMapping mapping, ActionForm 
 	//now send everything that we have done to the actual method that will render the report
 	return runGeneViewReport(mapping, rgForm, request, response);
 }
+public ActionForward exportToIGV(ActionMapping mapping, ActionForm form,
+		HttpServletRequest request, HttpServletResponse response)
+		throws Exception {
+	ActionForward thisForward = null;
+	ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
+	//Used to get the old resultant from cache
+	String queryName = rgForm.getQueryName();
+	//This is what the user wants to name the new resultSet
+	String prb_queryName = rgForm.getPrbQueryName();
+	String sessionId = request.getSession().getId();
+	
+	String reportType = request.getParameter( "reportType" );
+	String[] sampleIds = null;
+	
+	if( reportType.equals( "Copy Number" ) ){
+		sampleIds = (String[])request.getSession().getAttribute("tmp_excel_export");
+	}
+	
+	
+	//get the old 
+	CompoundQuery cquery = presentationTierCache.getQuery(sessionId, queryName );
+	
+	if(cquery!=null) {
+		if ( reportType.equals( "Gene Copy Number" ) )	
+			cquery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GENE_SAMPLE_VIEW ));
+		else if ( reportType.equals( "Copy Number" ) )	
+			cquery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_SEGMENT_VIEW ));
+		
+		cquery.setQueryName(prb_queryName);
+		
+		//This will generate the report and store it in the cache
+		//ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cquery, sampleIds, false );
+		ReportGeneratorHelper rgHelper = null;	
+			rgHelper = new ReportGeneratorHelper(cquery, sampleIds, false);
 
+		/*
+		if (!reportType.equals("Gene Expression Sample") && !reportType.equals("Copy Number")) {
+			rgHelper = new ReportGeneratorHelper(cquery, sampleIds, false, true );
+		} else {
+		}
+		*/
+		//store the name of the query in the form so that we can later pull it out of cache
+		ReportBean reportBean = rgHelper.getReportBean();
+		rgForm.setQueryName(reportBean.getResultantCacheKey());
+   	}
+	//now send everything that we have done to the actual method that will render the report
+	return runGeneViewReport(mapping, rgForm, request, response);
+}
 public ActionForward switchViews(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -647,7 +836,7 @@ public ActionForward switchViews(ActionMapping mapping, ActionForm form,
 				if(reportView.equals("G"))
 					clonedQuery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
 				else if(reportView.equals("C"))
-					clonedQuery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GROUP_SAMPLE_VIEW));
+					clonedQuery.setAssociatedView(clonedQuery.getAssociatedView());
 				else
 					clonedQuery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
 			}
