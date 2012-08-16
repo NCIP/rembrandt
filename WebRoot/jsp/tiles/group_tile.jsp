@@ -1,6 +1,8 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
+<%@ taglib prefix="x" uri="http://java.sun.com/jstl/xml" %>
 <%@ page import="java.util.*, gov.nih.nci.rembrandt.web.struts.form.*,gov.nih.nci.rembrandt.web.bean.*" %> 
 <%
 	String act = request.getParameter("act");
@@ -42,15 +44,19 @@
   </table>
 </logic:present>
 
-<logic:present name="gpIntegrationForm">
+<c:if test="${param.act eq 'gpintegration' || param.act eq 'igvintegration'}">
 <legend class="red">Step 1: Select Group<b class="req">*</b>
 <!-- <app:help help="Search on All Samples, or specify at least two Existing Groups." />-->
 <a href="javascript: Help.popHelp('<%=act%>_Group_tooltip');">[?]</a>    
 </legend>
 
 
-
- <html:errors property="selectedGroups"/>Select 2 or More Groups <br />
+ <c:if test="${param.act eq 'gpintegration'}">
+ 	<html:errors property="selectedGroups"/>Select 2 or More Groups <br />
+ </c:if>
+ <c:if test="${param.act eq 'igvintegration'}">
+ 	<html:errors property="selectedGroups"/>Select 1 or More Groups <br />
+ </c:if>
 
 <table align="center" border="0">
     <tr style="vertical-align:top">
@@ -80,7 +86,8 @@
     </tr>
     
   </table>
-</logic:present>
+  </c:if>
+
 
 
 

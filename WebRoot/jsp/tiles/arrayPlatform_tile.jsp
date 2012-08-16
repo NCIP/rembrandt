@@ -1,6 +1,7 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <%@ page import="gov.nih.nci.caintegrator.dto.critieria.Constants"%>
 
 <fieldset class="gray">
@@ -21,6 +22,9 @@ Step 3: Select Array Platform
 <logic:present name="hierarchicalClusteringForm">
 Step 4: Select Array Platform
 </logic:present>
+<logic:present name="igvIntegrationForm">
+Step 2: Select Array Platform
+</logic:present>
 </label>
 <%
 	String act = request.getParameter("act");
@@ -31,24 +35,32 @@ Step 4: Select Array Platform
 
 	
 <br/>	
-&nbsp;&nbsp;<select name="arrayPlatform" id="platSelect"  
+<c:if test="${param.act eq 'igvintegration'}">
+	&nbsp;&nbsp;<html:select property="snpArrayPlatform" styleId="snpSelect" onchange="javascript:checkArrayPlatform(this);">
+		<option selected="true" value="None"> </option>
+		<option value="100K SNP Array">100K SNP Array</option>
+	</html:select>&nbsp;&nbsp;  
+</c:if>
+&nbsp;&nbsp;<html:select property="arrayPlatform"  styleId="platSelect">   
 <logic:notPresent name="geneexpressionForm">
 	onchange="this.options[1].selected=true;"
 </logic:notPresent>	
 >
-<% if(act.equalsIgnoreCase("gpintegration")){%>
-
-<option selected="true" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Oligo (Affymetrix U133 Plus 2.0)</option>
-					
-
-<%}
-
-else{%>
+<c:choose>
+    <c:when test="${param.act eq 'gpintegration'}">
+		<option selected="true" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Oligo (Affymetrix U133 Plus 2.0)</option>
+	</c:when>
+    <c:when test="${param.act eq 'igvintegration'}">
+    	<option selected="true" value="None"> </option>
+		<option value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Oligo (Affymetrix U133 Plus 2.0)</option>
+	</c:when>
+	<c:otherwise>
 					<option value="<%=Constants.ALL_PLATFROM%>">All</option>
 					<option selected="true" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Oligo (Affymetrix U133 Plus 2.0)</option>
 					<option value="<%=Constants.CDNA_ARRAY_PLATFORM%>">cDNA</option>
-<%}%>					
-			</select>
+	</c:otherwise>
+</c:choose>
+	</html:select>
 			
 			<html:errors property="arrayPlatform"/>
 </fieldset>
@@ -57,6 +69,22 @@ else{%>
 	document.getElementById("platSelect").selectedIndex = 0;
 </script>
 </logic:present>
+
+ <script language="javascript">
+ function checkArrayPlatform(formElement){
+     
+   //selected index of the selected
+	var element = formElement.value;
+	
+	 if(element == "None"){
+	 	document.getElementById("snpAnalysisSelect").disabled = true;
+	 	document.getElementById("snpAnalysisSelect").selectedIndex = 0;
+	 }
+	 else {
+	 	document.getElementById("snpAnalysisSelect").disabled = false;
+	 }
+}
+</script>	
 
 
 

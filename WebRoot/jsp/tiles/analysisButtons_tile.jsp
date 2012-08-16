@@ -21,10 +21,18 @@ document.forms[0].target = "_self";
 			<bean:message key="buttons_tile.submittalButton" />
 		</html:submit>
 	</logic:present>
+	<logic:present name="igvIntegrationForm">
+		<html:submit styleId="submittalButton" styleClass="subButton" property="method" onclick="javascript: saveMe(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups')); javascript: saveMe(document.getElementById('selectedAnnotationList'),document.getElementById('annotationList')); return checkNull(document.forms[0].analysisResultName, 'false');">
+			<bean:message key="buttons_tile.submittalButton" />
+		</html:submit>
+	</logic:present>
+
 	<logic:notPresent name="gpIntegrationForm">
-	<html:submit styleId="submittalButton" styleClass="subButton" property="method" onclick="javascript:saveMe(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups'));return checkNull(document.forms[0].analysisResultName, 'true')">
-    	<bean:message key="buttons_tile.submittalButton"/>
-	</html:submit>
+		<logic:notPresent name="igvIntegrationForm">
+			<html:submit styleId="submittalButton" styleClass="subButton" property="method" onclick="javascript:saveMe(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups'));return checkNull(document.forms[0].analysisResultName, 'true')">
+		    	<bean:message key="buttons_tile.submittalButton"/>
+			</html:submit>
+		</logic:notPresent>
 	</logic:notPresent>
 </logic:notPresent>
 

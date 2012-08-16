@@ -26,6 +26,7 @@
 		<form-bean name="uploadGeneSetForm" type="gov.nih.nci.rembrandt.web.struts.form.UploadGeneSetForm"/>				
 		<form-bean name="uploadReporterSetForm" type="gov.nih.nci.rembrandt.web.struts.form.UploadReporterSetForm"/>	
 		<form-bean name="gpIntegrationForm" type="gov.nih.nci.rembrandt.web.struts.form.GpIntegrationForm"/>
+		<form-bean name="igvIntegrationForm" type="gov.nih.nci.rembrandt.web.struts.form.IgvIntegrationForm"/>
    		<form-bean name="gpProcessForm" type="gov.nih.nci.rembrandt.web.struts.form.GpProcessForm"/>	
 		<form-bean name="downloadForm" type="gov.nih.nci.rembrandt.web.struts.form.DownloadForm"/>	
 		<form-bean name="importWorkspaceForm" type="gov.nih.nci.rembrandt.web.struts.form.ImportWorkspaceForm"/>
@@ -298,6 +299,14 @@
 		<forward name="success" path="rembrandt.gpIntegration" />
 	</action>
 		
+   <action path="/igvintegrationInit"
+		type="gov.nih.nci.rembrandt.web.struts.action.IgvIntegrationAction"
+		name="igvIntegrationForm"
+		scope="request"
+		validate="false"
+		parameter="method">
+		<forward name="success" path="rembrandt.igvIntegration" />
+	</action>
 	
 	<action path="/gpintegration"
 		input="rembrandt.gpIntegration"
@@ -310,6 +319,18 @@
 		<!-- forward name="viewJob" path="rembrandt.gpJobView" / -->
 		<forward name="viewJob" path="/gpProcess.do?method=setup" />
 	</action>
+
+	<action path="/igvintegration"
+		input="rembrandt.igvIntegration"
+		type="gov.nih.nci.rembrandt.web.struts.action.IgvIntegrationAction"
+		name="igvIntegrationForm"
+		scope="request"
+		validate="true"
+		parameter="method">
+		<forward name="success" path="rembrandt.igvIntegration" />
+		<forward name="viewJob" path="/gpProcess.do?method=setup" />
+	</action>
+
 	<action path="/gpProcess"
 		input="rembrandt.gpJobView"
 		type="gov.nih.nci.rembrandt.web.struts.action.GPProcessAction"

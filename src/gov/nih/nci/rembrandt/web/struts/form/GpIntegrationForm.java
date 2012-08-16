@@ -21,7 +21,7 @@ public class GpIntegrationForm extends ActionForm {
 	 private List existingGroupsList;
 	 private String analysisResultName = "";
 	 private String [] existingGroups ;
-	 private String [] selectedGroups;
+	 protected String [] selectedGroups;
 	 private String groupsOption;
 	 private String arrayPlatform = "";
 	   

@@ -201,7 +201,27 @@ public class UIFormValidator {
         return errors;
     }
 
-	public static ActionErrors validateChromosomalRegion(String chrosomeNumber,
+    public static ActionErrors validateSelectedOneGroup(String[] selectedGroups, ActionErrors errors){
+        if (selectedGroups == null || (selectedGroups != null && selectedGroups.length == 0)){
+            errors.add("selectedGroups", new ActionError(
+                    "gov.nih.nci.nautilus.ui.struts.form.group.no.error"));
+        }
+       
+
+        return errors;
+    }
+
+    public static ActionErrors validateSelectedOneAnnotation(String[] selectedAnnotations, ActionErrors errors){
+        if (selectedAnnotations == null || (selectedAnnotations != null && selectedAnnotations.length == 0)){
+            errors.add("selectedAnnotations", new ActionError(
+                    "gov.nih.nci.nautilus.ui.struts.form.annotation.no.error"));
+        }
+       
+
+        return errors;
+    }
+
+    public static ActionErrors validateChromosomalRegion(String chrosomeNumber,
 			String region, String cytobandRegionStart, String basePairStart,
 			String basePairEnd, ActionErrors errors) {
 		if (chrosomeNumber.trim().length() > 0) {
