@@ -441,6 +441,7 @@ public class GPProcessAction extends DispatchAction {
 		request.setAttribute("ticketString", ticketString);
 		
 		String supportFileURL = System.getProperty("gov.nih.nci.caintegrator.gpvisualizer.supportFileURL");
+		supportFileURL = gpserverURL + "gp/" + supportFileURL;
         request.setAttribute("supportFileURL", supportFileURL);
         
         request.setAttribute("goApplet", "goApplet");
