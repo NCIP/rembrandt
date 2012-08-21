@@ -137,6 +137,11 @@ public class EditCGHAction extends Action {
 
 		       editForward = "goEditCGH";
 			   
+		       // Show RegionView DIV
+		       if ( cdForm.getGeneList() == null || cdForm.getGeneList().length() == 0 ) {
+		    	   request.setAttribute("selectedView", "regionView");
+		       }
+		       
 			   return mapping.findForward(editForward);		
 		     }
 

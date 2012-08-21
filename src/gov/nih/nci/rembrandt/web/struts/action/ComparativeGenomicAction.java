@@ -129,7 +129,7 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
 			HttpServletRequest request, HttpServletResponse response)
 	throws Exception {
 		
-		return mapping.findForward("backToCGH");
+    	return mapping.findForward("backToCGH");
     }
     
     /**
@@ -196,6 +196,7 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
 				cgForm.setCytobands(bean.getCytobands());
 			}
 			
+			request.setAttribute("selectedView", "regionView");
 			return mapping.findForward("backToCGH");
 	}
     

@@ -1,5 +1,6 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 <%@ page import="java.util.*, java.lang.*, java.io.*, gov.nih.nci.rembrandt.util.RembrandtConstants" %>
 <%@ page import="java.io.FileInputStream" %>
 
@@ -102,15 +103,29 @@ String param = request.getParameter("s");
   	%>
     <script type="text/javascript">Help.convertHelp("<%=act%>", " align='right'", "float:right;padding:2px;");</script>
 
+	<c:choose> 
+	  	<c:when test="${requestScope.selectedView == 'regionView'}">
+			<script type="text/javascript">
+				Event.observe(window, "load", function() {
+					document.getElementById("segmentMean").style.display = "none";
+					document.getElementById("segmentMean").style.visibility = "hidden";
+					
+					toggleGeneRegionView('regionView');
+				});
+			</script>
+		</c:when>
+		<c:otherwise> 
+			<script type="text/javascript">
+				Event.observe(window, "load", function() {
+					document.getElementById("segmentMean").style.display = "none";
+					document.getElementById("segmentMean").style.visibility = "hidden";
+					
+					toggleGeneRegionView('geneView');
+				});
+			</script>
+		</c:otherwise>
+	</c:choose>
 	<script type="text/javascript">
-		Event.observe(window, "load", function() {
-			document.getElementById("segmentMean").style.display = "none";
-			document.getElementById("segmentMean").style.visibility = "hidden";
-			
-			document.getElementById("regionView").style.display = "none";
-			document.getElementById("regionView").style.visibility = "hidden";
-		});
-		
 		function toggleCopyNumberView(selectedView) {
 			if ( selectedView == "calculatedCN" ) {
 				document.getElementById("segmentMean").style.display = "none";
@@ -134,12 +149,16 @@ String param = request.getParameter("s");
 				
 				document.getElementById("regionView").style.display = "block";
 				document.getElementById("regionView").style.visibility = "visible";
+				
+				document.getElementById("geneRegionView").value = "regionView";
 			} else {
 				document.getElementById("geneView").style.display = "block";
 				document.getElementById("geneView").style.visibility = "visible";
 				
 				document.getElementById("regionView").style.display = "none";
 				document.getElementById("regionView").style.visibility = "hidden";
+				
+				document.getElementById("geneRegionView").value = "geneView";
 			}
 		}
 	</script>  	

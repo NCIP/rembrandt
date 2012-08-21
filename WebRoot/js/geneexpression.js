@@ -20,7 +20,7 @@ var GeneAlias = {
 				a = a.gsub(",,", ",");
 				a = a.gsub(" ", "");
 				
-				if ($('geneOption') != null && $('geneOption').value == "standard") {
+				if ($('geneOption') != null && $('geneOption').value == "standard" && $('geneRegionView') != null && $('geneRegionView').value == "geneView") {
 					if(a == "")	{
 						alert("Please enter a gene");
 						return;
@@ -66,7 +66,7 @@ var GeneAlias = {
 			g = g.gsub(",,", ",");
 			g = g.gsub(" ", "");
 			
-			if ($('geneOption') != null && $('geneOption').value == "standard") {
+			if ($('geneOption') != null && $('geneOption').value == "standard" && $('geneRegionView') != null && $('geneRegionView').value == "geneView") {
 				if(g == "")	{
 					alert("Please enter a gene");
 					$("indicator").hide();
