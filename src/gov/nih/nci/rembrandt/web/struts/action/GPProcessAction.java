@@ -278,7 +278,7 @@ public class GPProcessAction extends DispatchAction {
 		if (newJobNumber == -1)
 			return mapping.findForward("appletViewer");
 		
-		String fileName = gpserverURL + "gp/jobResults/" + newJobNumber + "/" + gpTask.getResultName() + "..test.0.pred.odf";
+		String fileName = gpserverURL + "gp/jobResults/" + newJobNumber + "/" + gpTask.getResultName() + ".mad.test.0.pred.odf";
 		logger.info("datafile name = " + fileName);
 		request.setAttribute("predictionResultsfilename", fileName);
 
