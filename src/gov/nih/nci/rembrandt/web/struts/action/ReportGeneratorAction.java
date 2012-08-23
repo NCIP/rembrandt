@@ -195,7 +195,15 @@ public class ReportGeneratorAction extends DispatchAction {
     		 *   
     		 */
     		
-    		ReportGeneratorHelper generatorHelper = new ReportGeneratorHelper(cQuery,filterParams); 
+    		ReportGeneratorHelper generatorHelper = null;
+    		try {
+    		   generatorHelper = new ReportGeneratorHelper(cQuery,filterParams); 
+	    	}catch(Exception e) {
+				logger.error("Unable to create the ReportBean");
+				logger.error(e);
+			
+			  
+			}
     		//get the final constructed report bean
     		reportBean = generatorHelper.getReportBean();
     	}
@@ -338,7 +346,14 @@ public class ReportGeneratorAction extends DispatchAction {
     		 *   
     		 */
     		
-    		ReportGeneratorHelper generatorHelper = new ReportGeneratorHelper(cQuery,filterParams); 
+    		ReportGeneratorHelper generatorHelper = null;
+    		try {
+    			generatorHelper = new ReportGeneratorHelper(cQuery,filterParams);
+    		}
+	    	catch(Exception e) {
+				logger.error("Unable to create the ReportBean");
+				logger.error(e);
+			}
     		//get the final constructed report bean
     		reportBean = generatorHelper.getReportBean();
     	}
@@ -473,7 +488,15 @@ public class ReportGeneratorAction extends DispatchAction {
     		 *   
     		 */
     		
-    		ReportGeneratorHelper generatorHelper = new ReportGeneratorHelper(cQuery,filterParams); 
+    		ReportGeneratorHelper generatorHelper = null;
+    		try {
+    			generatorHelper = new ReportGeneratorHelper(cQuery,filterParams); 
+	    	}catch(Exception e) {
+				logger.error("Unable to create the ReportBean");
+				logger.error(e);
+			
+			  
+			}
     		//get the final constructed report bean
     		reportBean = generatorHelper.getReportBean();
     	}
@@ -588,7 +611,14 @@ public class ReportGeneratorAction extends DispatchAction {
 			//retrieve from cache.  It will then generate the XML for the report
 			//and store in a reportBean in the cache for later retrieval
             
-			ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cQuery, new HashMap());
+			ReportGeneratorHelper rgHelper = null;
+			try {
+			 rgHelper = new ReportGeneratorHelper(cQuery, new HashMap());
+			}
+	    	catch(Exception e) {
+				logger.error("Unable to create the ReportBean");
+				logger.error(e);
+			}
 			ReportBean reportBean = rgHelper.getReportBean();
 			request.setAttribute("queryName", reportBean.getResultantCacheKey());
 			//Send to the appropriate view as per selection!!
@@ -846,14 +876,19 @@ public ActionForward switchViews(ActionMapping mapping, ActionForm form,
 			}
 			//This will generate the report and store it in the cache
 			ReportGeneratorHelper rgHelper = null;
-			if(sampleIds.length == 0)	{
-			    rgHelper = new ReportGeneratorHelper(clonedQuery, rgForm.getFilterParams() );
-			}
-			else	{  
-				//to fix the query name conflict issue, a new boolean value
-				//is added to ReportGeneratorHelper constructor to find out if a new query
-				//name for the query is needed. 
-			    rgHelper = new ReportGeneratorHelper(clonedQuery, sampleIds, true);
+			try {
+				if(sampleIds.length == 0)	{
+				    rgHelper = new ReportGeneratorHelper(clonedQuery, rgForm.getFilterParams() );
+				}
+				else	{  
+					//to fix the query name conflict issue, a new boolean value
+					//is added to ReportGeneratorHelper constructor to find out if a new query
+					//name for the query is needed. 
+				    rgHelper = new ReportGeneratorHelper(clonedQuery, sampleIds, true);
+				}
+			}catch(Exception e) {
+				logger.error("Unable to create the ReportBean");
+				logger.error(e);
 			}
 			
 			

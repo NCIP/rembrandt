@@ -42,11 +42,11 @@
 		<!-- End  Selected Queries -->
 	</table><br />
 	</div>
-	<input id="isAllGenesQuery2" type="radio" name="isAllGenesQuery" class="radio" value="true"  onclick="javascript:onRadio(this, 1);" /><label for="isAllGenesQuery2">Please select an "All Genes" query</label>
+	<!-- input id="isAllGenesQuery2" type="radio" name="isAllGenesQuery" class="radio" value="true"  onclick="javascript:onRadio(this, 1);" /><label for="isAllGenesQuery2">Please select an "All Genes" query</label>
     <html:select styleId="allGeneQuery" property="allGeneQuery" disabled="true">
      		<option/>
 		    <html:optionsCollection property="allGenesQueries" label="queryName" value="queryName" />
-	 </html:select><label for="allGeneQuery">&nbsp;</label>
+	 </html:select><label for="allGeneQuery">&nbsp;</label -->
 
 </fieldset>
 <br clear="all"/>

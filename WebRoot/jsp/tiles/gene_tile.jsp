@@ -204,7 +204,7 @@ String act = request.getParameter("act");
 	</logic:present>
 -->
 <br/>
-<html:radio styleId="geneOption2" property="geneOption" styleClass="radio" value="allGenes" onclick="submitAllGenesQuery();" /><label for="geneOption2">All Genes Query</label>
+<!--  html:radio styleId="geneOption2" property="geneOption" styleClass="radio" value="allGenes" onclick="submitAllGenesQuery();" /><label for="geneOption2">All Genes Query</label -->
 		
 </fieldset>	
 </A>

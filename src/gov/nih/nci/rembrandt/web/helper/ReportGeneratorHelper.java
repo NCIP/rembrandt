@@ -375,8 +375,8 @@ public class ReportGeneratorHelper {
 	 *             
 	 * @param query --the query that you want some new view (Report) of
 	 */
-	public ReportGeneratorHelper(Queriable query, Map filterParams) {
-		try {
+	public ReportGeneratorHelper(Queriable query, Map filterParams) throws Exception {
+//		try {
 			
 			//check the query to make sure that it is a compound query
 			checkCompoundQuery(query);
@@ -404,12 +404,12 @@ public class ReportGeneratorHelper {
 				_reportBean.setFilterParams(processFilterParamMap(filterParams));
 				this.generateReportXML();
 			}
-		}catch(Exception e) {
+/*		}catch(Exception e) {
 			logger.error("Unable to create the ReportBean");
 			logger.error(e);
 		
 		  
-		}
+		} */
 	}
 	
 	

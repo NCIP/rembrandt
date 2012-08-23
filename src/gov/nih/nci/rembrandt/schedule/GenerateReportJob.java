@@ -117,8 +117,13 @@ public class GenerateReportJob implements Job {
 			String uniqueFilename = FileNameGenerator.generateFileName(userName);
 			uniqueFilename = uniqueFilename + "-"+ query.getQueryName();
 			query.setQueryName(uniqueFilename);
-			ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(query,
-					new HashMap());
+			ReportGeneratorHelper rgHelper = null;
+			try {
+				rgHelper = new ReportGeneratorHelper(query, new HashMap());
+			}catch(Exception e) {
+				logger.error("Unable to create the ReportBean");
+				logger.error(e);
+			}
 			reportBean = rgHelper.getReportBean();
 			if (reportBean != null) {
 				String filename = null;
