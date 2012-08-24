@@ -136,7 +136,7 @@ Why is applets defined as decoy in EVERY def instead of just being in the parent
     </definition>
 
     <definition name="rembrandt.igvIntegration" extends="baseDef">
-      <put name="mainForm" value="/jsp/formBody.jsp?s=igvIntegration" />
+      <put name="mainForm" value="/jsp/formBody.jsp?s=IgvIntegration" />
 	  <put name="title" value="Integrative Genomics Viewer Integration Form" />
 	  <put name="sideBar" value="/jsp/tiles/sideBarAnalysis_tile.jsp" />
 	  <put name="reqdFieldsMsg" value="/jsp/tiles/empty_tile.jsp" />
