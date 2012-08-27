@@ -88,4 +88,12 @@ public interface PatientDataLookup {
 	public abstract Long getInstitutionId();
 	
 	public abstract String getSpecimenName();
+
+	public abstract String getWhoGrade();
+
+	public abstract String getAgeGroup();
+
+	public abstract Double getSurvivalLengthMonth();
+
+	public abstract String getInstitutionName();
 }

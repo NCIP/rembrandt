@@ -390,10 +390,9 @@ public class ReportGeneratorAction extends DispatchAction {
 	    	CopyNumberIGVReport copyNumberIGVReport = new CopyNumberIGVReport();
 	    	StringBuffer stringBuffer = copyNumberIGVReport.getIGVReport(reportBean.getResultant());
 	    	String locus = "chr"+copyNumberIGVReport.getChr()+":"+copyNumberIGVReport.getStartLoc()+"-"+copyNumberIGVReport.getEndLoc(); //chromosome:start-end
-	    	String genome = "hg18";//TODO move to property file
-	    	String url = request.getRequestURL().toString();
+	     	String url = request.getRequestURL().toString();
 	    	url = url.substring(0, url.lastIndexOf("/")+1);
-	    	IGVHelper igvHelper = new IGVHelper(sessionId, genome,  locus,  url);
+	    	IGVHelper igvHelper = new IGVHelper(sessionId, locus,  url);
 	    	//fileDownload.do?method=brbFileDownload&fileId=
 	    	//url = url+"igvfileDownload.do?method=igvFileDownload&igv=";
 	    	String cnFileName = igvHelper.getIgvCopyNumberFileName();

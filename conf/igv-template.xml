@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<Global genome="{genome}" locus="{locus}" version="3">
+<Session genome="{genome}" groupTracksBy="DISEASE_TYPE" locus="{locus}" version="4">
 
 <Resources>
 
 <Resource name="rembrandt-cn" path="{rembrandt-cn}"/>
+<Resource name="rembrandt-clinical" path="{rembrandt-clinical}"/>
 
 </Resources>
 
-</Global>		   
+</Session>		   
+

@@ -106,6 +106,7 @@ public class IGVFileDownloadAction extends DispatchAction{
 		String clFileName = request.getParameter("cl")!=null ? (String) request.getParameter("cl") : null;	
 		String sessionId = request.getParameter("uid")!=null ? (String) request.getParameter("uid") : null;	
 		String fileName = null;
+		String filePath = null;
 		String contextType = "application/x-download";
 		String[] names = null;
 		if(igvFileName != null){
@@ -114,7 +115,11 @@ public class IGVFileDownloadAction extends DispatchAction{
 			names = cnFileName.split("-");
 			contextType = "application/txt";
 		}else if(clFileName != null){
-			names = clFileName.split("-");
+			fileName = clFileName;
+			filePath = System.getProperty("gov.nih.nci.rembrandt.data_directory");
+	    	if(filePath != null){
+	    		filePath = filePath + File.separator;
+	    	}
 			contextType = "application/txt";
 		}
 		
@@ -124,10 +129,10 @@ public class IGVFileDownloadAction extends DispatchAction{
     		if(fileName.contains(".idx")){
     			fileName = fileName.substring(0,fileName.lastIndexOf(".idx"));
     		}
-    	}
-    	String filePath = System.getProperty("gov.nih.nci.rembrandt.data_directory");
-    	if(filePath != null){
-    		filePath = filePath + File.separator + sessionId+File.separator;
+	    	filePath = System.getProperty("gov.nih.nci.rembrandt.data_directory");
+	    	if(filePath != null){
+	    		filePath = filePath + File.separator + sessionId+File.separator;
+	    	}
     	}
 		if (fileName == null && filePath == null){
 			logger.info("File Id not available from URL.");

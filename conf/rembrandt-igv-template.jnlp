@@ -1,52 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <jnlp
-  spec="1.0+"
-  codebase="http://www.broadinstitute.org/igvdata/jws/prod">
+  spec="6.0+"
+  codebase="http://www.broadinstitute.org/igv/projects/current"
+  href="igv_mm.jnlp">
   <information>
-    <title>IGV 1.5</title>
+    <title>IGV 2.1</title>
     <vendor>The Broad Institute</vendor>
     <homepage href="http://www.broadinstitute.org/igv"/>
-    <description>Integrative Genomics Viewer</description>
+    <description>IGV Software</description>
+    <description kind="short">IGV</description>
+    <icon href="IGV_64.png"/>
+    <icon kind="splash" href="IGV_64.png"/>
+    <offline-allowed/>
+	<shortcut online="true">
+	  <desktop/>
+	  <menu submenu="IGV"/>
+	</shortcut>
   </information>
   <security>
       <all-permissions/>
   </security>
+  <update check="always" policy="always"/>
   <resources>
-    <j2se version="1.5+" initial-heap-size="64m" max-heap-size="750m"/>
+    <java version="1.6+"
+          initial-heap-size="256m" 
+          max-heap-size="1100m" />
     <jar href="igv.jar" download="eager" main="true"/>
-    <jar href="batik-codec.jar" download="eager"/>    
+    <jar href="batik-codec.jar" download="eager"/>
+    <jar href="goby-io-igv.jar" download="lazy"/>   
     <property name="apple.laf.useScreenMenuBar" value="true"/>
     <property name="com.apple.mrj.application.growbox.intrudes" value="false"/>
     <property name="com.apple.mrj.application.live-resize" value="true"/>
     <property name="com.apple.macos.smallTabs" value="true"/>
+    <property name="http.agent" value="IGV 2.1"/>
   </resources>
-	
-    <resources os="Mac" arch="i386">
-        <property name="apple.awt.graphics.UseQuartz" value="false"/>
-        <nativelib href="hdfnative-macintel.jar"/> 
-    </resources>
-
-    <resources os="Mac" arch="ppc">
-        <property name="apple.awt.graphics.UseQuartz" value="false"/>
-        <nativelib href="hdfnative-macppc.jar"/> 
-    </resources>
-    
-    <resources os="Mac" arch="PowerPC">
-        <property name="apple.awt.graphics.UseQuartz" value="false"/>
-        <nativelib href="hdfnative-macppc.jar"/> 
-    </resources>
-
-    <resources os="Windows">
-        <property name="sun.java2d.noddraw" value="true"/>
-        <nativelib href="hdfnative-win.jar"/> 
-    </resources>
-
-    <resources os="Linux">
-        <nativelib href="hdfnative-linux64.jar"/> 
-    </resources>
-    
-    <application-desc main-class="org.broad.igv.ui.IGVMainFrame">
-<argument>{session_url}</argument>
-<argument>{locus}</argument>
-    </application-desc>
+  <application-desc main-class="org.broad.igv.ui.Main">
+  <argument>{session_url}</argument>
+  <argument>{locus}</argument>
+  </application-desc>
 </jnlp>

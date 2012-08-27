@@ -3,6 +3,9 @@
  */
 package gov.nih.nci.rembrandt.util;
 
+import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
+import gov.nih.nci.rembrandt.dto.lookup.PatientDataLookup;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -23,12 +26,27 @@ public class IGVHelper {
 	private String igvFilePath = null;
 	private String igvCopyNumberFileName = null;
 	private String igvClinicalFileName = null;
+	private String clinicalFile = null;
 	private String igvJNPL = null;
-	private String igvURL = null;
+	private String genome = null;
 	private String igvSessionURL = null;
 
-public IGVHelper(String sessionID, String genome, String locus, String appURL) throws IOException {
-		super();
+
+public IGVHelper(){
+	igvFilePath = System.getProperty("gov.nih.nci.rembrandt.data_directory");
+	clinicalFile = System.getProperty("rembrandt.igv.clinical.filename");
+	if(igvFilePath != null  && clinicalFile != null){
+		igvClinicalFileName = igvFilePath+File.separator+clinicalFile;
+	}
+}
+
+public IGVHelper(String sessionID, String locus, String appURL) throws IOException {
+		igvFilePath = System.getProperty("gov.nih.nci.rembrandt.data_directory");
+		clinicalFile = System.getProperty("rembrandt.igv.clinical.filename");
+		genome = System.getProperty("rembrandt.igv.genome.build");
+		if(igvFilePath != null  && clinicalFile != null){
+			igvClinicalFileName = igvFilePath+File.separator+clinicalFile;
+		}
 		String templateLocation = System.getProperty(IGV_TEMPLATE_LOC);
 		String igvJnlpUrl = System.getProperty(IGV_JNLP_URL);
 		String jnlpTemplateLocation = System.getProperty(IGV_JNPL_TEMPLATE_LOC);
@@ -39,7 +57,7 @@ public IGVHelper(String sessionID, String genome, String locus, String appURL) t
 		 is = new FileInputStream(jnlpTemplateLocation);
 			String igvJnplTemplateString =  readInputStreamAsString(is);
 		generateFileName(sessionID);
-		igvTemplateString = replaceTemplateTokens(igvTemplateString, genome, locus, appURL,sessionID);
+		igvTemplateString = replaceTemplateTokens(igvTemplateString, locus, appURL,sessionID);
 		writeStringtoFile(igvTemplateString , igvFileName);
 		//igvURL = replaceUrlTokens( igvJnlpUrl ,  locus, appURL,sessionID);
 		igvJNPL = replaceUrlTokens( igvJnplTemplateString ,  locus, appURL,sessionID);
@@ -68,14 +86,19 @@ private String replaceUrlTokens(String igvJnlpUrl ,  String locus, String appUrl
 	}
 	return igvJnlpUrl;
 }
-private String replaceTemplateTokens(String igvTemplateString , String genome, String locus, String appUrl, String sessionID){
+private String replaceTemplateTokens(String igvTemplateString , String locus, String appUrl, String sessionID){
+	if(!igvClinicalFileExists()){
+		createIGVSampleDataFile();
+	}
 	if(igvTemplateString != null){
 		igvTemplateString = igvTemplateString.replace("{genome}", (genome !=null)? genome  : "None");
 		igvTemplateString = igvTemplateString.replace("{locus}", (locus!=null)? locus : "None");
 		String cnURL = "igvFileDownload.do?method=igvFileDownload"+"&amp;cn="+ sessionID+"-"+ igvCopyNumberFileName;
 		cnURL = appUrl + cnURL;
+		String clURL = "igvFileDownload.do?method=igvFileDownload"+"&amp;cl="+ clinicalFile;
+		clURL = appUrl + clURL;
 		igvTemplateString = igvTemplateString.replace("{rembrandt-cn}", (cnURL!=null)? cnURL : "None");
-//		igvTemplateString = igvTemplateString.replace("{rembrandt-clinical}", (url!=null)? igvClinicalFileName : "None");		
+		igvTemplateString = igvTemplateString.replace("{rembrandt-clinical}", (clURL!=null)? clURL : "None");		
 	}
 	return igvTemplateString;
 }
@@ -115,7 +138,6 @@ private void generateFileName(String sessionId){
 	
 	igvCopyNumberFileName = uniqueName+"_cn"+".seg";
 	
-	igvClinicalFileName = uniqueName+"_cl"+".seg";
 	
 }
 private String createUniqueFileName() {
@@ -160,6 +182,56 @@ public String getIgvSessionURL() {
  */
 public String getIgvJNPL() {
 	return igvJNPL;
+}
+//Create a Sample annotation File for IGV viewer
+public void createIGVSampleDataFile(){
+    try{
+    	PatientDataLookup[] patientData = LookupManager.getPatientData();
+    	StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer.append("NAME"+
+				"\t SAMPLE_ID"+
+				"\t DISEASE_TYPE"+
+				"\t WHO_GRADE"+
+				"\t AGE_GROUP"+
+				"\t GENDER"+
+				"\t SURVIVAL_LENGTH_IN_MONTHS"+
+				"\t CENSORING_STATUS"+
+				"\t INSTITUTION_NAME"+
+				"\n" );
+        for (int i =0;i<patientData.length;i++) {
+        	PatientDataLookup patient = patientData[i];
+        	stringBuffer.append(patient.getSpecimenName()+
+        			"\t"+patient.getSampleId()+
+					"\t"+patient.getDiseaseType()+
+					"\t"+patient.getWhoGrade()+
+					"\t"+patient.getAgeGroup()+
+					"\t"+patient.getGender()+
+					"\t"+patient.getSurvivalLengthMonth()+
+					"\t"+patient.getCensoringStatus()+
+					"\t"+patient.getInstitutionName()+
+					"\n");
+
+        }
+    	if(igvClinicalFileName != null){
+			File file = new File(igvClinicalFileName);
+			FileUtils.writeStringToFile(file, stringBuffer.toString());
+    	}
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	
+}
+
+public String getIgvClinicalFile() {
+	return clinicalFile;
+}
+
+public boolean igvClinicalFileExists(){
+	if(igvClinicalFileName != null){
+		File file = new File(igvClinicalFileName);
+		return file.exists();
+	}
+	return false;
 }
 
 }

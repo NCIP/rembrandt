@@ -1,12 +1,14 @@
 package gov.nih.nci.rembrandt.util;
 
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
+import gov.nih.nci.rembrandt.dto.lookup.PatientDataLookup;
 
 import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -130,6 +132,16 @@ public class StatisticsInfoJob implements Job
 			map3.put("sample", integer5.toString());
 			map3.put("specieman", integer6.toString());
 			tempMap.put("Copy Number Data", map3);
+			IGVHelper igvHelper = new IGVHelper();
+			File file = new File(igvHelper.getIgvClinicalFileName());
+			if(file.exists()){
+				file.delete();
+			}
+				igvHelper.createIGVSampleDataFile();				
+
+			
+			
+			
 			
 		}catch (Exception e){
 			logger.error(e.getMessage());
@@ -147,4 +159,5 @@ public class StatisticsInfoJob implements Job
 		}
 		return tempSet;
 	}
+
 }
