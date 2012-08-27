@@ -43,10 +43,19 @@ function checkJobId(jobList) {
 	String submitButton = (String)request.getAttribute("submitButton");
 	String gpurl = (String)request.getSession().getAttribute("ticketString");
 	String jobTitle = (String)request.getAttribute("taskModule");
+	String gpTaskType = (String)request.getAttribute("gpTaskType");
 	String indicator = "1";
 	String actionLink1 = null;
-	if (jobTitle == null)
-		jobTitle = "GenePattern";
+	if (jobTitle == null) {
+		if (gpTaskType != null && gpTaskType.equals("IGV")){ 
+			indicator = "2";
+			actionLink1 = "gpProcess.do?method=igvViewer&jobId=" + jobId;
+			jobTitle = "IGV";
+		}
+		else {
+			jobTitle = "GenePattern";
+		}
+	}
 	else if (jobTitle != null && jobTitle.equalsIgnoreCase("HC.pipeline")){
 		indicator = "2";
 		actionLink1 = "gpProcess.do?method=hcApplet&jobId=" + jobId;
@@ -239,8 +248,15 @@ function turnOffLoadingMessage(){
 			
 								GPTask task = (GPTask) i.next();
 								if (task.getTaskModule() == null){
-									jobTitle = "GenePattern Job";
-									indicator = "1";
+									if( task.getType().equals(GPTask.TaskType.IGV)) {
+										jobTitle = "IGV";
+										actionLink2 = "gpProcess.do?method=igvViewer&jobId=" + task.getJobId();
+										indicator = "2";
+									}
+									else {
+										jobTitle = "GenePattern";
+										indicator = "1";
+									}
 								}
 								else if (task.getTaskModule().equalsIgnoreCase("HC.pipeline")){
 									jobTitle = task.getTaskModuleDisplayName();

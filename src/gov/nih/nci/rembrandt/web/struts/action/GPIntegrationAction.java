@@ -99,19 +99,165 @@ public class GPIntegrationAction extends LookupDispatchAction {
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
     	
-    	    List<String> idStringList = new ArrayList<String>();
-    	    List<List<String>> allStringList = new ArrayList<List<String>>();
-            List<String> fileNameList = new ArrayList<String>();
-            List<String> reportIdStringList = new ArrayList<String>();
-
-
-         
     	   GpIntegrationForm gpForm = (GpIntegrationForm) form;
     	   String sessionId = request.getSession().getId();
            HttpSession session = request.getSession();
            
        	   String[] patientGroups = gpForm.getSelectedGroups();
        	   
+     	   List<String> filePathList = extractPatientGroups(request, session, patientGroups);
+		
+		String platformName = gpForm.getArrayPlatform();
+	
+		//Now get the R-binary file name:
+		
+		String r_fileName = null;
+		String a_fileName = null;
+		
+	
+       if(platformName != null && platformName.equalsIgnoreCase(ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString())) {
+       
+			r_fileName = System.getProperty("gov.nih.nci.rembrandt.affy_data_matrix");
+			a_fileName = System.getProperty("gov.nih.nci.rembrandt.affy_data_annotation");		
+		 
+	   }
+	
+		
+       runGpTask(request, gpForm, session, filePathList, r_fileName, a_fileName);
+       request.setAttribute("gpTaskType", "Regular");
+       
+	   return mapping.findForward("viewJob");
+
+					
+   		
+
+    }
+
+	protected void runGpTask(HttpServletRequest request,
+			GpIntegrationForm gpForm, HttpSession session,
+			List<String> filePathList, String r_fileName, String a_fileName)
+			throws Exception {
+		//		*** RUN TASK ON THE GP SERVER
+				String tid = "209";
+				String gpModule =  System.getProperty("gov.nih.nci.caintegrator.gp.modulename");						
+				
+				
+				String gpserverURL = System.getProperty("gov.nih.nci.caintegrator.gp.server")!=null ? 
+						(String)System.getProperty("gov.nih.nci.caintegrator.gp.server") : "localhost:8080"; //default to localhost
+						try {
+							//*	
+							
+						 	   UserCredentials credentials = (UserCredentials)request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
+				        			       
+						
+								String rembrandtUser = null;
+								
+								String analysisResultName = gpForm.getAnalysisResultName();
+		
+								
+								if(credentials!= null) {
+									rembrandtUser= credentials.getUserName();
+								}
+									     
+									String publicUser = System.getProperty("gov.nih.nci.caintegrator.gp.publicuser.name");
+									String password = System.getProperty("gov.nih.nci.caintegrator.gp.publicuser.password");
+									
+								if(rembrandtUser==null)	{
+									rembrandtUser=publicUser;
+								}
+								
+									//Check to see the user is already created otherwise create one.
+								GPClient gpClient = null;
+								if (rembrandtUser.equals(publicUser)){
+									String gpUser = (String)session.getAttribute(GenePatternPublicUserPool.PUBLIC_USER_NAME);
+									if (gpUser == null){
+										PublicUserPool pool = GenePatternPublicUserPool.getInstance();
+										gpUser = pool.borrowPublicUser();
+										session.setAttribute(GenePatternPublicUserPool.PUBLIC_USER_NAME, gpUser);
+										session.setAttribute(GenePatternPublicUserPool.PUBLIC_USER_POOL, pool);
+									}
+									rembrandtUser = gpUser;
+								}
+								
+								String encryptKey = System.getProperty("gov.nih.nci.caintegrator.gp.desencrypter.key");
+								String urlString = EncryptionUtil.encrypt(rembrandtUser+ gpPoolString, encryptKey);
+								urlString = URLEncoder.encode(urlString, "UTF-8");
+								String ticketString = gpserverURL+"gp?ticket="+ urlString;
+								
+								logger.info(ticketString);
+								URL url;
+					            try {
+					            	url = new java.net.URL(ticketString);
+					            	URLConnection conn = url.openConnection();
+					            	final int size = conn.getContentLength();
+					            	logger.info(Integer.toString(size));
+		
+					            } catch (Exception e) {
+					            	logger.error(e.getMessage());
+					            }
+					            
+					            
+								gpClient = new GPClient(gpserverURL, rembrandtUser, password);
+								int size = filePathList.size();
+								Parameter[] par = new Parameter[filePathList.size() + 3 + 3];
+								int currpos= 1;
+								for (int i = 0; i < filePathList.size(); i++){
+									par[i] = new Parameter("input.filename" + currpos++, filePathList.get(i));
+								}
+								par[--currpos] = new Parameter("project.name", "rembrandt");
+		
+								//r_fileName = "'/usr/local/genepattern/resources/DataMatrix_ISPY_306cDNA_17May07.Rda'";
+								par[++currpos] = new Parameter("array.filename", r_fileName);
+								par[++currpos] = new Parameter("annotation.filename", a_fileName);
+									
+								par[++currpos] = new Parameter("analysis.name", analysisResultName);
+		
+								//always just 2
+								par[++currpos] = new Parameter("output.cls.file",analysisResultName+".cls");
+								par[++currpos] = new Parameter("output.gct.file",analysisResultName+".gct");
+								
+								//JobResult preprocess = gpServer.runAnalysis(gpModule, par);
+								int nowait = gpClient.runAnalysisNoWait(gpModule, par);
+		
+								tid = String.valueOf(nowait);
+								//LSID = urn:lsid:8080.root.localhost:genepatternmodules:20:2.1.7
+								request.setAttribute("jobId", tid);
+								request.setAttribute("gpStatus", "running");
+								session.setAttribute("genePatternServer", gpClient);
+								request.setAttribute("genePatternURL", ticketString);
+								request.getSession().setAttribute("gptid", tid);
+								request.getSession().setAttribute("gpUserId", rembrandtUser);
+								request.getSession().setAttribute("ticketString", ticketString);
+								GPTask gpTask = createGpTask(tid, analysisResultName);
+								RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
+								_cacheManager.addNonPersistableToSessionCache(request.getSession().getId(), "latestGpTask",(Serializable) gpTask); 
+								
+							} catch (Exception e) {
+								StringWriter sw = new StringWriter();
+								PrintWriter pw = new PrintWriter(sw);
+								e.printStackTrace(pw);
+								logger.error(sw.toString());
+								logger.error(gpModule + " failed...." + e.getMessage());
+								throw new Exception(e.getMessage());
+							}
+	}
+
+	protected GPTask createGpTask(String tid, String analysisResultName) {
+		GPTask gpTask = new GPTask(tid, analysisResultName, FindingStatus.Running);
+		return gpTask;
+	}
+
+	protected List<String> extractPatientGroups(HttpServletRequest request,
+			HttpSession session, String[] patientGroups) throws Exception,
+			IOException {
+		List<String> idStringList = new ArrayList<String>();
+   	       List<List<String>> allStringList = new ArrayList<List<String>>();
+           List<String> fileNameList = new ArrayList<String>();
+           List<String> reportIdStringList = new ArrayList<String>();
+
+
+        
+
        	   //create a sampleGroup array with the length of selected  patient groups, it needs to be >2
        	   // SampleGroup objects will be used to store patient group names and specimen ids
        	   SampleGroup[] sampleGroup = new SampleGroup [patientGroups.length];            
@@ -182,139 +328,13 @@ public class GPIntegrationAction extends LookupDispatchAction {
    		
    		  
    	
-		String platformName = gpForm.getArrayPlatform();
 	
 	
 		//Now let's write them to files
 		List<String> filePathList = new ArrayList<String>();
 		writeGPFile(filePathList, allStringList, fileNameList);
-		
-		
-		
-	
-		//Now get the R-binary file name:
-		
-		String r_fileName = null;
-		String a_fileName = null;
-		
-	
-       if(platformName != null && platformName.equalsIgnoreCase(ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString())) {
-       
-			r_fileName = System.getProperty("gov.nih.nci.rembrandt.affy_data_matrix");
-			a_fileName = System.getProperty("gov.nih.nci.rembrandt.affy_data_annotation");		
-		 
-	 }
-	
-		
-//		*** RUN TASK ON THE GP SERVER
-		String tid = "209";
-		String gpModule =  System.getProperty("gov.nih.nci.caintegrator.gp.modulename");						
-		
-		
-		String gpserverURL = System.getProperty("gov.nih.nci.caintegrator.gp.server")!=null ? 
-				(String)System.getProperty("gov.nih.nci.caintegrator.gp.server") : "localhost:8080"; //default to localhost
-				try {
-					//*	
-					
-				 	   UserCredentials credentials = (UserCredentials)request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
-		        			       
-				
-						String rembrandtUser = null;
-						
-						String analysisResultName = gpForm.getAnalysisResultName();
-
-						
-						if(credentials!= null) {
-							rembrandtUser= credentials.getUserName();
-						}
-							     
-							String publicUser = System.getProperty("gov.nih.nci.caintegrator.gp.publicuser.name");
-							String password = System.getProperty("gov.nih.nci.caintegrator.gp.publicuser.password");
-							
-						if(rembrandtUser==null)	{
-							rembrandtUser=publicUser;
-						}
-						
-							//Check to see the user is already created otherwise create one.
-						GPClient gpClient = null;
-						if (rembrandtUser.equals(publicUser)){
-							String gpUser = (String)session.getAttribute(GenePatternPublicUserPool.PUBLIC_USER_NAME);
-							if (gpUser == null){
-								PublicUserPool pool = GenePatternPublicUserPool.getInstance();
-								gpUser = pool.borrowPublicUser();
-								session.setAttribute(GenePatternPublicUserPool.PUBLIC_USER_NAME, gpUser);
-								session.setAttribute(GenePatternPublicUserPool.PUBLIC_USER_POOL, pool);
-							}
-							rembrandtUser = gpUser;
-						}
-						
-						String encryptKey = System.getProperty("gov.nih.nci.caintegrator.gp.desencrypter.key");
-						String urlString = EncryptionUtil.encrypt(rembrandtUser+ gpPoolString, encryptKey);
-						urlString = URLEncoder.encode(urlString, "UTF-8");
-						String ticketString = gpserverURL+"gp?ticket="+ urlString;
-						
-						logger.info(ticketString);
-						URL url;
-			            try {
-			            	url = new java.net.URL(ticketString);
-			            	URLConnection conn = url.openConnection();
-			            	final int size = conn.getContentLength();
-			            	logger.info(Integer.toString(size));
-
-			            } catch (Exception e) {
-			            	logger.error(e.getMessage());
-			            }
-			            
-			            
-						gpClient = new GPClient(gpserverURL, rembrandtUser, password);
-						int size = filePathList.size();
-						Parameter[] par = new Parameter[filePathList.size() + 3 + 3];
-						int currpos= 1;
-						for (int i = 0; i < filePathList.size(); i++){
-							par[i] = new Parameter("input.filename" + currpos++, filePathList.get(i));
-						}
-						par[--currpos] = new Parameter("project.name", "rembrandt");
-
-						//r_fileName = "'/usr/local/genepattern/resources/DataMatrix_ISPY_306cDNA_17May07.Rda'";
-						par[++currpos] = new Parameter("array.filename", r_fileName);
-						par[++currpos] = new Parameter("annotation.filename", a_fileName);
-							
-						par[++currpos] = new Parameter("analysis.name", analysisResultName);
-
-						//always just 2
-						par[++currpos] = new Parameter("output.cls.file",analysisResultName+".cls");
-						par[++currpos] = new Parameter("output.gct.file",analysisResultName+".gct");
-						
-						//JobResult preprocess = gpServer.runAnalysis(gpModule, par);
-						int nowait = gpClient.runAnalysisNoWait(gpModule, par);
-
-						tid = String.valueOf(nowait);
-						//LSID = urn:lsid:8080.root.localhost:genepatternmodules:20:2.1.7
-						request.setAttribute("jobId", tid);
-						request.setAttribute("gpStatus", "running");
-						session.setAttribute("genePatternServer", gpClient);
-						request.setAttribute("genePatternURL", ticketString);
-						request.getSession().setAttribute("gptid", tid);
-						request.getSession().setAttribute("gpUserId", rembrandtUser);
-						request.getSession().setAttribute("ticketString", ticketString);
-						GPTask gpTask = new GPTask(tid, analysisResultName, FindingStatus.Running);
-						RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
-						_cacheManager.addNonPersistableToSessionCache(request.getSession().getId(), "latestGpTask",(Serializable) gpTask); 
-						
-					} catch (Exception e) {
-						StringWriter sw = new StringWriter();
-						PrintWriter pw = new PrintWriter(sw);
-						e.printStackTrace(pw);
-						logger.error(sw.toString());
-						logger.error(gpModule + " failed...." + e.getMessage());
-						throw new Exception(e.getMessage());
-					}
-					return mapping.findForward("viewJob");
-
-					
-   		
-
-    } 
+		return filePathList;
+	} 
     
    
 		

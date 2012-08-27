@@ -3,6 +3,10 @@ package gov.nih.nci.rembrandt.web.struts.action;
 import gov.nih.nci.caintegrator.application.lists.ListType;
 import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
+import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
+import gov.nih.nci.caintegrator.enumeration.FindingStatus;
+import gov.nih.nci.caintegrator.service.task.GPTask;
+import gov.nih.nci.caintegrator.service.task.GPTask.TaskType;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 import gov.nih.nci.rembrandt.web.struts.form.GpIntegrationForm;
 import gov.nih.nci.rembrandt.web.struts.form.IgvIntegrationForm;
@@ -23,7 +27,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.LookupDispatchAction;
 import org.apache.struts.util.LabelValueBean;
 
-public class IgvIntegrationAction extends LookupDispatchAction {
+public class IgvIntegrationAction extends GPIntegrationAction {
 	
 	private static Logger logger = Logger.getLogger(GPIntegrationAction.class);
 	 
@@ -79,7 +83,31 @@ public class IgvIntegrationAction extends LookupDispatchAction {
        HttpSession session = request.getSession();
        
    	   String[] patientGroups = igvForm.getSelectedGroups();
+   	   
+   	   List<String> filePathList = extractPatientGroups(request, session, patientGroups);
+   	   
+   	   String platformName = igvForm.getArrayPlatform();
+   	   //Now get the R-binary file name:
+		
+		String r_fileName = null;
+		String a_fileName = null;
+		
+	
+	   if(platformName != null && platformName.equalsIgnoreCase(ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString())) {
+	   
+			r_fileName = System.getProperty("gov.nih.nci.rembrandt.affy_data_matrix");
+			a_fileName = System.getProperty("gov.nih.nci.rembrandt.affy_data_annotation_igv");		
+		 
+	   }
+	   runGpTask(request, igvForm, session, filePathList, r_fileName, a_fileName);
+       request.setAttribute("gpTaskType", "IGV");
+       
     	return mapping.findForward("viewJob");
     }
+    
+	protected GPTask createGpTask(String tid, String analysisResultName) {
+		GPTask gpTask = new GPTask(tid, analysisResultName, FindingStatus.Running, TaskType.IGV);
+		return gpTask;
+	}
 	
 }

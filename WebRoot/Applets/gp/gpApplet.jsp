@@ -22,6 +22,11 @@
 	//String ts = ticketString.replace("?", "&amp;");
 	
 	String appletName = "a" + ("" + Math.random()).substring(2);
+	String inputFile = (String)request.getAttribute("inputFile");
+	String genomeId = (String)request.getAttribute("genomeId");
+	String locus = (String)request.getAttribute("locus");
+	String job_id = (String)request.getAttribute("job_id");
+	String GenePatternURL = (String)request.getAttribute("GenePatternURL");
  %>
 
 <logic:present name="goApplet" >
@@ -52,6 +57,14 @@ document.writeln('<param name="supportFileURL" value="<%= supportFileURL %>" >')
 	document.writeln('<param name="comparative.marker.selection.filename" value="<%= comparativeMarkerSelectionFilename %>" >');
 	document.writeln('<param name="dataset.filename" value="<%= comparativeMarkerSelectionDatasetFilename %>" >');
 	document.writeln('<param name="gp_download" value="<%= gp_download %>" >');
+<% } else if (name.equalsIgnoreCase("IgvViewer")){ %>
+	document.writeln('<param name="input.file" value="<%= inputFile %>" >');
+	document.writeln('<param name="index.file" value="" >');
+	document.writeln('<param name="genomeId" value="<%= genomeId %>" >');
+	document.writeln('<param name="locus" value="<%= locus %>" >');
+	document.writeln('<param name="gp_download" value="<%= gp_download %>" >');
+	document.writeln('<param name="GenePatternURL" value="<%= GenePatternURL %>" >');
+	document.writeln('<param name="job_id" value="<%= job_id %>" >');
 <% } %>
 
 document.writeln('<param name="commandLine" value="<%= commandLine %>" >');

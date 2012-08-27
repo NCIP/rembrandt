@@ -21,7 +21,9 @@
 		<logic:present name="gpIntegrationForm">
 		Step 3: 
 		</logic:present>
-		
+		<logic:present name="igvIntegrationForm">
+		Step 5: 
+		</logic:present>		
 		<logic:present name="hierarchicalClusteringForm">
 		Step 5: 
 		</logic:present>

@@ -2,7 +2,10 @@ package gov.nih.nci.rembrandt.web.struts.action;
 
 import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 import gov.nih.nci.caintegrator.service.task.GPTask;
+import gov.nih.nci.caintegrator.service.task.GPTask.TaskType;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
+import gov.nih.nci.rembrandt.util.IGVHelper;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.struts.form.GpProcessForm;
 
@@ -99,6 +102,7 @@ public class GPProcessAction extends DispatchAction {
     private static String HC_PIPELINE = "HC.pipeline";
     private static String KNN_PIPELINE = "KNN.pipeline";
     private static String CMS_PIPELINE = "CMS.pipeline";
+    private static String IGV_VIEW = "IgvViewer";
     
     private static String GP_SERVER = "gov.nih.nci.caintegrator.gp.server";
     
@@ -152,6 +156,61 @@ public class GPProcessAction extends DispatchAction {
 
         return mapping.findForward("appletViewer");
     }
+    
+    public ActionForward igvViewer(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+    	logger.info("Entering igvViewer method.......");
+
+    	GpProcessForm gpForm = (GpProcessForm)form;
+        String processName = gpForm.getProcessName();
+
+		String jobNumber = gpForm.getJobId(); 
+
+		RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
+		Collection tempGpTaskList = _cacheManager.getAllSessionGPTasks(request.getSession().getId());
+		GPTask gpTask = getGPTask(tempGpTaskList, jobNumber);
+		String gpserverURL = System.getProperty(GP_SERVER);
+		setFileInformation(request, gpserverURL,
+				"gov.nih.nci.caintegrator.gpvisualizer.igvviewer.gp_lsid",
+				"gov.nih.nci.caintegrator.gpvisualizer.igvviewer.commandLine");
+		
+
+		String fileName = gpserverURL + "gp/jobResults/" + jobNumber + "/" + gpTask.getResultName() + ".gct";
+/* Using IGV Helper		
+		String sessionId = request.getSession().getId();
+		String genome = "hg18";
+		String url = request.getRequestURL().toString();
+		url = url.substring(0, url.lastIndexOf("/")+1);
+		String locus = "chr7:116916640-123213553"; //chromosome:start-end
+		//String locus = "chr"+copyNumberIGVReport.getChr()+":"+copyNumberIGVReport.getStartLoc()+"-"+copyNumberIGVReport.getEndLoc(); //chromosome:start-end
+		IGVHelper igvHelper = new IGVHelper(sessionId, "hg18",  locus,  url, fileName);
+		String cnFileName = igvHelper.getIgvCopyNumberFileName();
+    	igvHelper.writeStringtoFile(stringBuffer.toString(), cnFileName);
+    	String igvURL = igvHelper.getIgvJNPL();
+    	if(igvURL != null){
+    		request.setAttribute(RembrandtConstants.REPORT_IGV, igvURL);
+    	}
+*/
+		request.setAttribute(RunVisualizerConstants.DOWNLOAD_FILES, "input.file");
+		
+        request.setAttribute("name", IGV_VIEW);
+//        request.setAttribute(RunVisualizerConstants.PARAM_NAMES, "dataset");
+        request.setAttribute("inputFile", fileName);
+        request.setAttribute("genomeId", "hg18");
+        request.setAttribute("locus", "all");
+        request.setAttribute("job_id", jobNumber);
+        request.setAttribute("GenePatternURL", "http://ncias-d757-v.nci.nih.gov:8080/");
+        
+        request.setAttribute("gp_paramNames", "input.file,index.file,genomeId,locus,job_id,GenePatternURL");
+
+		gpForm.setJobList(getGPTaskList(tempGpTaskList));
+
+		gpForm.setProcessList(getVisualizers());
+		
+        return mapping.findForward("appletViewer");
+    }
+    
     private ActionForward runHCPipeline(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
     	logger.info("Entering runHCPipeline.......");
@@ -350,7 +409,7 @@ public class GPProcessAction extends DispatchAction {
 			for(Iterator i = collection.iterator();i.hasNext();)	{
 			
 				GPTask task = (GPTask) i.next();
-				if (task.getStatus().equals(FindingStatus.Completed) && task.getTaskModule() == null)
+				if (task.getStatus().equals(FindingStatus.Completed) && task.getTaskModule() == null && !task.getType().equals(TaskType.IGV))
 					jobList.add(task.getJobId());
 			}
 		}
