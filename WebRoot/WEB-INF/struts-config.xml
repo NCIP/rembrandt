@@ -341,6 +341,7 @@
 		<forward name="success" path="rembrandt.gpJobView" />
 		<forward name="appletViewer" path="rembrandt.gpJobView" />
 		<forward name="viewJob" path="/gpProcess.do?method=setup" />
+		<forward name="runIGVReport" path="/jsp/segmentViewIGVReport.jsp" />
 	</action>
 	<!-- forward name="appletViewer" path="/gpApplet.do" / -->
 	<action path="/gpApplet"
