@@ -1,6 +1,7 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
 import gov.nih.nci.caintegrator.enumeration.FindingStatus;
+import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.caintegrator.service.task.GPTask;
 import gov.nih.nci.caintegrator.service.task.GPTask.TaskType;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
@@ -171,31 +172,41 @@ public class GPProcessAction extends DispatchAction {
 		Collection tempGpTaskList = _cacheManager.getAllSessionGPTasks(request.getSession().getId());
 		GPTask gpTask = getGPTask(tempGpTaskList, jobNumber);
 		String gpserverURL = System.getProperty(GP_SERVER);
-		setFileInformation(request, gpserverURL,
-				"gov.nih.nci.caintegrator.gpvisualizer.igvviewer.gp_lsid",
-				"gov.nih.nci.caintegrator.gpvisualizer.igvviewer.commandLine");
 		
+//        String gpHomeURL =  (String)request.getSession().getAttribute("ticketString");
+//		int ppp = gpHomeURL.indexOf("?");
+//		String ticketString = gpHomeURL.substring(ppp);
 
 		String fileName = gpserverURL + "gp/jobResults/" + jobNumber + "/" + gpTask.getResultName() + ".gct";
-/* Using IGV Helper		
+		
+		// IGVHelper
+		UserCredentials credentials = (UserCredentials)request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
+		String rembrandtUser = null;
+		if(credentials!= null) {
+			rembrandtUser= credentials.getUserName();
+		}
 		String sessionId = request.getSession().getId();
 		String genome = "hg18";
 		String url = request.getRequestURL().toString();
 		url = url.substring(0, url.lastIndexOf("/")+1);
 		String locus = "chr7:116916640-123213553"; //chromosome:start-end
 		//String locus = "chr"+copyNumberIGVReport.getChr()+":"+copyNumberIGVReport.getStartLoc()+"-"+copyNumberIGVReport.getEndLoc(); //chromosome:start-end
-		IGVHelper igvHelper = new IGVHelper(sessionId, "hg18",  locus,  url, fileName);
-		String cnFileName = igvHelper.getIgvCopyNumberFileName();
-    	igvHelper.writeStringtoFile(stringBuffer.toString(), cnFileName);
+		IGVHelper igvHelper = new IGVHelper(sessionId, genome,  locus,  url, fileName, rembrandtUser);
+//		String cnFileName = igvHelper.getIgvCopyNumberFileName();
+//    	igvHelper.writeStringtoFile(stringBuffer.toString(), cnFileName);
     	String igvURL = igvHelper.getIgvJNPL();
     	if(igvURL != null){
     		request.setAttribute(RembrandtConstants.REPORT_IGV, igvURL);
     	}
-*/
+
+/*  Using Genepattern module
+ * 		setFileInformation(request, gpserverURL,
+				"gov.nih.nci.caintegrator.gpvisualizer.igvviewer.gp_lsid",
+				"gov.nih.nci.caintegrator.gpvisualizer.igvviewer.commandLine");
+		
 		request.setAttribute(RunVisualizerConstants.DOWNLOAD_FILES, "input.file");
 		
         request.setAttribute("name", IGV_VIEW);
-//        request.setAttribute(RunVisualizerConstants.PARAM_NAMES, "dataset");
         request.setAttribute("inputFile", fileName);
         request.setAttribute("genomeId", "hg18");
         request.setAttribute("locus", "all");
@@ -209,6 +220,9 @@ public class GPProcessAction extends DispatchAction {
 		gpForm.setProcessList(getVisualizers());
 		
         return mapping.findForward("appletViewer");
+        
+       Using Genepattern module */
+		 return mapping.findForward("runIGVReport");
     }
     
     private ActionForward runHCPipeline(ActionMapping mapping, ActionForm form,
