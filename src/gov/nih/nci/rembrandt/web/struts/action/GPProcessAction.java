@@ -186,12 +186,11 @@ public class GPProcessAction extends DispatchAction {
 			rembrandtUser= credentials.getUserName();
 		}
 		String sessionId = request.getSession().getId();
-		String genome = "hg18";
 		String url = request.getRequestURL().toString();
 		url = url.substring(0, url.lastIndexOf("/")+1);
 		String locus = "All"; //chromosome:start-end
 		//String locus = "chr"+copyNumberIGVReport.getChr()+":"+copyNumberIGVReport.getStartLoc()+"-"+copyNumberIGVReport.getEndLoc(); //chromosome:start-end
-		IGVHelper igvHelper = new IGVHelper(sessionId, genome,  locus,  url, fileName, rembrandtUser);
+		IGVHelper igvHelper = new IGVHelper(sessionId,  locus,  url, fileName, rembrandtUser);
 //		String cnFileName = igvHelper.getIgvCopyNumberFileName();
 //    	igvHelper.writeStringtoFile(stringBuffer.toString(), cnFileName);
     	String igvURL = igvHelper.getIgvJNPL();

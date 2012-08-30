@@ -52,7 +52,7 @@ public IGVHelper(){
 	}
 }
 
-public IGVHelper(String sessionID, String genome, String locus, String appURL, String cnUrl, String rembrandtUser) throws MalformedURLException, IOException {
+public IGVHelper(String sessionID, String locus, String appURL, String cnUrl, String rembrandtUser) throws MalformedURLException, IOException {
 	super();
 		igvFilePath = System.getProperty("gov.nih.nci.rembrandt.data_directory");
 		clinicalFile = System.getProperty("rembrandt.igv.clinical.filename");
@@ -78,8 +78,8 @@ public IGVHelper(String sessionID, String genome, String locus, String appURL, S
 		igvJNPL = replaceUrlTokens( igvJnplTemplateString ,  locus, appURL,sessionID);
 	}
 	
-	public IGVHelper(String sessionID, String genome, String locus, String appURL) throws IOException {
-		this(sessionID, genome, locus, appURL, "", "");
+	public IGVHelper(String sessionID, String locus, String appURL) throws IOException {
+		this(sessionID, locus, appURL, "", "");
 	}
 	
 private String readInputStreamAsString(FileInputStream fileInput) throws IOException {

@@ -140,6 +140,8 @@
 		jdbc-type="BIGINT" />
 	<field-descriptor name="chromosomeEnd" column="GENE_END_POSITION"
 		jdbc-type="BIGINT" />	
+	<field-descriptor name="calculatedCopyNumber" column="CALCULATED_COPY_NUMBER"
+		jdbc-type="DOUBLE" />
 </class-descriptor>
 <class-descriptor class="gov.nih.nci.rembrandt.dbbean.SnpProbesetDim"
 	table="SNP_PROBESET_DIM">
