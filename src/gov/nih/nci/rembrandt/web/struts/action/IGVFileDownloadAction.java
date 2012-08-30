@@ -1,8 +1,13 @@
 package gov.nih.nci.rembrandt.web.struts.action;
 
+import gov.nih.nci.caintegrator.security.UserCredentials;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.net.URL;
+import java.net.URLConnection;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -154,6 +159,87 @@ public class IGVFileDownloadAction extends DispatchAction{
 			}
 		    response.setContentLength((int)file.length());
 		        
+		    sos.flush(); // let the Servlet container handle closing of this ServletOutputStream
+		    bis.close();
+        }
+        catch(Exception e)	{
+        	logger.error("Error occured: " + e.getMessage());
+		}
+        logger.info(fileName + " was downloaded.");
+        return null;
+	}
+	
+	/**
+	 * Method execute
+	 * @param ActionMapping mapping
+	 * @param ActionForm form
+	 * @param HttpServletRequest request
+	 * @param HttpServletResponse response
+	 * @return ActionForward
+	 * @throws Exception
+	 */
+	public ActionForward igvFileDownloadFromGP(
+		ActionMapping mapping,
+		ActionForm form,
+		HttpServletRequest request,
+		HttpServletResponse response)
+		throws Exception {
+		
+		String cnFileName = request.getParameter("cn")!=null ? (String) request.getParameter("cn") : null;	
+		String fileName = null;
+		String contextType = null;
+		String[] names = null;
+		String jobNumber = null;
+		
+		names = cnFileName.split("/");
+		contextType = "application/txt";
+		
+    	if(names != null){
+    		jobNumber = names[0];
+    		fileName = names[1];
+    	}
+
+    	try
+        {
+        	String gpUrl = System.getProperty("gov.nih.nci.caintegrator.gp.server");
+        	gpUrl = gpUrl + "gp/jobResults/" + cnFileName;
+        	URL gctFile = new URL(gpUrl);
+//        	URL gctFile = new URL("http://ncias-d757-v.nci.nih.gov:8080/gp/jobResults/1080/wwwrf.gct");
+    		
+    		URLConnection conn = gctFile.openConnection();
+    		
+    		UserCredentials credentials = (UserCredentials)request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
+    		String rembrandtUser = null;
+    		if(credentials!= null) {
+    			rembrandtUser= credentials.getUserName();
+    		}
+    		else {
+    			rembrandtUser = "RBTuser";
+    		}
+    		String password = System.getProperty("gov.nih.nci.caintegrator.gp.publicuser.password");
+    		String loginPassword = rembrandtUser + ":" + password; 
+    		String encoded = new sun.misc.BASE64Encoder().encode (loginPassword.getBytes()); 
+    		conn.setRequestProperty ("Authorization", "Basic " + encoded); 
+    		
+        	
+            // set a non-standard content type to force brower to open Save As dialog
+            response.setContentType(contextType);
+            response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+            ServletOutputStream sos = response.getOutputStream();
+            
+            BufferedInputStream bis =  new BufferedInputStream( conn.getInputStream() );
+            
+            byte[] buf = new byte[1024 * 10]; // ~= 10KB
+    	    int j;
+    	    int i = 0;
+    	    int totlength = 0;
+    	    
+    	    for (int len = -1; (len = bis.read(buf)) != -1; ){
+				sos.write(buf, 0, len);
+    	    	totlength = totlength + buf.length;
+			}
+    	    response.setContentLength((int)totlength);
+			
 		    sos.flush(); // let the Servlet container handle closing of this ServletOutputStream
 		    bis.close();
         }
