@@ -23,7 +23,7 @@ Step 3: Select Array Platform
 Step 4: Select Array Platform
 </logic:present>
 <logic:present name="igvIntegrationForm">
-Step 2: Select Array Platform
+Step 2: Select Array Platform (Select at least one)
 </logic:present>
 </label>
 <%
@@ -35,34 +35,32 @@ Step 2: Select Array Platform
 
 	
 <br/>	
-<c:if test="${param.act eq 'igvintegration'}">
-	&nbsp;&nbsp;<html:select property="snpArrayPlatform" styleId="snpSelect" onchange="javascript:checkArrayPlatform(this);">
-		<option selected="true" value="None"> </option>
-		<option value="100K SNP Array">100K SNP Array</option>
-	</html:select>&nbsp;&nbsp;  
-</c:if>
-&nbsp;&nbsp;<html:select property="arrayPlatform"  styleId="platSelect">   
-<logic:notPresent name="geneexpressionForm">
-	onchange="this.options[1].selected=true;"
-</logic:notPresent>	
->
 <c:choose>
-    <c:when test="${param.act eq 'gpintegration'}">
-		<option selected="true" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Oligo (Affymetrix U133 Plus 2.0)</option>
-	</c:when>
-    <c:when test="${param.act eq 'igvintegration'}">
-    	<option selected="true" value="None"> </option>
-		<option value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Oligo (Affymetrix U133 Plus 2.0)</option>
+	<c:when test="${param.act eq 'igvintegration'}">
+		<html:checkbox property="snpArrayPlatform" onclick="javascript:checkArrayPlatform(this);"/>100K SNP Array &nbsp;&nbsp;&nbsp;&nbsp;
+		<html:checkbox property="arrayPlatform"/>Oligo (Affymetrix U133 Plus 2.0)
 	</c:when>
 	<c:otherwise>
-					<option value="<%=Constants.ALL_PLATFROM%>">All</option>
-					<option selected="true" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Oligo (Affymetrix U133 Plus 2.0)</option>
-					<option value="<%=Constants.CDNA_ARRAY_PLATFORM%>">cDNA</option>
+		&nbsp;&nbsp;<html:select property="arrayPlatform"  styleId="platSelect">   
+		<logic:notPresent name="geneexpressionForm">
+			onchange="this.options[1].selected=true;"
+		</logic:notPresent>	
+		>
+		<c:choose>
+		    <c:when test="${param.act eq 'gpintegration'}">
+				<option selected="true" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Oligo (Affymetrix U133 Plus 2.0)</option>
+			</c:when>
+			<c:otherwise>
+							<option value="<%=Constants.ALL_PLATFROM%>">All</option>
+							<option selected="true" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Oligo (Affymetrix U133 Plus 2.0)</option>
+							<option value="<%=Constants.CDNA_ARRAY_PLATFORM%>">cDNA</option>
+			</c:otherwise>
+		</c:choose>
+		</html:select>
 	</c:otherwise>
 </c:choose>
-	</html:select>
 			
-			<html:errors property="arrayPlatform"/>
+<html:errors property="arrayPlatform"/>
 </fieldset>
 <logic:present name="geneexpressionForm">
 <script type="text/javascript">
@@ -74,14 +72,15 @@ Step 2: Select Array Platform
  function checkArrayPlatform(formElement){
      
    //selected index of the selected
-	var element = formElement.value;
-	
-	 if(element == "None"){
+	var element = formElement.checked;
+
+	 if(element.toString() == "false"){
 	 	document.getElementById("snpAnalysisSelect").disabled = true;
 	 	document.getElementById("snpAnalysisSelect").selectedIndex = 0;
 	 }
 	 else {
 	 	document.getElementById("snpAnalysisSelect").disabled = false;
+	 	document.getElementById("snpAnalysisSelect").selectedIndex = 1;
 	 }
 }
 </script>	

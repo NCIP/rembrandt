@@ -32,6 +32,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -140,63 +141,21 @@ public class GPIntegrationAction extends LookupDispatchAction {
 		//		*** RUN TASK ON THE GP SERVER
 				String tid = "209";
 				String gpModule =  System.getProperty("gov.nih.nci.caintegrator.gp.modulename");						
-				
+				String rembrandtUser = null;
+				GPClient gpClient = null;
+				String ticketString = "";
+				String analysisResultName = gpForm.getAnalysisResultName();
 				
 				String gpserverURL = System.getProperty("gov.nih.nci.caintegrator.gp.server")!=null ? 
 						(String)System.getProperty("gov.nih.nci.caintegrator.gp.server") : "localhost:8080"; //default to localhost
 						try {
 							//*	
 							
-						 	   UserCredentials credentials = (UserCredentials)request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
-				        			       
-						
-								String rembrandtUser = null;
+						 	   rembrandtUser = retreiveRembrandtUser(request, session, rembrandtUser);
 								
-								String analysisResultName = gpForm.getAnalysisResultName();
-		
-								
-								if(credentials!= null) {
-									rembrandtUser= credentials.getUserName();
-								}
-									     
-									String publicUser = System.getProperty("gov.nih.nci.caintegrator.gp.publicuser.name");
-									String password = System.getProperty("gov.nih.nci.caintegrator.gp.publicuser.password");
-									
-								if(rembrandtUser==null)	{
-									rembrandtUser=publicUser;
-								}
-								
-									//Check to see the user is already created otherwise create one.
-								GPClient gpClient = null;
-								if (rembrandtUser.equals(publicUser)){
-									String gpUser = (String)session.getAttribute(GenePatternPublicUserPool.PUBLIC_USER_NAME);
-									if (gpUser == null){
-										PublicUserPool pool = GenePatternPublicUserPool.getInstance();
-										gpUser = pool.borrowPublicUser();
-										session.setAttribute(GenePatternPublicUserPool.PUBLIC_USER_NAME, gpUser);
-										session.setAttribute(GenePatternPublicUserPool.PUBLIC_USER_POOL, pool);
-									}
-									rembrandtUser = gpUser;
-								}
-								
-								String encryptKey = System.getProperty("gov.nih.nci.caintegrator.gp.desencrypter.key");
-								String urlString = EncryptionUtil.encrypt(rembrandtUser+ gpPoolString, encryptKey);
-								urlString = URLEncoder.encode(urlString, "UTF-8");
-								String ticketString = gpserverURL+"gp?ticket="+ urlString;
-								
-								logger.info(ticketString);
-								URL url;
-					            try {
-					            	url = new java.net.URL(ticketString);
-					            	URLConnection conn = url.openConnection();
-					            	final int size = conn.getContentLength();
-					            	logger.info(Integer.toString(size));
-		
-					            } catch (Exception e) {
-					            	logger.error(e.getMessage());
-					            }
+								ticketString = retrieveTicketString(rembrandtUser, gpserverURL);
 					            
-					            
+								String password = System.getProperty("gov.nih.nci.caintegrator.gp.publicuser.password");
 								gpClient = new GPClient(gpserverURL, rembrandtUser, password);
 								int size = filePathList.size();
 								Parameter[] par = new Parameter[filePathList.size() + 3 + 3];
@@ -240,6 +199,56 @@ public class GPIntegrationAction extends LookupDispatchAction {
 								logger.error(gpModule + " failed...." + e.getMessage());
 								throw new Exception(e.getMessage());
 							}
+	}
+
+	protected String retrieveTicketString(String rembrandtUser, String gpserverURL)
+			throws UnsupportedEncodingException {
+		String ticketString;
+		String encryptKey = System.getProperty("gov.nih.nci.caintegrator.gp.desencrypter.key");
+		String urlString = EncryptionUtil.encrypt(rembrandtUser+ gpPoolString, encryptKey);
+		urlString = URLEncoder.encode(urlString, "UTF-8");
+		ticketString = gpserverURL+"gp?ticket="+ urlString;
+		
+		logger.info(ticketString);
+		URL url;
+		try {
+			url = new java.net.URL(ticketString);
+			URLConnection conn = url.openConnection();
+			final int size = conn.getContentLength();
+			logger.info(Integer.toString(size));
+
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		return ticketString;
+	}
+
+	protected String retreiveRembrandtUser(HttpServletRequest request,
+			HttpSession session, String rembrandtUser) {
+		UserCredentials credentials = (UserCredentials)request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
+				       
+			if(credentials!= null) {
+				rembrandtUser= credentials.getUserName();
+			}
+				     
+			String publicUser = System.getProperty("gov.nih.nci.caintegrator.gp.publicuser.name");
+				
+			if(rembrandtUser==null)	{
+				rembrandtUser=publicUser;
+			}
+			
+				//Check to see the user is already created otherwise create one.
+			if (rembrandtUser.equals(publicUser)){
+				String gpUser = (String)session.getAttribute(GenePatternPublicUserPool.PUBLIC_USER_NAME);
+				if (gpUser == null){
+					PublicUserPool pool = GenePatternPublicUserPool.getInstance();
+					gpUser = pool.borrowPublicUser();
+					session.setAttribute(GenePatternPublicUserPool.PUBLIC_USER_NAME, gpUser);
+					session.setAttribute(GenePatternPublicUserPool.PUBLIC_USER_POOL, pool);
+				}
+				rembrandtUser = gpUser;
+			}
+		return rembrandtUser;
 	}
 
 	protected GPTask createGpTask(String tid, String analysisResultName) {

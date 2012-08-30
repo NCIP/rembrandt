@@ -1,5 +1,6 @@
 package gov.nih.nci.rembrandt.web.struts.form;
 
+import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 
 import java.util.List;
@@ -73,8 +74,15 @@ public class IgvIntegrationForm extends GpIntegrationForm {
 	      // Validate group field
 	       errors = UIFormValidator.validateSelectedOneGroup(selectedGroups, errors);
 	       
-		      // Validate annotations field
-	       errors = UIFormValidator.validateSelectedOneAnnotation(selectedAnnotations, errors);
+	       if( getArrayPlatform() != null && getArrayPlatform().equals("on")) {
+	    	   setArrayPlatform( ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString() );
+	       }
+	       if( getSnpArrayPlatform() != null && getSnpArrayPlatform().equals("on")) {
+	    	   setArrayPlatform( ArrayPlatformType.AFFY_100K_SNP_ARRAY.toString() );
+	       }
+
+	       // Validate annotations field
+//	       errors = UIFormValidator.validateSelectedOneAnnotation(selectedAnnotations, errors);
 	       
 	      
 	       return errors;

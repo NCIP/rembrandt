@@ -22,7 +22,7 @@
 		Step 3: 
 		</logic:present>
 		<logic:present name="igvIntegrationForm">
-		Step 5: 
+		Step 4: 
 		</logic:present>		
 		<logic:present name="hierarchicalClusteringForm">
 		Step 5: 
