@@ -7,6 +7,8 @@ package gov.nih.nci.rembrandt.util;
 import java.io.BufferedReader;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.lookup.PatientDataLookup;
+
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -117,8 +119,9 @@ private String replaceTemplateTokens(String igvTemplateString , String genome, S
 		}
 		else {
 			// IGV VIEWER
-	        downloadGctFile();
-			cnURL = igvFilePath + igvGctFileName;
+//	        downloadGctFile();
+	        cnURL = "igvFileDownload.do?method=igvFileDownloadFromGP"+"&amp;cn="+ cnURL;
+			cnURL = appUrl + cnURL;
 		}
 		String clURL = "igvFileDownload.do?method=igvFileDownload"+"&amp;cl="+ clinicalFile;
 		clURL = appUrl + clURL;
@@ -132,6 +135,7 @@ private void downloadGctFile() throws MalformedURLException, IOException  {
 	URL gctFile;
 	InputStream is = null;
 	FileOutputStream fos = null;
+	BufferedInputStream bis = null;
 	try {
 		gctFile = new URL(cnURL);
 		
@@ -142,22 +146,23 @@ private void downloadGctFile() throws MalformedURLException, IOException  {
 		String encoded = new sun.misc.BASE64Encoder().encode (loginPassword.getBytes()); 
 		conn.setRequestProperty ("Authorization", "Basic " + encoded); 
 		
-		is = conn.getInputStream();
+		bis =  new BufferedInputStream( conn.getInputStream() );
 
 		File file = new File(igvFilePath, igvGctFileName);
 		fos = new FileOutputStream(file);
 	    byte[] buf = new byte[100000];
 	    int j;
 	    int i = 0;
+	    
+	    for (int len = -1; (len = bis.read(buf)) != -1; ){
+			fos.write(buf, 0, len);
+		}
 
-	    while ((j = is.read(buf, 0, buf.length)) != -1) {
-	    	fos.write(buf, 0, j);
-	    }
 	}
 	finally {
-	if (is != null) {
+	if (bis != null) {
 	    try {
-	        is.close();
+	        bis.close();
 	    } catch (IOException e) {
 
 	    }
@@ -271,7 +276,7 @@ public void createIGVSampleDataFile(){
 				"\n" );
         for (int i =0;i<patientData.length;i++) {
         	PatientDataLookup patient = patientData[i];
-/*        	stringBuffer.append(patient.getSpecimenName()+
+        	stringBuffer.append(patient.getSpecimenName()+
         			"\t"+patient.getSampleId()+
 					"\t"+patient.getDiseaseType()+
 					"\t"+patient.getWhoGrade()+
@@ -280,7 +285,7 @@ public void createIGVSampleDataFile(){
 					"\t"+patient.getSurvivalLengthMonth()+
 					"\t"+patient.getCensoringStatus()+
 					"\t"+patient.getInstitutionName()+
-					"\n");  */
+					"\n");  
 
         }
     	if(igvClinicalFileName != null){

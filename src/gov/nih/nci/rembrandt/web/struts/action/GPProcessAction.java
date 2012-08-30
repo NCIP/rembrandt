@@ -177,7 +177,7 @@ public class GPProcessAction extends DispatchAction {
 //		int ppp = gpHomeURL.indexOf("?");
 //		String ticketString = gpHomeURL.substring(ppp);
 
-		String fileName = gpserverURL + "gp/jobResults/" + jobNumber + "/" + gpTask.getResultName() + ".gct";
+		String fileName = jobNumber + "/" + gpTask.getResultName() + ".gct";
 		
 		// IGVHelper
 		UserCredentials credentials = (UserCredentials)request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
@@ -189,7 +189,7 @@ public class GPProcessAction extends DispatchAction {
 		String genome = "hg18";
 		String url = request.getRequestURL().toString();
 		url = url.substring(0, url.lastIndexOf("/")+1);
-		String locus = "chr7:116916640-123213553"; //chromosome:start-end
+		String locus = "All"; //chromosome:start-end
 		//String locus = "chr"+copyNumberIGVReport.getChr()+":"+copyNumberIGVReport.getStartLoc()+"-"+copyNumberIGVReport.getEndLoc(); //chromosome:start-end
 		IGVHelper igvHelper = new IGVHelper(sessionId, genome,  locus,  url, fileName, rembrandtUser);
 //		String cnFileName = igvHelper.getIgvCopyNumberFileName();
