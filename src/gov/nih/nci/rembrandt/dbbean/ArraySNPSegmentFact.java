@@ -71,6 +71,7 @@ public class ArraySNPSegmentFact
     public final static String CHROMOSOME = "chromosome";
     public final static String CHR_SEGMENT_START = "chromosomeStart";
     public final static String CHR_SEGMENT_END = "chromosomeEnd";
+    public final static String ANALYSIS_TYPE = "analysisType";
     
   private Long aSnpSegFId;
 

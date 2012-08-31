@@ -24,7 +24,7 @@ import gov.nih.nci.rembrandt.web.struts.form.GpIntegrationForm;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
-
+import gov.nih.nci.caintegrator.enumeration.AnalysisType;
 
 
 import java.io.File;
@@ -62,14 +62,11 @@ import org.genepattern.webservice.Parameter;
 
 //public class GPIntegrationAction extends DispatchAction {
 public class GPIntegrationAction extends LookupDispatchAction {
-	
-	  private IdMapper idMappingManager;
-	  
-	
+    private IdMapper idMappingManager;
 	private static Logger logger = Logger.getLogger(GPIntegrationAction.class);
     private Collection<GeneIdentifierDE> geneIdentifierDECollection;
-
     private String gpPoolString = ":GP30:RBT";
+   
     public ActionForward setup(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
     throws Exception {
@@ -106,7 +103,7 @@ public class GPIntegrationAction extends LookupDispatchAction {
            
        	   String[] patientGroups = gpForm.getSelectedGroups();
        	   
-     	   List<String> filePathList = extractPatientGroups(request, session, patientGroups);
+     	   List<String> filePathList = extractPatientGroups(request, session, patientGroups, null);
 		
 		String platformName = gpForm.getArrayPlatform();
 	
@@ -257,7 +254,7 @@ public class GPIntegrationAction extends LookupDispatchAction {
 	}
 
 	protected List<String> extractPatientGroups(HttpServletRequest request,
-			HttpSession session, String[] patientGroups) throws Exception,
+			HttpSession session, String[] patientGroups, AnalysisType analysisType) throws Exception,
 			IOException {
 		List<String> idStringList = new ArrayList<String>();
    	       List<List<String>> allStringList = new ArrayList<List<String>>();
@@ -304,9 +301,15 @@ public class GPIntegrationAction extends LookupDispatchAction {
            if(patientIdset != null && patientIdset.size()>0) {
         	   
         	   // need to convert pt dids to the specimen ids
-        		List<String> specimenNames = LookupManager.getSpecimenNames(patientIdset, accessInstitutions);     
+        		List<String> specimenNames = LookupManager.getSpecimenNames(patientIdset, accessInstitutions);  
+        		List<String> validspecimenNames = null;
+        		if(analysisType == null){
                 //Validate that samples has GE data
-                List<String> validspecimenNames = DataValidator.validateSampleIdsForGEData(specimenNames);
+        			validspecimenNames = DataValidator.validateSampleIdsForGEData(specimenNames);
+        		} else {
+        			validspecimenNames = DataValidator.validateSampleIdsForCnSegData(specimenNames, analysisType);
+        		}
+        		
         		if(validspecimenNames != null){
         			   for (String specimenName: validspecimenNames ) {
         				   // add specimenName to the samplegroup with the corresponding selected pt group

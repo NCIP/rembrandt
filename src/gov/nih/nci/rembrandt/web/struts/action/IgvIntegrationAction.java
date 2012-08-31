@@ -12,7 +12,7 @@ import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 import gov.nih.nci.rembrandt.web.struts.form.GpIntegrationForm;
 import gov.nih.nci.rembrandt.web.struts.form.IgvIntegrationForm;
-
+import gov.nih.nci.caintegrator.enumeration.AnalysisType;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.io.StringWriter;
@@ -91,7 +91,7 @@ public class IgvIntegrationAction extends GPIntegrationAction {
        
    	   String[] patientGroups = igvForm.getSelectedGroups();
    	   
-   	   List<String> filePathList = extractPatientGroups(request, session, patientGroups);
+
    	   
    	   String platformName = igvForm.getArrayPlatform();
    	   String snpAnalysis = igvForm.getSnpAnalysis();
@@ -106,19 +106,27 @@ public class IgvIntegrationAction extends GPIntegrationAction {
 		   
 				r_fileName = System.getProperty("gov.nih.nci.rembrandt.affy_data_matrix");
 				a_fileName = System.getProperty("gov.nih.nci.rembrandt.affy_data_annotation_igv");
-				
+			   List<String> filePathList = extractPatientGroups(request, session, patientGroups, null);
 			   runGpTask(request, igvForm, session, filePathList, r_fileName, a_fileName);
 
 			 
 		   }
 		   else if(platformName.equalsIgnoreCase(ArrayPlatformType.AFFY_100K_SNP_ARRAY.toString())) {
-			   if ( snpAnalysis.equals("paired") )
+			   AnalysisType analysisType = null;
+			   if ( snpAnalysis.equals("paired") ){
 				   r_fileName = System.getProperty("gov.nih.nci.rembrandt.paired_affy_data_matrix");
-			   else if ( snpAnalysis.equals("unpaired") )
+				   analysisType = AnalysisType.PAIRED;
+			   }
+			   else if ( snpAnalysis.equals("unpaired") ){
 				   r_fileName = System.getProperty("gov.nih.nci.rembrandt.unpaired_affy_data_matrix");
-			   else
+				   analysisType = AnalysisType.UNPAIRED;
+			   }
+			   else{ //BLOOD
 				   r_fileName = System.getProperty("gov.nih.nci.rembrandt.blood_affy_data_matrix");
-				   
+				   analysisType = AnalysisType.NORMAL; //which is BLOOD
+			   }
+			   List<String> filePathList = extractPatientGroups(request, session, patientGroups,analysisType);
+	   
 			   runGpSegTask(request, igvForm, session, filePathList, r_fileName, a_fileName);
 		   }
 
@@ -129,6 +137,7 @@ public class IgvIntegrationAction extends GPIntegrationAction {
     	return mapping.findForward("viewJob");
     }
     
+
 	protected GPTask createGpTask(String tid, String analysisResultName) {
 		GPTask gpTask = new GPTask(tid, analysisResultName, FindingStatus.Running, TaskType.IGV);
 		return gpTask;
@@ -156,12 +165,12 @@ public class IgvIntegrationAction extends GPIntegrationAction {
 						String password = System.getProperty("gov.nih.nci.caintegrator.gp.publicuser.password");
 						gpClient = new GPClient(gpserverURL, rembrandtUser, password);
 						int size = filePathList.size();
-						Parameter[] par = new Parameter[filePathList.size() + 3 + 3];
-						int currpos= 1;
-						for (int i = 0; i < filePathList.size(); i++){
-							par[i] = new Parameter("input.filename" + currpos++, filePathList.get(i));
-						}
-						par[--currpos] = new Parameter("project.name", "rembrandt");
+						Parameter[] par = new Parameter[5];
+						int currpos= 0;
+					
+						par[currpos] = new Parameter("input.file" , filePathList.get(currpos));
+
+						par[++currpos] = new Parameter("project.name", "rembrandt");
 
 						//r_fileName = "'/usr/local/genepattern/resources/DataMatrix_ISPY_306cDNA_17May07.Rda'";
 						par[++currpos] = new Parameter("array.filename", r_fileName);

@@ -1,11 +1,13 @@
 package gov.nih.nci.rembrandt.queryservice.validation;
 
+import gov.nih.nci.caintegrator.dto.critieria.AnalysisTypeCriteria;
 import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.rembrandt.dbbean.AccessionNo;
 import gov.nih.nci.rembrandt.dbbean.AllGeneAlias;
+import gov.nih.nci.rembrandt.dbbean.ArraySNPSegmentFact;
 import gov.nih.nci.rembrandt.dbbean.BiospecimenDim;
 import gov.nih.nci.rembrandt.dbbean.CloneDim;
 import gov.nih.nci.rembrandt.dbbean.GESpecimen;
@@ -16,7 +18,7 @@ import gov.nih.nci.rembrandt.dbbean.SnpProbesetDim;
 import gov.nih.nci.rembrandt.dto.lookup.AccessionNoLookup;
 import gov.nih.nci.rembrandt.dto.lookup.AllGeneAliasLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LocusLinkLookUp;
-
+import gov.nih.nci.caintegrator.enumeration.AnalysisType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -326,6 +328,43 @@ public class DataValidator{
 	    		}
     	}
     	return validSampleList;
+    }
+    //nOTE: VALID Analysis types are PAIRED,UNPAIRED,NORMAL (which is BLOOD)
+    public static List<String> validateSampleIdsForCnSegData(Collection<String> sampleIds, AnalysisType analysisType) throws Exception{
+    	Set<String> validSampleSet = new HashSet<String>();
+    	if(analysisType != null && sampleIds != null  && sampleIds.size() > 0){
+            
+
+            try {
+        	//Create a Criteria for Approved Symbol
+           
+            Collection<String> values = new ArrayList<String>();
+            for (String sampleId : sampleIds){
+                if(sampleId.indexOf("*")!= -1 || sampleId.indexOf("%") != -1){
+                    throw new Exception("Sample Id"+ sampleId+ "contains * or %");         //make sure your not checking for wildcards
+                }
+                values.add(sampleId.toUpperCase());
+            }
+	            Criteria sampleCrit = new Criteria();
+	            sampleCrit.addIn("upper(SPECIMEN_NAME)",values);	
+	            sampleCrit.addEqualTo("ANALYSIS_TYPE", analysisType.name());
+	            Collection geSampleCollection = QueryExecuter.executeQuery(ArraySNPSegmentFact.class, sampleCrit,QueryExecuter.NO_CACHE,false);
+            	if(geSampleCollection != null){
+            		 for (Object obj : geSampleCollection){
+            			 if(obj instanceof ArraySNPSegmentFact){
+            				 ArraySNPSegmentFact snpSpecimen = (ArraySNPSegmentFact) obj;
+            				 validSampleSet.add(snpSpecimen.getSpecimenName());
+            			 }
+            		 }
+            	}
+
+	    		} catch (Exception e) {
+	    			logger.error("Error in validateSampleIds");
+	    			logger.error(e.getMessage());
+	    			throw e;
+	    		}
+    	}
+    	return new ArrayList(validSampleSet);
     }
     public static Collection<CloneIdentifierDE> validateReporters(Collection<CloneIdentifierDE> reporterIds) throws Exception{
     	List<CloneIdentifierDE> validList = new ArrayList<CloneIdentifierDE>();
