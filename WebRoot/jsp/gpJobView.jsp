@@ -248,7 +248,7 @@ function turnOffLoadingMessage(){
 			
 								GPTask task = (GPTask) i.next();
 								if (task.getTaskModule() == null){
-									if( task.getType().equals(GPTask.TaskType.IGV)) {
+									if( task.getType().equals(GPTask.TaskType.IGV_GENE_EXP) || task.getType().equals(GPTask.TaskType.IGV_COPY_NUMBER)) {
 										jobTitle = "IGV";
 										actionLink2 = "gpProcess.do?method=igvViewer&jobId=" + task.getJobId();
 										indicator = "2";
