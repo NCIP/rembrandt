@@ -139,10 +139,15 @@ public class IgvIntegrationAction extends GPIntegrationAction {
     
 
 	protected GPTask createGpTask(String tid, String analysisResultName) {
-		GPTask gpTask = new GPTask(tid, analysisResultName, FindingStatus.Running, TaskType.IGV);
+		GPTask gpTask = new GPTask(tid, analysisResultName, FindingStatus.Running, TaskType.IGV_GENE_EXP);
 		return gpTask;
 	}
 	
+	protected GPTask createGpSegTask(String tid, String analysisResultName) {
+		GPTask gpTask = new GPTask(tid, analysisResultName, FindingStatus.Running, TaskType.IGV_COPY_NUMBER);
+		return gpTask;
+	}
+
 	protected void runGpSegTask(HttpServletRequest request,
 			GpIntegrationForm gpForm, HttpSession session,
 			List<String> filePathList, String r_fileName, String a_fileName)
@@ -192,7 +197,7 @@ public class IgvIntegrationAction extends GPIntegrationAction {
 						request.getSession().setAttribute("gptid", tid);
 						request.getSession().setAttribute("gpUserId", rembrandtUser);
 						request.getSession().setAttribute("ticketString", ticketString);
-						GPTask gpTask = createGpTask(tid, analysisResultName);
+						GPTask gpTask = createGpSegTask(tid, analysisResultName);
 						RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
 						_cacheManager.addNonPersistableToSessionCache(request.getSession().getId(), "latestGpTask",(Serializable) gpTask); 
 						

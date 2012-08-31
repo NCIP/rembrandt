@@ -177,7 +177,11 @@ public class GPProcessAction extends DispatchAction {
 //		int ppp = gpHomeURL.indexOf("?");
 //		String ticketString = gpHomeURL.substring(ppp);
 
-		String fileName = jobNumber + "/" + gpTask.getResultName() + ".gct";
+		String fileName = "";
+		if (gpTask.getType().equals(TaskType.IGV_GENE_EXP))
+			fileName = jobNumber + "/" + gpTask.getResultName() + ".gct";
+		else
+			fileName = jobNumber + "/" + gpTask.getResultName() + ".seg";
 		
 		// IGVHelper
 		UserCredentials credentials = (UserCredentials)request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
@@ -422,7 +426,7 @@ public class GPProcessAction extends DispatchAction {
 			for(Iterator i = collection.iterator();i.hasNext();)	{
 			
 				GPTask task = (GPTask) i.next();
-				if (task.getStatus().equals(FindingStatus.Completed) && task.getTaskModule() == null && !task.getType().equals(TaskType.IGV))
+				if (task.getStatus().equals(FindingStatus.Completed) && task.getTaskModule() == null && !task.getType().equals(TaskType.IGV_GENE_EXP) && !task.getType().equals(TaskType.IGV_COPY_NUMBER))
 					jobList.add(task.getJobId());
 			}
 		}
