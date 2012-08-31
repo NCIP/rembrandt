@@ -348,7 +348,7 @@ public class DataValidator{
 	            Criteria sampleCrit = new Criteria();
 	            sampleCrit.addIn("upper(SPECIMEN_NAME)",values);	
 	            sampleCrit.addEqualTo("ANALYSIS_TYPE", analysisType.name());
-	            Collection geSampleCollection = QueryExecuter.executeQuery(ArraySNPSegmentFact.class, sampleCrit,QueryExecuter.NO_CACHE,false);
+	            Collection geSampleCollection = QueryExecuter.executeQuery(ArraySNPSegmentFact.class, sampleCrit,QueryExecuter.NO_CACHE,true);
             	if(geSampleCollection != null){
             		 for (Object obj : geSampleCollection){
             			 if(obj instanceof ArraySNPSegmentFact){
