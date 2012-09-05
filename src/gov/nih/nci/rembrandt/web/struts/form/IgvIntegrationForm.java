@@ -78,9 +78,13 @@ public class IgvIntegrationForm extends GpIntegrationForm {
 	    	   setArrayPlatform( ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString() );
 	       }
 	       if( getSnpArrayPlatform() != null && getSnpArrayPlatform().equals("on")) {
-	    	   setArrayPlatform( ArrayPlatformType.AFFY_100K_SNP_ARRAY.toString() );
+	    	   setSnpArrayPlatform( ArrayPlatformType.AFFY_100K_SNP_ARRAY.toString() );
 	       }
 
+	       // Validate platform field
+	       errors = UIFormValidator.validateSelectedOnePlatform(getArrayPlatform(), getSnpArrayPlatform(), errors);
+
+	       
 	       // Validate annotations field
 //	       errors = UIFormValidator.validateSelectedOneAnnotation(selectedAnnotations, errors);
 	       

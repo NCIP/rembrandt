@@ -94,43 +94,47 @@ public class IgvIntegrationAction extends GPIntegrationAction {
 
    	   
    	   String platformName = igvForm.getArrayPlatform();
+   	   String snpPlatformName = igvForm.getSnpArrayPlatform();
    	   String snpAnalysis = igvForm.getSnpAnalysis();
+   	   platformName = platformName!=null?platformName:"";
+   	   snpPlatformName = snpPlatformName!=null?snpPlatformName:"";
    	   //Now get the R-binary file name:
 		
 		String r_fileName = null;
 		String a_fileName = null;
 		
-	   if( platformName != null ) 
-	   {
-		   if(platformName.equalsIgnoreCase(ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString())) {
-		   
-				r_fileName = System.getProperty("gov.nih.nci.rembrandt.affy_data_matrix");
-				a_fileName = System.getProperty("gov.nih.nci.rembrandt.affy_data_annotation_igv");
-			   List<String> filePathList = extractPatientGroups(request, session, patientGroups, null);
-			   runGpTask(request, igvForm, session, filePathList, r_fileName, a_fileName);
-
-			 
-		   }
-		   else if(platformName.equalsIgnoreCase(ArrayPlatformType.AFFY_100K_SNP_ARRAY.toString())) {
-			   AnalysisType analysisType = null;
-			   if ( snpAnalysis.equals("paired") ){
-				   r_fileName = System.getProperty("gov.nih.nci.rembrandt.paired_affy_data_matrix");
-				   analysisType = AnalysisType.PAIRED;
-			   }
-			   else if ( snpAnalysis.equals("unpaired") ){
-				   r_fileName = System.getProperty("gov.nih.nci.rembrandt.unpaired_affy_data_matrix");
-				   analysisType = AnalysisType.UNPAIRED;
-			   }
-			   else{ //BLOOD
-				   r_fileName = System.getProperty("gov.nih.nci.rembrandt.blood_affy_data_matrix");
-				   analysisType = AnalysisType.NORMAL; //which is BLOOD
-			   }
-			   List<String> filePathList = extractPatientGroups(request, session, patientGroups,analysisType);
+		if(platformName.equalsIgnoreCase(ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString()) && 
+				snpPlatformName.equalsIgnoreCase(ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString() ) ) {
+			
+		}
+		else if(platformName.equalsIgnoreCase(ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString())) {
 	   
-			   runGpSegTask(request, igvForm, session, filePathList, r_fileName, a_fileName);
-		   }
+			r_fileName = System.getProperty("gov.nih.nci.rembrandt.affy_data_matrix");
+			a_fileName = System.getProperty("gov.nih.nci.rembrandt.affy_data_annotation_igv");
+		   List<String> filePathList = extractPatientGroups(request, session, patientGroups, null);
+		   runGpTask(request, igvForm, session, filePathList, r_fileName, a_fileName);
 
+		 
 	   }
+	   else if(snpPlatformName.equalsIgnoreCase(ArrayPlatformType.AFFY_100K_SNP_ARRAY.toString())) {
+		   AnalysisType analysisType = null;
+		   if ( snpAnalysis.equals("paired") ){
+			   r_fileName = System.getProperty("gov.nih.nci.rembrandt.paired_affy_data_matrix");
+			   analysisType = AnalysisType.PAIRED;
+		   }
+		   else if ( snpAnalysis.equals("unpaired") ){
+			   r_fileName = System.getProperty("gov.nih.nci.rembrandt.unpaired_affy_data_matrix");
+			   analysisType = AnalysisType.UNPAIRED;
+		   }
+		   else{ //BLOOD
+			   r_fileName = System.getProperty("gov.nih.nci.rembrandt.blood_affy_data_matrix");
+			   analysisType = AnalysisType.NORMAL; //which is BLOOD
+		   }
+		   List<String> filePathList = extractPatientGroups(request, session, patientGroups,analysisType);
+   
+		   runGpSegTask(request, igvForm, session, filePathList, r_fileName, a_fileName);
+	   }
+
 
        request.setAttribute("gpTaskType", "IGV");
        

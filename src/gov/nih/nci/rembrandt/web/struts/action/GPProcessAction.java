@@ -540,6 +540,9 @@ public class GPProcessAction extends DispatchAction {
 			if (gpTask.getTaskModule() != null){
 				request.setAttribute("taskModule", gpTask.getTaskModule());
 			}
+			if( gpTask.getType().equals(GPTask.TaskType.IGV_GENE_EXP) || gpTask.getType().equals(GPTask.TaskType.IGV_COPY_NUMBER)) {
+				request.setAttribute("gpTaskType", "IGV");
+			}
     	}
 		
 		Collection tempGpTaskList = _cacheManager.getAllSessionGPTasks(request.getSession().getId());

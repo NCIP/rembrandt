@@ -661,6 +661,10 @@ public class ReportGeneratorHelper {
 		return _reportBean;
 	}
 	
+	public static void renderReport(HttpServletRequest request, Document reportXML, String xsltFilename, JspWriter out) {
+		renderReport( request,  reportXML,  xsltFilename,  out, "false");
+	}
+	
 	/**
 	 * This static method will render a query report of the passed reportXML, in
 	 * HTML using the XSLT whose name has been passed, to the jsp whose 

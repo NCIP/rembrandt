@@ -210,6 +210,18 @@ public class UIFormValidator {
 
         return errors;
     }
+    
+    public static ActionErrors validateSelectedOnePlatform(String arrayPlatform, String snpArrayPlatform, ActionErrors errors){
+    	if( arrayPlatform == null ) arrayPlatform = "";
+    	if( snpArrayPlatform == null ) snpArrayPlatform = "";
+        if (arrayPlatform.equals("") &&  snpArrayPlatform.equals("")){
+            errors.add("arrayPlatform", new ActionError(
+                    "gov.nih.nci.nautilus.ui.struts.form.platform.no.error"));
+        }
+       
+
+        return errors;
+    }
 
     public static ActionErrors validateSelectedOneAnnotation(String[] selectedAnnotations, ActionErrors errors){
         if (selectedAnnotations == null || (selectedAnnotations != null && selectedAnnotations.length == 0)){
