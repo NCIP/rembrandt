@@ -900,6 +900,14 @@
 	<field-descriptor name="specimenName" column="SPECIMEN_NAME"
 		jdbc-type="VARCHAR" primarykey="true" />
 </class-descriptor>
+<!--  SPECIMEN_CN -->
+<class-descriptor class="gov.nih.nci.rembrandt.dbbean.CNSpecimen"
+	table="SPECIMEN_CN">
+	<field-descriptor name="specimenName" column="SPECIMEN_NAME"
+		jdbc-type="VARCHAR" primarykey="true" />
+	<field-descriptor name="analysisType" column="ANALYSIS_TYPE"
+		jdbc-type="VARCHAR" />
+</class-descriptor>
 <!--  REMB_STAT_V -->
 <class-descriptor class="gov.nih.nci.rembrandt.dbbean.DataStatistics"
 	table="REMB_STAT_V">

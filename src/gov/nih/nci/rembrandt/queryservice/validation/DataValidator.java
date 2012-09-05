@@ -7,8 +7,8 @@ import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.rembrandt.dbbean.AccessionNo;
 import gov.nih.nci.rembrandt.dbbean.AllGeneAlias;
-import gov.nih.nci.rembrandt.dbbean.ArraySNPSegmentFact;
 import gov.nih.nci.rembrandt.dbbean.BiospecimenDim;
+import gov.nih.nci.rembrandt.dbbean.CNSpecimen;
 import gov.nih.nci.rembrandt.dbbean.CloneDim;
 import gov.nih.nci.rembrandt.dbbean.GESpecimen;
 import gov.nih.nci.rembrandt.dbbean.LocusLink;
@@ -348,11 +348,11 @@ public class DataValidator{
 	            Criteria sampleCrit = new Criteria();
 	            sampleCrit.addIn("upper(SPECIMEN_NAME)",values);	
 	            sampleCrit.addEqualTo("ANALYSIS_TYPE", analysisType.name());
-	            Collection geSampleCollection = QueryExecuter.executeQuery(ArraySNPSegmentFact.class, sampleCrit,QueryExecuter.NO_CACHE,true);
+	            Collection geSampleCollection = QueryExecuter.executeQuery(CNSpecimen.class, sampleCrit,QueryExecuter.NO_CACHE,true);
             	if(geSampleCollection != null){
             		 for (Object obj : geSampleCollection){
-            			 if(obj instanceof ArraySNPSegmentFact){
-            				 ArraySNPSegmentFact snpSpecimen = (ArraySNPSegmentFact) obj;
+            			 if(obj instanceof CNSpecimen){
+            				 CNSpecimen snpSpecimen = (CNSpecimen) obj;
             				 validSampleSet.add(snpSpecimen.getSpecimenName());
             			 }
             		 }
