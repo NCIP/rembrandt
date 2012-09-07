@@ -51,14 +51,13 @@ org.dom4j.Document,org.dom4j.io.SAXReader,org.dom4j.io.XMLWriter,org.dom4j.io.Ou
   response.flushBuffer();	
   try{
     String id = (String)request.getParameter("id");    
-    String s = System.getProperty("gov.nih.nci.rembrandt.cacore.url")!=null ? (String)System.getProperty("gov.nih.nci.rembrandt.cacore.url") : "http://cabioapi.nci.nih.gov/cabio42";   
-    URL url = new URL(s+"/GetXML?query=Pathway[@bigid="+id+"]");     
+    URL url = new URL("http://cabioapi-qa.nci.nih.gov/cabio42/GetXML?query=Pathway[@bigid="+id+"]");     
     SAXReader reader = new SAXReader();    
     Document reportXML = reader.read(url);    
     ReportGeneratorHelper.renderReport(request,reportXML,RembrandtConstants.DEFAULT_PATHWAY_DESC_XSLT_FILENAME,out);
     
     response.flushBuffer();
-    url = new URL(s+"/GetXML?query=Gene&Pathway[@bigid="+id+"]"); 
+    url = new URL("http://cabioapi-qa.nci.nih.gov/cabio42/GetXML?query=Gene&Pathway[@bigid="+id+"]"); 
     reader = new SAXReader();    
     reportXML = reader.read(url);    
     ReportGeneratorHelper.renderReport(request,reportXML,RembrandtConstants.DEFAULT_GENE_XSLT_FILENAME,out);
