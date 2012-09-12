@@ -338,6 +338,9 @@
 		<copy file="conf/rembrandtData.properties" todir="${anthill.artifacts.dir}"/>
 <!--		<copy file="conf/rembrandt-properties-service.xml" todir="${anthill.artifacts.dir}"/>		-->
 		<copy file="conf/rembrandt-jbossmq-destinations-service.xml" todir="${anthill.artifacts.dir}"/>
+		<copy file="conf/caintegrator-jbossmq-destinations-service.xml" todir="${anthill.artifacts.dir}"/>
+		<copy file="conf/igv-template.xml" todir="${anthill.artifacts.dir}"/>
+		<copy file="conf/rembrandt-igv-template.jnlp" todir="${anthill.artifacts.dir}"/>
 		<copy file="conf/rembrandt_ehcache.xml" todir="${anthill.artifacts.dir}"/>
 		<copy file="conf/log4Configuration.txt" todir="${anthill.artifacts.dir}"/>		
 		<copy file="conf/log4j.xml" todir="${anthill.artifacts.dir}"/>
