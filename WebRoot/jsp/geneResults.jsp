@@ -50,15 +50,17 @@ org.dom4j.Document,org.dom4j.io.SAXReader,org.dom4j.io.XMLWriter,org.dom4j.io.Ou
 	<%
   response.flushBuffer();	
   try{
-    String id = (String)request.getParameter("id");    
-    String s = System.getProperty("gov.nih.nci.rembrandt.cacore.url")!=null ? (String)System.getProperty("gov.nih.nci.rembrandt.cacore.url") : "http://cabioapi.nci.nih.gov/cabio42";   
-    URL url = new URL(s+"/GetXML?query=Pathway[@bigid="+id+"]");     
+    String id = (String)request.getParameter("id");  
+    String name = (String)request.getParameter("name");  
+    String s = System.getProperty("gov.nih.nci.rembrandt.cacore.url")!=null ? (String)System.getProperty("gov.nih.nci.rembrandt.cacore.url") : "http://cabioapi.nci.nih.gov/cabio43";   
+    URL url = new URL(s+"/GetXML?query=Pathway[@name=h_"+name+"]");   
+     
     SAXReader reader = new SAXReader();    
     Document reportXML = reader.read(url);    
     ReportGeneratorHelper.renderReport(request,reportXML,RembrandtConstants.DEFAULT_PATHWAY_DESC_XSLT_FILENAME,out);
     
     response.flushBuffer();
-    url = new URL(s+"/GetXML?query=Gene&Pathway[@bigid="+id+"]"); 
+    url = new URL(s+"/GetXML?query=Gene&Pathway[@name=h_"+name+"]");
     reader = new SAXReader();    
     reportXML = reader.read(url);    
     ReportGeneratorHelper.renderReport(request,reportXML,RembrandtConstants.DEFAULT_GENE_XSLT_FILENAME,out);

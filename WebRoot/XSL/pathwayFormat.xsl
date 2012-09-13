@@ -155,7 +155,7 @@
 									<td width="500" nowrap="off">							   
 									 
 								      <input type="checkbox" value="{$pathName}" name="pathwayName"/>
-									   <a href="geneResults.jsp?id={$pathId}" target="_blank">	
+									   <a href="geneResults.jsp?id={$pathId}&amp;name={$pathName}" target="_blank">	
 									     <xsl:value-of select="substring(.,3)"/>							  						
 									   </a>
 									
