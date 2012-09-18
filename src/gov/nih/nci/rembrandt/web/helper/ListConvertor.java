@@ -63,7 +63,7 @@ public static List<CloneIdentifierDE> convertToCloneIdentifierDE(List<String> li
 		break;
 	case AFFY_HGU133PLUS2_PROBE_SET:
 		for(String listItem: list){
-			cloneIdentifierDE.add(new CloneIdentifierDE.ProbesetID(listItem));
+			cloneIdentifierDE.add(new CloneIdentifierDE.ProbesetID(listItem.toLowerCase()));
 		}
 		break;
 	}
