@@ -4,21 +4,18 @@
 package gov.nih.nci.rembrandt.util;
 
 
-import java.io.BufferedReader;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.lookup.PatientDataLookup;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 
 /**
@@ -35,13 +32,14 @@ public class IGVHelper {
 	private String igvFilePath = null;
 	private String igvCopyNumberFileName = null;
 	private String igvClinicalFileName = null;
-	private String igvGctFileName = null;
 	private String clinicalFile = null;
 	private String igvJNPL = null;
 	private String genome = null;
 	private String igvSessionURL = null;
-	private String cnURL = null;
+	private String gpGE_FilenameURL = null;
+	private String gpCP_FilenameURL = null;
 	private String rembrandtUser = null;
+	private String encodedUser = null;
 
 
 public IGVHelper(){
@@ -52,26 +50,31 @@ public IGVHelper(){
 	}
 }
 
-public IGVHelper(String sessionID, String locus, String appURL, String cnUrl, String rembrandtUser) throws MalformedURLException, IOException {
+public IGVHelper(String sessionID, String locus, String appURL, String fileNameURL, String rembrandtUser) throws MalformedURLException, IOException {
 	super();
 		igvFilePath = System.getProperty("gov.nih.nci.rembrandt.data_directory");
 		clinicalFile = System.getProperty("rembrandt.igv.clinical.filename");
 		genome = System.getProperty("rembrandt.igv.genome.build");
-		if(igvFilePath != null  && clinicalFile != null){
-			igvClinicalFileName = igvFilePath+File.separator+clinicalFile;
-		}
 		String templateLocation = System.getProperty(IGV_TEMPLATE_LOC);
-		String igvJnlpUrl = System.getProperty(IGV_JNLP_URL);
 		String jnlpTemplateLocation = System.getProperty(IGV_JNPL_TEMPLATE_LOC);
-		//InputStream is = Thread.currentThread().getContextClassLoader()
-		//.getResourceAsStream(templateLocation);
-		this.cnURL = cnUrl;
-		this.rembrandtUser = rembrandtUser;
-		 FileInputStream is = new FileInputStream(templateLocation);
+		generateFileName(sessionID, rembrandtUser);
+		if(fileNameURL != null){
+			if(checkIfGPFileExists(fileNameURL + ".seg") && rembrandtUser != null){
+				this.gpCP_FilenameURL = "igvFileDownload.do?method=igvFileDownloadFromGP"+"&amp;u="+encodedUser+"&amp;gp="+fileNameURL + ".seg";
+			}
+			if(checkIfGPFileExists(fileNameURL + ".gct")  && rembrandtUser != null){
+				this.gpGE_FilenameURL = "igvFileDownload.do?method=igvFileDownloadFromGP"+"&amp;u="+encodedUser+"&amp;gp="+fileNameURL + ".gct";
+			}
+		}else{//If NOT GP IGV than its from Copy Number query
+			gpCP_FilenameURL = "igvFileDownload.do?method=igvFileDownload"+"&amp;cn="+ sessionID+"-"+ igvCopyNumberFileName;
+
+		}
+
+
+		FileInputStream is = new FileInputStream(templateLocation);
 		String igvTemplateString =  readInputStreamAsString(is);
-		 is = new FileInputStream(jnlpTemplateLocation);
-			String igvJnplTemplateString =  readInputStreamAsString(is);
-		generateFileName(sessionID);
+		is = new FileInputStream(jnlpTemplateLocation);
+		String igvJnplTemplateString =  readInputStreamAsString(is);
 		igvTemplateString = replaceTemplateTokens(igvTemplateString, genome, locus, appURL,sessionID);
 		writeStringtoFile(igvTemplateString , igvFileName);
 		//igvURL = replaceUrlTokens( igvJnlpUrl ,  locus, appURL,sessionID);
@@ -79,7 +82,7 @@ public IGVHelper(String sessionID, String locus, String appURL, String cnUrl, St
 	}
 	
 	public IGVHelper(String sessionID, String locus, String appURL) throws IOException {
-		this(sessionID, locus, appURL, "", "");
+		this(sessionID, locus, appURL, null, null);
 	}
 	
 private String readInputStreamAsString(FileInputStream fileInput) throws IOException {
@@ -113,69 +116,50 @@ private String replaceTemplateTokens(String igvTemplateString , String genome, S
 	if(igvTemplateString != null){
 		igvTemplateString = igvTemplateString.replace("{genome}", (genome !=null)? genome  : "None");
 		igvTemplateString = igvTemplateString.replace("{locus}", (locus!=null)? locus : "None");
-		if ( cnURL.equals("")) {
-			cnURL = "igvFileDownload.do?method=igvFileDownload"+"&amp;cn="+ sessionID+"-"+ igvCopyNumberFileName;
-			cnURL = appUrl + cnURL;
-		}
-		else {
-			// IGV VIEWER
-//	        downloadGctFile();
-	        cnURL = "igvFileDownload.do?method=igvFileDownloadFromGP"+"&amp;cn="+ cnURL;
-			cnURL = appUrl + cnURL;
-		}
 		String clURL = "igvFileDownload.do?method=igvFileDownload"+"&amp;cl="+ clinicalFile;
-		clURL = appUrl + clURL;
-		igvTemplateString = igvTemplateString.replace("{rembrandt-cn}", (cnURL!=null)? cnURL : "None");
-		igvTemplateString = igvTemplateString.replace("{rembrandt-clinical}", (clURL!=null)? clURL : "None");		
+		//<Resource name="rembrandt-cn" path="{rembrandt-cn}"/>
+		igvTemplateString = igvTemplateString.replace("<Resource name=\"rembrandt-cn\" path=\"{rembrandt-cn}\"/>", (gpCP_FilenameURL!=null)? "<Resource name=\"rembrandt-cn\" path=\""+appUrl +gpCP_FilenameURL+"\"/>"  : "");
+		igvTemplateString = igvTemplateString.replace("<Resource name=\"rembrandt-ge\" path=\"{rembrandt-ge}\"/>", (gpGE_FilenameURL!=null)? "<Resource name=\"rembrandt-ge\" path=\""+appUrl +gpGE_FilenameURL+"\"/>"  : "");
+		igvTemplateString = igvTemplateString.replace("<Resource name=\"rembrandt-clinical\" path=\"{rembrandt-clinical}\"/>", (clURL!=null)? "<Resource name=\"rembrandt-clinical\" path=\""+appUrl +clURL+"\"/>"  : "");
+
+		//igvTemplateString = igvTemplateString.replace("{rembrandt-ge}", (gpGE_FilenameURL!=null)? appUrl +gpGE_FilenameURL : "None");
+		//igvTemplateString = igvTemplateString.replace("{rembrandt-clinical}", (clURL!=null)? clURL : "None");		
 	}
 	return igvTemplateString;
 }
 
-private void downloadGctFile() throws MalformedURLException, IOException  {
-	URL gctFile;
-	InputStream is = null;
-	FileOutputStream fos = null;
+private boolean checkIfGPFileExists (String fileName) throws MalformedURLException, IOException  {
 	BufferedInputStream bis = null;
 	try {
-		gctFile = new URL(cnURL);
+    	String gpUrl = System.getProperty("gov.nih.nci.caintegrator.gp.server");
+    	gpUrl = gpUrl + "gp/jobResults/" + fileName;
+    	URL gctFile = new URL(gpUrl);
+//    	URL gctFile = new URL("http://ncias-d757-v.nci.nih.gov:8080/gp/jobResults/1080/wwwrf.gct");
 		
 		URLConnection conn = gctFile.openConnection();
-		String password = System.getProperty("gov.nih.nci.caintegrator.gp.publicuser.password");
 		
+		
+		String password = System.getProperty("gov.nih.nci.caintegrator.gp.publicuser.password");
 		String loginPassword = rembrandtUser + ":" + password; 
 		String encoded = new sun.misc.BASE64Encoder().encode (loginPassword.getBytes()); 
 		conn.setRequestProperty ("Authorization", "Basic " + encoded); 
-		
-		bis =  new BufferedInputStream( conn.getInputStream() );
+		      
+         bis =  new BufferedInputStream( conn.getInputStream() );
+     	if (bis != null) {
+    	    try {
+    	        bis.close();
+    	        return true;
+    	    } catch (IOException e) {
 
-		File file = new File(igvFilePath, igvGctFileName);
-		fos = new FileOutputStream(file);
-	    byte[] buf = new byte[100000];
-	    int j;
-	    int i = 0;
-	    
-	    for (int len = -1; (len = bis.read(buf)) != -1; ){
-			fos.write(buf, 0, len);
-		}
-
+    	    }
+    	}
+	}catch(Exception ex){
+		return false;
 	}
-	finally {
-	if (bis != null) {
-	    try {
-	        bis.close();
-	    } catch (IOException e) {
+	return false;
 
-	    }
-	}
-	if (fos != null) {
-	    try {
-	        fos.close();
-	    } catch (IOException e) {
-
-	    }
-	}
-      }
 }
+
 public void writeStringtoFile(String string, String fileName) throws IOException{
 	if(string != null) {
 		String xmlFile = igvFilePath+fileName;
@@ -189,12 +173,22 @@ public void writeStringtoFile(String string, String fileName) throws IOException
 public String getIgvFileName() {
 	return igvFileName;
 }
-private void generateFileName(String sessionId){
-	String tempDir = "";
+private void generateFileName(String sessionId, String rembrandtUser){
 	igvFilePath = System.getProperty("gov.nih.nci.rembrandt.data_directory");
+	if(rembrandtUser != null){
+		this.rembrandtUser = rembrandtUser;
+		this.encodedUser = 	 Base64.encodeBase64URLSafeString(rembrandtUser.getBytes());
+	}
+	
+	//get the clinical file path
+	if(igvFilePath != null  && clinicalFile != null){
+		igvClinicalFileName = igvFilePath+File.separator+clinicalFile;
+	}
+	//get the session file path
 	if(igvFilePath != null){
 		igvFilePath = igvFilePath + File.separator + sessionId+File.separator;
 	}
+
 
 	/*
 	 * Creates the session image temp folder if the
@@ -202,7 +196,7 @@ private void generateFileName(String sessionId){
 	 */
 	File dir = new File(igvFilePath);
 	if(!dir.exists()){
-		boolean dirCreated = dir.mkdir();
+		dir.mkdir();
 	}
 
 	//the actual unique file name
@@ -212,8 +206,6 @@ private void generateFileName(String sessionId){
 	
 	igvCopyNumberFileName = uniqueName+"_cn"+".seg";
 	
-	
-	igvGctFileName = uniqueName + ".gct";
 	
 }
 private String createUniqueFileName() {
@@ -310,9 +302,7 @@ public boolean igvClinicalFileExists(){
 	return false;
 }
 
-public String getIgvGctFileName() {
-	return igvGctFileName;
-}
+
 
 
 }

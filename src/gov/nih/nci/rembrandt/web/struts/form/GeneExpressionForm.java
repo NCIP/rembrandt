@@ -405,6 +405,8 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 		// );//moved to the upperclass:: BaseForm.java
 		// geneTypeColl.add( new LabelValueBean( "GenBank AccNo.", "genbankno" )
 		// );//moved to the upperclass:: BaseForm.java
+		geneTypeColl.add( new LabelValueBean( "Locus Link Id", "genelocus" ) );
+		geneTypeColl.add( new LabelValueBean( "GenBank AccNo.", "genbankno" ) );
 		cloneTypeColl.add(new LabelValueBean("IMAGE Id", "imageId"));
 		// cloneTypeColl.add( new LabelValueBean( "BAC Id", "BACId" ) );
 		cloneTypeColl.add(new LabelValueBean("Probe Set Id", "probeSetId"));

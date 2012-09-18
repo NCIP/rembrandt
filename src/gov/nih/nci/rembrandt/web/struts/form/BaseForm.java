@@ -110,7 +110,7 @@ public class BaseForm extends ActionForm implements Serializable{
 		
 	// Collections used for Lookup values.  
 	private ArrayList<LabelValueBean> diseaseType;
-	private ArrayList<LabelValueBean> geneTypeColl;
+	protected ArrayList<LabelValueBean> geneTypeColl;
 	
     private String method;
     protected DiseaseOrGradeCriteria diseaseOrGradeCriteria;
@@ -186,8 +186,8 @@ public class BaseForm extends ActionForm implements Serializable{
 		
 		//geneTypeColl.add( new LabelValueBean( "All Genes", "allgenes" ) );
 		geneTypeColl.add( new LabelValueBean( "Name/Symbol", "genesymbol" ) );
-		geneTypeColl.add( new LabelValueBean( "Locus Link Id", "genelocus" ) );
-		geneTypeColl.add( new LabelValueBean( "GenBank AccNo.", "genbankno" ) );
+		//geneTypeColl.add( new LabelValueBean( "Locus Link Id", "genelocus" ) );
+		//geneTypeColl.add( new LabelValueBean( "GenBank AccNo.", "genbankno" ) );
 
 	}
 

@@ -58,9 +58,22 @@
 					<!-- Upregulated/Amplified  -->
 					<span style="font-size:.9em"><label for="upFold"><bean:write name="kmDataSetForm" property="upOrAmplified" /></label></span>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&ge;&nbsp; 
+				<!--check to see if it is copy number km plot or GE km plot. if it is, change the amplified fold change values-->
+				<logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">	
 					<html:select styleId="upFold" property="upFold">
 						<html:options property="folds" />
 					</html:select>
+				</logic:equal>
+				<logic:equal name="kmDataSetForm" property="plotType" value="COPY_NUM_KM_PLOT">						
+					<html:select styleId="upFold" property="upFold">
+						<html:options property="copyNumberUpFolds" />
+					</html:select>
+				</logic:equal>
+				<!--end after up fold change values have been determined-->
+					
+					
+					
+					
 					<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="changeType" /></span>
 				</td>
 				
@@ -103,10 +116,13 @@
 				
 				<!--Reporters-->
 				<td>
-					<span style="font-size:.9em;margin-left:10px"><label for="selectedReporter">Reporters</label></span>
-					<html:select styleId="selectedReporter" property="selectedReporter">
-						<html:options property="reporters" />
-					</html:select>
+					<!--make sure plot is GE and not Copy # before giving option of algorithm to use-->
+					<logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">	
+						<span style="font-size:.9em;margin-left:10px"><label for="selectedReporter">Reporters</label></span>
+						<html:select styleId="selectedReporter" property="selectedReporter">
+							<html:options property="reporters" />
+						</html:select>
+					</logic:equal>	
 				</td>
 			</tr>
 			

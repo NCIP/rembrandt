@@ -188,16 +188,16 @@ public class KaplanMeierPlotHandler {
         // find out if it has a probeset or a clone associated with it
         //populate ReporterResultset with the approciate one
         ReporterResultset reporterResultset = null;
-        if(sampleResultset != null && copyNumberObj != null){
+        if(sampleResultset != null && copyNumberObj != null  && copyNumberObj.getCalculatedCopyNumber() != null){
             if(copyNumberObj.getGeneSymbol() != null ){
                 DatumDE reporter = new DatumDE(DatumDE.PROBESET_ID,copyNumberObj.getGeneSymbol());
                 reporterResultset = sampleResultset.getReporterResultset(copyNumberObj.getGeneSymbol());
                 if(reporterResultset == null){
                     reporterResultset = new ReporterResultset(reporter);                    
                     }   
+                Double calulatedCopyNumber = copyNumberObj.getCalculatedCopyNumber();
+                reporterResultset.setValue(new DatumDE(DatumDE.COPY_NUMBER,calulatedCopyNumber));   
             }
-            Double calulatedCopyNumber = MathUtil.getAntiLog2(copyNumberObj.getSegmentMean()*2);
-            reporterResultset.setValue(new DatumDE(DatumDE.COPY_NUMBER,calulatedCopyNumber));
            // reporterResultset.setStartPhysicalLocation(new BasePairPositionDE.StartPosition(copyNumberObj.getPhysicalPosition()));
            // if(copyNumberObj.getAnnotations() != null){
            //     CopyNumber.SNPAnnotation annotation = copyNumberObj.getAnnotations();

@@ -4,6 +4,7 @@
 <Resources>
 
 <Resource name="rembrandt-cn" path="{rembrandt-cn}"/>
+<Resource name="rembrandt-ge" path="{rembrandt-ge}"/>
 <Resource name="rembrandt-clinical" path="{rembrandt-clinical}"/>
 
 </Resources>

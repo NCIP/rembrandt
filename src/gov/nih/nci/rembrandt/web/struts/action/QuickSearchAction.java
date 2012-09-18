@@ -239,6 +239,10 @@ public class QuickSearchAction extends DispatchAction {
 			kmForm.setDownOrDeleted("Down Regulated");			
 			kmForm.setPlotVisible(true);
 		} else if (kmplotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)) {
+			upFold = 2.2;
+			downFold = 1.8;
+			kmForm.setUpFold(upFold);
+			kmForm.setDownFold(downFold);
 			kmForm.setUpOrAmplified("Amplified");
 			kmForm.setDownOrDeleted("Deleted");
 			if(quickSearchType.equals(RembrandtConstants.GENE_SYMBOL)){
@@ -246,7 +250,11 @@ public class QuickSearchAction extends DispatchAction {
 			   if(kmResultsContainer != null  && kmResultsContainer.getCytobandDE()!= null){
 				   kmSampleInfos = kmResultsContainer.getMedianKMPlotSamples();
 				   String cytobandGeneSymbol = kmResultsContainer.getCytobandDE().getValue().toString();
-				   kmForm.setGeneOrCytoband(quickSearchVariableName+"("+cytobandGeneSymbol+")");
+				   if(cytobandGeneSymbol!= null && !cytobandGeneSymbol.equals(quickSearchVariableName)){
+					   kmForm.setGeneOrCytoband(quickSearchVariableName+"("+cytobandGeneSymbol+")");
+				   }else{
+					   kmForm.setGeneOrCytoband(cytobandGeneSymbol);			   
+				   }
 				   kmForm.setPlotVisible(true); 
 			   }
 			 }else if(quickSearchType.equals(RembrandtConstants.SNP_PROBESET_ID)){

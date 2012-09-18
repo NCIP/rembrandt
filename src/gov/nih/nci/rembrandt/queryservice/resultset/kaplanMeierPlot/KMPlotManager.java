@@ -2,6 +2,7 @@ package gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot;
 
 import java.util.List;
 
+import gov.nih.nci.caintegrator.dto.critieria.AnalysisTypeCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.AssayPlatformCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.Constants;
@@ -18,6 +19,7 @@ import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE.SNPProbeSet;
 import gov.nih.nci.caintegrator.dto.query.QueryType;
 import gov.nih.nci.caintegrator.dto.view.ViewFactory;
 import gov.nih.nci.caintegrator.dto.view.ViewType;
+import gov.nih.nci.caintegrator.enumeration.AnalysisType;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
@@ -221,6 +223,8 @@ public class KMPlotManager {
             copyNumberQuery.setAssociatedView(ViewFactory
                     .newView(ViewType.COPYNUMBER_GENE_SAMPLE_VIEW));
             copyNumberQuery.setGeneIDCrit(geneCrit);
+            AnalysisTypeCriteria analysisTypeCriteria = new AnalysisTypeCriteria(AnalysisType.PAIRED);
+            copyNumberQuery.setAnalysisTypeCriteria(analysisTypeCriteria);
             copyNumberQuery.setAssayPlatformCrit(new AssayPlatformCriteria(
                     new AssayPlatformDE(Constants.AFFY_100K_SNP_ARRAY)));
             return performKMCopyNumberQuery(copyNumberQuery);

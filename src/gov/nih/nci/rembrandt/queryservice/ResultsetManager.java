@@ -225,24 +225,16 @@ public class ResultsetManager {
 						} else if (resultsets instanceof CopyNumber[]) {
 							GroupType groupType = GroupType.DISEASE_TYPE_GROUP;
 							ResultsContainer resultsContainer = null;
-							if (associatedView instanceof CopyNumberSampleView) {
-								CopyNumberSampleView copyNumberView = (CopyNumberSampleView) associatedView;
-								groupType = copyNumberView.getGroupType();
-								//resultsContainer = ResultsetProcessor
-								//	.handleCopyNumberSingleView(resultant,
-								//			(CopyNumber[]) resultsets,
-								//			groupType);
-							}else if (associatedView instanceof CopyNumberGeneBasedSampleView) {
-									resultsContainer = ResultsetProcessor
-									.handleCopyNumberGeneBasedView(resultant,
-											(CopyNumber[]) resultsets,
-											GroupType.DISEASE_TYPE_GROUP);
-							}else if (associatedView instanceof CopyNumberSegmentView) {
+							if (associatedView instanceof CopyNumberSegmentView) {
 								resultsContainer = ResultsetProcessor
 								.handleCopyNumberSegmentView(resultant,
 										(CopyNumber[]) resultsets,
 										GroupType.DISEASE_TYPE_GROUP);
-							}
+							}else // CopyNumberGeneBasedSampleView
+							resultsContainer = ResultsetProcessor
+							.handleCopyNumberGeneBasedView(resultant,
+									(CopyNumber[]) resultsets,
+									GroupType.DISEASE_TYPE_GROUP);
 							resultant.setResultsContainer(resultsContainer);
 							resultant.setAssociatedQuery(queryToExecute);
 							resultant.setAssociatedView(associatedView);

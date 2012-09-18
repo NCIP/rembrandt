@@ -199,10 +199,24 @@ public class KMDataSetForm extends ActionForm implements Serializable {
             copyNumberDownFolds.add(0.3);
             copyNumberDownFolds.add(0.5);
             copyNumberDownFolds.add(1.0);
-            copyNumberDownFolds.add(1.5);
+            copyNumberDownFolds.add(1.8);
             copyNumberDownFolds.add(2.0);                    
         }
         return copyNumberDownFolds;
+    }
+    
+    /**
+     * @return Returns the copyNumberUpFolds.
+     */
+    public ArrayList<Double> getCopyNumberUpFolds() {
+		if (folds.isEmpty()) {
+			folds.add(2.0);
+			folds.add(2.2);
+			for (int i = 3; i < 11; i++) {
+				folds.add(new Double(i));
+			}			
+		}
+		return folds;
     }
 
 	/**

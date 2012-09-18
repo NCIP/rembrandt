@@ -102,10 +102,17 @@ public class IgvIntegrationAction extends GPIntegrationAction {
 		
 		String r_fileName = null;
 		String a_fileName = null;
+		String cn_fileName = null;
 		
 		if(platformName.equalsIgnoreCase(ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString()) && 
-				snpPlatformName.equalsIgnoreCase(ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString() ) ) {
+				snpPlatformName.equalsIgnoreCase(ArrayPlatformType.AFFY_100K_SNP_ARRAY.toString() ) ) {
 			
+			r_fileName = System.getProperty("gov.nih.nci.rembrandt.affy_data_matrix");
+			a_fileName = System.getProperty("gov.nih.nci.rembrandt.affy_data_annotation_igv");
+		    AnalysisType analysisType = getAnalysisType(snpAnalysis);
+		    cn_fileName = getCNFileName(analysisType);
+		    List<String> filePathList = extractPatientGroups(request, session, patientGroups, analysisType);
+			runGpExpSegTask( request, igvForm,  session, filePathList,  r_fileName,  cn_fileName,  a_fileName);
 		}
 		else if(platformName.equalsIgnoreCase(ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString())) {
 	   
@@ -117,19 +124,8 @@ public class IgvIntegrationAction extends GPIntegrationAction {
 		 
 	   }
 	   else if(snpPlatformName.equalsIgnoreCase(ArrayPlatformType.AFFY_100K_SNP_ARRAY.toString())) {
-		   AnalysisType analysisType = null;
-		   if ( snpAnalysis.equals("paired") ){
-			   r_fileName = System.getProperty("gov.nih.nci.rembrandt.paired_affy_data_matrix");
-			   analysisType = AnalysisType.PAIRED;
-		   }
-		   else if ( snpAnalysis.equals("unpaired") ){
-			   r_fileName = System.getProperty("gov.nih.nci.rembrandt.unpaired_affy_data_matrix");
-			   analysisType = AnalysisType.UNPAIRED;
-		   }
-		   else{ //BLOOD
-			   r_fileName = System.getProperty("gov.nih.nci.rembrandt.blood_affy_data_matrix");
-			   analysisType = AnalysisType.NORMAL; //which is BLOOD
-		   }
+		   AnalysisType analysisType = getAnalysisType(snpAnalysis);
+		   r_fileName = getCNFileName(analysisType);
 		   List<String> filePathList = extractPatientGroups(request, session, patientGroups,analysisType);
    
 		   runGpSegTask(request, igvForm, session, filePathList, r_fileName, a_fileName);
@@ -215,4 +211,100 @@ public class IgvIntegrationAction extends GPIntegrationAction {
 					}
 	}
 	
+	//ConvertExpAndCNforIGV
+	protected void runGpExpSegTask(HttpServletRequest request,
+			GpIntegrationForm gpForm, HttpSession session,
+			List<String> filePathList, String exp_fileName, String cn_fileName, String a_fileName)
+			throws Exception {
+		//		*** RUN TASK ON THE GP SERVER
+				String tid = "209";
+				String gpModule =  System.getProperty("gov.nih.nci.caintegrator.gp.exp.seg.modulename");						
+				String rembrandtUser = null;
+				GPClient gpClient = null;
+				String ticketString = "";
+				String analysisResultName = gpForm.getAnalysisResultName();
+				
+				String gpserverURL = System.getProperty("gov.nih.nci.caintegrator.gp.server")!=null ? 
+				(String)System.getProperty("gov.nih.nci.caintegrator.gp.server") : "localhost:8080"; //default to localhost
+				try {
+				 	   rembrandtUser = retreiveRembrandtUser(request, session, rembrandtUser);
+						
+						ticketString = retrieveTicketString(rembrandtUser, gpserverURL);
+			            
+						String password = System.getProperty("gov.nih.nci.caintegrator.gp.publicuser.password");
+						gpClient = new GPClient(gpserverURL, rembrandtUser, password);
+						int size = filePathList.size();
+						Parameter[] par = new Parameter[filePathList.size() + 8];
+						int currpos= 1;
+						for (int i = 0; i < filePathList.size(); i++){
+							par[i] = new Parameter("input.filename" + currpos++, filePathList.get(i));
+						}
+						par[--currpos] = new Parameter("project.name", "rembrandt");
+
+						//r_fileName = "'/usr/local/genepattern/resources/DataMatrix_ISPY_306cDNA_17May07.Rda'";
+						par[++currpos] = new Parameter("array.exp.filename", exp_fileName);
+						par[++currpos] = new Parameter("annotation.filename", a_fileName);
+						par[++currpos] = new Parameter("array.cn.filename", cn_fileName);						
+						par[++currpos] = new Parameter("analysis.name", analysisResultName);
+
+						par[++currpos] = new Parameter("output.cls.filename",analysisResultName+".cls");
+						par[++currpos] = new Parameter("output.gct.filename",analysisResultName+".gct");
+						par[++currpos] = new Parameter("output.seg.filename",analysisResultName+".seg");
+												
+						//JobResult preprocess = gpServer.runAnalysis(gpModule, par);
+						int nowait = gpClient.runAnalysisNoWait(gpModule, par);
+
+						tid = String.valueOf(nowait);
+						//LSID = urn:lsid:8080.root.localhost:genepatternmodules:20:2.1.7
+						request.setAttribute("jobId", tid);
+						request.setAttribute("gpStatus", "running");
+						session.setAttribute("genePatternServer", gpClient);
+						request.setAttribute("genePatternURL", ticketString);
+						request.getSession().setAttribute("gptid", tid);
+						request.getSession().setAttribute("gpUserId", rembrandtUser);
+						request.getSession().setAttribute("ticketString", ticketString);
+						GPTask gpTask = createGpSegTask(tid, analysisResultName);
+						RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
+						_cacheManager.addNonPersistableToSessionCache(request.getSession().getId(), "latestGpTask",(Serializable) gpTask); 
+						
+					} catch (Exception e) {
+						StringWriter sw = new StringWriter();
+						PrintWriter pw = new PrintWriter(sw);
+						e.printStackTrace(pw);
+						logger.error(sw.toString());
+						logger.error(gpModule + " failed...." + e.getMessage());
+						throw new Exception(e.getMessage());
+					}
+	}
+	private AnalysisType getAnalysisType(String snpAnalysis){
+ 
+		AnalysisType analysisType = null;
+		if(snpAnalysis != null){
+			   if ( snpAnalysis.equals("paired") ){
+				   analysisType = AnalysisType.PAIRED;
+			   }
+			   else if ( snpAnalysis.equals("unpaired") ){
+				   analysisType = AnalysisType.UNPAIRED;
+			   }
+			   else{ //BLOOD
+				   analysisType = AnalysisType.NORMAL; //which is BLOOD
+			   }
+		   }
+		   return  analysisType;
+	}
+	private String getCNFileName(AnalysisType analysisType){
+		String cnFileName = null; 
+		switch(analysisType){
+		case PAIRED:
+			cnFileName =  System.getProperty("gov.nih.nci.rembrandt.paired_affy_data_matrix");
+			break;
+		case UNPAIRED:
+			cnFileName =  System.getProperty("gov.nih.nci.rembrandt.unpaired_affy_data_matrix");
+			break;
+		case NORMAL:
+			cnFileName =  System.getProperty("gov.nih.nci.rembrandt.blood_affy_data_matrix");
+			break;
+		}
+		   return  cnFileName;
+}
 }

@@ -13,6 +13,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -185,36 +186,40 @@ public class IGVFileDownloadAction extends DispatchAction{
 		HttpServletResponse response)
 		throws Exception {
 		
-		String cnFileName = request.getParameter("cn")!=null ? (String) request.getParameter("cn") : null;	
+		String igvFileName = request.getParameter("gp")!=null ? (String) request.getParameter("gp") : null;	
+		String encodedUser = request.getParameter("u")!=null ? (String) request.getParameter("u") : null;
 		String fileName = null;
 		String contextType = null;
 		String[] names = null;
 		String jobNumber = null;
+		String rembrandtUser = null;
 		
-		names = cnFileName.split("/");
 		contextType = "application/txt";
 		
-    	if(names != null){
-    		jobNumber = names[0];
-    		fileName = names[1];
+    	if(igvFileName != null){
+    		names = igvFileName.split("/");
+    		if(names != null){
+	    		jobNumber = names[0];
+	    		fileName = names[1];
+    		}
     	}
 
     	try
         {
         	String gpUrl = System.getProperty("gov.nih.nci.caintegrator.gp.server");
-        	gpUrl = gpUrl + "gp/jobResults/" + cnFileName;
+        	gpUrl = gpUrl + "gp/jobResults/" + igvFileName;
         	URL gctFile = new URL(gpUrl);
 //        	URL gctFile = new URL("http://ncias-d757-v.nci.nih.gov:8080/gp/jobResults/1080/wwwrf.gct");
     		
     		URLConnection conn = gctFile.openConnection();
-    		
-    		UserCredentials credentials = (UserCredentials)request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
-    		String rembrandtUser = null;
-    		if(credentials!= null) {
-    			rembrandtUser= credentials.getUserName();
-    		}
-    		else {
+			//UserCredentials credentials = (UserCredentials)request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
+			
+			//String rembrandtUser  = (String)request.getSession().getAttribute("gpUserId");
+
+    		if(encodedUser == null) {
     			rembrandtUser = "RBTuser";
+    		}else{
+    			rembrandtUser =  new String(Base64.decodeBase64(encodedUser)); 
     		}
     		String password = System.getProperty("gov.nih.nci.caintegrator.gp.publicuser.password");
     		String loginPassword = rembrandtUser + ":" + password; 

@@ -178,10 +178,10 @@ public class GPProcessAction extends DispatchAction {
 //		String ticketString = gpHomeURL.substring(ppp);
 
 		String fileName = "";
-		if (gpTask.getType().equals(TaskType.IGV_GENE_EXP))
-			fileName = jobNumber + "/" + gpTask.getResultName() + ".gct";
-		else
-			fileName = jobNumber + "/" + gpTask.getResultName() + ".seg";
+		//if (gpTask.getType().equals(TaskType.IGV_GENE_EXP))
+		//	fileName = jobNumber + "/" + gpTask.getResultName() + ".gct";
+		//else
+			fileName = jobNumber + "/" + gpTask.getResultName();// + ".seg";
 		
 		// IGVHelper
 		UserCredentials credentials = (UserCredentials)request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
