@@ -23,22 +23,20 @@ The outline of the application-policy is:
   </authentication>
 </application-policy>
 
-<application-policy name="rembrandt">
-<authentication>
-<login-module code="gov.nih.nci.security.authentication.loginmodules.LDAPLoginModule" flag="required">
-	<module-option name="ldapHost">@LDAP_SERVER@</module-option>
-	<module-option name="ldapSearchableBase">ou=nci,o=nih</module-option>
-	<module-option name="ldapUserIdLabel">cn</module-option>
-</login-module>
-</authentication>
-</application-policy>
-
-
-
 $Revision: 43749 $
 -->
 
 <policy>
+	<application-policy name="rembrandt">
+		<authentication>
+		<login-module code="gov.nih.nci.security.authentication.loginmodules.LDAPLoginModule" flag="required">
+			<module-option name="ldapHost">@LDAP_SERVER@</module-option>
+			<module-option name="ldapSearchableBase">ou=nci,o=nih</module-option>
+			<module-option name="ldapUserIdLabel">cn</module-option>
+		</login-module>
+		</authentication>
+	</application-policy>
+	
     <!-- Used by clients within the application server VM such as
     mbeans and servlets that access EJBs.
     -->
