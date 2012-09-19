@@ -111,14 +111,14 @@ public class IgvIntegrationAction extends GPIntegrationAction {
 			a_fileName = System.getProperty("gov.nih.nci.rembrandt.affy_data_annotation_igv");
 		    AnalysisType analysisType = getAnalysisType(snpAnalysis);
 		    cn_fileName = getCNFileName(analysisType);
-		    List<String> filePathList = extractPatientGroups(request, session, patientGroups, analysisType);
+		    List<String> filePathList = extractPatientGroups(request, session, patientGroups, analysisType,"ge-cp");
 			runGpExpSegTask( request, igvForm,  session, filePathList,  r_fileName,  cn_fileName,  a_fileName);
 		}
 		else if(platformName.equalsIgnoreCase(ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString())) {
 	   
 			r_fileName = System.getProperty("gov.nih.nci.rembrandt.affy_data_matrix");
 			a_fileName = System.getProperty("gov.nih.nci.rembrandt.affy_data_annotation_igv");
-		   List<String> filePathList = extractPatientGroups(request, session, patientGroups, null);
+		   List<String> filePathList = extractPatientGroups(request, session, patientGroups, null,"ge");
 		   runGpTask(request, igvForm, session, filePathList, r_fileName, a_fileName);
 
 		 
@@ -126,7 +126,7 @@ public class IgvIntegrationAction extends GPIntegrationAction {
 	   else if(snpPlatformName.equalsIgnoreCase(ArrayPlatformType.AFFY_100K_SNP_ARRAY.toString())) {
 		   AnalysisType analysisType = getAnalysisType(snpAnalysis);
 		   r_fileName = getCNFileName(analysisType);
-		   List<String> filePathList = extractPatientGroups(request, session, patientGroups,analysisType);
+		   List<String> filePathList = extractPatientGroups(request, session, patientGroups,analysisType,"cp");
    
 		   runGpSegTask(request, igvForm, session, filePathList, r_fileName, a_fileName);
 	   }

@@ -103,7 +103,7 @@ public class GPIntegrationAction extends LookupDispatchAction {
            
        	   String[] patientGroups = gpForm.getSelectedGroups();
        	   
-     	   List<String> filePathList = extractPatientGroups(request, session, patientGroups, null);
+     	   List<String> filePathList = extractPatientGroups(request, session, patientGroups, null,"ge");
 		
 		String platformName = gpForm.getArrayPlatform();
 	
@@ -254,7 +254,7 @@ public class GPIntegrationAction extends LookupDispatchAction {
 	}
 
 	protected List<String> extractPatientGroups(HttpServletRequest request,
-			HttpSession session, String[] patientGroups, AnalysisType analysisType) throws Exception,
+			HttpSession session, String[] patientGroups, AnalysisType analysisType, String taskType) throws Exception,
 			IOException {
 		List<String> idStringList = new ArrayList<String>();
    	       List<List<String>> allStringList = new ArrayList<List<String>>();
@@ -303,12 +303,22 @@ public class GPIntegrationAction extends LookupDispatchAction {
         	   // need to convert pt dids to the specimen ids
         		List<String> specimenNames = LookupManager.getSpecimenNames(patientIdset, accessInstitutions);  
         		List<String> validspecimenNames = null;
-        		if(analysisType == null){
+        		if(taskType!= null && taskType == "ge"){
                 //Validate that samples has GE data
         			validspecimenNames = DataValidator.validateSampleIdsForGEData(specimenNames);
-        		} else {
+        		} else if(taskType!= null && analysisType != null && taskType == "cp"){
+        			 //Validate that samples has CP data
         			validspecimenNames = DataValidator.validateSampleIdsForCnSegData(specimenNames, analysisType);
-        		}
+        		} else if(taskType!= null && analysisType != null && taskType == "ge-cp"){
+        			 //Validate that samples has GE & CP data
+        			validspecimenNames = DataValidator.validateSampleIdsForGEData(specimenNames);
+        			List<String> validspecimenNames2 = DataValidator.validateSampleIdsForCnSegData(specimenNames, analysisType);
+        			if(validspecimenNames != null && validspecimenNames2 != null){
+        				validspecimenNames.addAll(validspecimenNames2);
+        			}else if (validspecimenNames == null && validspecimenNames2 != null){
+        				validspecimenNames = validspecimenNames2;
+        			}
+        		} 
         		
         		if(validspecimenNames != null){
         			   for (String specimenName: validspecimenNames ) {

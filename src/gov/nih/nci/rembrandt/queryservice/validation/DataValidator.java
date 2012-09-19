@@ -9,6 +9,7 @@ import gov.nih.nci.rembrandt.dbbean.AccessionNo;
 import gov.nih.nci.rembrandt.dbbean.AllGeneAlias;
 import gov.nih.nci.rembrandt.dbbean.BiospecimenDim;
 import gov.nih.nci.rembrandt.dbbean.CNSpecimen;
+import gov.nih.nci.rembrandt.dbbean.CloneAccession;
 import gov.nih.nci.rembrandt.dbbean.CloneDim;
 import gov.nih.nci.rembrandt.dbbean.GESpecimen;
 import gov.nih.nci.rembrandt.dbbean.LocusLink;
@@ -491,6 +492,13 @@ public class DataValidator{
             else if (type != null && type.equals(GeneIdentifierDE.GENBANK_ACCESSION_NUMBER)){
             	crit.addIn("upper(accession)",values);            	 
             	collection = QueryExecuter.executeQuery(AccessionNo.class, crit,QueryExecuter.NO_CACHE,true);
+            	//Now check for Clone Accession Numbers JIRA 569
+            	Criteria cloneCrit = new Criteria();
+            	cloneCrit.addIn("upper(accession_number)",values);            	 
+            	Collection cloneCollection = QueryExecuter.executeQuery(CloneAccession.class, cloneCrit,QueryExecuter.NO_CACHE,true);
+            	if(cloneCollection != null  && collection!= null){
+            		collection.addAll(cloneCollection);
+            	}
             }
             else if (type != null && type.equals(GeneIdentifierDE.LOCUS_LINK)){
             	crit.addIn("upper(ll_id)",values);            	 
@@ -505,8 +513,10 @@ public class DataValidator{
             			 else if(obj instanceof AccessionNoLookup  && type.equals(GeneIdentifierDE.GENBANK_ACCESSION_NUMBER)){
             				 AccessionNoLookup reporter = (AccessionNoLookup) obj;
             				 validList.add(new GeneIdentifierDE.GenBankAccessionNumber(reporter.getAccession()));
-            			 }
-            			 else if(obj instanceof LocusLinkLookUp  && type.equals(GeneIdentifierDE.LOCUS_LINK)){
+            			 }else if(obj instanceof CloneAccession  && type.equals(GeneIdentifierDE.GENBANK_ACCESSION_NUMBER)){
+            				 CloneAccession reporter = (CloneAccession) obj;
+            				 validList.add(new GeneIdentifierDE.GenBankAccessionNumber(reporter.getAccessionNumber()));
+            			 }else if(obj instanceof LocusLinkLookUp  && type.equals(GeneIdentifierDE.LOCUS_LINK)){
             				 LocusLinkLookUp reporter = (LocusLinkLookUp) obj;
             				 validList.add(new GeneIdentifierDE.LocusLink(reporter.getLl_id()));
             			 }

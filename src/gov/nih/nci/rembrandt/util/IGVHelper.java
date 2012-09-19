@@ -269,14 +269,14 @@ public void createIGVSampleDataFile(){
         for (int i =0;i<patientData.length;i++) {
         	PatientDataLookup patient = patientData[i];
         	stringBuffer.append(patient.getSpecimenName()+
-        			"\t"+patient.getSampleId()+
-					"\t"+patient.getDiseaseType()+
-					"\t"+patient.getWhoGrade()+
-					"\t"+patient.getAgeGroup()+
-					"\t"+patient.getGender()+
-					"\t"+patient.getSurvivalLengthMonth()+
-					"\t"+patient.getCensoringStatus()+
-					"\t"+patient.getInstitutionName()+
+        			"\t"+((patient.getSampleId()!=null)? patient.getSampleId() : " ")+
+					"\t"+((patient.getDiseaseType()!=null)? patient.getDiseaseType() : "UNASSIGNED")+
+					"\t"+((patient.getWhoGrade()!=null)? patient.getWhoGrade() : " ")+
+					"\t"+((patient.getAgeGroup()!=null)? patient.getAgeGroup() : " ")+
+					"\t"+((patient.getGender()!=null)? patient.getGender() : " ")+
+					"\t"+((patient.getSurvivalLengthMonth()!=null)? patient.getSurvivalLengthMonth().toString() : " ")+
+					"\t"+((patient.getCensoringStatus()!=null)? patient.getCensoringStatus() : " ")+ 
+					"\t"+((patient.getInstitutionName()!=null)? patient.getInstitutionName() : " ")+
 					"\n");  
 
         }
