@@ -94,7 +94,7 @@
         	</select>
         	<select id="idfile" style="width:300px">
 		        <logic:iterate name="downloadFileList" id="downloadFile">
-			       <option value="<bean:write name="downloadFile" property="fileId"/>"><bean:write name="downloadFile" property="fileName"/></option>
+			       <option value="<bean:write name="downloadFile" property="fileName"/>"><bean:write name="downloadFile" property="fileName"/></option>
 		        </logic:iterate>
 	        </select><label for="idfile">&#160;</label>
 	        <input type="button" onclick="getDL($('idfile'))" value="download" style="width:70px"/>
