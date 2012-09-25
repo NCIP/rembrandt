@@ -38,7 +38,7 @@ Step 2: Select Array Platform (Select at least one)
 <c:choose>
 	<c:when test="${param.act eq 'igvintegration'}">
 		<html:checkbox property="snpArrayPlatform" onclick="javascript:checkArrayPlatform(this);"/>100K SNP Array &nbsp;&nbsp;&nbsp;&nbsp;
-		<html:checkbox property="arrayPlatform"/>Oligo (Affymetrix U133 Plus 2.0)
+		<html:checkbox property="arrayPlatform"/>Affymetrix HG_U133 Plus 2.0
 	</c:when>
 	<c:otherwise>
 		&nbsp;&nbsp;<html:select property="arrayPlatform"  styleId="platSelect">   
@@ -48,11 +48,11 @@ Step 2: Select Array Platform (Select at least one)
 		>
 		<c:choose>
 		    <c:when test="${param.act eq 'gpintegration'}">
-				<option selected="true" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Oligo (Affymetrix U133 Plus 2.0)</option>
+				<option selected="true" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Affymetrix HG_U133 Plus 2.0</option>
 			</c:when>
 			<c:otherwise>
 							<option value="<%=Constants.ALL_PLATFROM%>">All</option>
-							<option selected="true" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Oligo (Affymetrix U133 Plus 2.0)</option>
+							<option selected="true" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Affymetrix HG_U133 Plus 2.0</option>
 							<option value="<%=Constants.CDNA_ARRAY_PLATFORM%>">cDNA</option>
 			</c:otherwise>
 		</c:choose>
