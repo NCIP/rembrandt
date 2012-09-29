@@ -2,7 +2,9 @@ package gov.nih.nci.rembrandt.web.struts.action;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -22,6 +24,7 @@ import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot.KMPlotManager;
 import gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot.KaplanMeierPlotContainer;
+import gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot.SampleKaplanMeierPlotResultset;
 import gov.nih.nci.rembrandt.util.MoreStringUtils;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
@@ -462,12 +465,16 @@ public class QuickSearchAction extends DispatchAction {
          //   kmResultsContainer = performKMCopyNumberQuery(sampleList, quickSearchVariableName, quickSearchType, institutionCriteria);
 
         }
-		if (kmResultsContainer != null	&& kmForm.getSelectedReporter() != null){
+//		if (kmResultsContainer != null	&& kmForm.getSelectedReporter() != null){
+		if (kmResultsContainer != null){			
 			List reporterList = kmResultsContainer.getAssociatedReporters();
-			String reporter = kmForm.getSelectedReporter();
+//			String reporter = kmForm.getSelectedReporter();
 			//remove extra formatting
 			int pos = 0;
-			 if (reporter.contains(CaIntegratorConstants.HIGHEST_GEOMETRIC_MEAN_INTENSITY)){
+			kmSampleInfos = kmResultsContainer.getMedianKMPlotSamples();
+			kmForm.setPlotVisible(true);
+			
+/*			 if (reporter.contains(CaIntegratorConstants.HIGHEST_GEOMETRIC_MEAN_INTENSITY)){
 				pos = reporter.indexOf(CaIntegratorConstants.HIGHEST_GEOMETRIC_MEAN_INTENSITY);
 				reporter = reporter.substring(0,pos).trim();
 			} else if (reporter.contains(CaIntegratorConstants.LOWEST_GEOMETRIC_MEAN_INTENSITY)){
@@ -485,9 +492,10 @@ public class QuickSearchAction extends DispatchAction {
 				kmSampleInfos = km;
 				kmForm.setPlotVisible(false);
 			}
+*/			
 				if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
 					kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedGEReportersSortedByMeanIntensity(), kmplotType, kmForm);
-					if (reporter.equals(
+/*					if (reporter.equals(
 							CaIntegratorConstants.GRAPH_MEAN)) {
 						kmSampleInfos = kmResultsContainer.getMeanKMPlotSamples();
 					} else if (reporter.equals(
@@ -495,10 +503,10 @@ public class QuickSearchAction extends DispatchAction {
 						kmSampleInfos = kmResultsContainer.getMedianKMPlotSamples();
 					} else if (!reporter.equals(CaIntegratorConstants.GRAPH_BLANK)){
 						kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(reporter);
-					}
+					}  */
 				} else if (kmplotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)) {
 					kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedSNPReportersSortedByPosition(), kmplotType, kmForm);
-					if (reporter.equals(
+/*					if (reporter.equals(
 							CaIntegratorConstants.GRAPH_MEAN)) {
 						kmSampleInfos = kmResultsContainer.getMeanKMPlotSamples();
 					} else if (reporter.equals(
@@ -509,7 +517,7 @@ public class QuickSearchAction extends DispatchAction {
 					}
 					else{
 						kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(reporter);
-					}
+					}  */
 				}
 
 			//System.out.println("\n***********************************************************");
