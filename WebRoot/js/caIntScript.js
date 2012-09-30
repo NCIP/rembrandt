@@ -187,11 +187,11 @@ function deleteRow(queryNum){
 	  }
 	  else if (i == 2){
 	      myOption = new Option();
-	      myOption2 = new Option();
+//	      myOption2 = new Option();
 	      myOption.text = "Gene Keyword";
-		  myOption2.text = "SNP Probe set ID";
+//		  myOption2.text = "SNP Probe set ID";
 	      document.forms[0].quickSearchType.options[0] = myOption;
-	      document.forms[0].quickSearchType.options[1] = myOption2;
+//	      document.forms[0].quickSearchType.options[1] = myOption2;
 		  }	
 	     else /*if(i != 2)*/ {
 	      myOption = new Option();
