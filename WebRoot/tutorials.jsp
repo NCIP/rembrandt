@@ -83,15 +83,6 @@
 <br/><br/>
 
 <fieldset>
-	<legend>Web Genome</legend><br clear="both"/>
-	<li>
-		<b>Web Genome Integration (Copy Number)</b>
-		<a  title="This page shows a SWF Flash file." href="javascript:spawnm('tutorials/webgenome.htm');">View</a>* the Advanced Search tutorial  (opens in a new window) 
-	</li>
-</fieldset>
-<br/><br/>
-	 
-<fieldset>
 	<legend>List Management</legend><br clear="both"/>
 	<li>
 		<b>List Management</b>
