@@ -31,7 +31,7 @@ if(session.getAttribute("name") != null)	{
 <% } 
 	else	{
 %>
-	<a style="font-size:.85em;" href="registration.do">
+	<a style="font-size:1.5em;" href="registration.do" onmouseover="return overlib('Please login to access additional features.', CAPTION, 'Login');" onmouseout="return nd();">
       Login
     </a><br/>
 <%

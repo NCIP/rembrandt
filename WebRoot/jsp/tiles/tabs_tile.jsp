@@ -85,13 +85,26 @@
 							"<li><a href=\"viewResults.do\">Report Results</a></li>\n" +
 							"<li><a href=\"gpProcess.do?method=setup\">GenePattern Job Results</a></li>\n" +							
 							"</ul>\n";
-	String myWorkspaceSecondary = "<ul id=\"secondary\">\n" +
+	
+	String autoLogged  = (String)request.getSession().getAttribute("autoLogged");
+	String myWorkspaceSecondary = "";
+	if( autoLogged != null && autoLogged.equals("yes")) {
+		myWorkspaceSecondary = "<ul id=\"secondary\">\n" +
+							"<li><a href=\"manageLists.do\">Manage Lists</a></li>\n" +
+							"<li><span style='color:#777777;text-decoration:underline;' onmouseover=\"return overlib('Please login to access additional features.', CAPTION, 'Login');\" onmouseout=\"return nd();\">Organize</span></li>\n" +
+							"<li><span style='color:#777777;text-decoration:underline;' onmouseover=\"return overlib('Please login to access additional features.', CAPTION, 'Login');\" onmouseout=\"return nd();\">Import</span></li>\n" +
+							"<li><span style='color:#777777;text-decoration:underline;' onmouseover=\"return overlib('Please login to access additional features.', CAPTION, 'Login');\" onmouseout=\"return nd();\">Export</span></li>\n" +							
+							"</ul>\n";
+	
+	}
+	else {								
+	myWorkspaceSecondary = "<ul id=\"secondary\">\n" +
 							"<li><a href=\"manageLists.do\">Manage Lists</a></li>\n" +
 							"<li><a href=\"manageWorkspace.do\">Organize</a></li>\n" +
 							"<li><a href=\"importWorkspace.do\">Import</a></li>\n" +
 							"<li><a href=\"exportWorkspace.do\">Export</a></li>\n" +							
 							"</ul>\n";
-							
+	}							
 	String s = request.getParameter("s")!=null ? (String) request.getParameter("s") : null;
 	if(s != null)	{
 		int sect = Integer.parseInt(s);	

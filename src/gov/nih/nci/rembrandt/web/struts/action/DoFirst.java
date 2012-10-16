@@ -1,9 +1,35 @@
 
 package gov.nih.nci.rembrandt.web.struts.action;
+import java.util.Collection;
+import java.util.List;
+
+import gov.nih.nci.caintegrator.application.cache.CacheConstants;
+import gov.nih.nci.caintegrator.application.configuration.SpringContext;
+import gov.nih.nci.caintegrator.application.lists.UserList;
+import gov.nih.nci.caintegrator.application.lists.UserListBean;
+import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
+import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
+import gov.nih.nci.caintegrator.exceptions.FindingsQueryException;
+import gov.nih.nci.caintegrator.security.SecurityManager;
+import gov.nih.nci.caintegrator.security.UserCredentials;
+import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
+import gov.nih.nci.rembrandt.service.findings.RembrandtAsynchronousFindingManagerImpl;
+import gov.nih.nci.rembrandt.util.RembrandtConstants;
+import gov.nih.nci.rembrandt.util.RembrandtListLoader;
+import gov.nih.nci.rembrandt.web.ajax.WorkspaceHelper;
+import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
+import gov.nih.nci.rembrandt.web.bean.UserPreferencesBean;
+import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
+
+import javax.naming.OperationNotSupportedException;
+import javax.security.sasl.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.Action;
+import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -68,8 +94,87 @@ import org.apache.struts.action.ActionMapping;
 */
 
 public class DoFirst extends Action {
+	private static SecurityManager securityManager = SecurityManager
+			.getInstance("rembrandt");
+	
+    private static Logger logger = Logger.getLogger(DoFirst.class);
+    
+    private static RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
+
+
 	public ActionForward execute(ActionMapping aMapping, ActionForm aForm,
 			HttpServletRequest aRequest, HttpServletResponse aResponse) {
+			UserCredentials credentials;
+			SessionQueryBag theBag = null;
+			RembrandtListLoader myListLoader = (RembrandtListLoader) SpringContext.getBean("listLoader");
+			
+			credentials = (UserCredentials)aRequest.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
+			
+			if( credentials == null ) {
+				try {
+					credentials = securityManager.authorization("RBTuser");
+				} catch (AuthenticationException e) {
+					logger.error(e);
+				}
+		
+				aRequest.getSession().invalidate();
+				if (credentials != null && credentials.authenticated()) {
+					aRequest.getSession().setAttribute(RembrandtConstants.USER_CREDENTIALS,credentials);
+				}
+			
+				
+				aRequest.getSession().setAttribute("logged", "yes");
+				aRequest.getSession().setAttribute("autoLogged", "yes");
+//				aRequest.getSession().setAttribute("name", "RBTuser");
+	            UserPreferencesBean userPreferencesBean = new UserPreferencesBean();
+	            aRequest.getSession().setAttribute(RembrandtConstants.USER_PREFERENCES,userPreferencesBean);
+	            _cacheManager.putSessionQueryBag(aRequest.getSession().getId(), new SessionQueryBag());
+	            
+	            UserListBean userListBean = new UserListBean();
+	            try {
+	            	userListBean = myListLoader.loadDiseaseGroups(userListBean, aRequest.getSession());
+	            } catch (OperationNotSupportedException e) {
+	            	// TODO Auto-generated catch block
+	            	e.printStackTrace();
+	            }
+	
+	            UserListBeanHelper userListBeanHelper = new UserListBeanHelper(aRequest.getSession().getId());
+	            
+	            //load institution based lists
+				Collection<InstitutionDE> institutions = InsitutionAccessHelper.getInsititutionCollection(aRequest.getSession());
+				if(institutions != null){
+					for(InstitutionDE institution:institutions){
+		            List<UserList> userLists = (List<UserList>) myListLoader.loadUserListsByInstitution(institution.getInstituteName());
+			            if(userLists != null && userLists.size() > 0){
+			            	for(UserList ul: userLists){
+	                            userListBean.addList(ul);
+			            	}
+			            }
+					}
+				}
+				//load custom lists
+		            List<UserList> userLists = WorkspaceHelper.loadCustomListsFromDB(credentials.getUserName());
+			            if(userLists != null && userLists.size() > 0){
+			            	WorkspaceHelper.fetchListWorkspaceFromDB(aRequest.getSession(), credentials.getUserId());
+			            	for(UserList ul: userLists){
+	                            userListBean.addList(ul);
+			            	}
+			            }
+	
+	            userListBeanHelper.addBean(aRequest.getSession().getId(),CacheConstants.USER_LISTS,userListBean);
+	            //load persisted Q
+	            
+	            String reportName = (String) aRequest.getSession().getAttribute("emailFileName");
+	            if(reportName != null){       	
+			        RembrandtAsynchronousFindingManagerImpl asynchronousFindingManagerImpl = new RembrandtAsynchronousFindingManagerImpl();
+			        try {						
+							asynchronousFindingManagerImpl.retrieveResultsFromFile(aRequest.getSession().getId(), reportName, credentials.getUserName(), aRequest.getSession());
+					} catch (FindingsQueryException e) {
+						logger.error(e.getMessage());				
+					}
+	            }
+			}
+            
 		aRequest.getSession().setAttribute("currentPage", "0");
 		return aMapping.findForward("success");
 

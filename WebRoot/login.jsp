@@ -28,6 +28,7 @@ pageContext.setAttribute("map", map);
 <script language="javascript" src="js/caIntScript.js"></script>
 </head>
 <body>
+<c:import url="jsp/tiles/overlib_tile.jsp"></c:import>
 <!--header NCI-->
 <%@ include file="/jsp/header.jsp" %>
 <!--end all headers-->
@@ -182,7 +183,7 @@ pageContext.setAttribute("map", map);
 	  		<tr>
 		  		<td style="vertical-align:middle;">
 		  			<b style="font-size:.8em;">For Access, new and existing <br/>users click the button below:</b><br/><br/>
-		  			<input type="button" style="cursor:pointer;width:180px;border-color: #000; border-bottom:2px solid #000; border-right:2px solid #000;font-size:13px;" value="Browse Rembrandt Data" onclick="location.href='registration.do'"/><br clear="both"/>
+		  			<input type="button" style="cursor:pointer;width:180px;border-color: #000; border-bottom:2px solid #000; border-right:2px solid #000;font-size:13px;" value="Browse Rembrandt Data" onclick="location.href='/rembrandt/legal.jsp'"/><br clear="both"/>
 		  		</td>
 		  		<td>
 		  			<img src="images/remLogo_10.gif" alt="REMBRANDT logo" />
