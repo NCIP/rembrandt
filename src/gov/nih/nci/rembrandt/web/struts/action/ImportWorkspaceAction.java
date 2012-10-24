@@ -30,6 +30,7 @@ import gov.nih.nci.rembrandt.web.struts.form.ImportWorkspaceForm.FileTypes;
 import gov.nih.nci.rembrandt.workspace.WorkspaceQuery;
 
 import java.io.StringReader;
+import java.net.URL;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -181,7 +182,11 @@ public class ImportWorkspaceAction extends Action{
 			{
 				jsonArray = WorkspaceHelper.generateQueryJSONArray( session );
 	
-				InputSource is = new InputSource(getClass().getClassLoader().getResource("castor_query.xml").getPath());
+//				URL castor_location = new URL("file:///c:/local/content/rembrandt/config/castor_query.xml");
+				URL castor_location = new URL("file:///local/content/rembrandt/config/castor_query.xml");
+				InputSource is = new InputSource(castor_location.getPath());
+
+//				InputSource is = new InputSource(getClass().getClassLoader().getResource("castor_query.xml").getPath());
 				Mapping castorMapping = new Mapping();
 				castorMapping.loadMapping(is);
 				

@@ -15,6 +15,7 @@ import gov.nih.nci.caintegrator.application.workspace.WorkspaceList;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -186,7 +187,10 @@ public class ExportWorkspaceAction extends Action {
 			}
 			else
 			{
-				InputSource is = new InputSource(getClass().getClassLoader().getResource("castor_query.xml").getPath());
+//				URL castor_location = new URL("file:///c:/local/content/rembrandt/config/castor_query.xml");
+				URL castor_location = new URL("file:///local/content/rembrandt/config/castor_query.xml");
+				InputSource is = new InputSource(castor_location.getPath());
+//				InputSource is = new InputSource(getClass().getClassLoader().getResource("castor_query.xml").getPath());
 				Mapping castorMapping = new Mapping();
 				castorMapping.loadMapping(is);
 
