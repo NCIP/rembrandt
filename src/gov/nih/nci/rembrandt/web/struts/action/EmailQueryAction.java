@@ -51,7 +51,7 @@ public class EmailQueryAction extends Action
     private String  taskId = null;
     private String 	userName = null;
     private String  sessionId = null;
-    private String  reportBeanCacheKey = null; 
+    private String  reportBeanCacheKey = null;
     private String  email = null;
 	/**
 	 * execute is called when this action is posted to
@@ -86,22 +86,25 @@ public class EmailQueryAction extends Action
 			return forward;
 		}
 		else{
-			
+
 		EmailQueryForm dForm = (EmailQueryForm)form;
 		email = dForm.getEmail();
 		sessionId = request.getSession().getId();
 		taskId = (String) request.getSession().getAttribute("taskId");
 		if(taskId != null){
 		//get the specified report bean from the cache using the query name as the key
-		RembrandtTaskResult taskResult = (RembrandtTaskResult) presentationTierCache.getTaskResult(sessionId, taskId);		
+		RembrandtTaskResult taskResult = (RembrandtTaskResult) presentationTierCache.getTaskResult(sessionId, taskId);
 		FindingStatus status = taskResult.getTask().getStatus();
 		userName = (String) request.getSession().getAttribute("name");
+		if( userName == null ) {
+			userName = "RBTuser";
+		}
 			switch (status){
 				case Running:{
 					 FindingStatus newStatus = FindingStatus.Email;
 					 newStatus.setComment("Upon competion of this query, an email will be sent to "+email);
                      taskResult.getTask().setStatus(newStatus);
-                     presentationTierCache.addNonPersistableToSessionCache(taskResult.getTask().getCacheId(), 
+                     presentationTierCache.addNonPersistableToSessionCache(taskResult.getTask().getCacheId(),
                     		 taskResult.getTask().getId(), taskResult);
                            logger.info("Query has been email, task has been placed back in cache");
 					 generateJob();
@@ -122,7 +125,7 @@ public class EmailQueryAction extends Action
 			}
 		}
 
-		
+
 		// If there were errors then return to the input page else go on
 	    if (!errors.isEmpty())
 	    {
@@ -141,18 +144,18 @@ public class EmailQueryAction extends Action
 	}
 
     protected Map getKeyMethodMap() {
-		 
+
         HashMap<String,String> map = new HashMap<String,String>();
-        
-        
-        
+
+
+
         //Submit Query Button using  submittal method
         map.put("buttons_tile.submittalButton", "submittal");
-        
 
-        
+
+
         return map;
-        
+
         }
     private void generateJob() throws SchedulerException{
     	 //request.setAttribute("queryName",RembrandtConstants.PREVIEW_RESULTS);
@@ -169,8 +172,8 @@ public class EmailQueryAction extends Action
 				// Trigger name must be unique so include type and email
 				trigger.setName("immediateTriggerReportJob" + email + now);
 			}
-			
-		
+
+
 			// Add the form and email address to the job details
 			if (jobDetail != null)
 			{
@@ -190,7 +193,7 @@ public class EmailQueryAction extends Action
 		}
     }
     private void cancelJob(HttpSession session, String taskId){
-    	
+
     	Map<String,Future<?>> futureTaskMap = (Map<String,Future<?>>) session.getAttribute("FutureTaskMap");
 
     	if(futureTaskMap != null){
