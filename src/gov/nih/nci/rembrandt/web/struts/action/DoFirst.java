@@ -16,6 +16,7 @@ import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.service.findings.RembrandtAsynchronousFindingManagerImpl;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.util.RembrandtListLoader;
+import gov.nih.nci.rembrandt.util.StatisticsInfoPlugIn;
 import gov.nih.nci.rembrandt.web.ajax.WorkspaceHelper;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.bean.UserPreferencesBean;
@@ -24,8 +25,10 @@ import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 
 import javax.naming.OperationNotSupportedException;
 import javax.security.sasl.AuthenticationException;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.Action;
@@ -33,6 +36,7 @@ import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.quartz.SchedulerException;
 
 
 
@@ -107,6 +111,19 @@ public class DoFirst extends Action {
 			UserCredentials credentials;
 			SessionQueryBag theBag = null;
 			RembrandtListLoader myListLoader = (RembrandtListLoader) SpringContext.getBean("listLoader");
+			
+			HttpSession session = aRequest.getSession();
+	        ServletContext context = session.getServletContext();
+	        //check to see if jobscheduler is started.
+	        String schedulerType = System.getProperty("rembrandt.scheduler.type");
+	        try{
+	        	if(System.getProperty("rembrandt.scheduler.started") == null){
+	        		StatisticsInfoPlugIn.scheduleWork(Integer.parseInt(schedulerType), context);
+	        		System.setProperty("rembrandt.scheduler.started","TRUE");
+	        	}
+	        }catch (SchedulerException se){
+	        	logger.error("Failed to schedule the job: " + se.getMessage());
+	        }
 			
 			credentials = (UserCredentials)aRequest.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
 			

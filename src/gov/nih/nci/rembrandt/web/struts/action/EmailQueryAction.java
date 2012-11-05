@@ -92,10 +92,13 @@ public class EmailQueryAction extends Action
 		sessionId = request.getSession().getId();
 		taskId = (String) request.getSession().getAttribute("taskId");
 		if(taskId != null){
-		//get the specified report bean from the cache using the query name as the key
-		RembrandtTaskResult taskResult = (RembrandtTaskResult) presentationTierCache.getTaskResult(sessionId, taskId);		
-		FindingStatus status = taskResult.getTask().getStatus();
-		userName = (String) request.getSession().getAttribute("name");
+			//get the specified report bean from the cache using the query name as the key
+			RembrandtTaskResult taskResult = (RembrandtTaskResult) presentationTierCache.getTaskResult(sessionId, taskId);		
+			FindingStatus status = taskResult.getTask().getStatus();
+			userName = (String) request.getSession().getAttribute("name");
+			if( userName == null ) {
+				userName = "RBTuser";
+			}
 			switch (status){
 				case Running:{
 					 FindingStatus newStatus = FindingStatus.Email;
