@@ -239,7 +239,7 @@ function turnOffLoadingMessage(){
 						}
 						//ping GP server here to open session
 						%>
-						<iframe id="pingFrame" height="1" size="1" style="display:none" src="<%=gpurl%>"></iframe>
+						<iframe id="pingFrame" title="pingFrame" height="1" size="1" style="display:none" src="<%=gpurl%>"></iframe>
 						<% 
 						//String jobId = (String)request.getAttribute("jobId");
 						if (tempGpTaskList != null && !tempGpTaskList.isEmpty()){
