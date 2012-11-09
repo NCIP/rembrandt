@@ -64,7 +64,7 @@ function addLoadEvent(func) {
 		padding:3px;
 	}
 </style>
-<iframe id="RSIFrame" name="RSIFrame" style="width:0px; height:0px; border: 0px" src="blank.jsp"></iframe>
+<iframe id="RSIFrame" title="RSIFrame" name="RSIFrame" style="width:0px; height:0px; border: 0px" src="blank.jsp"></iframe>
 
 <span id="info">&nbsp;</span>
  
