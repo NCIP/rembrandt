@@ -319,11 +319,13 @@ public class ClinicalDataAction extends LookupDispatchAction {
            }
        
        }
-        if ( !sampleIDCrit.isEmpty() && clinicalDataForm.getSampleGroup()!=null && clinicalDataForm.getSampleGroup().equalsIgnoreCase("Specify")){
+        if (clinicalDataForm.getSampleGroup()!=null && clinicalDataForm.getSampleGroup().equalsIgnoreCase("Specify")){
+        	clinicalDataForm.setSampleList(clinicalDataForm.getSampleList());
+     	    sampleIDCrit = clinicalDataForm.getSampleCriteria();
             sampleIDCrit.setSampleGroup(clinicalDataForm.getSampleGroup());
         }
         
-		if (!sampleIDCrit.isEmpty())
+		if (sampleIDCrit != null && !sampleIDCrit.isEmpty())
 		    clinicalDataQuery.setSampleIDCrit(sampleIDCrit);
 
         // Set disease criteria

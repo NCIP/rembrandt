@@ -520,12 +520,14 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
        }
         
         
-        if ( !sampleIDCrit.isEmpty() && comparativeGenomicForm.getSampleGroup()!=null && comparativeGenomicForm.getSampleGroup().equalsIgnoreCase("Specify")){
+        if (comparativeGenomicForm.getSampleGroup()!=null && comparativeGenomicForm.getSampleGroup().equalsIgnoreCase("Specify")){
+        	comparativeGenomicForm.setSampleList(comparativeGenomicForm.getSampleList());
+     	    sampleIDCrit = comparativeGenomicForm.getSampleCriteria();
             sampleIDCrit.setSampleGroup(comparativeGenomicForm.getSampleGroup());
         }
         
         
-		if (!sampleIDCrit.isEmpty())
+		if (sampleIDCrit != null && !sampleIDCrit.isEmpty())
 		    cghQuery.setSampleIDCrit(sampleIDCrit);
 
         // set copy number or segmentMean criteria

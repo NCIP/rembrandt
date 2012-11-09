@@ -488,6 +488,8 @@ public class GeneExpressionAction extends LookupDispatchAction {
        }
         
        if ( geneExpressionForm.getSampleGroup()!=null && geneExpressionForm.getSampleGroup().equalsIgnoreCase("Specify")){
+    	   geneExpressionForm.setSampleList(geneExpressionForm.getSampleList());
+    	   sampleIDCrit = geneExpressionForm.getSampleCriteria();
            sampleIDCrit.setSampleGroup(geneExpressionForm.getSampleGroup());
        }
 		if(geneExpressionForm.getExcludeResections() == true){
