@@ -134,6 +134,9 @@ public class PrincipalComponentAction extends LookupDispatchAction {
     public ActionForward submit(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+        if (!isTokenValid(request)) {
+			return mapping.findForward("failure");
+		}
         
         PrincipalComponentForm principalComponentForm = (PrincipalComponentForm) form;
         String sessionId = request.getSession().getId();
@@ -160,6 +163,7 @@ public class PrincipalComponentAction extends LookupDispatchAction {
         }
         //Ensure a finding with the same name does not already exist in the session, so remove it
         presentationTierCache.removeObjectFromNonPersistableSessionCache(sessionId,principalComponentAnalysisQueryDTO.getQueryName());
+        resetToken(request);
 
         return mapping.findForward("viewResults");
     }
@@ -177,7 +181,8 @@ public class PrincipalComponentAction extends LookupDispatchAction {
         //principalComponentForm.setGeneSetName(userPreferencesHelper.getGeneSetName());
         //principalComponentForm.setReporterSetName(userPreferencesHelper.getReporterSetName());
         //principalComponentForm.setVariancePercentile(userPreferencesHelper.getVariancePercentile());
-        
+        saveToken(request);
+
         return mapping.findForward("backToPrincipalComponent");
     }
     

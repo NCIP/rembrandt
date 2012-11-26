@@ -108,6 +108,10 @@ public final class LogoutAction extends Action
     public ActionForward execute(ActionMapping mapping, ActionForm form,
     								HttpServletRequest request, HttpServletResponse response)
     {
+        if (!isTokenValid(request)) {
+			return mapping.findForward("failure");
+		}
+        
         HttpSession session = request.getSession();
         ServletContext context = session.getServletContext();
         LogoutForm f = (LogoutForm) form;
@@ -154,6 +158,8 @@ public final class LogoutAction extends Action
         		System.out.println("mail did not send from logout action");
         	}
         }
+        
+        resetToken(request);
         
         if("logoutSave".equals(logoutSelection)) {             
      		WorkspaceHelper.saveWorkspace(session);

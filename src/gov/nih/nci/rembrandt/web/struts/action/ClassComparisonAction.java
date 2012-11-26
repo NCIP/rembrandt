@@ -151,6 +151,10 @@ public class ClassComparisonAction extends LookupDispatchAction {
     public ActionForward submit(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+        if (!isTokenValid(request)) {
+			return mapping.findForward("failure");
+		}
+
         ClassComparisonForm classComparisonForm = (ClassComparisonForm) form;
         String sessionId = request.getSession().getId();
         ClassComparisonQueryDTO classComparisonQueryDTO = createClassComparisonQueryDTO(classComparisonForm,request.getSession());
@@ -181,6 +185,7 @@ public class ClassComparisonAction extends LookupDispatchAction {
         
         //Ensure a finding with the same name does not already exist in the session, so remove it
         presentationTierCache.removeObjectFromNonPersistableSessionCache(sessionId,classComparisonQueryDTO.getQueryName());
+        resetToken(request);
         
         return mapping.findForward("viewResults");
     }
@@ -191,6 +196,8 @@ public class ClassComparisonAction extends LookupDispatchAction {
     	ClassComparisonForm classComparisonForm = (ClassComparisonForm) form;
         /*setup the defined Disease query names and the list of samples selected from a Resultset*/  
         GroupRetriever groupRetriever = new GroupRetriever();
+        
+        saveToken(request);
 	    
         // JB:Begin - #5677 (2.0) add a  &quot;vs. rest of samples&quot; option
 	    // Add the list names (labels) to the existing groups list for UI display

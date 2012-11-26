@@ -189,7 +189,7 @@
            input="nautilus.logout">
     <forward name="logout" path="/login.jsp"/>
     <forward name="dontLogout" path="/viewResults.do"/>
-    
+     <forward name="failure" path="/error.jsp"/>
     </action>
     
     <action path="/uploadGeneSet"
@@ -237,6 +237,7 @@
          <forward name="backToGeneExp" path="nautilus.geneExpression" />
          <forward name="showAllGenes" path="nautilus.allGenesGE" />
          <forward name="viewResults" path="/viewResults.do" />
+         <forward name="failure" path="/menu.do" /> 
 	</action>
 	
 	<action path="/classComparison"
@@ -262,6 +263,7 @@
 		<forward name="backToClassComparison" path="nautilus.classComparison" />
 		<forward name="classComparisonSetup" path="/classcomparisonInit.do?method=setup" />
 		<forward name="viewResults" path="/viewResults.do" />
+		<forward name="failure" path="/menu.do" />
 	</action>
 	
 	
@@ -442,6 +444,7 @@
          <forward name="backToCGH" path="nautilus.comparitiveGenomic" />
          <forward name="showAllGenes" path="nautilus.allGenesCGH" />
          <forward name="viewResults" path="/viewResults.do" />
+         <forward name="failure" path="/menu.do" /> 
          
 	</action>
 	
@@ -459,7 +462,7 @@
          <forward name="previewReport" path="/previewClinicalReport.do?method=previewReport"/>
          <forward name="backToClinical" path="nautilus.clinical" />
 		 <forward name="viewResults" path="/viewResults.do" />
-         
+         <forward name="failure" path="/menu.do" /> 
 	</action>
 
 	<action path="/menu"

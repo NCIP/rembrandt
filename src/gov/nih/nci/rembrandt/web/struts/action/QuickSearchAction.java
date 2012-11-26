@@ -208,6 +208,7 @@ public class QuickSearchAction extends DispatchAction {
 		UserListBeanHelper helper = new UserListBeanHelper(request.getSession());
 		
 		String baselineGroup = request.getParameter("baselineGroup")!=null ? MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, ((String)request.getParameter("baselineGroup"))) : "ALL GLIOMA";
+		baselineGroup = MoreStringUtils.cleanJavascriptAndSpecialChars(MoreStringUtils.specialCharacters, baselineGroup);
 
 		UserList constrainSamplesUl = helper.getUserList(baselineGroup);
 		try	{
@@ -422,7 +423,14 @@ public class QuickSearchAction extends DispatchAction {
 		KMDataSetForm kmForm = (KMDataSetForm) form;
 		KaplanMeierSampleInfo[] kmSampleInfos = null;
 		
+		// cleanup data - To prevent cross-site scripting
+		if( kmForm.getGeneOrCytoband() != null )
+			kmForm.setGeneOrCytoband(MoreStringUtils.cleanJavascriptAndSpecialChars(MoreStringUtils.specialCharacters, kmForm.getGeneOrCytoband()));
+		if( kmForm.getPlotType() != null )
+			kmForm.setPlotType(MoreStringUtils.cleanJavascriptAndSpecialChars(MoreStringUtils.specialCharacters, kmForm.getPlotType()));
+		
 		String baselineGroup = request.getParameter("baselineGroup")!=null ? (String)request.getParameter("baselineGroup") : "ALL GLIOMA";
+		baselineGroup = MoreStringUtils.cleanJavascriptAndSpecialChars(MoreStringUtils.specialCharacters, baselineGroup);
 
 		//		see if we are constraining by a group of samples
 		String cGroupName = "ALL GLIOMA"; //get from the Form
@@ -548,14 +556,25 @@ public class QuickSearchAction extends DispatchAction {
 	public ActionForward quickSearch(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
+		if (!isTokenValid(request)) {
+			return mapping.findForward("failure");
+		}
+		
 		QuickSearchForm qsForm = (QuickSearchForm) form;
 		ActionErrors errors = new ActionErrors();
+		
+		// cleanup data - To prevent cross-site scripting
+		if( qsForm.getQuickSearchName() != null )
+			qsForm.setQuickSearchName(MoreStringUtils.cleanJavascriptAndSpecialChars(MoreStringUtils.specialCharacters, qsForm.getQuickSearchName()));
+		
 		if (!qsForm.getPlot().equals(CaIntegratorConstants.SAMPLE_KMPLOT) && qsForm.getQuickSearchType() != null
 				&& qsForm.getQuickSearchType().equals(
 						RembrandtConstants.GENE_SYMBOL)) {
 			errors = UIFormValidator.validateGeneSymbol(qsForm, errors);
 		}
 		if (errors.isEmpty()) {
+	        resetToken(request);
+
 			String chartType = qsForm.getPlot();
 
 			if (chartType.equalsIgnoreCase("kapMaiPlotGE")) {

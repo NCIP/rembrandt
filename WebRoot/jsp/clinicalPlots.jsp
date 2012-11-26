@@ -53,6 +53,7 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 <br/><br/>
 	<%
 	String key = request.getParameter("taskId")!=null? (String) request.getParameter("taskId") : "noKey";
+	key = MoreStringUtils.cleanJavascriptAndSpecialChars(MoreStringUtils.specialCharacters, key);
 	String sessionId = session.getId();
 	String componentStr = request.getParameter("comp")!=null ? (String) request.getParameter("comp") : "SurvivalvsAgeAtDx";
 	if(componentStr.equals("ks"))

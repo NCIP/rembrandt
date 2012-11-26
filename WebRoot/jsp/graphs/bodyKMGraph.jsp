@@ -5,6 +5,7 @@
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>
 <%@taglib uri='/WEB-INF/caintegrator-graphing.tld' prefix='graphing' %>
 <%@ page import="java.util.*" %>
+<%@ page import="gov.nih.nci.rembrandt.util.*" %>
 
 <div><html:errors /> <%
    String km = "kmplotGE";
@@ -35,6 +36,7 @@
    }
 	
 	String baselineGroup = request.getParameter("baselineGroup")!=null ? (String)request.getParameter("baselineGroup") : "";
+	baselineGroup = MoreStringUtils.cleanJavascriptAndSpecialChars(MoreStringUtils.specialCharacters, baselineGroup);
 %><script type="text/javascript">Help.insertHelp("<%=ta%>", " align='right'", "padding:2px;");</script><br clear="all"/>
    
 </div>

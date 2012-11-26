@@ -20,7 +20,7 @@
 <html:radio property="groupsOption" styleId="allSamplesRadio" styleClass="radio" value="allSamples" /><label for="allSamplesRadio">Show all samples</label><br /><br />
 
 <html:radio property="groupsOption" styleId="variousSamplesRadio" styleClass="radio" value="variousSamples" /><label for="variousSamplesRadio">Select samples</label><br />
-<table align="center" border="0">
+<table align="center" border="0" summary="This table is used to format page content">
     <tr style="vertical-align:top">
       <td><label for="nonselectedGroups">Existing Groups</label>
         <br/>
@@ -58,7 +58,7 @@
  	<html:errors property="selectedGroups"/>Select 1 or More Groups <br />
  </c:if>
 
-<table align="center" border="0">
+<table align="center" border="0" summary="This table is used to format page content">
     <tr style="vertical-align:top">
       <td><label for="nonselectedGroups">Existing Groups</label>
         <br/>
@@ -99,7 +99,7 @@
 <br clear="both"/>
 	<em>choose 2 or more groups</em>
 	<html:errors property="selectedGroups"/>
-	<table align="center" border="0">
+	<table align="center" border="0" summary="This table is used to format page content">
     <tr style="vertical-align:top">
       <td><label for="nonselectedGroups">Existing Groups</label>
         <br/>

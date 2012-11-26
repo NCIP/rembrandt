@@ -157,6 +157,7 @@ public class ClinicalDataAction extends LookupDispatchAction {
         ClinicalDataForm clinicalDataForm = (ClinicalDataForm) form;
         GroupRetriever groupRetriever = new GroupRetriever();
         clinicalDataForm.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession()));
+        saveToken(request);
         return mapping.findForward("backToClinical");
     }
     
@@ -175,7 +176,7 @@ public class ClinicalDataAction extends LookupDispatchAction {
             HttpServletRequest request, HttpServletResponse response)
     throws Exception {
         this.setup(mapping,form,request,response);
-        
+        saveToken(request);
         return mapping.findForward("backToClinical");
     }
     /**
@@ -195,6 +196,10 @@ public class ClinicalDataAction extends LookupDispatchAction {
     public ActionForward submittal(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+    	
+    	if (!isTokenValid(request)) {
+			return mapping.findForward("failure");
+		}
 
         request.getSession().setAttribute("currentPage", "0");
         request.getSession().removeAttribute("currentPage2");
@@ -221,6 +226,9 @@ public class ClinicalDataAction extends LookupDispatchAction {
             this.saveErrors(request, errors);
             return mapping.findForward("backToClinical");
         }
+        
+        resetToken(request);
+
         return mapping.findForward("advanceSearchMenu");
     }
 
@@ -232,6 +240,10 @@ public class ClinicalDataAction extends LookupDispatchAction {
     public ActionForward preview(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+    	
+    	if (!isTokenValid(request)) {
+			return mapping.findForward("failure");
+		}
 
         request.getSession().setAttribute("currentPage", "0");
         request.getSession().removeAttribute("currentPage2");
@@ -266,6 +278,8 @@ public class ClinicalDataAction extends LookupDispatchAction {
 		}
 		//wait for few seconds for the jobs to get added to the cache
 		Thread.sleep(2000);
+        resetToken(request);
+
         return mapping.findForward("viewResults");
 	}
        

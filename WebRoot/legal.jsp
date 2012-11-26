@@ -11,9 +11,9 @@
 	<th></th><th></th><th></th>
 </tr>
 <tr bgcolor="#A90101">
-		<td width="283" height="37" align="left"><a href="http://www.cancer.gov"><img src="images/logotype.gif" width="283" height="37" border="0"></a></td>
+		<td width="283" height="37" align="left"><a href="http://www.cancer.gov"><img alt="logo" src="images/logotype.gif" width="283" height="37" border="0"></a></td>
 		<td>&nbsp;</td>
-		<td width="295" height="37" align="right"><a href="http://www.cancer.gov"><img src="images/tagline.gif" width="295" height="37" border="0"></a></td>
+		<td width="295" height="37" align="right"><a href="http://www.cancer.gov"><img alt="tag" src="images/tagline.gif" width="295" height="37" border="0"></a></td>
 
 </tr>
 </table>

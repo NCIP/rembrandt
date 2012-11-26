@@ -145,6 +145,10 @@ public class HierarchicalClusteringAction extends LookupDispatchAction {
     public ActionForward submit(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+        if (!isTokenValid(request)) {
+			return mapping.findForward("failure");
+		}
+        
         HierarchicalClusteringForm hierarchicalClusteringForm = (HierarchicalClusteringForm) form;
         logger.debug("Selected Distance Matrix in HttpServletRequest: " + request.getParameter("distanceMatrix"));
         HttpSession session = request.getSession();
@@ -171,6 +175,7 @@ public class HierarchicalClusteringAction extends LookupDispatchAction {
         }
         //Ensure a finding with the same name does not already exist in the session, so remove it
         presentationTierCache.removeObjectFromNonPersistableSessionCache(sessionId,hierarchicalClusteringQueryDTO.getQueryName());
+        resetToken(request);
 
         return mapping.findForward("viewResults");
     }
@@ -180,7 +185,8 @@ public class HierarchicalClusteringAction extends LookupDispatchAction {
     throws Exception {
         HierarchicalClusteringForm hierarchicalClusteringForm = (HierarchicalClusteringForm) form;
         String sessionId = request.getSession().getId();        
-        
+        saveToken(request);
+
         return mapping.findForward("backToHierarchicalClustering");
     }
         

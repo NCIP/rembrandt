@@ -16,6 +16,7 @@ import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.queryservice.resultset.Resultant;
 import gov.nih.nci.rembrandt.service.findings.RembrandtTaskResult;
 import gov.nih.nci.rembrandt.util.IGVHelper;
+import gov.nih.nci.rembrandt.util.MoreStringUtils;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ReportBean;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
@@ -133,6 +134,21 @@ public class ReportGeneratorAction extends DispatchAction {
 	throws Exception {
     	ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
     	String sessionId = request.getSession().getId();
+    	
+    	// cleanup data - To prevent cross-site scripting
+    	if( rgForm.getFilter_value1() != null && !rgForm.getFilter_value1().equals(""))
+    		rgForm.setFilter_value1(MoreStringUtils.cleanJavascript( rgForm.getFilter_value1()));
+    	if( rgForm.getFilter_value2() != null && !rgForm.getFilter_value2().equals(""))
+    		rgForm.setFilter_value2(MoreStringUtils.cleanJavascript( rgForm.getFilter_value2()));
+    	if( rgForm.getFilter_value3() != null && !rgForm.getFilter_value3().equals(""))
+    		rgForm.setFilter_value3(MoreStringUtils.cleanJavascript( rgForm.getFilter_value3()));
+    	if( rgForm.getFilter_value4() != null && !rgForm.getFilter_value4().equals(""))
+    		rgForm.setFilter_value4(MoreStringUtils.cleanJavascript( rgForm.getFilter_value4()));
+    	if( rgForm.getFilter_value5() != null && !rgForm.getFilter_value5().equals(""))
+    		rgForm.setFilter_value5(MoreStringUtils.cleanJavascript( rgForm.getFilter_value5()));
+    	if( rgForm.getFilter_value6() != null && !rgForm.getFilter_value6().equals(""))
+    		rgForm.setFilter_value6(MoreStringUtils.cleanJavascript( rgForm.getFilter_value6()));
+    			
     	//get the specified report bean from the cache using the query name as the key
     	ReportBean reportBean = presentationTierCache.getReportBean(sessionId,rgForm.getQueryName());
     	String isIGV = "false";
@@ -427,6 +443,20 @@ public class ReportGeneratorAction extends DispatchAction {
     	ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
     	String sessionId = request.getSession().getId();
 		String taskId = request.getParameter("taskId");
+		
+		// cleanup data - To prevent cross-site scripting
+    	if( rgForm.getFilter_value1() != null && !rgForm.getFilter_value1().equals(""))
+    		rgForm.setFilter_value1(MoreStringUtils.cleanJavascript( rgForm.getFilter_value1()));
+    	if( rgForm.getFilter_value2() != null && !rgForm.getFilter_value2().equals(""))
+    		rgForm.setFilter_value2(MoreStringUtils.cleanJavascript( rgForm.getFilter_value2()));
+    	if( rgForm.getFilter_value3() != null && !rgForm.getFilter_value3().equals(""))
+    		rgForm.setFilter_value3(MoreStringUtils.cleanJavascript( rgForm.getFilter_value3()));
+    	if( rgForm.getFilter_value4() != null && !rgForm.getFilter_value4().equals(""))
+    		rgForm.setFilter_value4(MoreStringUtils.cleanJavascript( rgForm.getFilter_value4()));
+    	if( rgForm.getFilter_value5() != null && !rgForm.getFilter_value5().equals(""))
+    		rgForm.setFilter_value5(MoreStringUtils.cleanJavascript( rgForm.getFilter_value5()));
+    	if( rgForm.getFilter_value6() != null && !rgForm.getFilter_value6().equals(""))
+    		rgForm.setFilter_value6(MoreStringUtils.cleanJavascript( rgForm.getFilter_value6()));
 		
     	//get the specified report bean from the cache using the query name as the key
     	RembrandtTaskResult taskResult = (RembrandtTaskResult) presentationTierCache.getTaskResult(sessionId, taskId);

@@ -128,7 +128,8 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
     public ActionForward multiUse(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	throws Exception {
-		
+        saveToken(request);
+
     	return mapping.findForward("backToCGH");
     }
     
@@ -161,6 +162,8 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
 		}
         GroupRetriever groupRetriever = new GroupRetriever();
         comparativeGenomicForm.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession()));
+        saveToken(request);
+
 		return mapping.findForward("backToCGH");
     }
     
@@ -179,7 +182,8 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
             HttpServletRequest request, HttpServletResponse response)
     throws Exception {
         this.setup(mapping,form,request,response);
-        
+        saveToken(request);
+
         return mapping.findForward("backToCGH");
     }
     
@@ -220,6 +224,9 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
     public ActionForward submitAllGenes(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	throws Exception {
+        if (!isTokenValid(request)) {
+			return mapping.findForward("failure");
+		}
         
         request.getSession().setAttribute("currentPage", "0");
 		request.getSession().removeAttribute("currentPage2");
@@ -241,6 +248,8 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
 		comparativeGenomicForm.setSmDeleted("");
          
 		logger.debug("This is an All Genes cgh Submital");
+        resetToken(request);
+
 		return mapping.findForward("showAllGenes");
     }
     
@@ -263,6 +272,9 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
     public ActionForward submitStandard(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	throws Exception {
+        if (!isTokenValid(request)) {
+			return mapping.findForward("failure");
+		}
         
         request.getSession().setAttribute("currentPage", "0");
 		request.getSession().removeAttribute("currentPage2");
@@ -280,6 +292,8 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
 		comparativeGenomicForm.setSmDeleted("");
 		
 		logger.debug("This is an Standard cgh Submital");
+        resetToken(request);
+
 		return mapping.findForward("backToCGH");
     }
     
@@ -303,6 +317,10 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
     public ActionForward submittal(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+        if (!isTokenValid(request)) {
+			return mapping.findForward("failure");
+		}
+        
         request.getSession().setAttribute("currentPage", "0");
         request.getSession().removeAttribute("currentPage2");
         String sessionId = request.getSession().getId();
@@ -381,6 +399,8 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
             catch (Exception e) {
                logger.error(e);
             }
+            resetToken(request);
+
             return mapping.findForward("advanceSearchMenu");
         }
   
@@ -402,6 +422,10 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
     public ActionForward preview(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+        if (!isTokenValid(request)) {
+			return mapping.findForward("failure");
+		}
+        
         request.getSession().setAttribute("currentPage", "0");
         request.getSession().removeAttribute("currentPage2");
         ComparativeGenomicForm comparativeGenomicForm = (ComparativeGenomicForm) form;
@@ -433,6 +457,8 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
 		}
 		//wait for few seconds for the jobs to get added to the cache
 		Thread.sleep(1000);
+        resetToken(request);
+
         return mapping.findForward("viewResults");
     }
             

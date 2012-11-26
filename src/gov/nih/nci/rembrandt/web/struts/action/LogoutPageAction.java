@@ -18,6 +18,7 @@ public class LogoutPageAction extends Action {
 	    	if ( sID != null && sID != "" && !sID.contains("rembrandt")) {
 	    		return (mapping.findForward("failure"));
 	    	}
+	        saveToken(request);
 	    	
 	    	return (mapping.findForward("logout"));
 	}

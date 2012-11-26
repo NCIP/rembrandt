@@ -154,7 +154,8 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		}
        //GroupRetriever groupRetriever = new GroupRetriever();
       // geneExpressionForm.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession()));
-               
+        saveToken(request);
+       
         return mapping.findForward("backToGeneExp");
     }
     
@@ -174,7 +175,8 @@ public class GeneExpressionAction extends LookupDispatchAction {
             HttpServletRequest request, HttpServletResponse response)
     throws Exception {
         this.setup(mapping,form,request,response);
-        
+        saveToken(request);
+
         return mapping.findForward("backToGeneExp");
     }
     
@@ -182,7 +184,8 @@ public class GeneExpressionAction extends LookupDispatchAction {
     public ActionForward multiUse(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	throws Exception {
-		
+        saveToken(request);
+
 		return mapping.findForward("backToGeneExp");
     }
     
@@ -207,6 +210,10 @@ public class GeneExpressionAction extends LookupDispatchAction {
     public ActionForward submitAllGenes(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	throws Exception {
+    	
+        if (!isTokenValid(request)) {
+			return mapping.findForward("failure");
+		}
         
         request.getSession().setAttribute("currentPage", "0");
 		request.getSession().removeAttribute("currentPage2");
@@ -220,6 +227,8 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		geneExpressionForm.setFoldChangeValueUDDown(RembrandtConstants.ALL_GENES_GENE_EXP_REGULATION);
 		logger.debug("set former gene values to null");
 		logger.debug("This is an All Genes Gene Expression Submital");
+        resetToken(request);
+
 		return mapping.findForward("showAllGenes");
     }
     
@@ -242,6 +251,9 @@ public class GeneExpressionAction extends LookupDispatchAction {
     public ActionForward submitStandard(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	throws Exception {
+        if (!isTokenValid(request)) {
+			return mapping.findForward("failure");
+		}
         
         request.getSession().setAttribute("currentPage", "0");
 		request.getSession().removeAttribute("currentPage2");
@@ -255,6 +267,8 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		geneExpressionForm.setFoldChangeValueUDDown(RembrandtConstants.STANDARD_GENE_EXP_REGULATION);
 		
 		logger.debug("This is an Standard Gene Expression Submital");
+        resetToken(request);
+
 		return mapping.findForward("backToGeneExp");
     }
     
@@ -276,6 +290,9 @@ public class GeneExpressionAction extends LookupDispatchAction {
 	public ActionForward submittal(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
+        if (!isTokenValid(request)) {
+			return mapping.findForward("failure");
+		}
         
 		request.getSession().setAttribute("currentPage", "0");
 		request.getSession().removeAttribute("currentPage2");
@@ -338,7 +355,7 @@ public class GeneExpressionAction extends LookupDispatchAction {
 			this.saveErrors(request, errors);
 		    return mapping.findForward("backToGeneExp"); 
 		}
-		
+        resetToken(request);
         
 		return mapping.findForward("advanceSearchMenu");
 	}
@@ -362,7 +379,10 @@ public class GeneExpressionAction extends LookupDispatchAction {
 	public ActionForward preview(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-
+        if (!isTokenValid(request)) {
+			return mapping.findForward("failure");
+		}
+        
 		request.getSession().setAttribute("currentPage", "0");
 		request.getSession().removeAttribute("currentPage2");
 		GeneExpressionForm geneExpressionForm = (GeneExpressionForm) form;
@@ -397,6 +417,8 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		}
 		//wait for few seconds for the jobs to get added to the cache
 		Thread.sleep(1000);
+        resetToken(request);
+
         return mapping.findForward("viewResults");
 	}
 	

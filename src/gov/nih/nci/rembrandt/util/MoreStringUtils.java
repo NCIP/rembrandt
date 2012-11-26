@@ -75,7 +75,7 @@ public class MoreStringUtils extends StringUtils{
 	 * The array of chars represents the illegal characters
 	 * for the Unix file naming system.
 	*/
-	public static final String specialCharacters = "!@#$%^&*()+=[]\';,./{}|\":<>?\\";
+	public static final String specialCharacters = "!@#$%^&*()+=[]\';,/{}|\":<>?\\";
 
 	/**
 	 * This method will take a string of characters that you do not want to
@@ -119,6 +119,28 @@ public class MoreStringUtils extends StringUtils{
 	 */
 	public static String cleanString(char[] unallowableCharArray, String stringToClean) {
 		return cleanString(new String(unallowableCharArray), stringToClean);
+	}
+	
+	public static String cleanJavascriptAndSpecialChars(String unallowableCharacters, String stringToClean) {
+		stringToClean = stringToClean.replaceAll("alert", "");
+		stringToClean = stringToClean.replaceAll("script", "");
+		stringToClean = stringToClean.replaceAll("javascript", "");
+		stringToClean = stringToClean.replaceAll(".html", "");
+		stringToClean = stringToClean.replaceAll("iframe", "");
+		stringToClean = stringToClean.replaceAll(".net", "");
+		
+		return cleanString(unallowableCharacters,stringToClean);
+	}
+	
+	public static String cleanJavascript(String stringToClean) {
+		stringToClean = stringToClean.replaceAll("alert", "");
+		stringToClean = stringToClean.replaceAll("script", "");
+		stringToClean = stringToClean.replaceAll("javascript", "");
+		stringToClean = stringToClean.replaceAll(".html", "");
+		stringToClean = stringToClean.replaceAll("iframe", "");
+		stringToClean = stringToClean.replaceAll(".net", "");
+		
+		return stringToClean;
 	}
 	
 	public static boolean isURLSafe(String s){

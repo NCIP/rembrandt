@@ -133,6 +133,7 @@ public class ViewResultsAction extends DispatchAction{
 			}
 		}
 		request.getSession().setAttribute("downloadFileList", downloadFileList);
+
 	return  mapping.findForward("success");
  }
       

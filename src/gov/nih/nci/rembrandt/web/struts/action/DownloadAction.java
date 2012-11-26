@@ -92,7 +92,8 @@ public class DownloadAction extends DispatchAction {
 //		tmp = new LabelValueBean("NON_TUMOR", "NON_TUMOR");
 //		al.remove(tmp);
 		request.getSession().setAttribute("sampleGroupsList", al);
-		
+        saveToken(request);
+
 		return  mapping.findForward("success");
 	}
 
@@ -102,6 +103,10 @@ public class DownloadAction extends DispatchAction {
 			HttpServletRequest request,
 			HttpServletResponse response)
 			throws Exception {
+        if (!isTokenValid(request)) {
+			return mapping.findForward("failure");
+		}
+		
 
 		try {
 			rbtCaArrayFileDownloadManagerInterface = ApplicationContext.getCaArrayFileDownloadManagerInterface();
@@ -206,6 +211,8 @@ public class DownloadAction extends DispatchAction {
         }
         futureTaskMap.put(taskId,future);
         request.getSession().setAttribute("FutureTaskMap",futureTaskMap);
+        resetToken(request);
+
 		return  mapping.findForward("success");
 	}
 	public ActionForward download(

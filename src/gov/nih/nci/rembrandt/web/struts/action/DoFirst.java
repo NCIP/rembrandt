@@ -193,6 +193,8 @@ public class DoFirst extends Action {
 			}
             
 		aRequest.getSession().setAttribute("currentPage", "0");
+		saveToken(aRequest);
+		
 		return aMapping.findForward("success");
 
 	}

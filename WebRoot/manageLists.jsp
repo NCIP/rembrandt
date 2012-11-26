@@ -64,7 +64,7 @@ function addLoadEvent(func) {
 		padding:3px;
 	}
 </style>
-<iframe id="RSIFrame" name="RSIFrame" style="width:0px; height:0px; border: 0px" src="blank.jsp"></iframe>
+<iframe id="RSIFrame" title="RSIFrame" name="RSIFrame" style="width:0px; height:0px; border: 0px" src="blank.jsp"></iframe>
 
 <span id="info">&nbsp;</span>
  
@@ -187,7 +187,7 @@ function addLoadEvent(func) {
 				<td colspan="2">
 					<input type="text" id="listName" name="listName" size="30">
 					<input type="button" value="add list" onclick="ManageListHelper.validateForm()" id="uploadButton">
-					<span id="uploadStatus" style="display:none"><img src="images/indicator.gif"/>&nbsp; saving...</span>
+					<span id="uploadStatus" style="display:none"><img alt="Upload Status" src="images/indicator.gif"/>&nbsp; saving...</span>
 				</td>
 			</tr>
 
