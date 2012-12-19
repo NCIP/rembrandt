@@ -1,6 +1,6 @@
 /*
  * Created on Nov 19, 2004
- */ 
+ */
 package gov.nih.nci.rembrandt.web.struts.action;
 
 import gov.nih.nci.caintegrator.application.cache.BusinessCacheManager;
@@ -52,66 +52,66 @@ import org.apache.struts.actions.DispatchAction;
 
 /**
 * caIntegrator License
-* 
-* Copyright 2001-2005 Science Applications International Corporation ("SAIC"). 
-* The software subject to this notice and license includes both human readable source code form and machine readable, 
-* binary, object code form ("the caIntegrator Software"). The caIntegrator Software was developed in conjunction with 
-* the National Cancer Institute ("NCI") by NCI employees and employees of SAIC. 
+*
+* Copyright 2001-2005 Science Applications International Corporation ("SAIC").
+* The software subject to this notice and license includes both human readable source code form and machine readable,
+* binary, object code form ("the caIntegrator Software"). The caIntegrator Software was developed in conjunction with
+* the National Cancer Institute ("NCI") by NCI employees and employees of SAIC.
 * To the extent government employees are authors, any rights in such works shall be subject to Title 17 of the United States
-* Code, section 105. 
-* This caIntegrator Software License (the "License") is between NCI and You. "You (or "Your") shall mean a person or an 
-* entity, and all other entities that control, are controlled by, or are under common control with the entity. "Control" 
+* Code, section 105.
+* This caIntegrator Software License (the "License") is between NCI and You. "You (or "Your") shall mean a person or an
+* entity, and all other entities that control, are controlled by, or are under common control with the entity. "Control"
 * for purposes of this definition means (i) the direct or indirect power to cause the direction or management of such entity,
-*  whether by contract or otherwise, or (ii) ownership of fifty percent (50%) or more of the outstanding shares, or (iii) 
-* beneficial ownership of such entity. 
-* This License is granted provided that You agree to the conditions described below. NCI grants You a non-exclusive, 
-* worldwide, perpetual, fully-paid-up, no-charge, irrevocable, transferable and royalty-free right and license in its rights 
-* in the caIntegrator Software to (i) use, install, access, operate, execute, copy, modify, translate, market, publicly 
-* display, publicly perform, and prepare derivative works of the caIntegrator Software; (ii) distribute and have distributed 
-* to and by third parties the caIntegrator Software and any modifications and derivative works thereof; 
-* and (iii) sublicense the foregoing rights set out in (i) and (ii) to third parties, including the right to license such 
+*  whether by contract or otherwise, or (ii) ownership of fifty percent (50%) or more of the outstanding shares, or (iii)
+* beneficial ownership of such entity.
+* This License is granted provided that You agree to the conditions described below. NCI grants You a non-exclusive,
+* worldwide, perpetual, fully-paid-up, no-charge, irrevocable, transferable and royalty-free right and license in its rights
+* in the caIntegrator Software to (i) use, install, access, operate, execute, copy, modify, translate, market, publicly
+* display, publicly perform, and prepare derivative works of the caIntegrator Software; (ii) distribute and have distributed
+* to and by third parties the caIntegrator Software and any modifications and derivative works thereof;
+* and (iii) sublicense the foregoing rights set out in (i) and (ii) to third parties, including the right to license such
 * rights to further third parties. For sake of clarity, and not by way of limitation, NCI shall have no right of accounting
 * or right of payment from You or Your sublicensees for the rights granted under this License. This License is granted at no
-* charge to You. 
+* charge to You.
 * 1. Your redistributions of the source code for the Software must retain the above copyright notice, this list of conditions
-*    and the disclaimer and limitation of liability of Article 6, below. Your redistributions in object code form must reproduce 
+*    and the disclaimer and limitation of liability of Article 6, below. Your redistributions in object code form must reproduce
 *    the above copyright notice, this list of conditions and the disclaimer of Article 6 in the documentation and/or other materials
-*    provided with the distribution, if any. 
-* 2. Your end-user documentation included with the redistribution, if any, must include the following acknowledgment: "This 
-*    product includes software developed by SAIC and the National Cancer Institute." If You do not include such end-user 
-*    documentation, You shall include this acknowledgment in the Software itself, wherever such third-party acknowledgments 
+*    provided with the distribution, if any.
+* 2. Your end-user documentation included with the redistribution, if any, must include the following acknowledgment: "This
+*    product includes software developed by SAIC and the National Cancer Institute." If You do not include such end-user
+*    documentation, You shall include this acknowledgment in the Software itself, wherever such third-party acknowledgments
 *    normally appear.
-* 3. You may not use the names "The National Cancer Institute", "NCI" "Science Applications International Corporation" and 
-*    "SAIC" to endorse or promote products derived from this Software. This License does not authorize You to use any 
+* 3. You may not use the names "The National Cancer Institute", "NCI" "Science Applications International Corporation" and
+*    "SAIC" to endorse or promote products derived from this Software. This License does not authorize You to use any
 *    trademarks, service marks, trade names, logos or product names of either NCI or SAIC, except as required to comply with
-*    the terms of this License. 
-* 4. For sake of clarity, and not by way of limitation, You may incorporate this Software into Your proprietary programs and 
-*    into any third party proprietary programs. However, if You incorporate the Software into third party proprietary 
-*    programs, You agree that You are solely responsible for obtaining any permission from such third parties required to 
-*    incorporate the Software into such third party proprietary programs and for informing Your sublicensees, including 
-*    without limitation Your end-users, of their obligation to secure any required permissions from such third parties 
-*    before incorporating the Software into such third party proprietary software programs. In the event that You fail 
-*    to obtain such permissions, You agree to indemnify NCI for any claims against NCI by such third parties, except to 
-*    the extent prohibited by law, resulting from Your failure to obtain such permissions. 
-* 5. For sake of clarity, and not by way of limitation, You may add Your own copyright statement to Your modifications and 
-*    to the derivative works, and You may provide additional or different license terms and conditions in Your sublicenses 
-*    of modifications of the Software, or any derivative works of the Software as a whole, provided Your use, reproduction, 
+*    the terms of this License.
+* 4. For sake of clarity, and not by way of limitation, You may incorporate this Software into Your proprietary programs and
+*    into any third party proprietary programs. However, if You incorporate the Software into third party proprietary
+*    programs, You agree that You are solely responsible for obtaining any permission from such third parties required to
+*    incorporate the Software into such third party proprietary programs and for informing Your sublicensees, including
+*    without limitation Your end-users, of their obligation to secure any required permissions from such third parties
+*    before incorporating the Software into such third party proprietary software programs. In the event that You fail
+*    to obtain such permissions, You agree to indemnify NCI for any claims against NCI by such third parties, except to
+*    the extent prohibited by law, resulting from Your failure to obtain such permissions.
+* 5. For sake of clarity, and not by way of limitation, You may add Your own copyright statement to Your modifications and
+*    to the derivative works, and You may provide additional or different license terms and conditions in Your sublicenses
+*    of modifications of the Software, or any derivative works of the Software as a whole, provided Your use, reproduction,
 *    and distribution of the Work otherwise complies with the conditions stated in this License.
-* 6. THIS SOFTWARE IS PROVIDED "AS IS," AND ANY EXPRESSED OR IMPLIED WARRANTIES, (INCLUDING, BUT NOT LIMITED TO, 
-*    THE IMPLIED WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT AND FITNESS FOR A PARTICULAR PURPOSE) ARE DISCLAIMED. 
-*    IN NO EVENT SHALL THE NATIONAL CANCER INSTITUTE, SAIC, OR THEIR AFFILIATES BE LIABLE FOR ANY DIRECT, INDIRECT, 
-*    INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
-*    GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
-*    LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
+* 6. THIS SOFTWARE IS PROVIDED "AS IS," AND ANY EXPRESSED OR IMPLIED WARRANTIES, (INCLUDING, BUT NOT LIMITED TO,
+*    THE IMPLIED WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT AND FITNESS FOR A PARTICULAR PURPOSE) ARE DISCLAIMED.
+*    IN NO EVENT SHALL THE NATIONAL CANCER INSTITUTE, SAIC, OR THEIR AFFILIATES BE LIABLE FOR ANY DIRECT, INDIRECT,
+*    INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+*    GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+*    LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
 *    OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-* 
+*
 */
 
 public class ReportGeneratorAction extends DispatchAction {
 
     private static Logger logger = Logger.getLogger(ReportGeneratorAction.class);
     private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
-    
+
     public ActionForward compundReport(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -120,8 +120,8 @@ public class ReportGeneratorAction extends DispatchAction {
     /**
      * This action method should be called when it is desired to actually render
      * a report to a jsp.  It will grab the desired report XML to display from the cache
-     * and store it in the request so that it can be rendered.  
-     * 
+     * and store it in the request so that it can be rendered.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -132,9 +132,16 @@ public class ReportGeneratorAction extends DispatchAction {
     public ActionForward runGeneViewReport(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	throws Exception {
+		String sID = request.getHeader("Referer");
+
+		    	// prevents Referer Header injection
+		    	if ( sID != null && sID != "" && !sID.contains("rembrandt")) {
+		    		return (mapping.findForward("failure"));
+    	}
+
     	ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
     	String sessionId = request.getSession().getId();
-    	
+
     	// cleanup data - To prevent cross-site scripting
     	if( rgForm.getFilter_value1() != null && !rgForm.getFilter_value1().equals(""))
     		rgForm.setFilter_value1(MoreStringUtils.cleanJavascript( rgForm.getFilter_value1()));
@@ -148,7 +155,7 @@ public class ReportGeneratorAction extends DispatchAction {
     		rgForm.setFilter_value5(MoreStringUtils.cleanJavascript( rgForm.getFilter_value5()));
     	if( rgForm.getFilter_value6() != null && !rgForm.getFilter_value6().equals(""))
     		rgForm.setFilter_value6(MoreStringUtils.cleanJavascript( rgForm.getFilter_value6()));
-    			
+
     	//get the specified report bean from the cache using the query name as the key
     	ReportBean reportBean = presentationTierCache.getReportBean(sessionId,rgForm.getQueryName());
     	String isIGV = "false";
@@ -158,16 +165,16 @@ public class ReportGeneratorAction extends DispatchAction {
     	 * check to see if this is a filter submission.  If it is then
     	 * we are going to need to generate XML most likely.  WE should probably
     	 * differentiate what are XML generation filter options and what are
-    	 * XSLT filter options.  But for now they are all contained in the 
+    	 * XSLT filter options.  But for now they are all contained in the
     	 * filterParams HashMap...  This could be clearer as it will definatley
     	 * cause some confusion for maintenance.
-    	 * 
-    	 * --Dave 
+    	 *
+    	 * --Dave
     	 */
     	Map filterParams = rgForm.getFilterParams();
     	/*
     	 * If there is a filter_type specified, we know that the UI
-    	 * wants to perform a filter.  So we need to annotate the 
+    	 * wants to perform a filter.  So we need to annotate the
     	 * queryName to show that it is filter report.
     	 */
     	if(filterParams!=null&&filterParams.containsKey("filter_type")) {
@@ -177,7 +184,7 @@ public class ReportGeneratorAction extends DispatchAction {
     		CompoundQuery cQuery = ((CompoundQuery)(reportBean.getAssociatedQuery()));
     		//Mark this as a filter report
     		String queryName = cQuery.getQueryName();
-    		//don't mark it again as a filter report if it is already a filter 
+    		//don't mark it again as a filter report if it is already a filter
     		//report at present this will cause the old result in cache
     		//to be overwritten...
     		if(queryName.indexOf("filter report")<0) {
@@ -203,22 +210,22 @@ public class ReportGeneratorAction extends DispatchAction {
     		 *  Generate new XML for the old resultant under the new QueryName.
     		 *	The filter param maps is necesary because it contains data that
     		 *  will be necesary to generate the correct XML for the filter
-    		 *  specified...  This does beg the question, Why are we 
+    		 *  specified...  This does beg the question, Why are we
     		 *  regenerating the XML to apply a filter when we could do that in
     		 *  XSL.  Need to take a look at that in subsequent releases.
-    		 *  
+    		 *
     		 *  --Dave
-    		 *   
+    		 *
     		 */
-    		
+
     		ReportGeneratorHelper generatorHelper = null;
     		try {
-    		   generatorHelper = new ReportGeneratorHelper(cQuery,filterParams); 
+    		   generatorHelper = new ReportGeneratorHelper(cQuery,filterParams);
 	    	}catch(Exception e) {
 				logger.error("Unable to create the ReportBean");
 				logger.error(e);
-			
-			  
+
+
 			}
     		//get the final constructed report bean
     		reportBean = generatorHelper.getReportBean();
@@ -236,26 +243,26 @@ public class ReportGeneratorAction extends DispatchAction {
     		/*
     		 * decide whether the XSL should allow an "Show All Values" button.
     		 * At this time the AllGenedQuery has just too many values to return,
-    		 * especially for a CopyNumber AllGEnes query 
+    		 * especially for a CopyNumber AllGEnes query
     		 */
     		if(reportBean.isAllGenesQuery()) {
     			rgForm.setAllowShowAllValues("false");
     		}
-    		
+
     		/*
-    		 *	put the textual description of the compound query into the report. 
+    		 *	put the textual description of the compound query into the report.
     		 *
-    		 * 	this is a complete hack and should be revisited as soon as we re-do the 
+    		 * 	this is a complete hack and should be revisited as soon as we re-do the
     		 *  toString() for each query - note the ugly HTML that does not belong here.
     		 *  also, due to the stupidity of XSL, we need to replace certain chars:
-    		 *  such as <,  >, and & before sending it over.  we are then relying on 
+    		 *  such as <,  >, and & before sending it over.  we are then relying on
     		 *  trusty old javascript to convert back into HTML for presentation
-    		 * 
+    		 *
     		 *  -RCL
     		 */
     		CompoundQuery compoundQuery = ((CompoundQuery)(reportBean.getAssociatedQuery()));
     		StringBuffer sb = new StringBuffer();
-    		if(compoundQuery != null) {			
+    		if(compoundQuery != null) {
     			String theQuery  =  compoundQuery.toString();
     	 		sb.append("<br><a name=\'queryInfo\'></a>Query: "+theQuery);
     	 		sb.append("<table>");
@@ -269,14 +276,14 @@ public class ReportGeneratorAction extends DispatchAction {
     	 		sb.append("</tr>");
     	 		sb.append("</table>");
     		}
-    		
+
     		String noHTMLString = sb.toString();
     		//noHTMLString = noHTMLString.replaceAll("\\<.*?\\>","");
     		noHTMLString = noHTMLString.replaceAll("<", "{");
     		noHTMLString = noHTMLString.replaceAll(">", "}");
     		noHTMLString = noHTMLString.replaceAll("&nbsp;", " ");
     		rgForm.setQueryDetails(noHTMLString);
-    		
+
 	    	//add the Filter Parameters from the form to the forwarding request
 	    	request.setAttribute(RembrandtConstants.FILTER_PARAM_MAP, rgForm.getFilterParams());
 	    	//put the report xml in the request
@@ -292,8 +299,8 @@ public class ReportGeneratorAction extends DispatchAction {
     /**
      * This action method should be called when it is desired to actually render
      * a Copy Number IGV report to a jsp.  It will grab the desired report XML to display from the cache
-     * and store it in the request so that it can be rendered.  
-     * 
+     * and store it in the request so that it can be rendered.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -312,16 +319,16 @@ public class ReportGeneratorAction extends DispatchAction {
     	 * check to see if this is a filter submission.  If it is then
     	 * we are going to need to generate XML most likely.  WE should probably
     	 * differentiate what are XML generation filter options and what are
-    	 * XSLT filter options.  But for now they are all contained in the 
+    	 * XSLT filter options.  But for now they are all contained in the
     	 * filterParams HashMap...  This could be clearer as it will definatley
     	 * cause some confusion for maintenance.
-    	 * 
-    	 * --Dave 
+    	 *
+    	 * --Dave
     	 */
     	Map filterParams = rgForm.getFilterParams();
     	/*
     	 * If there is a filter_type specified, we know that the UI
-    	 * wants to perform a filter.  So we need to annotate the 
+    	 * wants to perform a filter.  So we need to annotate the
     	 * queryName to show that it is filter report.
     	 */
     	if(filterParams!=null&&filterParams.containsKey("filter_type")) {
@@ -331,7 +338,7 @@ public class ReportGeneratorAction extends DispatchAction {
     		CompoundQuery cQuery = ((CompoundQuery)(reportBean.getAssociatedQuery()));
     		//Mark this as a filter report
     		String queryName = cQuery.getQueryName();
-    		//don't mark it again as a filter report if it is already a filter 
+    		//don't mark it again as a filter report if it is already a filter
     		//report at present this will cause the old result in cache
     		//to be overwritten...
     		if(queryName.indexOf("filter report")<0) {
@@ -354,14 +361,14 @@ public class ReportGeneratorAction extends DispatchAction {
     		 *  Generate new XML for the old resultant under the new QueryName.
     		 *	The filter param maps is necesary because it contains data that
     		 *  will be necesary to generate the correct XML for the filter
-    		 *  specified...  This does beg the question, Why are we 
+    		 *  specified...  This does beg the question, Why are we
     		 *  regenerating the XML to apply a filter when we could do that in
     		 *  XSL.  Need to take a look at that in subsequent releases.
-    		 *  
+    		 *
     		 *  --Dave
-    		 *   
+    		 *
     		 */
-    		
+
     		ReportGeneratorHelper generatorHelper = null;
     		try {
     			generatorHelper = new ReportGeneratorHelper(cQuery,filterParams);
@@ -378,7 +385,7 @@ public class ReportGeneratorAction extends DispatchAction {
 
     		CompoundQuery compoundQuery = ((CompoundQuery)(reportBean.getAssociatedQuery()));
     		StringBuffer sb = new StringBuffer();
-    		if(compoundQuery != null) {			
+    		if(compoundQuery != null) {
     			String theQuery  =  compoundQuery.toString();
     	 		sb.append("<br><a name=\'queryInfo\'></a>Query: "+theQuery);
     	 		sb.append("<table>");
@@ -392,14 +399,14 @@ public class ReportGeneratorAction extends DispatchAction {
     	 		sb.append("</tr>");
     	 		sb.append("</table>");
     		}
-    		
+
     		String noHTMLString = sb.toString();
     		//noHTMLString = noHTMLString.replaceAll("\\<.*?\\>","");
     		noHTMLString = noHTMLString.replaceAll("<", "{");
     		noHTMLString = noHTMLString.replaceAll(">", "}");
     		noHTMLString = noHTMLString.replaceAll("&nbsp;", " ");
     		rgForm.setQueryDetails(noHTMLString);
-    		
+
 	    	//add the Filter Parameters from the form to the forwarding request
 	    	request.setAttribute(RembrandtConstants.FILTER_PARAM_MAP, rgForm.getFilterParams());
 	    	//put the report xml in the request
@@ -428,8 +435,8 @@ public class ReportGeneratorAction extends DispatchAction {
     /**
      * This action method should be called when it is desired to actually render
      * a report to a jsp.  It will grab the desired report XML to display from the cache
-     * and store it in the request so that it can be rendered.  
-     * 
+     * and store it in the request so that it can be rendered.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -440,10 +447,17 @@ public class ReportGeneratorAction extends DispatchAction {
     public ActionForward runGeneViewReportFromCache(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	throws Exception {
+		String sID = request.getHeader("Referer");
+
+		    	// prevents Referer Header injection
+		    	if ( sID != null && sID != "" && !sID.contains("rembrandt")) {
+		    		return (mapping.findForward("failure"));
+    	}
+
     	ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
     	String sessionId = request.getSession().getId();
 		String taskId = request.getParameter("taskId");
-		
+
 		// cleanup data - To prevent cross-site scripting
     	if( rgForm.getFilter_value1() != null && !rgForm.getFilter_value1().equals(""))
     		rgForm.setFilter_value1(MoreStringUtils.cleanJavascript( rgForm.getFilter_value1()));
@@ -457,7 +471,7 @@ public class ReportGeneratorAction extends DispatchAction {
     		rgForm.setFilter_value5(MoreStringUtils.cleanJavascript( rgForm.getFilter_value5()));
     	if( rgForm.getFilter_value6() != null && !rgForm.getFilter_value6().equals(""))
     		rgForm.setFilter_value6(MoreStringUtils.cleanJavascript( rgForm.getFilter_value6()));
-		
+
     	//get the specified report bean from the cache using the query name as the key
     	RembrandtTaskResult taskResult = (RembrandtTaskResult) presentationTierCache.getTaskResult(sessionId, taskId);
     	String reportBeanCacheKey = taskResult.getReportBeanCacheKey();
@@ -466,16 +480,16 @@ public class ReportGeneratorAction extends DispatchAction {
     	 * check to see if this is a filter submission.  If it is then
     	 * we are going to need to generate XML most likely.  WE should probably
     	 * differentiate what are XML generation filter options and what are
-    	 * XSLT filter options.  But for now they are all contained in the 
+    	 * XSLT filter options.  But for now they are all contained in the
     	 * filterParams HashMap...  This could be clearer as it will definatley
     	 * cause some confusion for maintenance.
-    	 * 
-    	 * --Dave 
+    	 *
+    	 * --Dave
     	 */
     	Map filterParams = rgForm.getFilterParams();
     	/*
     	 * If there is a filter_type specified, we know that the UI
-    	 * wants to perform a filter.  So we need to annotate the 
+    	 * wants to perform a filter.  So we need to annotate the
     	 * queryName to show that it is filter report.
     	 */
     	if(filterParams!=null&&filterParams.containsKey("filter_type")) {
@@ -485,7 +499,7 @@ public class ReportGeneratorAction extends DispatchAction {
     		CompoundQuery cQuery = ((CompoundQuery)(reportBean.getAssociatedQuery()));
     		//Mark this as a filter report
     		String queryName = cQuery.getQueryName();
-    		//don't mark it again as a filter report if it is already a filter 
+    		//don't mark it again as a filter report if it is already a filter
     		//report at present this will cause the old result in cache
     		//to be overwritten...
     		if(queryName.indexOf("filter report")<0) {
@@ -493,7 +507,7 @@ public class ReportGeneratorAction extends DispatchAction {
     		}
     		//change the name of the associated query
     		cQuery.setQueryName(queryName);
-    		
+
     		//Create a new bean to store the new resultant, name, param combination
     		ReportBean newReportBean = new ReportBean();
     		//set the retrieval key for the ReportBean
@@ -509,22 +523,22 @@ public class ReportGeneratorAction extends DispatchAction {
     		 *  Generate new XML for the old resultant under the new QueryName.
     		 *	The filter param maps is necesary because it contains data that
     		 *  will be necesary to generate the correct XML for the filter
-    		 *  specified...  This does beg the question, Why are we 
+    		 *  specified...  This does beg the question, Why are we
     		 *  regenerating the XML to apply a filter when we could do that in
     		 *  XSL.  Need to take a look at that in subsequent releases.
-    		 *  
+    		 *
     		 *  --Dave
-    		 *   
+    		 *
     		 */
-    		
+
     		ReportGeneratorHelper generatorHelper = null;
     		try {
-    			generatorHelper = new ReportGeneratorHelper(cQuery,filterParams); 
+    			generatorHelper = new ReportGeneratorHelper(cQuery,filterParams);
 	    	}catch(Exception e) {
 				logger.error("Unable to create the ReportBean");
 				logger.error(e);
-			
-			  
+
+
 			}
     		//get the final constructed report bean
     		reportBean = generatorHelper.getReportBean();
@@ -542,26 +556,26 @@ public class ReportGeneratorAction extends DispatchAction {
     		/*
     		 * decide whether the XSL should allow an "Show All Values" button.
     		 * At this time the AllGenedQuery has just too many values to return,
-    		 * especially for a CopyNumber AllGEnes query 
+    		 * especially for a CopyNumber AllGEnes query
     		 */
     		if(reportBean.isAllGenesQuery()) {
     			rgForm.setAllowShowAllValues("false");
     		}
-    		
+
     		/*
-    		 *	put the textual description of the compound query into the report. 
+    		 *	put the textual description of the compound query into the report.
     		 *
-    		 * 	this is a complete hack and should be revisited as soon as we re-do the 
+    		 * 	this is a complete hack and should be revisited as soon as we re-do the
     		 *  toString() for each query - note the ugly HTML that does not belong here.
     		 *  also, due to the stupidity of XSL, we need to replace certain chars:
-    		 *  such as <,  >, and & before sending it over.  we are then relying on 
+    		 *  such as <,  >, and & before sending it over.  we are then relying on
     		 *  trusty old javascript to convert back into HTML for presentation
-    		 * 
+    		 *
     		 *  -RCL
     		 */
     		CompoundQuery compoundQuery = ((CompoundQuery)(reportBean.getAssociatedQuery()));
     		StringBuffer sb = new StringBuffer();
-    		if(compoundQuery != null) {			
+    		if(compoundQuery != null) {
     			String theQuery  =  compoundQuery.toString();
     	 		sb.append("<br><a name=\'queryInfo\'></a>Query: "+theQuery);
     	 		sb.append("<table>");
@@ -575,14 +589,14 @@ public class ReportGeneratorAction extends DispatchAction {
     	 		sb.append("</tr>");
     	 		sb.append("</table>");
     		}
-    		
+
     		String noHTMLString = sb.toString();
     		//noHTMLString = noHTMLString.replaceAll("\\<.*?\\>","");
     		noHTMLString = noHTMLString.replaceAll("<", "{");
     		noHTMLString = noHTMLString.replaceAll(">", "}");
     		noHTMLString = noHTMLString.replaceAll("&nbsp;", " ");
     		rgForm.setQueryDetails(noHTMLString);
-    		
+
 	    	//add the Filter Parameters from the form to the forwarding request
 	    	request.setAttribute(RembrandtConstants.FILTER_PARAM_MAP, rgForm.getFilterParams());
 	    	//put the report xml in the request
@@ -596,7 +610,7 @@ public class ReportGeneratorAction extends DispatchAction {
     	return mapping.findForward("runGeneViewReport");
     }
 	/**
-	 * Makes the necessary calls to run a compound query, then forwards the 
+	 * Makes the necessary calls to run a compound query, then forwards the
 	 * request to the report rendering mechanism.
 	 * @param mapping
 	 * @param form
@@ -619,7 +633,7 @@ public class ReportGeneratorAction extends DispatchAction {
 
 		String queryName = request.getParameter("queryName");
 		String typeOfView = request.getParameter("typeOfView");
-		
+
 		CompoundQuery cQuery = (CompoundQuery)queryBag.getCompoundQuery(queryName);
 		if(cQuery == null)	{
 			//perhaps this was a filtered report, see if that exists
@@ -628,7 +642,7 @@ public class ReportGeneratorAction extends DispatchAction {
 			cQuery = (CompoundQuery)queryBag.getCompoundQuery(queryName);
 		}
 		if (cQuery != null) {
-			// Get the viewType array from session 
+			// Get the viewType array from session
 			//ViewType [] availableViewTypes = (ViewType []) request.getSession().getAttribute(RembrandtConstants.VALID_QUERY_TYPES_KEY);
 			//if (availableViewTypes == null){
 			ViewType [] availableViewTypes = cQuery.getValidViews();
@@ -639,7 +653,7 @@ public class ReportGeneratorAction extends DispatchAction {
            	//ReportGeneratorHelper will execute the query if necesary, or will
 			//retrieve from cache.  It will then generate the XML for the report
 			//and store in a reportBean in the cache for later retrieval
-            
+
 			ReportGeneratorHelper rgHelper = null;
 			try {
 			 rgHelper = new ReportGeneratorHelper(cQuery, new HashMap());
@@ -662,7 +676,7 @@ public class ReportGeneratorAction extends DispatchAction {
 		}
 	    return thisForward;
 	 }
-	
+
     /**
      * This action is used to generate a preview report.  Because the current
      * preview is in fact a popup from the build query page this forward
@@ -680,7 +694,7 @@ public class ReportGeneratorAction extends DispatchAction {
 	public ActionForward previewReport(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-        String goBack=null;	
+        String goBack=null;
         if(form instanceof GeneExpressionForm) {
             request.setAttribute("geneexpressionForm", request.getAttribute("previewForm"));
             goBack = "backToGeneExp";
@@ -712,8 +726,8 @@ public class ReportGeneratorAction extends DispatchAction {
 		//get this list of sample ids
 		String[] sampleIds = rgForm.getSamples();
 		String sessionId = request.getSession().getId();
-		
-		//get the old 
+
+		//get the old
 		CompoundQuery cquery = presentationTierCache.getQuery(sessionId, queryName );
 		if(cquery!=null) {
 			cquery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
@@ -723,7 +737,7 @@ public class ReportGeneratorAction extends DispatchAction {
 			//store the name of the query in the form so that we can later pull it out of cache
 			ReportBean reportBean = rgHelper.getReportBean();
 			rgForm.setQueryName(reportBean.getResultantCacheKey());
-			
+
 			HashMap<String,String> fpm = rgForm.getFilterParams();
 			String msg = ResourceBundle.getBundle(RembrandtConstants.APPLICATION_RESOURCES, Locale.US).getString("add_samples_msg");
 			fpm.put("statusMsg", msg);
@@ -747,8 +761,8 @@ public ActionForward submitSpecimens(ActionMapping mapping, ActionForm form,
 	//get the samples associated with these specimens
 	List<String> sampleIds = LookupManager.getSampleIDs(Arrays.asList(specimenNames));
 	String sessionId = request.getSession().getId();
-	
-	//get the old 
+
+	//get the old
 	CompoundQuery cquery = presentationTierCache.getQuery(sessionId, queryName );
 	if(cquery!=null) {
 		cquery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
@@ -758,7 +772,7 @@ public ActionForward submitSpecimens(ActionMapping mapping, ActionForm form,
 		//store the name of the query in the form so that we can later pull it out of cache
 		ReportBean reportBean = rgHelper.getReportBean();
 		rgForm.setQueryName(reportBean.getResultantCacheKey());
-		
+
 		HashMap<String,String> fpm = rgForm.getFilterParams();
 		String msg = ResourceBundle.getBundle(RembrandtConstants.APPLICATION_RESOURCES, Locale.US).getString("add_samples_msg");
 		fpm.put("statusMsg", msg);
@@ -779,10 +793,10 @@ public ActionForward exportToExcelForGeneView(ActionMapping mapping, ActionForm 
 	//This is what the user wants to name the new resultSet
 	String prb_queryName = rgForm.getPrbQueryName();
 	String sessionId = request.getSession().getId();
-	
+
 	String reportType = request.getParameter( "reportType" );
 	String[] sampleIds = null;
-	
+
 	if( reportType.equals( "Gene Expression Sample" ) || reportType.equals( "Copy Number" ) ){
 		sampleIds = (String[])request.getSession().getAttribute("tmp_excel_export");
 	}
@@ -790,27 +804,27 @@ public ActionForward exportToExcelForGeneView(ActionMapping mapping, ActionForm 
 		List list = (List)request.getSession().getAttribute("clinical_tmpSampleList");
 		sampleIds = (String[])list.toArray(new String[list.size()]);
 	}
-	
-	//get the old 
+
+	//get the old
 	CompoundQuery cquery = presentationTierCache.getQuery(sessionId, queryName );
-	
+
 	if(cquery!=null) {
 		if( reportType.equals( "Gene Expression Sample" ) )
 			cquery.setAssociatedView(ViewFactory.newView(ViewType.GENE_SINGLE_SAMPLE_VIEW));
-		else if ( reportType.equals( "Gene Copy Number" ) )	
+		else if ( reportType.equals( "Gene Copy Number" ) )
 			cquery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GENE_SAMPLE_VIEW ));
-		else if ( reportType.equals( "Copy Number" ) )	
+		else if ( reportType.equals( "Copy Number" ) )
 			cquery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_SEGMENT_VIEW ));
-		//else if ( reportType.equals( "Copy Number-IGV" ) )	
+		//else if ( reportType.equals( "Copy Number-IGV" ) )
 		//	cquery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_IGV ));
 		else
 			cquery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
-		
+
 		cquery.setQueryName(prb_queryName);
-		
+
 		//This will generate the report and store it in the cache
 		//ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cquery, sampleIds, false );
-		ReportGeneratorHelper rgHelper = null;	
+		ReportGeneratorHelper rgHelper = null;
 			rgHelper = new ReportGeneratorHelper(cquery, sampleIds, false);
 
 		/*
@@ -836,29 +850,29 @@ public ActionForward exportToIGV(ActionMapping mapping, ActionForm form,
 	//This is what the user wants to name the new resultSet
 	String prb_queryName = rgForm.getPrbQueryName();
 	String sessionId = request.getSession().getId();
-	
+
 	String reportType = request.getParameter( "reportType" );
 	String[] sampleIds = null;
-	
+
 	if( reportType.equals( "Copy Number" ) ){
 		sampleIds = (String[])request.getSession().getAttribute("tmp_excel_export");
 	}
-	
-	
-	//get the old 
+
+
+	//get the old
 	CompoundQuery cquery = presentationTierCache.getQuery(sessionId, queryName );
-	
+
 	if(cquery!=null) {
-		if ( reportType.equals( "Gene Copy Number" ) )	
+		if ( reportType.equals( "Gene Copy Number" ) )
 			cquery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_GENE_SAMPLE_VIEW ));
-		else if ( reportType.equals( "Copy Number" ) )	
+		else if ( reportType.equals( "Copy Number" ) )
 			cquery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_SEGMENT_VIEW ));
-		
+
 		cquery.setQueryName(prb_queryName);
-		
+
 		//This will generate the report and store it in the cache
 		//ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cquery, sampleIds, false );
-		ReportGeneratorHelper rgHelper = null;	
+		ReportGeneratorHelper rgHelper = null;
 			rgHelper = new ReportGeneratorHelper(cquery, sampleIds, false);
 
 		/*
@@ -882,10 +896,10 @@ public ActionForward switchViews(ActionMapping mapping, ActionForm form,
 		//Used to get the old resultant from cache
 		String queryName = rgForm.getQueryName();
 		String sessionId = request.getSession().getId();
-		
+
 		String[] sampleIds = rgForm.getSamples();
-		
-		//get the old 
+
+		//get the old
 		CompoundQuery cquery = presentationTierCache.getQuery(sessionId, queryName );
 		if(cquery!=null) {
 			//A clone has to be used in order to avoid view confusion
@@ -901,7 +915,7 @@ public ActionForward switchViews(ActionMapping mapping, ActionForm form,
 			}
 			else	{
 				//clinical by default since thats universal for all query types
-				clonedQuery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));				
+				clonedQuery.setAssociatedView(ViewFactory.newView(ViewType.CLINICAL_VIEW));
 			}
 			//This will generate the report and store it in the cache
 			ReportGeneratorHelper rgHelper = null;
@@ -909,18 +923,18 @@ public ActionForward switchViews(ActionMapping mapping, ActionForm form,
 				if(sampleIds.length == 0)	{
 				    rgHelper = new ReportGeneratorHelper(clonedQuery, rgForm.getFilterParams() );
 				}
-				else	{  
+				else	{
 					//to fix the query name conflict issue, a new boolean value
 					//is added to ReportGeneratorHelper constructor to find out if a new query
-					//name for the query is needed. 
+					//name for the query is needed.
 				    rgHelper = new ReportGeneratorHelper(clonedQuery, sampleIds, true);
 				}
 			}catch(Exception e) {
 				logger.error("Unable to create the ReportBean");
 				logger.error(e);
 			}
-			
-			
+
+
 			//store the name of the query in the form so that we can later pull it out of cache
 			ReportBean reportBean = rgHelper.getReportBean();
 			rgForm.setQueryName(reportBean.getResultantCacheKey());
@@ -928,7 +942,7 @@ public ActionForward switchViews(ActionMapping mapping, ActionForm form,
 		//now send everything that we have done to the actual method that will render the report
 		return runGeneViewReport(mapping, rgForm, request, response);
 	}
-	
+
 	public ActionForward runShowAllValuesQuery(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -945,7 +959,7 @@ public ActionForward switchViews(ActionMapping mapping, ActionForm form,
 			 * @todo must find this
 			 */
 			((CompoundQuery)(reportBean.getAssociatedQuery())).setSessionId(sessionId);
-			
+
 			//put a flag in the filterParams Map so we know its a showAllValues
 			HashMap<String,String> fpm = rgForm.getFilterParams();
 			fpm.put("showAllValues", "true");
@@ -960,7 +974,7 @@ public ActionForward switchViews(ActionMapping mapping, ActionForm form,
 		//now send everything that we have done to the actual method that will render the report
 		return runGeneViewReport(mapping, rgForm, request, response);
 	}
-	
+
 	public ActionForward runFilterCopyNumber(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -970,14 +984,14 @@ public ActionForward switchViews(ActionMapping mapping, ActionForm form,
 		String sessionId = request.getSession().getId();
 		ReportBean reportBean = presentationTierCache.getReportBean(sessionId, queryName);
 		//CompoundQuery cquery = BusinessCacheManager.getInstance().getQuery(sessionId, queryName );
-		
+
 		Resultant resultant = reportBean.getResultant();
 		//set the defaults in case we dont get what we need from the form
 		Integer nocalls = new Integer("0");
 		Integer percent = new Integer("0");
 		OperatorType operator = OperatorType.OR;
 		String filter_element = "copy_number";
-		
+
 		//get the data we need from the form
 		if(rgForm.getFilter_value5()!=null)
 		    nocalls = Integer.valueOf((String) rgForm.getFilter_value5());
@@ -987,22 +1001,22 @@ public ActionForward switchViews(ActionMapping mapping, ActionForm form,
 		if(rgForm.getFilter_value4()!=null && ((String)rgForm.getFilter_value4()).equalsIgnoreCase("and"))
 		    operator = OperatorType.AND;
 		/*
-		 * filter_element should never be anything except "copy_number" for this operation, 
+		 * filter_element should never be anything except "copy_number" for this operation,
 		 * which is the default value above, and the hidden param in the html form
-		 * thus, this next part is actually redundant, but will include it in case we need to 
+		 * thus, this next part is actually redundant, but will include it in case we need to
 		 * change the filter_element on the fly for some reason in the future
 		 * 	-RCL
-		 */ 	
+		 */
 		if(rgForm.getFilter_element()!=null)
 		    filter_element = (String) rgForm.getFilter_element();
-		
-		Map<String, Object> filterParams = new HashMap<String, Object>();		
+
+		Map<String, Object> filterParams = new HashMap<String, Object>();
 		//put all params from the form in the filterparams map
 		filterParams.put( "filter_value4", operator );
 		filterParams.put( "filter_value5", nocalls );
 		filterParams.put( "filter_value6", percent );
 		filterParams.put( "filter_element", filter_element );
-		
+
 		if(reportBean!=null) {
 			//This will generate get a resultant and store it in the cache
 		    ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(reportBean, filterParams);
@@ -1011,7 +1025,7 @@ public ActionForward switchViews(ActionMapping mapping, ActionForm form,
 			reportBean = rgHelper.getReportBean();
 			//add the new name so we know its a copy number filter
 			rgForm.setQueryName(reportBean.getResultantCacheKey());
-		     
+
        	}
 		//now send everything that we have done to the actual method that will render the report
 		return runGeneViewReport(mapping, rgForm, request, response);
