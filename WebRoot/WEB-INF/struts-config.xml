@@ -601,7 +601,7 @@
          <forward name="runCSVGeneViewReport" path="/jsp/geneViewReportCSV.jsp" />
          <forward name="runEmailedGeneViewReport" path="/jsp/geneViewReport.jsp" />
 	     <forward name="runIGVReport" path="/jsp/segmentViewIGVReport.jsp" />
-         
+         <forward name="failure" path="/error.jsp"/>
     </action>
     
     <action path="/emailReport"

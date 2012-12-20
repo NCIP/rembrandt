@@ -132,6 +132,13 @@ public class ReportGeneratorAction extends DispatchAction {
     public ActionForward runGeneViewReport(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	throws Exception {
+    	String sID = request.getHeader("Referer");
+    	
+    	// prevents Referer Header injection
+    	if ( sID != null && sID != "" && !sID.contains("rembrandt")) {
+    		return (mapping.findForward("failure"));
+    	}
+    	
     	ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
     	String sessionId = request.getSession().getId();
     	
@@ -440,6 +447,13 @@ public class ReportGeneratorAction extends DispatchAction {
     public ActionForward runGeneViewReportFromCache(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	throws Exception {
+    	String sID = request.getHeader("Referer");
+    	
+    	// prevents Referer Header injection
+    	if ( sID != null && sID != "" && !sID.contains("rembrandt")) {
+    		return (mapping.findForward("failure"));
+    	}
+    	
     	ReportGeneratorForm rgForm = (ReportGeneratorForm)form;
     	String sessionId = request.getSession().getId();
 		String taskId = request.getParameter("taskId");
