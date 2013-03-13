@@ -11,6 +11,7 @@ import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.rembrandt.dto.lookup.DiseaseTypeLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
+import gov.nih.nci.rembrandt.util.MoreStringUtils;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 import gov.nih.nci.rembrandt.web.helper.ListConvertor;
@@ -377,6 +378,9 @@ public class BaseForm extends ActionForm implements Serializable{
 		 */
 		public void setSampleList(String sampleList) {
 			this.sampleList = sampleList;
+			
+			if (sampleList != null )
+				this.sampleList = MoreStringUtils.cleanJavascript(sampleList);
 			//if (thisRequest != null) {
 
 				String thisSampleGroup = this.getSampleGroup();

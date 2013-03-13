@@ -4,6 +4,7 @@ package gov.nih.nci.rembrandt.web.struts.form;
 
 
 import gov.nih.nci.caintegrator.enumeration.*;
+import gov.nih.nci.rembrandt.util.MoreStringUtils;
 import gov.nih.nci.rembrandt.web.bean.UserPreferencesBean;
 
 import java.util.ArrayList;
@@ -142,6 +143,9 @@ public class PrincipalComponentForm extends ActionForm {
      * @param analysisResultName The analysisResultName to set.
      */
     public void setAnalysisResultName(String analysisResultName) {
+		if (analysisResultName != null )
+			analysisResultName = MoreStringUtils.cleanJavascript(analysisResultName);
+
         this.analysisResultName = analysisResultName;
     }
 

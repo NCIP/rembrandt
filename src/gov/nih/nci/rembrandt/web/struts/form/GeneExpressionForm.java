@@ -20,6 +20,7 @@ import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneOntologyDE;
 import gov.nih.nci.caintegrator.dto.de.PathwayDE;
+import gov.nih.nci.rembrandt.util.MoreStringUtils;
 import gov.nih.nci.rembrandt.web.bean.ChromosomeBean;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
@@ -532,7 +533,11 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	 *            The geneList to set
 	 */
 	public void setGeneList(String geneList) {
+		if (geneList != null )
+			geneList = MoreStringUtils.cleanJavascript(geneList);
+
 		this.geneList = geneList;
+		
 		if (thisRequest != null) {
 
 			String thisGeneType = this.thisRequest.getParameter("geneType");
@@ -969,7 +974,11 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	 *            The cloneListSpecify to set
 	 */
 	public void setCloneListSpecify(String cloneListSpecify) {
+		if (cloneListSpecify != null )
+			cloneListSpecify = MoreStringUtils.cleanJavascript(cloneListSpecify);
+
 		this.cloneListSpecify = cloneListSpecify;
+		
 		if (thisRequest != null) {
 			// this is to check if the radio button is selected for the clone
 			// category
@@ -1493,6 +1502,9 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	 *            The queryName to set
 	 */
 	public void setQueryName(String queryName) {
+		if (queryName != null )
+			queryName = MoreStringUtils.cleanJavascript(queryName);
+		
 		this.queryName = queryName;
 	}
 

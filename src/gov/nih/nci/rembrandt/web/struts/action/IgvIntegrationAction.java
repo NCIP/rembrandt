@@ -46,7 +46,8 @@ public class IgvIntegrationAction extends GPIntegrationAction {
 	        GroupRetriever groupRetriever = new GroupRetriever();
 	        igvForm.setExistingGroupsList(groupRetriever.getClinicalGroupsCollection(request.getSession()));
 	        igvForm.setAnnotationsList(getAnnotationsCollection());  
-	    
+	        saveToken(request);
+	        
 	        return mapping.findForward("success");
 	    }
 
@@ -84,6 +85,9 @@ public class IgvIntegrationAction extends GPIntegrationAction {
 	public ActionForward submit(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+    	if (!isTokenValid(request)) {
+			return mapping.findForward("failure");
+		}
      
 	   IgvIntegrationForm igvForm = (IgvIntegrationForm) form;
 	   String sessionId = request.getSession().getId();
@@ -133,6 +137,7 @@ public class IgvIntegrationAction extends GPIntegrationAction {
 
 
        request.setAttribute("gpTaskType", "IGV");
+       resetToken(request);
        
     	return mapping.findForward("viewJob");
     }

@@ -72,7 +72,11 @@
 		<forward name="success" path="nautilus.download" />
 	</action>
 	
-  	<action path="/registration" forward="registration" />
+  	<action path="/registration" 
+		type="gov.nih.nci.rembrandt.web.struts.action.RegistrationAction"
+		parameter="method">
+		<forward name="success" path="registration" />
+	</action>
   	
   	<action path="/analysisHome"
 		type="gov.nih.nci.rembrandt.web.struts.action.DoFirst"
@@ -135,6 +139,7 @@
  		 <forward name="mismatch" path="nautilus.home" />
   		 <forward name="badgraph" path="/home.do" />
 		 <forward name="kmplot" path="/kmGraph.do?method=doKMPlot" />
+		 <forward name="failure" path="/login.do"/>
 	</action>
 	
 	<action path="/kmGraph"            
@@ -237,7 +242,7 @@
          <forward name="backToGeneExp" path="nautilus.geneExpression" />
          <forward name="showAllGenes" path="nautilus.allGenesGE" />
          <forward name="viewResults" path="/viewResults.do" />
-         <forward name="failure" path="/menu.do" /> 
+         <forward name="failure" path="/login.do" /> 
 	</action>
 	
 	<action path="/classComparison"
@@ -263,7 +268,7 @@
 		<forward name="backToClassComparison" path="nautilus.classComparison" />
 		<forward name="classComparisonSetup" path="/classcomparisonInit.do?method=setup" />
 		<forward name="viewResults" path="/viewResults.do" />
-		<forward name="failure" path="/menu.do" />
+		<forward name="failure" path="/login.do" />
 	</action>
 	
 	
@@ -290,6 +295,7 @@
 		<forward name="backToPrincipalComponent" path="nautilus.principalComponent" />
 		<forward name="principalComponentSetup" path="/principalcomponentInit.do?method=setup" />
 		<forward name="viewResults" path="/viewResults.do" />
+		<forward name="failure" path="/login.do" />
 	</action>
 
    <action path="/gpintegrationInit"
@@ -320,6 +326,7 @@
 		<forward name="success" path="rembrandt.gpIntegration" />
 		<!-- forward name="viewJob" path="rembrandt.gpJobView" / -->
 		<forward name="viewJob" path="/gpProcess.do?method=setup" />
+		<forward name="failure" path="/login.do" />
 	</action>
 
 	<action path="/igvintegration"
@@ -331,6 +338,7 @@
 		parameter="method">
 		<forward name="success" path="rembrandt.igvIntegration" />
 		<forward name="viewJob" path="/gpProcess.do?method=setup" />
+		<forward name="failure" path="/login.do" />
 	</action>
 
 	<action path="/gpProcess"
@@ -362,6 +370,7 @@
 		<forward name="backToHierarchicalClustering" path="nautilus.hierarchicalClustering" />
 		<forward name="hierarchicalClusteringSetup" path="/hierarchicalclustering.do?method=setup" />
 		<forward name="viewResults" path="/viewResults.do" />
+		<forward name="failure" path="/login.do" />
 	</action>
 	
 	<action path="/hierarchicalclusteringInit"
@@ -386,7 +395,7 @@
             scope="request"
             parameter="method"
             validate="false">
-         <forward name="failure" path="/menu.do" /> 
+         <forward name="failure" path="/login.do" /> 
          <forward name="backToGeneExp" path="nautilus.geneExpression" />
     </action>
     
@@ -399,7 +408,7 @@
             scope="request"
             parameter="method"
             validate="false">
-         <forward name="failure" path="/menu.do" /> 
+         <forward name="failure" path="/login.do" /> 
          <forward name="backToGeneExp" path="nautilus.geneExpression" />
     </action>
     
@@ -412,7 +421,7 @@
             scope="request"
             parameter="method"
             validate="false">
-         <forward name="failure" path="/menu.do" /> 
+         <forward name="failure" path="/login.do" /> 
          <forward name="backToCGH" path="nautilus.comparitiveGenomic" />
 	</action>
 	
@@ -425,7 +434,7 @@
             scope="request"
             parameter="method"
             validate="false">
-         <forward name="failure" path="/menu.do" /> 
+         <forward name="failure" path="/login.do" /> 
          <forward name="backToCGH" path="nautilus.comparitiveGenomic" />
 	</action>
 		
@@ -444,7 +453,7 @@
          <forward name="backToCGH" path="nautilus.comparitiveGenomic" />
          <forward name="showAllGenes" path="nautilus.allGenesCGH" />
          <forward name="viewResults" path="/viewResults.do" />
-         <forward name="failure" path="/menu.do" /> 
+         <forward name="failure" path="/login.do" /> 
          
 	</action>
 	
@@ -462,7 +471,7 @@
          <forward name="previewReport" path="/previewClinicalReport.do?method=previewReport"/>
          <forward name="backToClinical" path="nautilus.clinical" />
 		 <forward name="viewResults" path="/viewResults.do" />
-         <forward name="failure" path="/menu.do" /> 
+         <forward name="failure" path="/login.do" /> 
 	</action>
 
 	<action path="/menu"
@@ -514,7 +523,7 @@
             scope="request"
             parameter="method"
             validate="false">
-         <forward name="failure" path="/menu.do" /> 
+         <forward name="failure" path="/login.do" /> 
          <forward name="backToClinical" path="nautilus.clinical" />
 	</action>
 
@@ -527,7 +536,7 @@
             scope="request"
             parameter="method"
             validate="false">
-         <forward name="failure" path="/menu.do" /> 
+         <forward name="failure" path="/login.do" /> 
          <forward name="backToClinical" path="nautilus.clinical" />
 	</action>
 	
@@ -540,7 +549,7 @@
    <action path="/refinecheck"
 	       type="gov.nih.nci.rembrandt.web.struts.action.RefineCheckAction">
          <forward name="success" path="/refine.do" />
-         <forward name="failure" path="/menu.do" />
+         <forward name="failure" path="/home.do" />
    </action>
 	<!-- Tile Action Mapping-->
    <action path="/refine"

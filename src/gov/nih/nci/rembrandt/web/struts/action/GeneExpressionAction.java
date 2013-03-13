@@ -144,6 +144,13 @@ public class GeneExpressionAction extends LookupDispatchAction {
     public ActionForward setup(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	throws Exception {
+    	String sID = request.getHeader("Referer");
+    	
+    	// prevents Referer Header injection
+    	if ( sID != null && sID != "" && !sID.contains("rembrandt")) {
+    		return (mapping.findForward("failure"));
+    	}
+
 		GeneExpressionForm geneExpressionForm = (GeneExpressionForm) form;
 		//Since Chromosomes is a static variable there is no need to set it twice.
 		//It is only a lookup option collection
@@ -251,10 +258,6 @@ public class GeneExpressionAction extends LookupDispatchAction {
     public ActionForward submitStandard(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	throws Exception {
-        if (!isTokenValid(request)) {
-			return mapping.findForward("failure");
-		}
-        
         request.getSession().setAttribute("currentPage", "0");
 		request.getSession().removeAttribute("currentPage2");
 		
@@ -267,7 +270,6 @@ public class GeneExpressionAction extends LookupDispatchAction {
 		geneExpressionForm.setFoldChangeValueUDDown(RembrandtConstants.STANDARD_GENE_EXP_REGULATION);
 		
 		logger.debug("This is an Standard Gene Expression Submital");
-        resetToken(request);
 
 		return mapping.findForward("backToGeneExp");
     }

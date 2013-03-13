@@ -6,6 +6,7 @@ import java.util.List;
 
 import gov.nih.nci.caintegrator.util.CaIntegratorConstants;
 import gov.nih.nci.rembrandt.dto.lookup.AllGeneAliasLookup;
+import gov.nih.nci.rembrandt.util.MoreStringUtils;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 
@@ -144,6 +145,10 @@ public class QuickSearchForm extends BaseForm implements GeneValidator{
 	    if(getPlot() != null && !getPlot().equals(CaIntegratorConstants.SAMPLE_KMPLOT) && getQuickSearchType() != null  &&
 	    		getQuickSearchType().compareTo(RembrandtConstants.GENE_SYMBOL)==0){
 		    UIFormValidator.validateGeneSymbolisNotEmpty(quickSearchName, errors);
+		    
+		    if( getQuickSearchName() != null )
+				setQuickSearchName(MoreStringUtils.cleanJavascriptAndSpecialChars(MoreStringUtils.specialCharacters, getQuickSearchName()));
+		    
 			try {
 				UIFormValidator.validateGeneSymbol(this, errors);
 			} catch (Exception e) {

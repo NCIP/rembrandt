@@ -154,6 +154,13 @@ public class ClinicalDataAction extends LookupDispatchAction {
     public ActionForward setup(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
     throws Exception {
+    	
+    	String sID = request.getHeader("Referer");
+    	// prevents Referer Header injection
+    	if ( sID != null && sID != "" && !sID.contains("rembrandt")) {
+    		return (mapping.findForward("failure"));
+    	}
+
         ClinicalDataForm clinicalDataForm = (ClinicalDataForm) form;
         GroupRetriever groupRetriever = new GroupRetriever();
         clinicalDataForm.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession()));

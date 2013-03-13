@@ -152,6 +152,13 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
     public ActionForward setup(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	throws Exception {
+    	String sID = request.getHeader("Referer");
+    	
+    	// prevents Referer Header injection
+    	if ( sID != null && sID != "" && !sID.contains("rembrandt")) {
+    		return (mapping.findForward("failure"));
+    	}
+
 		ComparativeGenomicForm comparativeGenomicForm = (ComparativeGenomicForm) form;
 		//Since Chromosomes is a static variable there is no need to set it twice.
 		//It is only a lookup option collection
@@ -272,10 +279,6 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
     public ActionForward submitStandard(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	throws Exception {
-        if (!isTokenValid(request)) {
-			return mapping.findForward("failure");
-		}
-        
         request.getSession().setAttribute("currentPage", "0");
 		request.getSession().removeAttribute("currentPage2");
 		
@@ -292,7 +295,6 @@ public class ComparativeGenomicAction extends LookupDispatchAction {
 		comparativeGenomicForm.setSmDeleted("");
 		
 		logger.debug("This is an Standard cgh Submital");
-        resetToken(request);
 
 		return mapping.findForward("backToCGH");
     }

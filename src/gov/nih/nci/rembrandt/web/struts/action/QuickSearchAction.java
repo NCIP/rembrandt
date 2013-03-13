@@ -560,6 +560,13 @@ public class QuickSearchAction extends DispatchAction {
 			return mapping.findForward("failure");
 		}
 		
+    	String sID = request.getHeader("Referer");
+    	
+    	// prevents Referer Header injection
+    	if ( sID != null && sID != "" && !sID.contains("rembrandt")) {
+    		return (mapping.findForward("failure"));
+    	}
+
 		QuickSearchForm qsForm = (QuickSearchForm) form;
 		ActionErrors errors = new ActionErrors();
 		

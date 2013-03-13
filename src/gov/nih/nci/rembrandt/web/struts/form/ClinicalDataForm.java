@@ -2106,6 +2106,9 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
      *            The queryName to set
      */
     public void setQueryName(String queryName) {
+		if (queryName != null )
+			queryName = MoreStringUtils.cleanJavascript(queryName);
+
         this.queryName = queryName;
     }
 

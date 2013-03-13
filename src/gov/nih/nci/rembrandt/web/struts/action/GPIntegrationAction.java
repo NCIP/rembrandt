@@ -70,11 +70,19 @@ public class GPIntegrationAction extends LookupDispatchAction {
     public ActionForward setup(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
     throws Exception {
+    	String sID = request.getHeader("Referer");
+    	
+    	// prevents Referer Header injection
+    	if ( sID != null && sID != "" && !sID.contains("rembrandt")) {
+    		return (mapping.findForward("failure"));
+    	}
+
     	GpIntegrationForm gpForm = (GpIntegrationForm) form;
         /*setup the defined Disease query names and the list of samples selected from a Resultset*/
         GroupRetriever groupRetriever = new GroupRetriever();
         gpForm.setExistingGroupsList(groupRetriever.getClinicalGroupsCollection(request.getSession()));         
-    
+        saveToken(request);
+        
         return mapping.findForward("success");
     }
     
@@ -96,6 +104,10 @@ public class GPIntegrationAction extends LookupDispatchAction {
 	public ActionForward submit(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+    	
+    	if (!isTokenValid(request)) {
+			return mapping.findForward("failure");
+		}
     	
     	   GpIntegrationForm gpForm = (GpIntegrationForm) form;
     	   String sessionId = request.getSession().getId();
@@ -123,6 +135,8 @@ public class GPIntegrationAction extends LookupDispatchAction {
 		
        runGpTask(request, gpForm, session, filePathList, r_fileName, a_fileName);
        request.setAttribute("gpTaskType", "Regular");
+       
+       resetToken(request);
        
 	   return mapping.findForward("viewJob");
 

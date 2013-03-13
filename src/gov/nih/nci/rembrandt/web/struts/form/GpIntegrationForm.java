@@ -3,6 +3,7 @@ package gov.nih.nci.rembrandt.web.struts.form;
 
 import gov.nih.nci.caintegrator.application.lists.ListType;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
+import gov.nih.nci.rembrandt.util.MoreStringUtils;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 
 import java.util.ArrayList;
@@ -65,6 +66,9 @@ public class GpIntegrationForm extends ActionForm {
 	}
 
 	public void setAnalysisResultName(String analysisResultName) {
+		if (analysisResultName != null )
+			analysisResultName = MoreStringUtils.cleanJavascript(analysisResultName);
+
 		this.analysisResultName = analysisResultName;
 	}
 

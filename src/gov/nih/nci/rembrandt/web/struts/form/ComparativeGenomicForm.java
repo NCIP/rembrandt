@@ -28,6 +28,7 @@ import gov.nih.nci.caintegrator.enumeration.AnalysisType;
 import gov.nih.nci.caintegrator.enumeration.ArrayPlatformType;
 import gov.nih.nci.caintegrator.enumeration.SpecimenType;
 import gov.nih.nci.caintegrator.util.MathUtil;
+import gov.nih.nci.rembrandt.util.MoreStringUtils;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.ChromosomeBean;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
@@ -576,6 +577,9 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
      *            The geneList to set
      */
     public void setGeneList(String geneList) {
+		if (geneList != null )
+			geneList = MoreStringUtils.cleanJavascript(geneList);
+
         this.geneList = geneList;
         if (thisRequest != null) {
         	
@@ -1879,6 +1883,9 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
      *            The queryName to set
      */
     public void setQueryName(String queryName) {
+		if (queryName != null )
+			queryName = MoreStringUtils.cleanJavascript(queryName);
+
         this.queryName = queryName;
     }
 

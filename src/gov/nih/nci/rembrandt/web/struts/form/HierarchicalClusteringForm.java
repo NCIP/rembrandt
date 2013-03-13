@@ -5,6 +5,7 @@ package gov.nih.nci.rembrandt.web.struts.form;
 
 import gov.nih.nci.caintegrator.enumeration.DistanceMatrixType;
 import gov.nih.nci.caintegrator.enumeration.LinkageMethodType;
+import gov.nih.nci.rembrandt.util.MoreStringUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -133,6 +134,9 @@ public class HierarchicalClusteringForm extends ActionForm {
      * @param analysisResultName The analysisResultName to set.
      */
     public void setAnalysisResultName(String analysisResultName) {
+		if (analysisResultName != null )
+			analysisResultName = MoreStringUtils.cleanJavascript(analysisResultName);
+
         this.analysisResultName = analysisResultName;
     }
 

@@ -128,7 +128,16 @@ public final class LoginForm extends ActionForm {
 		} catch (AuthenticationException e) {
 			logger.error(e);
 		}
-
+		
+		// Checking for Injected Sessions (Appscan)
+		String saved = (String) request.getSession().getAttribute("org.apache.struts.action.TOKEN");
+		String token = request.getParameter("org.apache.struts.taglib.html.TOKEN");
+		
+		if( ( saved!= null && token != null && !saved.equals(token) ) || saved == null || token == null ) {
+			errors.add("invalidLogin", new ActionError(
+					"gov.nih.nci.nautilus.ui.struts.form.invalidLogin.error"));
+		}
+		
 		request.getSession().invalidate();
 		if (credentials != null && credentials.authenticated()) {
 			userLoggedIn = true;
