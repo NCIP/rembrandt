@@ -168,10 +168,12 @@ public class CopyNumberSegmentReport implements ReportGenerator {
 			        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(rows.get(0)));
 	        		data = null;
 	        	 cell = null;
+	        	 
+	        	 String tooltip = "Specimen = " + rows.get(0);
         	 
 				for(int i=1; i<rows.size(); i++)	{
 					 cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
-				        data = cell.addElement("Data").addAttribute("type", "data").addText(DEUtils.checkNull(rows.get(i)));
+				        data = cell.addElement("Data").addAttribute("type", "data").addAttribute("datainfo", tooltip).addText(DEUtils.checkNull(rows.get(i)));
 		        		data = null;
 		        	 cell = null;
 				}
