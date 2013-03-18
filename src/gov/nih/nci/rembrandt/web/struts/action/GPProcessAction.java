@@ -228,6 +228,30 @@ public class GPProcessAction extends DispatchAction {
 		 return mapping.findForward("runIGVReport");
     }
     
+    public ActionForward blankIgvViewer(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+    	logger.info("Entering blankIgvViewer method.......");
+
+		// IGVHelper
+		UserCredentials credentials = (UserCredentials)request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
+		String rembrandtUser = null;
+		if(credentials!= null) {
+			rembrandtUser= credentials.getUserName();
+		}
+		String sessionId = request.getSession().getId();
+		String url = request.getRequestURL().toString();
+		url = url.substring(0, url.lastIndexOf("/")+1);
+		String locus = "All"; //chromosome:start-end
+		IGVHelper igvHelper = new IGVHelper(sessionId,  locus,  url, "blank", rembrandtUser);
+    	String igvURL = igvHelper.getIgvJNPL();
+    	if(igvURL != null){
+    		request.setAttribute(RembrandtConstants.REPORT_IGV, igvURL);
+    	}
+
+		 return mapping.findForward("runIGVReport");
+    }
+    
     private ActionForward runHCPipeline(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
     	logger.info("Entering runHCPipeline.......");
