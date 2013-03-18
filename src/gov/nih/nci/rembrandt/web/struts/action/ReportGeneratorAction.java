@@ -920,7 +920,7 @@ public ActionForward switchViews(ActionMapping mapping, ActionForm form,
 			//This will generate the report and store it in the cache
 			ReportGeneratorHelper rgHelper = null;
 			try {
-				if(sampleIds.length == 0)	{
+				if(sampleIds.length == 0 || (sampleIds[0] != null && sampleIds[0].equals("")) )	{
 				    rgHelper = new ReportGeneratorHelper(clonedQuery, rgForm.getFilterParams() );
 				}
 				else	{  
