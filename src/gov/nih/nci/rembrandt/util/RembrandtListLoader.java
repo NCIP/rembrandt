@@ -1,5 +1,6 @@
 package gov.nih.nci.rembrandt.util;
 
+import gov.nih.nci.caintegrator.application.lists.ListItem;
 import gov.nih.nci.caintegrator.application.lists.ListLoader;
 import gov.nih.nci.caintegrator.application.lists.ListManager;
 import gov.nih.nci.caintegrator.application.lists.ListOrigin;
@@ -39,7 +40,7 @@ import org.springframework.jdbc.core.support.AbstractLobCreatingPreparedStatemen
 import org.springframework.jdbc.support.lob.LobHandler;
 
 public class RembrandtListLoader extends ListLoader {
-    private static Logger logger = Logger.getLogger(RembrandtListLoader.class);    
+    private static Logger logger = Logger.getLogger(RembrandtListLoader.class);
     private SessionFactory sessionFactory;
 
 
@@ -60,7 +61,7 @@ public class RembrandtListLoader extends ListLoader {
         super();
         // TODO Auto-generated constructor stub
     }
-    
+
     public UserListBean loadDiseaseGroups(UserListBean userListBean, HttpSession session) throws OperationNotSupportedException{
         ListManager listManager = new ListManager();
         List<String> allSamplesList = new ArrayList<String>();
@@ -68,7 +69,7 @@ public class RembrandtListLoader extends ListLoader {
         /**
          * this section loops through all REMBRANDTs disease groups found
          * in the getDiseaseType below. Based on credentials, queries are
-         * run to return sample according to each disease and made into 
+         * run to return sample according to each disease and made into
          * default user lists.
          */
 		try {
@@ -89,7 +90,7 @@ public class RembrandtListLoader extends ListLoader {
                                     myList.setListOrigin(ListOrigin.Default);
         			               /**
         			                * add valid samples to allSamplesList to be created last.
-        			                * Do not add unknown and unclassified samples. 
+        			                * Do not add unknown and unclassified samples.
         			                */
         			               if(!(diseaseTypeLookup.getDiseaseType().compareToIgnoreCase(RembrandtConstants.UNKNOWN)==0)
         			                       && !(diseaseTypeLookup.getDiseaseType().compareToIgnoreCase(RembrandtConstants.UNCLASSIFIED)==0)){
@@ -98,7 +99,7 @@ public class RembrandtListLoader extends ListLoader {
         			                	   allGliomaSamplesList.addAll(myList.getList());
         				               }
         			               }
-        			               
+
         			               //add my list to the userListBean
         			                userListBean.addList(myList);
         			            }
@@ -111,7 +112,7 @@ public class RembrandtListLoader extends ListLoader {
 		} catch (Exception e1) {
 			logger.error(e1);
 		}
-        
+
          //now add the all samples userlist
         if(!allSamplesList.isEmpty()){
 
@@ -119,49 +120,49 @@ public class RembrandtListLoader extends ListLoader {
             UserList myAllGliomaSampleList = listManager.createList(ListType.PatientDID,RembrandtConstants.ALL_GLIOMA,allGliomaSamplesList,listValidator);
             myAllGliomaSampleList.setListOrigin(ListOrigin.Default);
             userListBean.addList(myAllGliomaSampleList);
-            
+
             listValidator = new RembrandtListValidator(ListType.PatientDID, allSamplesList);
-            UserList myAllSampleList = listManager.createList(ListType.PatientDID,RembrandtConstants.ALL,allSamplesList,listValidator); 
+            UserList myAllSampleList = listManager.createList(ListType.PatientDID,RembrandtConstants.ALL,allSamplesList,listValidator);
             myAllSampleList.setListOrigin(ListOrigin.Default);
             userListBean.addList(myAllSampleList);
         }
-        return userListBean;        
+        return userListBean;
     }
     public List<UserList> loadUserListsByInstitution(String institutionName){
-        Session currentSession = sessionFactory.getCurrentSession(); 
+        Session currentSession = sessionFactory.getCurrentSession();
         List<UserList> lists = new ArrayList<UserList>();
         String theHQL = "";
-        Query theQuery = null;        
+        Query theQuery = null;
         Collection<UserList> userLists = null;
-        theHQL = "select distinct ul from UserList ul where ul.institute = :institutionName";        
+        theHQL = "select distinct ul from UserList ul where ul.institute = :institutionName";
         theQuery = currentSession.createQuery(theHQL);
         theQuery.setParameter("institutionName", institutionName);
-        System.out.println("HQL: " + theHQL);        
-        userLists = theQuery.list();        
+        System.out.println("HQL: " + theHQL);
+        userLists = theQuery.list();
         for(UserList list: userLists){
-            logger.debug("List name: " + list.getName()); 
+            logger.debug("List name: " + list.getName());
             lists.add(list);
         }
-        
+
         return lists;
     }
     public List<UserList> loadCustomListsByUserName(String userName){
-        Session currentSession = sessionFactory.getCurrentSession(); 
+        Session currentSession = sessionFactory.getCurrentSession();
         List<UserList> lists = new ArrayList<UserList>();
         String theHQL = "";
-        Query theQuery = null;        
+        Query theQuery = null;
         Collection<UserList> userLists = null;
-        theHQL = "select distinct ul from UserList ul where ul.author = :userName and ul.listOrigin = :origin";        
+        theHQL = "select distinct ul from UserList ul where ul.author = :userName and ul.listOrigin = :origin";
         theQuery = currentSession.createQuery(theHQL);
         theQuery.setParameter("userName", userName);
-        theQuery.setParameter("origin", ListOrigin.Custom);        
-        System.out.println("HQL: " + theHQL);        
-        userLists = theQuery.list();        
+        theQuery.setParameter("origin", ListOrigin.Custom);
+        System.out.println("HQL: " + theHQL);
+        userLists = theQuery.list();
         for(UserList list: userLists){
-            logger.debug("List name: " + list.getName()); 
+            logger.debug("List name: " + list.getName());
             lists.add(list);
         }
-        
+
         return lists;
     }
     public void saveUserCustomLists(String httpSessionID, String userName){
@@ -170,7 +171,7 @@ public class RembrandtListLoader extends ListLoader {
     		List<UserList> customlists =  userListBeanHelper.getAllCustomLists();
     		for(UserList list:customlists){
 		        try {
-					Session currentSession = sessionFactory.getCurrentSession(); 
+					Session currentSession = sessionFactory.getCurrentSession();
 					currentSession = sessionFactory.openSession();
 					Transaction transaction = currentSession.beginTransaction();
 					transaction = currentSession.beginTransaction();
@@ -179,6 +180,11 @@ public class RembrandtListLoader extends ListLoader {
 					currentSession.saveOrUpdate(list);
 					transaction.commit();
 					currentSession.close();
+
+					//for some reason listid is null. update after DB changes are complete.
+					for( ListItem li: list.getListItems()) {
+						li.setListId(list.getId());
+					}
 				} catch (HibernateException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -192,7 +198,7 @@ public class RembrandtListLoader extends ListLoader {
     		UserListBeanHelper userListBeanHelper = new UserListBeanHelper(httpSessionID);
     		List<UserList> customlists =  userListBeanHelper.getAllDeletedCustomLists();
     		for(UserList list:customlists){
-			        Session currentSession = sessionFactory.getCurrentSession(); 
+			        Session currentSession = sessionFactory.getCurrentSession();
 			        currentSession = sessionFactory.openSession();
 			        Transaction transaction = currentSession.beginTransaction();
 			    	transaction = currentSession.beginTransaction();
@@ -200,23 +206,23 @@ public class RembrandtListLoader extends ListLoader {
 			    	currentSession.delete(list);
 			    	transaction.commit();
 			    	currentSession.close();
-			    	userListBeanHelper.clearAllDeletedCustomLists();			    	
+			    	userListBeanHelper.clearAllDeletedCustomLists();
     		}
     	}
 
     }
     public Workspace  loadTreeStructure(Long userId, TreeStructureType type){
-        Session currentSession = sessionFactory.getCurrentSession(); 
+        Session currentSession = sessionFactory.getCurrentSession();
         List<Workspace> lists = null;
         String theHQL = "";
-        Query theQuery = null;        
+        Query theQuery = null;
         if(userId != null && type != null){
-	        theHQL = "select w from Workspace w where w.userId = :userId and w.treeType = :treeType";        
+	        theHQL = "select w from Workspace w where w.userId = :userId and w.treeType = :treeType";
 	        theQuery = currentSession.createQuery(theHQL);
 	        theQuery.setParameter("userId", userId);
-	        theQuery.setParameter("treeType", type.toString());        
-	        System.out.println("HQL: " + theHQL);        
-	        lists = theQuery.list();  
+	        theQuery.setParameter("treeType", type.toString());
+	        System.out.println("HQL: " + theHQL);
+	        lists = theQuery.list();
 	        if(lists != null  && lists.size() == 1){
 		        for(Workspace wp: lists){
 		            return wp;
@@ -225,10 +231,10 @@ public class RembrandtListLoader extends ListLoader {
         }
         return null;
     }
-    
+
     public void saveTreeStructure(Long userId, TreeStructureType treeType, String treeStructure, Workspace workspace){
     	if(userId != null  && treeType != null  &&  treeStructure != null){
-	        Session currentSession = sessionFactory.getCurrentSession(); 
+	        Session currentSession = sessionFactory.getCurrentSession();
 	        currentSession = sessionFactory.openSession();
 	        Transaction transaction = currentSession.beginTransaction();
 	    	transaction = currentSession.beginTransaction();
@@ -245,16 +251,16 @@ public class RembrandtListLoader extends ListLoader {
     	}
     }
     public UserQuery  loadUserQuery(Long userId){
-        Session currentSession = sessionFactory.getCurrentSession(); 
+        Session currentSession = sessionFactory.getCurrentSession();
         String theHQL = "";
-        Query theQuery = null;        
+        Query theQuery = null;
         List<UserQuery> listUserQuery = null;
         if(userId != null ){
-	        theHQL = "select u from UserQuery u where u.userId = :userId";        
+	        theHQL = "select u from UserQuery u where u.userId = :userId";
 	        theQuery = currentSession.createQuery(theHQL);
-	        theQuery.setParameter("userId", userId);   
-	        System.out.println("HQL: " + theHQL);        
-	        listUserQuery = theQuery.list();  
+	        theQuery.setParameter("userId", userId);
+	        System.out.println("HQL: " + theHQL);
+	        listUserQuery = theQuery.list();
 	        if(listUserQuery != null  && listUserQuery.size() == 1){
 		        for(UserQuery uq: listUserQuery){
 		            return uq;
@@ -266,8 +272,8 @@ public class RembrandtListLoader extends ListLoader {
     public UserQuery saveSessionQueryBag(Long userId, SessionQueryBag queryBag, UserQuery userQuery){
     	if(userId != null   &&  queryBag != null){
 	        try {
-	        	        	
-				Session currentSession = sessionFactory.getCurrentSession(); 
+
+				Session currentSession = sessionFactory.getCurrentSession();
 				currentSession = sessionFactory.openSession();
 				Transaction transaction = currentSession.beginTransaction();
 				transaction = currentSession.beginTransaction();
@@ -281,7 +287,7 @@ public class RembrandtListLoader extends ListLoader {
 				currentSession.saveOrUpdate(userQuery);
 				transaction.commit();
 				currentSession.close();
-				
+
 			} catch (SerializationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -290,7 +296,7 @@ public class RembrandtListLoader extends ListLoader {
 				e.printStackTrace();
 			}
     	}
-    	
+
     	return userQuery;
     }
 
