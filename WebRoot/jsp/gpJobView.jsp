@@ -312,6 +312,15 @@ function turnOffLoadingMessage(){
        					sidebar, they have been moved to the Job results menu.
        				</td>
      			</tr>
+     			<tr>
+					<td>
+						<br/>
+       					To Visualize the data using IGV Viewer, please follow the steps below: <br/>
+       					1. Launch GenePattern application by clicking a GenePattern job above and download the GCT data locally. <br />
+       					2. Click 'High Order Analysis' TAB and click the 'Launch IGV Viewer' button. <br />
+       					3. This opens the IGV Viewer. Select 'File/Load From File' to select the local GCT file and visualize the data.
+       				</td>
+     			</tr>
      		</table>
 		</fieldset>
 <br /><br />
