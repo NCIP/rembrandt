@@ -1,5 +1,6 @@
 package gov.nih.nci.rembrandt.util;
 
+import gov.nih.nci.caintegrator.application.lists.ListItem;
 import gov.nih.nci.caintegrator.application.lists.ListLoader;
 import gov.nih.nci.caintegrator.application.lists.ListManager;
 import gov.nih.nci.caintegrator.application.lists.ListOrigin;
@@ -179,6 +180,11 @@ public class RembrandtListLoader extends ListLoader {
 					currentSession.saveOrUpdate(list);
 					transaction.commit();
 					currentSession.close();
+					
+					//for some reason listid is null. update after DB changes are complete.
+					for( ListItem li: list.getListItems()) {
+						li.setListId(list.getId());
+					}
 				} catch (HibernateException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

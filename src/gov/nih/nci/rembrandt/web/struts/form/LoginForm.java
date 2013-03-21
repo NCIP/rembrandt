@@ -134,12 +134,14 @@ public final class LoginForm extends ActionForm {
 		String token = request.getParameter("org.apache.struts.taglib.html.TOKEN");
 		
 		if( ( saved!= null && token != null && !saved.equals(token) ) || saved == null || token == null ) {
+			request.getSession().invalidate();
 			errors.add("invalidLogin", new ActionError(
 					"gov.nih.nci.nautilus.ui.struts.form.invalidLogin.error"));
 		}
 		
-		request.getSession().invalidate();
+		
 		if (credentials != null && credentials.authenticated()) {
+			request.getSession().invalidate();
 			userLoggedIn = true;
 			request.getSession().setAttribute(RembrandtConstants.USER_CREDENTIALS,credentials);
 		} else {
