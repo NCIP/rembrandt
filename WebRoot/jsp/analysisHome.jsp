@@ -29,10 +29,10 @@ gpHomeURL = gpHomeURL + "&target=new";
 				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Class Comparison Analysis" onclick="javascript:location.href='classcomparisonInit.do?method=setup';"></td></tr>				
 				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Principal Component Analysis (PCA)" onclick="javascript:location.href='principalcomponentInit.do?method=setup';"></td></tr>				
 				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Hierarchical Clustering Analysis" onclick="javascript:location.href='hierarchicalclusteringInit.do?method=setup';"></td></tr>			
-				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Integrative Genomics Viewer" onclick="javascript:location.href='igvintegrationInit.do?method=setup';"></td></tr>
+				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Send Data to IGV Viewer" onclick="javascript:location.href='igvintegrationInit.do?method=setup';"></td></tr>
+			    	<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Launch IGV Viewer" onclick="javascript:location.href='gpProcess.do?method=blankIgvViewer';"></td></tr>
 				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Send Data to GenePattern" onclick="javascript:location.href='gpintegrationInit.do?method=setup';"></td></tr>			
 			    <tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Launch GenePattern Application" onclick="window.open( '<%= gpHomeURL %>');"></td></tr>	
-			    <tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Launch IGV Viewer" onclick="javascript:location.href='gpProcess.do?method=blankIgvViewer';"></td></tr>		
 		</table>
 	</fieldset>
 </div>
