@@ -139,6 +139,8 @@ public class EditGEAction extends Action {
 			       cdForm.setQueryName(cdForm.getQueryName() + "_copy");
 
 		       editForward = "goEditGE";
+		       
+		       saveToken(request);
 			   
 			   return mapping.findForward(editForward);		
 		     }
