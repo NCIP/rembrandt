@@ -137,6 +137,8 @@ public class EditClinicalDataAction extends Action {
 			       cdForm.setQueryName(cdForm.getQueryName() + "_copy");
 			  
 			  editForward = "goEditClinical";
+			  
+			  saveToken(request);
 			   
 			   return mapping.findForward(editForward);		
 		     }

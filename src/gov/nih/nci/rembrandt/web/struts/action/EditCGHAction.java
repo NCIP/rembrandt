@@ -142,6 +142,8 @@ public class EditCGHAction extends Action {
 		    	   request.setAttribute("selectedView", "regionView");
 		       }
 		       
+		       saveToken(request);
+		       
 			   return mapping.findForward(editForward);		
 		     }
 
