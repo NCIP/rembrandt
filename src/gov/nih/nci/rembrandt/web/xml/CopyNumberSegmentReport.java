@@ -172,6 +172,15 @@ public class CopyNumberSegmentReport implements ReportGenerator {
 	        	 String tooltip = "Specimen = " + rows.get(0);
         	 
 				for(int i=1; i<rows.size(); i++)	{
+					switch (i) {
+					case 1: tooltip = "Specimen = " + rows.get(0) + " (Chr No.)"; break;
+					case 2: tooltip = "Specimen = " + rows.get(0) + " (Start Position)"; break;
+					case 3: tooltip = "Specimen = " + rows.get(0) + " (End Position)"; break;
+					case 4: tooltip = "Specimen = " + rows.get(0) + " (Number of Marks)"; break;
+					case 5: tooltip = "Specimen = " + rows.get(0) + " (Segment Mean)"; break;
+					default: tooltip = "Specimen = " + rows.get(0); break;
+					}
+
 					 cell = dataRow.addElement("Cell").addAttribute("type", "data").addAttribute("class", "data").addAttribute("group", "data");
 				        data = cell.addElement("Data").addAttribute("type", "data").addAttribute("datainfo", tooltip).addText(DEUtils.checkNull(rows.get(i)));
 		        		data = null;
