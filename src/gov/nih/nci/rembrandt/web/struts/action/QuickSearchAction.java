@@ -622,6 +622,63 @@ public class QuickSearchAction extends DispatchAction {
 		this.saveErrors(request, errors);
 		return mapping.findForward("mismatch");
 	}
+	
+	public ActionForward clinical2KmSearch(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		QuickSearchForm qsForm = (QuickSearchForm) form;
+		ActionErrors errors = new ActionErrors();
+		
+		// cleanup data - To prevent cross-site scripting
+		if( qsForm.getQuickSearchName() != null )
+			qsForm.setQuickSearchName(MoreStringUtils.cleanJavascriptAndSpecialChars(MoreStringUtils.specialCharacters, qsForm.getQuickSearchName()));
+		
+		if (!qsForm.getPlot().equals(CaIntegratorConstants.SAMPLE_KMPLOT) && qsForm.getQuickSearchType() != null
+				&& qsForm.getQuickSearchType().equals(
+						RembrandtConstants.GENE_SYMBOL)) {
+			errors = UIFormValidator.validateGeneSymbol(qsForm, errors);
+		}
+		if (errors.isEmpty()) {
+			String chartType = qsForm.getPlot();
+
+			if (chartType.equalsIgnoreCase("kapMaiPlotGE")) {
+				logger.debug("user requested geneExp kapMai w/ genesymbol");
+				request.setAttribute("quickSearchName", qsForm.getQuickSearchName());
+				request.setAttribute("quickSearchType", qsForm.getQuickSearchType());
+				request.setAttribute("plotType",CaIntegratorConstants.GENE_EXP_KMPLOT);
+				return mapping.findForward("kmplot");
+			}
+			if (chartType.equalsIgnoreCase("kapMaiPlotCN")) {
+				logger.debug("user rquested SNP kapMaiPlotCN");
+				request.setAttribute("quickSearchType", qsForm.getQuickSearchType());
+				request.setAttribute("quickSearchName", qsForm.getQuickSearchName());
+				request.setAttribute("plotType",CaIntegratorConstants.COPY_NUMBER_KMPLOT);
+				return mapping.findForward("kmplot");
+			}
+			if (chartType.equalsIgnoreCase(CaIntegratorConstants.SAMPLE_KMPLOT)) {
+				logger.debug("user rquested SNP kapMaiPlotCN");
+				request.setAttribute("quickSearchType", qsForm.getQuickSearchType());
+				request.setAttribute("quickSearchName", qsForm.getQuickSearchName());
+				request.setAttribute("quickSearchGroupName", qsForm.getGroupName());
+				request.setAttribute("quickSearchGroupNameCompare", qsForm.getGroupNameCompare());
+				request.setAttribute("plotType",CaIntegratorConstants.SAMPLE_KMPLOT);
+				return mapping.findForward("kmplot");
+			}
+			else if (chartType.equalsIgnoreCase("geneExpPlot")) {
+				try {
+					logger.debug("user has requested geneExpPlot");
+					return doGeneExpPlot(mapping, qsForm, request, response);
+				} catch (Exception e) {
+					logger.error("Gene Expression Plot Flopped");
+					logger.error(e);
+					return mapping.findForward("error");
+				}
+			}
+
+		}
+		this.saveErrors(request, errors);
+		return mapping.findForward("mismatch");
+	}
 
 	/**
 	 * @return Returns the kmResultsContainer.

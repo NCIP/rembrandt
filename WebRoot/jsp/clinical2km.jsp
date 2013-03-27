@@ -8,7 +8,7 @@
 
 <html>
 <body onload="document.getElementById('qsForm').submit();">
-<html:form action="/quickSearch.do?method=quickSearch" styleId="qsForm">  
+<html:form action="/quickSearch.do?method=clinical2KmSearch" styleId="qsForm">  
 <input type="hidden" name="plot" value="<%=CaIntegratorConstants.SAMPLE_KMPLOT%>" />
 <input type="hidden" name="groupName" value="SamplesFromClinicalReport"/>
 <input type="hidden" name="groupNameCompare" value=""/>
