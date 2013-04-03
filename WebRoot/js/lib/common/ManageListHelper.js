@@ -392,7 +392,8 @@
 			var todo = "<br/><b>Click a symbol listed and it will be added to the list creation tool above</b>";
 			$('gAliases').innerHTML = todo + "<br/>" + gas + "<br/>";
         		
-  			AliasLookup.processClick("");
+			// Don't add gene symbols automatically. commented the following line.
+			//AliasLookup.processClick("");
     		$('commaAliasGenes').style.border= "1px solid #AB0303";
        		$('gAliases').show();
        		$("aliasIndic").hide();
