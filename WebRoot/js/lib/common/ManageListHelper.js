@@ -416,12 +416,18 @@
 		},
 		'processClick' : function(g)	{
 			//add e to the line delim list in the manual add
+			geneArray = new Array();
+			if($('typeListIds').value != null && $('typeListIds').value.length > 0 ) {
+				geneArray = $('typeListIds').value.split('\n');
+			}
+			
 			if(g!="")	{
 				geneArray.push(g.strip());
 			}
 			geneArray = geneArray.compact();
 			geneArray = geneArray.uniq();
 			
+			geneEnteredArray = new Array();
 			geneEnteredArray = geneEnteredArray.concat(geneArray);
 			geneEnteredArray = geneEnteredArray.compact();
 			geneEnteredArray = geneEnteredArray.uniq();
