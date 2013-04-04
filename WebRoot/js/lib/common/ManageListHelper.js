@@ -392,7 +392,8 @@
 			var todo = "<br/><b>Click a symbol listed and it will be added to the list creation tool above</b>";
 			$('gAliases').innerHTML = todo + "<br/>" + gas + "<br/>";
         		
-  			AliasLookup.processClick("");
+			// Don't add gene symbols automatically. commented the following line.
+			//AliasLookup.processClick("");
     		$('commaAliasGenes').style.border= "1px solid #AB0303";
        		$('gAliases').show();
        		$("aliasIndic").hide();
@@ -415,12 +416,18 @@
 		},
 		'processClick' : function(g)	{
 			//add e to the line delim list in the manual add
+			geneArray = new Array();
+			if($('typeListIds').value != null && $('typeListIds').value.length > 0 ) {
+				geneArray = $('typeListIds').value.split('\n');
+			}
+			
 			if(g!="")	{
 				geneArray.push(g.strip());
 			}
 			geneArray = geneArray.compact();
 			geneArray = geneArray.uniq();
 			
+			geneEnteredArray = new Array();
 			geneEnteredArray = geneEnteredArray.concat(geneArray);
 			geneEnteredArray = geneEnteredArray.compact();
 			geneEnteredArray = geneEnteredArray.uniq();
