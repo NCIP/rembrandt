@@ -18,6 +18,13 @@
          <bind-xml name="institutions" />
       </field>
    </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.CloneOrProbeIDCriteria">
+      <field name="Identifiers"
+	         type="gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE"
+	         collection="arraylist">
+         <bind-xml name="identifiers" />
+      </field>
+   </class>
    <class name="gov.nih.nci.caintegrator.dto.de.InstitutionDE">
       <field name="InstituteName" type="java.lang.String">
          <bind-xml name="instituteName" />

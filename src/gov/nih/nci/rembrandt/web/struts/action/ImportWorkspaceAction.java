@@ -7,6 +7,7 @@ import gov.nih.nci.caintegrator.application.workspace.WorkspaceList;
 import gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.CopyNumberDE;
 import gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE;
+import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.GeneOntologyDE;
 import gov.nih.nci.caintegrator.dto.de.PathwayDE;
 import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
@@ -22,6 +23,7 @@ import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.ajax.WorkspaceHelper;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+import gov.nih.nci.rembrandt.web.helper.ChromosomeHelper;
 import gov.nih.nci.rembrandt.web.struts.form.ClinicalDataForm;
 import gov.nih.nci.rembrandt.web.struts.form.ComparativeGenomicForm;
 import gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm;
@@ -366,7 +368,22 @@ public class ImportWorkspaceAction extends Action{
 		if ( ! geneExpQuery.isAllGenesQuery() ) {
 			geneExpressionForm.setGeneIDCriteria( geneExpQuery.getGeneIDCrit() );
 			geneExpressionForm.getAllGenesCriteria().setAllGenes( false );
-			geneExpressionForm.setGeneList( geneExpQuery.getGeneIDCrit().getGeneIdentifiers() );
+			
+			if( geneExpQuery.getGeneIDCrit() != null ) {
+				geneExpressionForm.setGeneList( geneExpQuery.getGeneIDCrit().getGeneIdentifiers() );
+				
+				if( geneExpQuery.getGeneIDCrit().getGeneIdentifiers() != null && geneExpQuery.getGeneIDCrit().getGeneIdentifiers().size() > 0){
+					ArrayList geneIds = (ArrayList)geneExpQuery.getGeneIDCrit().getGeneIdentifiers();
+					String geneIdType = ((GeneIdentifierDE)geneIds.get(0)).getGeneIDType();
+					if ( geneIdType.equals("LocusLink"))
+						geneExpressionForm.setGeneType("genelocus");
+					else if ( geneIdType.equals("GenBankAccessionNumber"))
+						geneExpressionForm.setGeneType("genbankno");
+					else
+						geneExpressionForm.setGeneType("genesymbol");
+				}
+				
+			}
 		}
 		else
 			geneExpressionForm.getAllGenesCriteria().setAllGenes( true );
@@ -395,17 +412,20 @@ public class ImportWorkspaceAction extends Action{
 		
 		if ( geneExpQuery.getCloneOrProbeIDCriteria() != null ) {
 			Iterator iterator = geneExpQuery.getCloneOrProbeIDCriteria().getIdentifiers().iterator();
+			StringBuffer cloneListSpecify = new StringBuffer();
 			while ( iterator.hasNext() ) {
 				CloneIdentifierDE cde = (CloneIdentifierDE)iterator.next();
 				
 				if ( cde.getCloneIDType().equals(CloneIdentifierDE.IMAGE_CLONE )) {
-					geneExpressionForm.setCloneList( "IMAGE Id");
+					geneExpressionForm.setCloneList( "imageId");
 				}
 				else if ( cde.getCloneIDType().equals(CloneIdentifierDE.PROBE_SET )) {
-					geneExpressionForm.setCloneList( "Probe Set Id");
+					geneExpressionForm.setCloneList( "probeSetId");
 				}
-				geneExpressionForm.setCloneListSpecify(cde.getValueObject());
+				cloneListSpecify.append(cde.getValueObject() + ",");
 			}
+			geneExpressionForm.setCloneId("list");
+			geneExpressionForm.setCloneListSpecify(cloneListSpecify.toString().substring(0,cloneListSpecify.toString().length()-1));
 		}
 			
 		
@@ -440,6 +460,10 @@ public class ImportWorkspaceAction extends Action{
 		geneExpressionForm.setArrayPlatform( (String)geneExpQuery.getArrayPlatformCriteria().getPlatform().getValue() );
 		
 		if( geneExpQuery.getRegionCrit() != null ) {
+			if(geneExpressionForm.getChromosomes()==null||geneExpressionForm.getChromosomes().isEmpty()) {
+				geneExpressionForm.setChromosomes(ChromosomeHelper.getInstance().getChromosomes());
+			}
+
 			geneExpressionForm.setChromosomeNumber( geneExpQuery.getRegionCrit().getChromNumber() );
 			geneExpressionForm.setCytobandRegionStart( geneExpQuery.getRegionCrit().getStartCytoband() );
 			geneExpressionForm.setCytobandRegionEnd( geneExpQuery.getRegionCrit().getEndCytoband() );
@@ -478,7 +502,8 @@ public class ImportWorkspaceAction extends Action{
 		if ( ! cghQuery.isAllGenesQuery() ) {
 			comparativeGenomicForm.setGeneIDCriteria( cghQuery.getGeneIDCriteria() );
 			comparativeGenomicForm.getAllGenesCriteria().setAllGenes( false );
-			comparativeGenomicForm.setGeneList( cghQuery.getGeneIDCriteria().getGeneIdentifiers() );
+			if( cghQuery.getGeneIDCriteria() != null )
+				comparativeGenomicForm.setGeneList( cghQuery.getGeneIDCriteria().getGeneIdentifiers() );
 		}
 		else
 			comparativeGenomicForm.getAllGenesCriteria().setAllGenes( true );
@@ -505,6 +530,12 @@ public class ImportWorkspaceAction extends Action{
 		comparativeGenomicForm.setRegionCriteria(cghQuery.getRegionCriteria());
 		
 		if( cghQuery.getRegionCriteria() != null ) {
+			comparativeGenomicForm.setGeneRegionView("regionView");
+			
+			if(comparativeGenomicForm.getChromosomes()==null||comparativeGenomicForm.getChromosomes().isEmpty()) {
+				comparativeGenomicForm.setChromosomes(ChromosomeHelper.getInstance().getChromosomes());
+			}
+			
 			comparativeGenomicForm.setRegion(cghQuery.getRegionCriteria().getRegion() );
 			comparativeGenomicForm.setChromosomeNumber( cghQuery.getRegionCriteria().getChromNumber() );
 			comparativeGenomicForm.setCytobandRegionStart( cghQuery.getRegionCriteria().getStartCytoband() );

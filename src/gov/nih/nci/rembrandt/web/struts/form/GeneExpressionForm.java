@@ -521,10 +521,10 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 		StringBuffer geneBuffer = new StringBuffer();
 		
 		for( GeneIdentifierDE ge :  geneIdentifiers ) {
-			geneBuffer.append( ge.getValueObject() );
+			geneBuffer.append( ge.getValueObject() + "," );
 		}
 			
-			this.geneList = geneBuffer.toString();
+			this.geneList = geneBuffer.toString().substring(0,geneBuffer.toString().length()-1);
 	}
 	/**
 	 * Set the geneList.
@@ -1732,5 +1732,10 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 		this.excludeResections = excludeResections;
 	}
 
-
+	public void setUpGeneAndCloneList(ActionMapping mapping, HttpServletRequest request) {
+		GroupRetriever groupRetriever = new GroupRetriever();
+	    savedGeneList = groupRetriever.getGeneGroupsCollection(request.getSession());
+	    savedCloneList = groupRetriever.getCloneGroupsCollection(request.getSession());
+	}
+	
 }

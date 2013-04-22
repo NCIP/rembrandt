@@ -5,6 +5,7 @@ import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
+import gov.nih.nci.rembrandt.web.helper.ChromosomeHelper;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 import gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm;
 
@@ -115,6 +116,7 @@ public class EditGEAction extends Action {
 			       GeneExpressionForm origCdForm = (GeneExpressionForm) queryBag.getFormBeanMap().get(queryKey); 
 				  try {
                     //try this, else call each setter
+					 cdForm.setUpGeneAndCloneList(mapping, request);
                      PropertyUtils.copyProperties(cdForm, origCdForm);
                 } catch (IllegalAccessException e) {
                     // TODO Auto-generated catch block
@@ -137,7 +139,13 @@ public class EditGEAction extends Action {
                String editForward = "";
 			   if(request.getAttribute("copy")!=null && ((String) request.getAttribute("copy")).equals("true"))
 			       cdForm.setQueryName(cdForm.getQueryName() + "_copy");
-
+			   
+				if(cdForm.getChromosomes()==null||cdForm.getChromosomes().isEmpty()) {
+					//set the chromsomes list in the form 
+					logger.debug("Setup the chromosome values for the form");
+					cdForm.setChromosomes(ChromosomeHelper.getInstance().getChromosomes());
+				}
+				
 		       editForward = "goEditGE";
 		       
 		       saveToken(request);
