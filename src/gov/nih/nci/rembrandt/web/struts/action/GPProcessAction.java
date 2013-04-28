@@ -289,8 +289,7 @@ public class GPProcessAction extends DispatchAction {
 		String fileName2 = gpserverURL + "gp/jobResults/" + jobNumber + "/" + gpTask.getResultName() + ".cls";
 
 		par[0] = new Parameter("VariationFiltering1.input.filename", fileName1);
-		//par[1] = new Parameter("SplitDatasetTrainTest2.cls.file", fileName2);
-		par[1] = new Parameter("SplitDatasetTrainTest2.cls.input.filename", fileName2);
+		par[1] = new Parameter("SplitDatasetTrainTest2.cls.file", fileName2);
 
 		runGenePattern(request, KNN_PIPELINE, par, gpTask);
         return mapping.findForward("viewJob");
