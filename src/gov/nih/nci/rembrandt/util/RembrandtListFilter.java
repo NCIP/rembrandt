@@ -28,8 +28,8 @@ public class RembrandtListFilter {
 			//list the reporter subtypes here and return them
 			lsta.add(ListSubType.AFFY_HGU133PLUS2_PROBE_SET);
 			lsta.add(ListSubType.IMAGE_CLONE);
-			lsta.add(ListSubType.DBSNP);
-			lsta.add(ListSubType.AFFY_100K_SNP_PROBE_SET);
+//			lsta.add(ListSubType.DBSNP);
+//			lsta.add(ListSubType.AFFY_100K_SNP_PROBE_SET);
 		}
 		else if(lt == ListType.Gene){
 			//ListSubType[] lsta = {ListSubType.GENBANK_ACCESSION_NUMBER, ListSubType.GENESYMBOL, ListSubType.LOCUS_LINK};

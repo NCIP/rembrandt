@@ -18,6 +18,8 @@
                <password>dev!234</password>
                <driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
                <exception-sorter-class-name>org.jboss.resource.adapter.jdbc.vendor.OracleExceptionSorter</exception-sorter-class-name>
+               <min-pool-size>5</min-pool-size>
+      		   <max-pool-size>100</max-pool-size>
    </local-tx-datasource>
    
    <local-tx-datasource>
@@ -27,6 +29,8 @@
                <password>dev!234</password>
                <driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
                <exception-sorter-class-name>org.jboss.resource.adapter.jdbc.vendor.OracleExceptionSorter</exception-sorter-class-name>
+               <min-pool-size>5</min-pool-size>
+      		   <max-pool-size>100</max-pool-size>
    </local-tx-datasource>
 </datasources>
 

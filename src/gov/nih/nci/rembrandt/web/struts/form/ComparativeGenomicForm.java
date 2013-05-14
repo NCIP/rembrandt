@@ -475,7 +475,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
     public void reset(ActionMapping mapping, HttpServletRequest request) {
     	
     	GroupRetriever groupRetriever = new GroupRetriever();
-	    savedGeneList = groupRetriever.getGeneGroupsCollection(request.getSession());
+	    savedGeneList = groupRetriever.getGeneGroupsSubTypeCollection(request.getSession());
 	    savedSnpList = groupRetriever.getSnpGroupsCollection(request.getSession());
 	    
         geneList = "";

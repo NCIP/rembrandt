@@ -23,6 +23,7 @@ int cghQueryNum = 0;
 String cghQueryString = "0";
 String sessionId = request.getSession().getId();
 SessionQueryBag queryCollection = presentationTierCache.getSessionQueryBag(sessionId);
+request.getSession().setAttribute("currentPage", "0");
 if(queryCollection == null){
    logger.debug("its null");
 }else{

@@ -72,6 +72,7 @@ function addLoadEvent(func) {
 	<script type="text/javascript">Help.insertHelp("Manage_lists_overview", " align='right'", "padding:2px;");</script><br clear="left"/>
 
 <%
+	request.getSession().setAttribute("currentPage", "0");
 	ListType[] lts = ListType.values();
 	for(int i=0; i<lts.length; i++)	{
 		String label = lts[i].toString();

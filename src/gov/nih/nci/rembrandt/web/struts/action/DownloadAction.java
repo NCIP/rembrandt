@@ -212,7 +212,8 @@ public class DownloadAction extends DispatchAction {
         futureTaskMap.put(taskId,future);
         request.getSession().setAttribute("FutureTaskMap",futureTaskMap);
         resetToken(request);
-
+        
+        saveToken(request);
 		return  mapping.findForward("success");
 	}
 	public ActionForward download(

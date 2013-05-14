@@ -65,6 +65,19 @@ public class GroupRetriever {
     
     }
     
+    public List<LabelValueBean> getGeneGroupsSubTypeCollection(HttpSession session){
+        UserListBeanHelper helper = new UserListBeanHelper(session);
+        List<UserList> geneLists = helper.getLists(ListType.Gene, ListSubType.GENESYMBOL);
+        
+        for(UserList geneList: geneLists){
+            geneGroupsCollection.add(new LabelValueBean(geneList.getName(),geneList.getName()));
+            
+        }
+        return geneGroupsCollection;
+    
+    }
+
+    
     public List<LabelValueBean> getCloneGroupsCollection(HttpSession session){
         UserListBeanHelper helper = new UserListBeanHelper(session);
         List<ListSubType> lst = new ArrayList();
