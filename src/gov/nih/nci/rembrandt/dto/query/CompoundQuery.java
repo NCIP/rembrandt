@@ -118,7 +118,7 @@ public class CompoundQuery implements Queriable, Serializable, Cloneable {
 	// Session that this compoundQuery is associated with
 	private String sessionId = null;
 	
-	private final String TOKEN = "@$%&***-!!";
+	private final String TOKEN = "@$%&***!!";
 
 	public CompoundQuery(OperatorType operator, Queriable leftQuery,
 			Queriable rightQuery) throws Exception {
