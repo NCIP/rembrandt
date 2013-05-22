@@ -733,6 +733,36 @@ public class ReportGeneratorHelper {
 		}
 	}
 	
+	public static void renderReportWithParams(HttpServletRequest request, Document reportXMLParam, String xsltFilename, 
+			JspWriter out, HashMap<String, String> params) {
+		File styleSheet = new File(RembrandtContextListener.getContextPath()+"/XSL/"+xsltFilename);
+		// load the transformer using JAX
+		logger.debug("Applying XSLT with paging "+xsltFilename);
+        Transformer transformer;
+        Document reportXML;
+		try {
+			if (reportXMLParam != null) 
+				reportXML = reportXMLParam;
+			else
+				reportXML = (Document)request.getSession().getAttribute(RembrandtConstants.SESSION_ATTR_PATHWAY_XML);
+			
+			transformer = new Transformer(styleSheet, params);
+			Document transformedDoc = transformer.transform(reportXML);
+
+			OutputFormat format = OutputFormat.createPrettyPrint();
+			XMLWriter writer;
+			writer = new XMLWriter(out, format );	            
+			writer.write( transformedDoc);
+	        
+		}catch (UnsupportedEncodingException uee) {
+			logger.error("UnsupportedEncodingException");
+			logger.error(uee);
+		}catch (IOException ioe) {
+			logger.error("IOException");
+			logger.error(ioe);
+		}
+	}
+	
 	
 	public static String renderReport(Map params, Document reportXML, String xsltFilename) {
 		//used only for finding based AJAX
