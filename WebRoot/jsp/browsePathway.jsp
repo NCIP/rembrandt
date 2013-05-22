@@ -90,21 +90,22 @@ response.setHeader("Cache-Control","no-store"); //HTTP 1.1
   try{  
   		
   	String s = System.getProperty("gov.nih.nci.rembrandt.cacore.url")!=null ? (String)System.getProperty("gov.nih.nci.rembrandt.cacore.url") : "http://cabioapi.nci.nih.gov/cabio42";
-     URL url = new URL(s+"/GetXML?query=Pathway&Taxon[@abbreviation=Hs]&startIndex=0&pageSize=1000");  
-   
-     String urlLink = (String)request.getParameter("url");      
-     if(urlLink != null && urlLink.equals("next")){
-        url = new URL(s+"/GetXML?query=Pathway&Taxon[@abbreviation=Hs]&pageNumber=2&pageSize=1000&startIndex=1000"); 
-      }
-     else if(urlLink != null && urlLink.equals("previous")){
-        url = new URL(s+"/GetXML?query=Pathway&Taxon[@abbreviation=Hs]&pageNumber=2&pageSize=1000&startIndex=0"); 
-      }
-    SAXReader reader = new SAXReader();    
-    Document reportXML = reader.read(url);  
-    ReportGeneratorHelper.renderReport(request,reportXML,RembrandtConstants.DEFAULT_PATHWAY_XSLT_FILENAME,out);
+    URL url = new URL(s+"/biodbnetRestApi.xml?pathways=biocarta,ncipid,reactome&taxonId=9606");
+    String pageNum = (String)request.getParameter("page"); 
+    Document reportXML = null;
+    SAXReader reader = new SAXReader();
+    if (pageNum == null || pageNum.length() == 0) {
+    	reportXML = reader.read(url);  
+    	request.getSession().setAttribute(RembrandtConstants.SESSION_ATTR_PATHWAY_XML, reportXML);
+    	pageNum = "0";
+    }
+    HashMap<String, String> params = new HashMap<String, String>();
+    params.put("page", pageNum);
+    ReportGeneratorHelper.renderReportWithParams(request, null, RembrandtConstants.DEFAULT_PATHWAY_XSLT_FILENAME,out, params);
+                          
     }
     catch(Exception e){
-    	out.println("The Pathway Service is currently Unavailable.  Please try again later.");
+    	out.println("The Pathway Service is currently Unavailable.  Please try again later. ");
     }  	
  	
   	%>
