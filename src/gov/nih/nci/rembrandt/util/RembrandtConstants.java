@@ -98,11 +98,13 @@ public final class RembrandtConstants {
 	
 	public static final String DEFAULT_XSLT_FILENAME ="report.xsl";
 	
-	public static final String DEFAULT_PATHWAY_XSLT_FILENAME ="pathwayFormat.xsl";
+	public static final String DEFAULT_PATHWAY_XSLT_FILENAME = "pathwayFormatBiodbnet.xsl";
+	
+	public static final String SESSION_ATTR_PATHWAY_XML = "PathwayXml";
 	
 	public static final String DEFAULT_PATHWAY_DESC_XSLT_FILENAME ="pathwayDescFormat.xsl";
 	
-	public static final String DEFAULT_GENE_XSLT_FILENAME ="geneFormat.xsl";	
+	public static final String DEFAULT_GENE_XSLT_FILENAME = "geneFormatBiodbnet.xsl";	
 	
 	public static final String DEFAULT_XSLT_CSV_FILENAME ="csv.xsl";
 	
