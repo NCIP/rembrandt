@@ -54,22 +54,24 @@ org.dom4j.Document,org.dom4j.io.SAXReader,org.dom4j.io.XMLWriter,org.dom4j.io.Ou
     String pathwayName = (String)request.getParameter("name");  
     String pathwayDisplayName = (String)request.getParameter("displayname"); 
     String s = System.getProperty("gov.nih.nci.rembrandt.cacore.url")!=null ? (String)System.getProperty("gov.nih.nci.rembrandt.cacore.url") : "http://cabioapi.nci.nih.gov/cabio43";   
-    URL url = new URL(s+"/biodbnetRestApi.xml?input="+db+"pathwayname&inputValues=" + pathwayName + "&outputs=geneinfo," + db + "pathwaydescription&taxonId=9606");   
-     
+    String urlStr = s+"/biodbnetRestApi.xml?input="+db+"pathwayname&inputValues=" + pathwayName + "&outputs=geneinfo," + db;
+    if (db.equalsIgnoreCase("ncipid"))
+    	urlStr += "pathwaytitle&taxonId=9606";
+    else
+    	urlStr += "pathwaydescription&taxonId=9606";
+    
+    URL url = new URL(urlStr);
     SAXReader reader = new SAXReader();    
     Document reportXML = reader.read(url);
-    if (reportXML == null) {
-    	out.println(url.toString());
-    	out.println(url.toURI());
-    } else {
-    	HashMap<String, String> params = new HashMap<String, String>();
-    	params.put("displayName", pathwayDisplayName);
-    	ReportGeneratorHelper.renderReportWithParams(request,reportXML,RembrandtConstants.DEFAULT_GENE_XSLT_FILENAME,out, params);
-     }
+    
+    HashMap<String, String> params = new HashMap<String, String>();
+    params.put("displayName", pathwayDisplayName);
+    ReportGeneratorHelper.renderReportWithParams(request,reportXML,RembrandtConstants.DEFAULT_GENE_XSLT_FILENAME,out, params);
+    
    
     }
     catch(Exception e){
-     out.println(e.toString());
+     
     }			
   	
  	
