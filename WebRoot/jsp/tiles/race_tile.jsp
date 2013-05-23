@@ -2,11 +2,11 @@
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ page import="gov.nih.nci.rembrandt.util.RaceType" %>
 <%
-	String act = request.getParameter("act");
+	String act = request.getParameter("act") + "_Race_tooltip";
 %>
 <fieldset class="gray">
 <legend class="red">Race
-	<a href="javascript: Help.popHelp('<%=act%>_Race_tooltip');">[?]</a>    
+	<app:cshelp topic="<%=act%>" text="[?]"/>
 
 </legend>
 

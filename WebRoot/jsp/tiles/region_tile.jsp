@@ -6,11 +6,11 @@
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <fieldset class="gray">
 <%
-	String act = request.getParameter("act");
+	String act = request.getParameter("act") + "_Region_tooltip";
 
 %>
 <legend class="red">Region
-<a href="javascript: Help.popHelp('<%=act%>_Region_tooltip');">[?]</a> 
+<app:cshelp topic="<%=act%>" text="[?]"/> 
 <!--<app:help help="Specify the chromosomal region of interest.  " />-->
 </legend>
 

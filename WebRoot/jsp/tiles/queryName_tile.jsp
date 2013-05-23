@@ -13,7 +13,7 @@
 <label for="queryName"><bean:message key="queryName.label"/></label>
 <b class="req">*</b>
 <%
- String act = request.getParameter("act");
+ String act = request.getParameter("act") + "_Query_tooltip";
  RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
  String format = "H:mm:ss";
  Date today = new Date();
@@ -22,7 +22,7 @@
 %>
 <!-- <a href="javascript:void(0);" onmouseover="return overlib('<bean:message key="queryName.help"/>', CAPTION, 'Help');" onmouseout="return nd();">[?]</a> -->
 <!-- <app:help help="Enter a unique name for the query." />-->
-<a href="javascript: Help.popHelp('<%=act%>_Query_tooltip');">[?]</a> 
+<app:cshelp topic="<%=act%>" text="[?]"/>
 </legend>
 
 <br>

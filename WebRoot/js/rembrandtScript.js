@@ -418,3 +418,8 @@ function spawnNewPage(url,winw,winh) {
   	",scrollbars=yes,resizable=yes, fullscreen=no");
 }
 
+function openHelpWindow(pageURL) {
+	window.open(pageURL, "Help", "alwaysRaised,dependent,status,scrollbars,resizable,width=800,height=500");
+}
+
+

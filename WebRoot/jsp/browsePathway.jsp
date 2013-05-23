@@ -1,5 +1,6 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ page import="java.util.*, java.lang.*, java.io.*,java.net.*,javax.xml.parsers.*" %> 
  <%@ page import="
 gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper,
@@ -69,7 +70,7 @@ response.setHeader("Cache-Control","no-store"); //HTTP 1.1
  
  <div>
  	<b>Browse Pathway - Name</b>
- 	<script type="text/javascript">Help.insertHelp("Browse_pathway", " align='right'", "padding:2px;", "../");</script>
+ 	<app:cshelp topic="Browse_pathway" />
  </div>
 
 <html:form method="post" action="geneexpression.do">

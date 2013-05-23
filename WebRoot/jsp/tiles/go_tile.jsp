@@ -1,12 +1,12 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%
-	String act = request.getParameter("act");
+	String act = request.getParameter("act") + "_Go_tooltip";
 %>
 <fieldset class="gray">
 <legend class="red">Gene Ontology (GO) Classifications
 <!-- <app:help help="Enter or browse for GO IDs."/>-->
-<a href="javascript: Help.popHelp('<%=act%>_Go_tooltip');">[?]</a>  
+<app:cshelp topic="<%=act%>" text="[?]"/>
 </legend>
 
 <script>

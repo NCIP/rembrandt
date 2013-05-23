@@ -43,6 +43,7 @@
 		<script type='text/javascript' src='/rembrandt/dwr/interface/DynamicReport.js'></script>
 		<script type='text/javascript' src='/rembrandt/dwr/engine.js'></script>
 		<script type='text/javascript' src='/rembrandt/dwr/util.js'></script>
+		<script language="JavaScript" type="text/javascript" src="js/rembrandtScript.js"></script>
 		
 		<LINK href="XSL/css.css" rel="stylesheet" type="text/css" />
 		<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE" />
@@ -66,7 +67,7 @@
 	</fieldset><br/>
 	-->
 	<xsl:variable name="reportMsg" select="@msg" />
-	<xsl:variable name="helpLink" select="@reportType" />
+	<xsl:variable name="helpLink" select="@helpLink" />
 	<xsl:variable name="colCount" select="count(Row[2]/Cell)" />
 	<xsl:variable name="recordCount" select="count(Row[@name='dataRow'])" />
 	
@@ -78,7 +79,7 @@
     <span style="z-index:900; float:right;position:absolute;top:10px;right:10px;">
 	  <!-- navigation icons courtesy of:  Anthony J. Brutico, D.O. -->
 	  <a href="#" onclick="javascript:window.close();" title="Close this report."><img alt="Close" align="right" src="images/close.png" border="0" /> </a> 
-	  <a href="javascript: HelpWrapper('{$helpLink}');" title="Click here for additional information about this report."><img alt="Help" align="right" src="images/help.png" border="0"  /></a>
+	  <a href="javascript:openHelpWindow('{$helpLink}');" title="Click here for additional information about this report."><img alt="Help" align="right" src="images/help.png" border="0"  /></a>
 	  <a href="#" onclick="javascript:stupidXSLEscape('{$qName}', '{$rType}')" title="Download for Excel."><img align="right" src="images/excel.png" border="0" alt="download for excel" /></a>
 	  <a href="#" onclick="javascript:window.print();" title="Print this report."><img alt="Print" align="right" src="images/print.png" border="0" /> </a> 
 	  <a href="#queryInfo" title="View Query Information."><img alt="View Query Info" align="right" src="images/text.png" border="0" /></a>

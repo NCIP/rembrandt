@@ -30,7 +30,7 @@ function confirmExit()
 <br clear="both"/>
 <fieldset id="organizeFS">
 <legend>Organize Workspace:</legend>
-			<script type="text/javascript">Help.insertHelp("organize_lists_help", " align='right'", "padding:2px;");</script><br clear="left"/>
+			<app:cshelp topic="organize_lists_help" /><br clear="left"/>
 
 <table border="0" cellpadding="10" cellspacing="3" summary="This table is used to format page content">
 	<tbody>

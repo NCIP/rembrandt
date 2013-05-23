@@ -101,7 +101,7 @@ String param = request.getParameter("s");
   	 }	
   	String strIncFile = "";
   	%>
-    <script type="text/javascript">Help.convertHelp("<%=act%>", " align='right'", "float:right;padding:2px;");</script>
+    <app:cshelp topic="<%=act%>" style=""float:right;padding:2px;" />
 
 	<c:choose> 
 	  	<c:when test="${requestScope.selectedView == 'regionView'}">

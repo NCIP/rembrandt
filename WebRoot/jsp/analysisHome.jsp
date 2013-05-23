@@ -2,6 +2,7 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ page import="java.util.*"%>
 <%@ page import="gov.nih.nci.caintegrator.application.analysis.gp.GenePatternIntegrationHelper" %>
 	 
@@ -23,7 +24,7 @@ gpHomeURL = gpHomeURL + "&target=new";
 		<legend>High Order Analysis:</legend>
 		<br clear="both"/>
 		<html:errors property="org.apache.struts.action.GLOBAL_ERROR"/>
-		<script type="text/javascript">Help.insertHelp("HOA_overview", " align='right'", "padding:2px;");</script>
+		<app:cshelp topic="HOA_overview" />
 		
 			<table border="0" cellpadding="10" cellspacing="3">
 				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Class Comparison Analysis" onclick="javascript:location.href='classcomparisonInit.do?method=setup';"></td></tr>				

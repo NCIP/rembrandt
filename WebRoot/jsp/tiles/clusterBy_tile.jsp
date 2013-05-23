@@ -3,13 +3,13 @@
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ page import="gov.nih.nci.caintegrator.dto.critieria.Constants"%>
 <%
-	String act = request.getParameter("act");
+	String act = request.getParameter("act") + "_Clusterby_tooltip";
 %>
 <fieldset class="gray">
 <legend class="red">
 Step 3: Cluster By
 <!-- <app:help help="Cluster by Samples or Genes."/>-->
-<a href="javascript: Help.popHelp('<%=act%>_Clusterby_tooltip');">[?]</a>    
+<app:cshelp topic="<%=act%>" text="[?]"/> 
 
 </legend>
 	

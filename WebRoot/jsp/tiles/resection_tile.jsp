@@ -1,7 +1,7 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%
-	String act = request.getParameter("act");
+	String act = request.getParameter("act") + "_excludeResections_tooltip";
 %>
 
 
@@ -9,7 +9,7 @@
 <fieldset class="gray">
 <legend class="red">Re-Resection Tumor Samples:
 
- <a href="javascript: Help.popHelp('<%=act%>_excludeResections_tooltip');">[?]</a>
+<app:cshelp topic="<%=act%>" text="[?]"/>
 
 </legend><br />
 

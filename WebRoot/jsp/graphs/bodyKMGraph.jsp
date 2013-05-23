@@ -4,6 +4,7 @@
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>
 <%@taglib uri='/WEB-INF/caintegrator-graphing.tld' prefix='graphing' %>
+<%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ page import="java.util.*" %>
 <%@ page import="gov.nih.nci.rembrandt.util.*" %>
 
@@ -37,7 +38,7 @@
 	
 	String baselineGroup = request.getParameter("baselineGroup")!=null ? (String)request.getParameter("baselineGroup") : "";
 	baselineGroup = MoreStringUtils.cleanJavascriptAndSpecialChars(MoreStringUtils.specialCharacters, baselineGroup);
-%><script type="text/javascript">Help.insertHelp("<%=ta%>", " align='right'", "padding:2px;");</script><br clear="all"/>
+%><app:cshelp topic="<%=ta%>" /><br clear="all"/>
    
 </div>
 

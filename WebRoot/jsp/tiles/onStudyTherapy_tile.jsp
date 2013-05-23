@@ -8,7 +8,7 @@
 <fieldset class="gray">
 <legend class="red">OnStudy Therapy
 <!-- <app:help help="Specify the therapy received after enrollment the current study"/>-->
-<a href="javascript: Help.popHelp('clinical_Onstudy_tooltip');">[?]</a>    
+<app:cshelp topic="clinical_Onstudy_tooltip" text="[?]"/>   
 </legend><br />	
 <html:checkbox styleId="onStudyRadiation" styleClass="radio" property="onStudyRadiation"  value="Specify"/><label for="onStudyRadiation">Radiation&nbsp;&nbsp;</label>
 <label for="onStudyRadiationType">&nbsp;&nbsp;&nbsp;&nbsp;- radiation type:&nbsp;</label>

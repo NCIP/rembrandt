@@ -119,5 +119,50 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
+	<tag> 
+       <name>cshelp</name> 
+       <tagclass>gov.nih.nci.rembrandt.util.ContextSensitiveHelpTag</tagclass>
+       <info></info>
+       <attribute>
+           <name>key</name>
+           <required>false</required>
+       </attribute>
+       
+       <attribute>
+           <name>image</name>
+           <required>false</required>
+       </attribute>
+       
+       <attribute>
+           <name>text</name>
+           <required>false</required>
+       </attribute>
+       
+       <attribute>
+           <name>topic</name>
+           <required>false</required>
+           <rtexprvalue>true</rtexprvalue>
+       </attribute>       
+       
+       <attribute>
+           <name>href</name>
+           <required>false</required>
+       </attribute>
+       
+       <attribute>
+           <name>bundle</name>
+           <required>false</required>
+       </attribute>
+       
+       <attribute>
+         <name>styleClass</name>
+         <required>false</required>
+      </attribute>
+      
+      <attribute>
+         <name>style</name>
+         <required>false</required>
+      </attribute>
+   </tag>
 </taglib>
 

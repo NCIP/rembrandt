@@ -7,6 +7,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.CopyNumberSegment
 import gov.nih.nci.rembrandt.queryservice.resultset.copynumber.SampleCopyNumberValuesResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.sample.SampleViewResultsContainer;
+import gov.nih.nci.rembrandt.util.ContextSensitiveHelpTag;
 import gov.nih.nci.rembrandt.util.DEUtils;
 
 import java.text.DecimalFormat;
@@ -115,6 +116,7 @@ public class CopyNumberSegmentReport implements ReportGenerator {
 			Element dataRow = null;
 			//add the atts
 	        report.addAttribute("reportType", "Copy Number");
+	        report.addAttribute("helpLink", ContextSensitiveHelpTag.getHelpLink("Copy Number"));
 	        //fudge these for now
 	        report.addAttribute("groupBy", "none");
 	        String queryName = resultant.getAssociatedQuery().getQueryName();

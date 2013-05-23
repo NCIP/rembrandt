@@ -4,6 +4,7 @@
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/struts-nested.tld" prefix="nested" %>
+<%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ page import="gov.nih.nci.caintegrator.dto.critieria.Constants"%>
 <%@ page import="gov.nih.nci.rembrandt.download.caarray.RembrandtCaArrayFileDownloadManager"%>
 <%
@@ -32,10 +33,10 @@
 			window.location.href=lnk+dl;
 		}
 </script>
-<script type="text/javascript">Help.insertHelp("download_data_help", " align='right'", "padding:2px;");</script>
+<app:cshelp topic="download_data_help" />
 <fieldset>
 	<legend>
-		Download Results <a href="javascript: Help.popHelp('results_download_tooltip');">[?]</a>
+		Download Results <app:cshelp topic="results_download_tooltip" text="[?]"/>
 	</legend>
 	<br />
 	<div id="downloadStatusContainer"></div>
@@ -49,7 +50,7 @@
 <br/><br/>
 <html:form action="/download.do?method=caarray">
 <fieldset>
-	<legend>caArray <a href="javascript: Help.popHelp('caarray_download_tooltip');">[?]</a></legend>
+	<legend>caArray <app:cshelp topic="caarray_download_tooltip" text="[?]"/></legend>
 	 	<fieldset class="gray">
 			<legend class="red"><label for="groupNameCompare">Step 1:Choose the saved List:</label></legend></br> 
 			<html:select property="groupNameCompare" styleId="groupNameCompare" style="width:200px;" disabled="false" onchange="">	         	
@@ -87,7 +88,7 @@
 
 <br/><br/>
 <fieldset>
-	<legend><label for="brbFormat">BRB File Downloads </label><a href="javascript: Help.popHelp('Brb_download_tooltip');">[?]</a></legend>
+	<legend><label for="brbFormat">BRB File Downloads </label><app:cshelp topic="Brb_download_tooltip" text="[?]"/></legend>
     <logic:notEmpty name="downloadFileList">
         	<select id="brbFormat">
         		<option>BRB Format</option>

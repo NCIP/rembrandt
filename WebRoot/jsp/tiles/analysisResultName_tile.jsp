@@ -30,10 +30,10 @@
 		<label for="analysisResultName">Name Analysis Result</label>
 <b class="req">*</b>
 <%
-	String act = request.getParameter("act");
+	String act = request.getParameter("act") + "_Name_tooltip";
 %>
 <!--  <app:help help="Enter a unique name for the query." /> -->
-<a href="javascript: Help.popHelp('<%=act%>_Name_tooltip');">[?]</a>    
+<app:cshelp topic="<%=act%>" text="[?]"/>   
 </legend>
 <br>
 	<html:errors property="analysisResultName"/>

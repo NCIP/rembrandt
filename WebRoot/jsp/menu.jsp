@@ -2,6 +2,8 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
+
 <%@ page import="java.util.*,
 	 gov.nih.nci.rembrandt.dto.query.*,
 	 gov.nih.nci.caintegrator.dto.query.*,
@@ -59,7 +61,7 @@ if(queryCollection == null){
 		<legend>Add to query:</legend>
 		<html:errors property="org.apache.struts.action.GLOBAL_ERROR"/>
 		
-		  <script type="text/javascript">Help.insertHelp("Advanced_overview", " align='right'", "padding:2px;");</script><br clear="left"/>
+		  <app:cshelp topic="Advanced_overview" /><br clear="left"/>
 		
 		
 			<table border="0" cellpadding="3" cellspacing="3" summary="This table is used to format page content">

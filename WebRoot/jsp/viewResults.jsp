@@ -44,7 +44,7 @@ String helpLinkClose = "', 350, 500);\" title=\"Click here for additional inform
 %> 
 
 
-  <script type="text/javascript">Help.insertHelp("View_results_overview", " align='right'", "padding:2px;");</script>
+  <app:cshelp topic="View_results_overview" />
     
     
     

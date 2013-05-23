@@ -17,7 +17,7 @@ String act ="";
     
    }
    else
-   act = actLong; 
+   act = actLong + "_Array_tooltip"; 
 %> 
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -37,7 +37,7 @@ String act ="";
 				</fieldset>
 				
 				<fieldset class="gray">
-					<legend class="red">Step 2:Choose Array Platform: <a href="javascript: Help.popHelp('<%=act%>_Array_tooltip');">[?]</a> </legend><br/>
+					<legend class="red">Step 2:Choose Array Platform: <app:cshelp topic="<%=act%>" text="[?]"/></legend><br/>
 					&nbsp;&nbsp;<select name="arrayPlatform"> 		
 				    	<option value="<%=Constants.ALL_PLATFROM%>">All</option>
 						<option selected="true" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Oligo (Affymetrix U133 Plus 2.0)</option>

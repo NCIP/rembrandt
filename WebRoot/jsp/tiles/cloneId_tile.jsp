@@ -2,16 +2,16 @@
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 
 <%
-	String act = request.getParameter("act");
+	String act = request.getParameter("act") + "_Clone_tooltip";
 %>
 <fieldset class="gray">
 <legend class="red">Clone Id/Probe Set Id
 <% if(act.equalsIgnoreCase("geneexpression"))	{ %>
-<a href="javascript: Help.popHelp('<%=act%>_Clone_tooltip');">[?]</a>
+<app:cshelp topic="<%=act%>" text="[?]"/>
 <!-- <app:help help="Enter comma-delimited IDs or select a saved list." />-->
 <% } else { %>
 <!-- <app:help help="Future implementation"/>-->
-<a href="javascript: Help.popHelp('<%=act%>_Clone_tooltip');">[?]</a>
+<app:cshelp topic="<%=act%>" text="[?]"/>
 
 <% } %>
 </legend>

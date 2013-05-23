@@ -354,6 +354,7 @@
 		<replaceregexp file="csm_deploy/properties-service.xml" match="@REMBRANDT_PROPERTIES@" replace="${ncicb.configure.directory}${rembrandt.properties.file}" flags="g"/>
 		<copy file="csm_deploy/properties-service.xml" todir="${anthill.artifacts.dir}"/>
 		<copy file="src/castor_query.xml" todir="${anthill.artifacts.dir}"/>
+		<copy file="conf/wikihelp.properties" todir="${anthill.artifacts.dir}"/>
 	</target>
 	<target name="noop"/>
 	<!--

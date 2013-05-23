@@ -15,10 +15,10 @@
         <br />
         
         <logic:notEmpty name="quickSearchForm" property="allGeneAlias">
-            <script type="text/javascript">Help.insertHelp("Eliminating_aliases", " align='right'", "padding:2px;");</script>
+            <app:cshelp topic="Eliminating_aliases" />
  		</logic:notEmpty>
  		<logic:empty name="quickSearchForm" property="allGeneAlias">
-           <script type="text/javascript">Help.insertHelp("Simple_search_overview", " align='right'", "padding:2px;");</script>
+           <app:cshelp topic="Simple_search_overview" />
    		</logic:empty>
    		
         <logic:empty name="quickSearchForm" property="allGeneAlias">

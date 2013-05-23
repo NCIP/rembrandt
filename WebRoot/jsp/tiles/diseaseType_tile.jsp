@@ -1,12 +1,12 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%
-	String act = request.getParameter("act");
+	String act = request.getParameter("act") + "_Disease_tooltip";
 %>
 <fieldset class="gray">
 <legend class="red"><label for="dSelect">Disease Type</label> 
 <!-- <app:help help="Select the type(s) of disease. Mouse over a name to display tumor sub-types. "/>-->
-<a href="javascript: Help.popHelp('<%=act%>_Disease_tooltip');">[?]</a>    
+<app:cshelp topic="<%=act%>" text="[?]"/>
 </legend>
 <br/>
 
@@ -27,7 +27,7 @@
 				<html:option value="four">IV</html:option>
 				
 </html:select>
-<b><!-- <a href="javascript: Help.popHelp('<%=act%>_Grade_tooltip');">[?]</a> -->   </b>
+<b>   </b>
 
 <!-- <b><app:help help="This criteria will be implemented in the upcoming release "/></b>-->
 <html:errors property="tumorGrade"/>

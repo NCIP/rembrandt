@@ -15,7 +15,7 @@ Event.observe(window, 'load', function()	{
 <br clear="both"/>
 <fieldset id="organizeFS">
 <legend>Export Workspace:</legend>
-			<script type="text/javascript">Help.insertHelp("export_list_help", " align='right'", "padding:2px;");</script><br clear="left"/>
+<app:cshelp topic="export_list_help" /><br clear="left"/>
 
 <table border="0" cellpadding="10" cellspacing="3">
 	<tbody>

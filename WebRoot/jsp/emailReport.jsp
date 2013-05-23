@@ -19,12 +19,12 @@
 <%@ include file="/jsp/header.jsp" %>
 <!--end all headers-->
 <%
-String act = request.getParameter("act");
+String act = request.getParameter("act") + "_Allele_tooltip";
 %>
 	
 <fieldset style="border: 1px solid #000066;width:700px">
 <legend style="text-align:center;background-color:#ffffff">Notify Query Completion via Email
-<a href="javascript: Help.popHelp('<%=act%>_Allele_tooltip');">[?]</a>    
+<app:cshelp topic="<%=act%>" text="[?]"/>   
 </legend><br />
 <div class="content">
 <logic:empty name ="email">

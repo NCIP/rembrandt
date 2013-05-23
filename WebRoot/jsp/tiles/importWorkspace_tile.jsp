@@ -1,5 +1,6 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 
 <link rel="stylesheet" type="text/css" href="components/treeManager/css/tree.css" />
 <script type="text/javascript" src="components/treeManager/Tree-optimized.js"></script>
@@ -17,7 +18,7 @@ Event.observe(window, 'load', function()	{
 <br clear="both"/>
 <fieldset id="organizeFS">
 <legend>Import Workspace:</legend>
-			<script type="text/javascript">Help.insertHelp("import_list_help", " align='right'", "padding:2px;");</script><br clear="left"/>
+<app:cshelp topic="import_list_help" /><br clear="left"/>
 
 <table border="0" cellpadding="10" cellspacing="3">
 	<tbody>

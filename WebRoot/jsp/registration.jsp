@@ -2,6 +2,7 @@
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 
 <script type='text/javascript' src='js/lib/scriptaculous/effects.js'></script>
 
@@ -76,7 +77,7 @@
 	</tr>
 	<tr>
 	<td width="40%" style="border-right:1px dashed gray;">
-	<script type="text/javascript">Help.insertHelp("Logging_in", "", "float:right;padding:_8px;");</script>	
+	<app:cshelp topic="Logging_in" style="float:right;padding:_8px;cursor:pointer;" />
 	<br clear="both"/>
 		<fieldset>
 		<html:form action="alogin.do">		
@@ -113,7 +114,7 @@
 		</fieldset>
 	</td>
 	<td>
-	<script type="text/javascript">Help.insertHelp("Registering", "align='right'", "padding:_8px;");</script>
+	<app:cshelp topic="Registering" style="padding:_8px;cursor:pointer;"/>
 	<br clear="both"/>
 	<form id="regForm">
 	<fieldset>

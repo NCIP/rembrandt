@@ -2,10 +2,13 @@
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 		<%
 	     String act = request.getParameter("act");
+	     String sHelp = request.getParameter("act") + "_Survival_tooltip";
+	     String aHelp = request.getParameter("act") + "_AgeatDX_tooltip";
+	     String gHelp = request.getParameter("act") + "_Gender_tooltip";
      %>
 	<fieldset class="gray">
 	<legend class="red">Survival Range
-	<a href="javascript: Help.popHelp('<%=act%>_Survival_tooltip');">[?]</a>    
+	<app:cshelp topic="<%=sHelp%>" text="[?]"/>  
 	<!--  	<app:help help="Specify limits for filtering the clinical data based on the age at diagnosis."/>-->
 	</legend><br />
 
@@ -56,7 +59,7 @@
 	<fieldset class="gray">
 	<legend class="red">Age at Dx
 	<!-- 	<app:help help="Specify limits for filtering the clinical data based on the age at diagnosis."/>-->
-	<a href="javascript: Help.popHelp('<%=act%>_AgeatDX_tooltip');">[?]</a>    
+	<app:cshelp topic="<%=aHelp%>" text="[?]"/>   
 	</legend><br />
 		
 	<label for="ageLower">&nbsp;&nbsp;&nbsp;lower:&nbsp;</label>
@@ -102,7 +105,7 @@
 	<fieldset class="gray">
 	<legend class="red"><label for="genderType">Gender</label>
 	<!-- <app:help help="Select the gender of the patient."/>-->
-	<a href="javascript: Help.popHelp('<%=act%>_Gender_tooltip');">[?]</a>    
+	<app:cshelp topic="<%=gHelp%>" text="[?]"/> 
 	
 	</legend><br />
 			<!--- <select property="genderType">

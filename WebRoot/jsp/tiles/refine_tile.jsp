@@ -6,7 +6,7 @@
 
 <html:form action="refineQuery.do">
 
-<script type="text/javascript">Help.insertHelp("Refine_query", " align='right'", "padding:2px;");</script><br clear="all"/>
+<app:cshelp topic="Refine_query" /><br clear="all"/>
 
 <html:errors/>
 <fieldset class="grayRefine">

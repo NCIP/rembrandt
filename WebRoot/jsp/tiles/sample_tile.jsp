@@ -25,12 +25,12 @@
 </script>
 <fieldset class="gray">
 <%
-	String act = request.getParameter("act");
+	String act = request.getParameter("act") + "_Sample_tooltip";
 
 %>
 <legend class="red"><label for="sampleGroup1">Sample Identifier</label>
 	<!-- <app:help help="Enter comma-delimited IDs or select a saved list." />-->
-<a href="javascript: Help.popHelp('<%=act%>_Sample_tooltip');">[?]</a>    
+<app:cshelp topic="<%=act%>" text="[?]"/>   
 	
 </legend>
 <br/>	

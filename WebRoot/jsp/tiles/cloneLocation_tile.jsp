@@ -2,11 +2,11 @@
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <fieldset class="gray">
 <%
-	String act = request.getParameter("act");
+	String act = request.getParameter("act") + "_Clone_tooltip";
 %>
 <legend class="red">Clone Location
 	<!-- <app:help help="Future implementation"/>-->
-    <a href="javascript: Help.popHelp('<%=act%>_Clone_tooltip');">[?]</a>    
+    <app:cshelp topic="<%=act%>" text="[?]"/>
 
 </legend>
 

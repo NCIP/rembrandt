@@ -1,13 +1,12 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%
-	String act = request.getParameter("act");
+	String act = request.getParameter("act") + "_Occurrence_tooltip";
 %>
 <fieldset class="gray">
 <legend class="red">Occurrence
 <!--  <app:help help="Future implementation"/>-->
-<a href="javascript: Help.popHelp('<%=act%>_Occurrence_tooltip');">[?]</a>    
-
+<app:cshelp topic="<%=act%>" text="[?]"/>
 </legend>
 
 	

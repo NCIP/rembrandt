@@ -2,7 +2,7 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld"  prefix="app" %>
 <script language="javascript" src="js/lib/scriptaculous/scriptaculous.js"></script>
-<script type="text/javascript">Help.insertHelp("Logging_out", " align='right'", "padding:2px;");</script>
+<app:cshelp topic="Logging_out" />
  <html:form action="logout.do">
 	<fieldset class="gray">
 		<legend class="red">

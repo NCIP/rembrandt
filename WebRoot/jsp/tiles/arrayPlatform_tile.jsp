@@ -27,9 +27,9 @@ Step 2: Select Array Platform (Select at least one)
 </logic:present>
 </label>
 <%
-	String act = request.getParameter("act");
+	String act = request.getParameter("act") + "_Array_tooltip";
 %>
-<a href="javascript: Help.popHelp('<%=act%>_Array_tooltip');">[?]</a>    
+<app:cshelp topic="<%=act%>" text="[?]"/> 
 <!-- <app:help help="Select an array platform"/>-->
 </legend>
 

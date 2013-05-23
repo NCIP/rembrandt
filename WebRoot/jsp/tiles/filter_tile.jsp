@@ -4,7 +4,7 @@
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ page import="java.util.*"%>
 <%
-	String act = request.getParameter("act");
+	String act = request.getParameter("act") + "_Filter_tooltip";
 
 %>
 <script language="javascript">
@@ -88,7 +88,7 @@
 	Step 2: 
 	</logic:present>
 	Filter Genes/Reporters
-	<a href="javascript: Help.popHelp('<%=act%>_Filter_tooltip');">[?]</a>    
+	<app:cshelp topic="<%=act%>" text="[?]"/>   
 	
 <!--  <app:help help="Leave as Default, or select Advanced and click + for more options." />-->
 </legend>

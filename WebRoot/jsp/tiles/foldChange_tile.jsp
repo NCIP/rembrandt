@@ -1,13 +1,13 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%
-	String act = request.getParameter("act");
+	String act = request.getParameter("act") + "_Fold_tooltip";
 
 %>
 <fieldset class="gray">
 <legend class="red">Fold Change
 <!-- <app:help help="Specify the threshold of differential regulation."/>-->
-<a href="javascript: Help.popHelp('<%=act%>_Fold_tooltip');">[?]</a>    
+<app:cshelp topic="<%=act%>" text="[?]"/>   
 </legend>
 
 

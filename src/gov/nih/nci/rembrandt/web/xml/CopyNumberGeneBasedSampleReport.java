@@ -12,6 +12,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.SampleFoldChangeValuesResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ViewByGroupResultset;
+import gov.nih.nci.rembrandt.util.ContextSensitiveHelpTag;
 import gov.nih.nci.rembrandt.web.helper.FilterHelper;
 
 import java.text.DecimalFormat;
@@ -141,6 +142,7 @@ public class CopyNumberGeneBasedSampleReport implements ReportGenerator{
 			Element dataRow = null;
 			//add the atts
 	        report.addAttribute("reportType", "Copy Number");
+	        report.addAttribute("helpLink", ContextSensitiveHelpTag.getHelpLink("Copy Number"));
 	        //fudge these for now
 	        report.addAttribute("groupBy", "none");
 	        String queryName = resultant.getAssociatedQuery().getQueryName();

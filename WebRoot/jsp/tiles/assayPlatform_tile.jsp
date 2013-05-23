@@ -1,14 +1,14 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%
-	String act = request.getParameter("act");
+	String act = request.getParameter("act") + "_Array_tooltip";
 %>
 
 
 
 <fieldset class="gray">
 <legend class="red"><label for="assayPlatform">Assay Platform</label>
-<a href="javascript: Help.popHelp('<%=act%>_Array_tooltip');">[?]</a>    
+<app:cshelp topic="<%=act%>" text="[?]"/>
 <!-- <app:help help="Indicate the platform that was used for the comparative genomic study."/>-->
 </legend><br />
 &nbsp;&nbsp;<html:select styleId="assayPlatform" property="assayPlatform" onchange="">

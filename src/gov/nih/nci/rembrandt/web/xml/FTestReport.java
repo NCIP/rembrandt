@@ -8,6 +8,7 @@ import gov.nih.nci.caintegrator.service.findings.FTestFinding;
 import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations.AnnotationHandler;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations.ReporterAnnotations;
+import gov.nih.nci.rembrandt.util.ContextSensitiveHelpTag;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 import java.math.BigDecimal;
@@ -135,6 +136,7 @@ public class FTestReport{
 			Element dataRow = null;
 			//add the atts
 	        report.addAttribute("reportType", "Class Comparison");
+	        report.addAttribute("helpLink", ContextSensitiveHelpTag.getHelpLink("Class Comparison"));
 	        //lets flag this as Ftest
 	        report.addAttribute("reportSubType", "FTEST");
 	        //fudge these for now

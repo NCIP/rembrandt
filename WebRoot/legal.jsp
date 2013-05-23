@@ -1,4 +1,5 @@
-
+<%@ page language="java" %>
+<%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <html>
 <head><title>REMBRANDT - Repository for Molecular Brain Neoplasia Data (User Guidelines)</title>
 <%@ include file="/jsp/tiles/htmlHead_tile.jsp" %>
@@ -27,7 +28,7 @@
 </div>
 <!--end all headers-->
 <div style="width:765px;" align="right"> 
-<script type="text/javascript">Help.insertHelp("Rules_of_the_road", '', "padding:2px;");</script>
+<app:cshelp topic="Rules_of_the_road" /><br clear="all" />
 </div>
 <fieldset style="border: 1px solid #000066;width:765px">
 <legend style="text-align:center;background-color:#ffffff">LEGAL RULES OF THE ROAD</legend>

@@ -6,6 +6,8 @@
 <%@ page import="java.util.*, gov.nih.nci.rembrandt.web.struts.form.*,gov.nih.nci.rembrandt.web.bean.*" %> 
 <%
 	String act = request.getParameter("act");
+	String gHelp = request.getParameter("act") + "_Group_tooltip";
+	String bHelp = request.getParameter("act") + "_Baseline_tooltip";
 %>
 
 <fieldset class="gray">
@@ -15,7 +17,7 @@
 <logic:present name="principalComponentForm">
 <legend class="red">Step 1: Select Group<b class="req">*</b>
 <!-- <app:help help="Search on All Samples, or specify at least two Existing Groups." />-->
-<a href="javascript: Help.popHelp('<%=act%>_Group_tooltip');">[?]</a>    
+<app:cshelp topic="<%=gHelp%>" text="[?]"/>  
 </legend>
 <html:radio property="groupsOption" styleId="allSamplesRadio" styleClass="radio" value="allSamples" /><label for="allSamplesRadio">Show all samples</label><br /><br />
 
@@ -47,7 +49,7 @@
 <c:if test="${param.act eq 'gpintegration' || param.act eq 'igvintegration'}">
 <legend class="red">Step 1: Select Group<b class="req">*</b>
 <!-- <app:help help="Search on All Samples, or specify at least two Existing Groups." />-->
-<a href="javascript: Help.popHelp('<%=act%>_Group_tooltip');">[?]</a>    
+<app:cshelp topic="<%=gHelp%>" text="[?]"/>   
 </legend>
 
 
@@ -93,7 +95,7 @@
 
 <logic:present name="classComparisonForm">
 <legend class="red">Step 1: Select Group<b class="req">*</b>
-<a href="javascript: Help.popHelp('<%=act%>_Group_tooltip');">[?]</a>   
+<app:cshelp topic="<%=gHelp%>" text="[?]"/>  
 <!-- <app:help help="Select two or more Existing Groups, and click >> to move them to Selected Groups. " />-->
 </legend>
 <br clear="both"/>
@@ -123,7 +125,7 @@
 	<span style="cursor:pointer; border:1px solid; padding-right:3px; padding-left:3px;" onclick="javascript:moveDownList(document.getElementById('selectedGroups'));initBaseline();">&darr;</span>
 	<span style="font-size:10px; font-family:arial; padding:10px;">
 		Baseline
-		<a href="javascript: Help.popHelp('<%=act%>_Baseline_tooltip');">[?]</a>  
+		<app:cshelp topic="<%=bHelp%>" text="[?]"/>  
 		<!-- <app:help help="Use up or down arrow to move the group to the last Selected Groups position. (baseline) appears.  " />-->
 		: <span id="baseline">none</span>
 		<input type="hidden" name="baselineGroup" id="baselineGroup"/>

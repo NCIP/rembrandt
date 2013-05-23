@@ -45,7 +45,7 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 <span style="z-index:1000; float:right;">
 	<!-- navigation icons courtesy of:  Anthony J. Brutico, D.O. -->
 	<a href="javascript:top.close()"><img align="right" src="images/close.png" border="0"></a>
-	<a href="javascript: HelpWrapper('clinicalPlot');" title="Click here for additional information about this report."><img align="right" src="images/help.png" border="0" /></a>
+	<app:cshelp topic="clinicalPlot" />
 	<a href="#" onclick="javascript:window.print();" title="Print this report."><img align="right" src="images/print.png" border="0" /> </a> 	
 </span>
 

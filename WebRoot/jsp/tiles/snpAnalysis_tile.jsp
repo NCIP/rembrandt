@@ -3,11 +3,16 @@
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 
+<%
+	String act = request.getParameter("act") + "_SNP_tooltip";
+%>
+
 <fieldset class="gray">
 <legend class="red">
 <label for="platSelect">
 Step 3: Select SNP Analysis Method
 </label>
+<app:cshelp topic="<%=act%>" text="[?]"/> 
 </legend>
 <br/>
 <html:select property="snpAnalysis" styleId="snpAnalysisSelect" disabled="true">

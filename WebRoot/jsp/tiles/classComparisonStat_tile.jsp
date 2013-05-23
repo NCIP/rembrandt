@@ -1,11 +1,11 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%
-	String act = request.getParameter("act");
+	String act = request.getParameter("act") + "_Statistic_tooltip";
 %>
 <fieldset class="gray">
 <legend class="red">Step 2: Select Statistic
-<a href="javascript: Help.popHelp('<%=act%>_Statistic_tooltip');">[?]</a>    
+<app:cshelp topic="<%=act%>" text="[?]"/> 
 <!--  <app:help help="Leave as Default, or select Advanced and click + for more options." />-->
 </legend>
 <input type="radio" id="DefaultStat" class="radio" name="statistic" value="default" onclick="tdiv(this,'advStatistic','cc');" checked /><label for="DefaultStat">Default</label><br /><br />

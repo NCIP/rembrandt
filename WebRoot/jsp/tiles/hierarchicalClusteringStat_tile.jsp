@@ -3,13 +3,13 @@
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ page import="gov.nih.nci.caintegrator.dto.critieria.Constants"%>
 <%
-	String act = request.getParameter("act");
+	String act = request.getParameter("act") + "_Statistic_tooltip";
 %>
 <fieldset class="gray">
 <legend class="red">
 Step 2: Select Statistic
 <!-- <app:help help="Specify statistical options."/>-->
-<a href="javascript: Help.popHelp('<%=act%>_Statistic_tooltip');">[?]</a>    
+<app:cshelp topic="<%=act%>" text="[?]"/>
 </legend>
 
 	

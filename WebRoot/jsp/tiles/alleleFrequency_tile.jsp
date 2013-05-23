@@ -1,12 +1,12 @@
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%
-String act = request.getParameter("act");
+String act = request.getParameter("act") + "_Allele_tooltip";
 %>
 	
 <fieldset class="gray">
 <legend class="red">Allele Frequency
-<a href="javascript: Help.popHelp('<%=act%>_Allele_tooltip');">[?]</a>    
+<app:cshelp topic="<%=act%>" text="[?]"/>   
 </legend><br />
 &nbsp;&nbsp;Population Type:
 

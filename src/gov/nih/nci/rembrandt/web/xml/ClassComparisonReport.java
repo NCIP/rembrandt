@@ -8,6 +8,7 @@ import gov.nih.nci.caintegrator.service.findings.ClassComparisonFinding;
 import gov.nih.nci.caintegrator.service.findings.Finding;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations.AnnotationHandler;
 import gov.nih.nci.rembrandt.queryservice.queryprocessing.ge.annotations.ReporterAnnotations;
+import gov.nih.nci.rembrandt.util.ContextSensitiveHelpTag;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.ajax.GenePatternHelper;
 
@@ -144,6 +145,7 @@ public class ClassComparisonReport{
 			Element dataRow = null;
 			//add the atts
 	        report.addAttribute("reportType", "Class Comparison");
+	        report.addAttribute("helpLink", ContextSensitiveHelpTag.getHelpLink("Class Comparison"));
 	        //fudge these for now
 	        report.addAttribute("groupBy", "none");
 	        String queryName = "none";

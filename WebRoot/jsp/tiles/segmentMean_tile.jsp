@@ -5,13 +5,13 @@
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%
-	String act = request.getParameter("act");
+	String act = request.getParameter("act") + "_SegmentMean_tooltip";
 
 %>
 <fieldset class="gray">
 <legend class="red">Segment Mean
 <!-- <app:help help="Specify the threshold for the copy number."/>-->
-<a href="javascript: Help.popHelp('<%=act%>_Copynum_tooltip');">[?]</a>    
+<app:cshelp topic="<%=act%>" text="[?]"/> 
 
 </legend>
 

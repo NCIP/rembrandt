@@ -7,7 +7,7 @@
  * Gene Tile - used in: GeneExpression form, CGH form
  */
 
-String act = request.getParameter("act");
+String act = request.getParameter("act") + "_Gene_tooltip";
 %>
 <!--  
 <script type="text/javascript">
@@ -147,7 +147,7 @@ String act = request.getParameter("act");
 <A NAME="geneTile">
 <fieldset class="gray">
 <legend class="red"><label for="geneOption1">Gene</label>
-    <a href="javascript: Help.popHelp('<%=act%>_Gene_tooltip');">[?]</a>    
+    <app:cshelp topic="<%=act%>" text="[?]"/>
 	<!-- <app:help help="Search on a gene identifier, a gene list, or All Genes. " />-->
 </legend>
 

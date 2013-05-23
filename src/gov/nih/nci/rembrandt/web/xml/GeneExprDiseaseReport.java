@@ -7,6 +7,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.gene.DiseaseGroupResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneExprResultsContainer;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.GeneResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.ReporterResultset;
+import gov.nih.nci.rembrandt.util.ContextSensitiveHelpTag;
 
 import java.text.DecimalFormat;
 import java.util.Collection;
@@ -108,6 +109,8 @@ public class GeneExprDiseaseReport implements ReportGenerator{
 			Element dataRow = null;
 			//add the atts
 	        report.addAttribute("reportType", "Gene Expression Disease");
+	        report.addAttribute("helpLink", ContextSensitiveHelpTag.getHelpLink("Gene Expression Disease"));
+
 	        //fudge these for now
 	        report.addAttribute("groupBy", "none");
 	        String queryName = resultant.getAssociatedQuery().getQueryName();

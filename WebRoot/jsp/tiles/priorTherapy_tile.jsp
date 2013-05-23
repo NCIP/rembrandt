@@ -7,7 +7,7 @@
 
 <fieldset class="gray">
 <legend class="red">Prior Therapy
-<a href="javascript: Help.popHelp('clinical_Prior_tooltip');">[?]</a>    
+<app:cshelp topic="clinical_Prior_tooltip" text="[?]"/>   
 <!-- <app:help help="Specify the therapy received before enrollment in the current study"/>-->
 </legend><br />	
 <html:checkbox styleId="radiation" styleClass="radio" property="radiation" value="Specify"/><label for="radiation">Radiation&nbsp;&nbsp;</label>

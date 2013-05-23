@@ -82,9 +82,9 @@ function turnOffLoadingMessage(){
 </script>
 <br/>
   
-<script type="text/javascript">Help.insertHelp("view_genepattern_job_help", " align='right'", "padding:2px;");</script>
+<app:cshelp topic="view_genepattern_job_help" />
      <fieldset>
-     	<legend>GenePattern Modules <a href="javascript: Help.popHelp('genepattern_Modules_tooltip');">[?]</a></legend>
+     	<legend>GenePattern Modules <app:cshelp topic="genepattern_Modules_tooltip" text="[?]"/></legend>
      	<br/>
      	<html:form method="post" action="/gpProcess.do?method=startApplet" styleId="qsForm" onsubmit="return checkJobId(document.forms[0].jobId);">
        		<table border="0" cellpadding="3" cellspacing="3">
@@ -148,7 +148,7 @@ function turnOffLoadingMessage(){
 <br /><br />			
 <br/>       
      <fieldset>
-     	<legend>GenePattern Job Results <a href="javascript: Help.popHelp('genepattern_Jobresults_tooltip');">[?]</a></legend>
+     	<legend>GenePattern Job Results <app:cshelp topic="genepattern_Jobresults_tooltip" text="[?]"/></legend>
      	<br/>
        	<div id="loadingMsg" style="color:red;font-weight:bold;">&nbsp;</div>
        		<table border="0" cellpadding="3" cellspacing="3">

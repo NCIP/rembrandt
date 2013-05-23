@@ -2,14 +2,14 @@
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 
 <%
-String act = request.getParameter("act");
+String act = request.getParameter("act") + "_GeoAnno_tooltip";
 %>
 
 
 <fieldset class="gray">
 <legend class="red">Genomic Annotation Track &nbsp;
 <!-- <app:help help="Future implementation"/>-->
-<a href="javascript: Help.popHelp('<%=act%>_GeoAnno_tooltip');">[?]</a>
+<app:cshelp topic="<%=act%>" text="[?]"/>
 
 
 </legend>

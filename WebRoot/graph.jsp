@@ -8,6 +8,8 @@
 <%@ page import = "gov.nih.nci.rembrandt.util.RembrandtConstants" %>
 <%@ page import = "gov.nih.nci.rembrandt.dto.lookup.*" %>
 <%@taglib uri='/WEB-INF/caintegrator-graphing.tld' prefix='graphing' %>
+<%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
+
 <%
 
 String filename="";
@@ -32,9 +34,11 @@ String graphURL= "";
 <%
  if(request.getParameter("reporter")!=null)	{
 %>
-       <script type="text/javascript">Help.insertHelp("Coin_plot", " align='right'", "padding:2px;");</script>
+       <app:cshelp topic="Coin_plot" />
+       
 <% } else { %>
-	   <script type="text/javascript">Help.insertHelp("Simple_gene_expression_plot", " align='right'", "padding:2px;");</script><br clear="all"/>
+	   <app:cshelp topic="Simple_gene_expression_plot" /><br clear="all"/>
+	   
 <% } %>   
 	</div>
 

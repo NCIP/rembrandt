@@ -69,7 +69,7 @@ function addLoadEvent(func) {
 <span id="info">&nbsp;</span>
  
 <div style="text-align:center">
-	<script type="text/javascript">Help.insertHelp("Manage_lists_overview", " align='right'", "padding:2px;");</script><br clear="left"/>
+	<app:cshelp topic="Manage_lists_overview" /><br clear="left"/>
 
 <%
 	request.getSession().setAttribute("currentPage", "0");

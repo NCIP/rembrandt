@@ -2,14 +2,14 @@
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ page import="gov.nih.nci.caintegrator.enumeration.SpecimenType"%>
 <%
-	String act = request.getParameter("act");
+	String act = request.getParameter("act") + "_specimenType_tooltip";
 %>
 
 
 
 <fieldset class="gray">
 <legend class="red"><label for="specimenType">Specimen Type</label>
-<a href="javascript: Help.popHelp('<%=act%>_specimenType_tooltip');">[?]</a>   
+<app:cshelp topic="<%=act%>" text="[?]"/>  
 
 <!-- <app:help help="Indicate the tissue type that was used for the comparative genomic study."/>-->
 </legend><br />

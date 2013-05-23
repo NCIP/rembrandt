@@ -67,7 +67,7 @@ pageContext.setAttribute("map", map);
 							About this application<br />
 							<span style="font-size:.7em;text-align:right;">
 								Release <%=System.getProperty("rembrandt.application.version")!=null ? System.getProperty("rembrandt.application.version") : "1.5"%>
-								<a style="font-size:1em;" href="#" onclick="$('releaseNotesDiv').toggle();return false;">[more info]</a>
+								<a target="_blank" style="font-size:1em;" href="https://wiki.nci.nih.gov/display/icrportals/Rembrandt+1.5.7+Release+Notes">[more info]</a>
 							</span>
 							<div id="releaseNotesDiv" style="padding:0px 0px 5px 5px;display:none;font-size:0.8em;background-color:#e0e0e0;">
 								
@@ -196,15 +196,15 @@ pageContext.setAttribute("map", map);
 	      <ul>
 	      <li style="list-style:none; color:#000;margin-left:-20px; text-decoration:underline;">Additional Information:</li>
 	      <li><a style="font-size: 0.9em;" href="http://www.ncbi.nlm.nih.gov/pubmed/19208739?ordinalpos=1&amp;itool=EntrezSystem2.PEntrez.Pubmed.Pubmed_ResultsPanel.Pubmed_DefaultReportPanel.Pubmed_RVDocSum" target="_blank">Rembrandt 2009 Publication [PMID: 19208739] in Molecular Cancer Research</a>&nbsp;<!-- a style="font-size: 0.9em;" href="docs/1541-7786.MCR-08-0435v1.pdf" target="_blank"></a --></li>	      
-          <li><a style="font-size:.9em;" href="javascript:spawnNewPage('userGuide.html',640,480);">Download User Guide (PDF)</a> <img src="images/link_pdf.gif" alt="pdf" /></li>
+          <li><app:cshelp topic="User_Guide" style="font-size:.9em" text="User Guide"/></li>
 	      <li><a style="font-size:.9em;" href="tutorials.jsp">View Tutorials</a></li>
-	      <li><a style="font-size:.9em" href="javascript:Help.popHelp('cite_data');">How to Cite Rembrandt Data</a></li>	      
+	      <li><app:cshelp topic="cite_data" style="font-size:.9em" text="How to Cite Rembrandt Data"/></li>	      
 	      <li><a style="font-size:.9em;" href="mailto:REMBRANDT_UAT_L@list.nih.gov?subject=REMBRANDT feedback">Provide us your feedback</a></li>
 		  <ul>
 		 </div>
 		 
 		 <div style="padding:5px;margin:15px; background-color:#fff; border:1px solid #416599;">
- 			<script type="text/javascript">Help.insertHelp("Opening_page", "align='left'", "padding:_8px;");</script>
+ 			<app:cshelp topic="Opening_page" style="padding:_8px;"/>
 			Throughout the application please click the Help Icon for context sensitive application help.<br/>
 		 </div>
 	      <!--end login section-->
