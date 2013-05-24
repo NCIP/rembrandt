@@ -67,7 +67,7 @@ pageContext.setAttribute("map", map);
 							About this application<br />
 							<span style="font-size:.7em;text-align:right;">
 								Release <%=System.getProperty("rembrandt.application.version")!=null ? System.getProperty("rembrandt.application.version") : "1.5"%>
-								<a target="_blank" style="font-size:1em;" href="https://wiki.nci.nih.gov/display/icrportals/Rembrandt+1.5.7+Release+Notes">[more info]</a>
+								<a target="_blank" style="font-size:1em;" href="https://wiki.nci.nih.gov/display/icrportals/Rembrandt+1.5.8+Release+Notes">[more info]</a>
 							</span>
 							<div id="releaseNotesDiv" style="padding:0px 0px 5px 5px;display:none;font-size:0.8em;background-color:#e0e0e0;">
 								
