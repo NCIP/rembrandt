@@ -196,7 +196,6 @@ pageContext.setAttribute("map", map);
 	      <ul>
 	      <li style="list-style:none; color:#000;margin-left:-20px; text-decoration:underline;">Additional Information:</li>
 	      <li><a style="font-size: 0.9em;" href="http://www.ncbi.nlm.nih.gov/pubmed/19208739?ordinalpos=1&amp;itool=EntrezSystem2.PEntrez.Pubmed.Pubmed_ResultsPanel.Pubmed_DefaultReportPanel.Pubmed_RVDocSum" target="_blank">Rembrandt 2009 Publication [PMID: 19208739] in Molecular Cancer Research</a>&nbsp;<!-- a style="font-size: 0.9em;" href="docs/1541-7786.MCR-08-0435v1.pdf" target="_blank"></a --></li>	      
-          <li><a style="font-size:.9em;" href="javascript:spawnNewPage('userGuide.html',640,480);">Download User Guide (PDF)</a> <img src="images/link_pdf.gif" alt="pdf" /></li>
 	      <li><a style="font-size:.9em;" href="tutorials.jsp">View Tutorials</a></li>
 	      <li><app:cshelp topic="cite_data" style="font-size:.9em" text="How to Cite Rembrandt Data"/></li>	      
 	      <li><a style="font-size:.9em;" href="mailto:REMBRANDT_UAT_L@list.nih.gov?subject=REMBRANDT feedback">Provide us your feedback</a></li>

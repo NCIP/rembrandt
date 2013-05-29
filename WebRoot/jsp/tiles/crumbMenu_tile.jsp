@@ -14,8 +14,6 @@
 <app:cshelp topic="Welcome" style="font-size:.8em" text="Help"/>&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="http://ncicb.nci.nih.gov/NCICB/support" target="_blank">support</a>&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="tutorials.jsp">tutorials</a>&nbsp;&nbsp;&nbsp;
-<a style="font-size:.8em" href="javascript:spawnNewPage('userGuide.html',640,480);">user guide</a>
-<!-- a style="font-size:.8em" target="_new" href="docs/REMBRANDT_1.5_Users_Guide.pdf">user guide</a -->&nbsp;&nbsp;&nbsp;
 <app:cshelp topic="cite_data" style="font-size:.8em" text="cite data"/>&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="html/disclaimer.html" target="new">Disclaimer</a>&nbsp;&nbsp;&nbsp;
 </span>

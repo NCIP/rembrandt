@@ -53,7 +53,8 @@ String helpLinkClose = "', 350, 500);\" title=\"Click here for additional inform
      <br /><br />
      <!--  <form> -->
      <fieldset>
-     	<legend>Query Results</legend>
+     	<legend>Query Results  <app:cshelp topic="adv_search_results_overview" text="[?]"/>
+     	</legend>
        	<div id="loadingMsg" style="color:red;font-weight:bold;">&nbsp;</div>
         <%     	
 		RembrandtPresentationTierCache ptc = RembrandtPresentationCacheManager.getInstance();						
@@ -170,9 +171,9 @@ String helpLinkClose = "', 350, 500);\" title=\"Click here for additional inform
      (CN)  Copy Number Analysis       
      </div>
     </fieldset>
-    <app:cshelp topic="hoa_results_overview" /> <br /> <br />
     <fieldset>
-     	<legend>High Order Analysis</legend>
+     	<legend>High Order Analysis <app:cshelp topic="hoa_results_overview" text="[?]"/>
+     	</legend>
        	<div id="loadingMsg" style="color:red;font-weight:bold;">&nbsp;</div>
      <%
      	//get the finding related HOA's
