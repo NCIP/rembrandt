@@ -46,7 +46,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink" exclude-result-prefixes="xlink" versi
           			<xsl:value-of select="./outputs/ReactomePathwayDescription"/>
         		</xsl:when>
         		<xsl:otherwise>
-          			<xsl:apply-templates select="./outputs/NCIPIDPathwayDescription"/>
+          			<xsl:apply-templates select="./outputs/NCIPIDPathwayTitle"/>
         		</xsl:otherwise>
       			</xsl:choose> 
 				
@@ -96,22 +96,26 @@ xmlns:xlink="http://www.w3.org/1999/xlink" exclude-result-prefixes="xlink" versi
 	<table border="2" style="table-layout:fixed" cellpadding="0" cellspacing="0" bgcolor="#FAF8CC">
 		<tbody>
 			<tr bgcolor="#D5E0E9">
-				<th width="100">Gene Symbol</th>
-				<th width="700">Gene Name</th>
+				<th width="150">Gene Symbol</th>
+				<th width="500">Gene Description</th>
+				<th width="150">Gene Entrez ID</th>
 			</tr>
 			<xsl:for-each select="GeneInfo">
 			
 			<xsl:variable name="fullText" select="." />
-			<xsl:variable name="geneName" select="substring-before($fullText,' ')"  />
+			<xsl:variable name="geneId" select="substring-before($fullText,' ')"  />
 			<xsl:variable name="geneSymbol" select="substring-before(substring-after($fullText, 'Gene Symbol: '), ']')"  />
+			<xsl:variable name="geneDesc" select="substring-before(substring-after($fullText, '[Description: '), ']')"  />
 			
 			<tr bgcolor="#FFFFFF" align="left" valign="top">
-				<td width="100" nowrap="off">
+				<td width="150" nowrap="off">
 					<xsl:value-of select="$geneSymbol"/>								    
 				</td>										
-								 
-				<td width="700" nowrap="off">
-					<xsl:value-of select="$geneName"/>								    
+				<td width="500" nowrap="off">
+					<xsl:value-of select="$geneDesc"/>								    
+				</td>				 
+				<td width="150" nowrap="off">
+					<a href="http://www.ncbi.nlm.nih.gov/gene/?term={$geneId}" target="_blank"><xsl:value-of select="$geneId"/>	</a>							    
 				</td>										
 									
 			</tr>
