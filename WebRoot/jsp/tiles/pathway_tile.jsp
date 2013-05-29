@@ -33,7 +33,7 @@
 
  <a href="javascript:browseKegg()"><img alt="KEGG" src="images/kegg.gif" border="0" /></a>&nbsp;
 
- <a href="javascript:browseData()"><img alt="Browse caBIO" src="images/btnBrowse2.gif" border="0" /></a>
+ <a href="javascript:browseData()"><img alt="Browse BioDBNet" src="images/btnBiodbnet.gif" border="0" /></a>
 
      <br />
     <input type="button" class="xbutton" onclick="javascript:resetVal(pathways)" value="Clear Text Area" />
