@@ -733,6 +733,38 @@ public class ReportGeneratorHelper {
 		}
 	}
 	
+	/**
+	 * Method to compose gene symbol report for bioDBNet pathways
+	 * @param host
+	 * @param db
+	 * @param pathwayName
+	 * @return 
+	 */
+	public static String composeGeneReportUrl(String host, String db, String pathwayName) {
+		String urlStr = host +"/biodbnetRestApi.xml?input=" + db+"pathwayname&inputValues=";
+		//logger.debug("Params: " + db + " | " + pathwayName);
+		
+		//'+', '#' and '&' are the ones that cause problem without specific encoding
+		//URLEncoder doesn't work for these.
+		String pathwayEncoded = pathwayName.replace("+", "%2B").replace("#", "%23").replace("&", "%26");
+		urlStr += pathwayEncoded + "&outputs=geneinfo," + db;
+		
+		if (db.equalsIgnoreCase("ncipid"))
+			urlStr += "pathwaytitle&taxonId=9606";
+		else
+			urlStr += "pathwaydescription&taxonId=9606";
+		
+		return urlStr;
+	}
+	
+	/**
+	 * Render report with paging params
+	 * @param request
+	 * @param reportXMLParam
+	 * @param xsltFilename
+	 * @param out
+	 * @param params
+	 */
 	public static void renderReportWithParams(HttpServletRequest request, Document reportXMLParam, String xsltFilename, 
 			JspWriter out, HashMap<String, String> params) {
 		File styleSheet = new File(RembrandtContextListener.getContextPath()+"/XSL/"+xsltFilename);
