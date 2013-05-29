@@ -36,6 +36,7 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
     	<script language="JavaScript" src="js/box/wz_jsgraphics.js"></script>
     
 		<script language="JavaScript" src="js/box/dbox.js"></script>
+		<script language="JavaScript" type="text/javascript" src="js/rembrandtScript.js"></script>
 		<script type="text/javascript" src="js/overlib.js"><!-- overLIB (c) Erik Bosrup --></script>
 		
 	</head>

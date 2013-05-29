@@ -43,6 +43,8 @@
       gov.nih.nci.rembrandt.properties=/local/content/rembrandt/config/rembrandt.properties
       gov.nih.nci.rembrandtData.properties=/local/content/rembrandt/config/rembrandtData.properties
       gov.nih.nci.security.configFile=../default/conf/ApplicationSecurityConfig.xml
+      rembrandt.application.releaseNotes=/local/content/rembrandt/config/releaseNotes.html
+      gov.nih.nci.rembrandt.wikihelpProperties=/local/content/rembrandt/config/wikihelp.properties
     </attribute>
   </mbean>
 

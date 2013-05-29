@@ -69,7 +69,7 @@ function addLoadEvent(func) {
 <span id="info">&nbsp;</span>
  
 <div style="text-align:center">
-	<app:cshelp topic="Manage_lists_overview" /><br clear="left"/>
+	<app:cshelp topic="uploading_lists_help" /><br clear="left"/>
 
 <%
 	request.getSession().setAttribute("currentPage", "0");

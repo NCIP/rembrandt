@@ -1,4 +1,5 @@
 <%@ page import="gov.nih.nci.rembrandt.web.ajax.WorkspaceHelper"%>
+<%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <link rel="stylesheet" type="text/css" href="components/treeManager/css/tree.css" />
 <script type="text/javascript" src="components/treeManager/Tree-optimized.js"></script>
 <script type='text/javascript' src='dwr/interface/WorkspaceHelper.js'></script>
