@@ -140,6 +140,18 @@ xmlns:xlink="http://www.w3.org/1999/xlink" exclude-result-prefixes="xlink" versi
 				<xsl:variable name="dbname" select="./Source_Database"/>
 				<xsl:variable name="pathname" select="./Name"/>
 				<xsl:variable name="displayname" select="./Title"/>
+    			
+				<xsl:variable name="pathnameEncoded">
+     				<xsl:call-template name="replace3Chars">
+						<xsl:with-param name="source" select="$pathname"/>
+					</xsl:call-template>
+    			</xsl:variable>
+    			
+    			<xsl:variable name="displaynameEncoded">
+     				<xsl:call-template name="replace3Chars">
+						<xsl:with-param name="source" select="$displayname"/>
+					</xsl:call-template>
+    			</xsl:variable>
 				
 				<td width="200" nowrap="off">
 					<xsl:value-of select="$displayname"/>
@@ -148,7 +160,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink" exclude-result-prefixes="xlink" versi
 			
 					<input type="checkbox" value="{$pathname}" name="pathwayName"/>
 					
-						<a href="geneResults.jsp?db={$dbname}&amp;name={$pathname}&amp;displayname={$displayname}" target="_blank">	
+						<a href="geneResults.jsp?db={$dbname}&amp;name={$pathnameEncoded}&amp;displayname={$displaynameEncoded}" target="_blank">	
 						<xsl:value-of select="$pathname" />							  						
 						</a>
 				</td>
@@ -175,7 +187,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink" exclude-result-prefixes="xlink" versi
 						<font color="#25587E">
 						<xsl:choose>
     						<xsl:when test="$currPage &gt; 0">
-								<a href="browsePathway.jsp?page={$currPage - 1}">Previus </a>
+								<a href="browsePathway.jsp?page={$currPage - 1}">Previous </a>
     						</xsl:when>
     					<xsl:otherwise>
 							Previous
@@ -207,46 +219,55 @@ xmlns:xlink="http://www.w3.org/1999/xlink" exclude-result-prefixes="xlink" versi
 		
 	</xsl:template>
 	
-	
-	<xsl:template name="next" match="/xlink:httpQuery/queryResponse/next" mode="next">
-		<xsl:for-each select="/xlink:httpQuery/queryResponse/next">
-			<td bgcolor="#E0FFFF">
-				<font color="#25587E">
-					 <a href="browsePathway.jsp?url=next"> Next </a>
-					<!-- 
-					<a href="{@xlink:href}">
-						<xsl:value-of select="."/>
-					</a>
-					-->
-				</font>
-			</td>
-		</xsl:for-each>
-	</xsl:template>
-	<xsl:template name="page" match="/xlink:httpQuery/queryResponse/pages" mode="page">
-		<xsl:choose>
-			<xsl:when test="@count > 1">
-				<xsl:for-each select="/xlink:httpQuery/queryResponse/pages/page">
-					<td bgcolor="#E0FFFF">
-						<font color="#25587E">						
-						<xsl:choose>
-		                   
-		                     <xsl:when test="@xlink:href = 'http://cabioapi-qa.nci.nih.gov/cabio42/GetXML?query=Pathway&amp;Taxon[@abbreviation=Hs]&amp;pageNumber=1&amp;resultCounter=1000&amp;startIndex=0'">  
-								 <a href="browsePathway.jsp?url=1">
-								    <xsl:value-of select="."/>
-							     </a>
-		                    </xsl:when>
+	<xsl:template name="replace3Chars">
+		<xsl:param name="source"/>
 		
-		                     <xsl:otherwise>
-			                     <a href="browsePathway.jsp?url=2">
-								     <xsl:value-of select="."/>
-							    </a>
-		                     </xsl:otherwise>
-	                    </xsl:choose>
-						
-						</font>
-					</td>
-				</xsl:for-each>
-			</xsl:when>
-		</xsl:choose>
+		<xsl:variable name="cleanPlus">
+			<xsl:call-template name="string-replace-all">
+					<xsl:with-param name="text" select="$source"/>
+						<xsl:with-param name="replace" select="'+'" />
+						<xsl:with-param name="by" select="'%2b'" />
+			</xsl:call-template>
+		</xsl:variable>
+		
+		<xsl:variable name="cleanPound">
+			<xsl:call-template name="string-replace-all">
+					<xsl:with-param name="text" select="$cleanPlus"/>
+						<xsl:with-param name="replace" select="'#'" />
+						<xsl:with-param name="by" select="'%23'" />
+			</xsl:call-template>
+		</xsl:variable>
+		
+		
+			<xsl:call-template name="string-replace-all">
+					<xsl:with-param name="text" select="$cleanPound"/>
+						<xsl:with-param name="replace" select="'&amp;'" />
+						<xsl:with-param name="by" select="'%26'" />
+			</xsl:call-template>
+		
+		
 	</xsl:template>
+	
+	<xsl:template name="string-replace-all">
+  		<xsl:param name="text" />
+  		<xsl:param name="replace" />
+  		<xsl:param name="by" />
+  		<xsl:choose>
+    			<xsl:when test="contains($text, $replace)">
+      				<xsl:value-of select="substring-before($text,$replace)" />
+      				<xsl:value-of select="$by" />
+      				<xsl:call-template name="string-replace-all">
+        				<xsl:with-param name="text"
+       							 select="substring-after($text,$replace)" />
+        				<xsl:with-param name="replace" select="$replace" />
+        				<xsl:with-param name="by" select="$by" />
+      				</xsl:call-template>
+    			</xsl:when>
+    			<xsl:otherwise>
+    				<xsl:value-of select="$text" />
+    			</xsl:otherwise>
+  			</xsl:choose>
+	</xsl:template>
+	
 </xsl:stylesheet>
+	
