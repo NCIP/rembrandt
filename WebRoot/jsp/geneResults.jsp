@@ -53,13 +53,9 @@ org.dom4j.Document,org.dom4j.io.SAXReader,org.dom4j.io.XMLWriter,org.dom4j.io.Ou
     String db = (String)request.getParameter("db");  
     String pathwayName = (String)request.getParameter("name");  
     String pathwayDisplayName = (String)request.getParameter("displayname"); 
-    String s = System.getProperty("gov.nih.nci.rembrandt.cacore.url")!=null ? (String)System.getProperty("gov.nih.nci.rembrandt.cacore.url") : "http://cabioapi.nci.nih.gov/cabio43";   
-    String urlStr = s+"/biodbnetRestApi.xml?input="+db+"pathwayname&inputValues=" + pathwayName + "&outputs=geneinfo," + db;
-    if (db.equalsIgnoreCase("ncipid"))
-    	urlStr += "pathwaytitle&taxonId=9606";
-    else
-    	urlStr += "pathwaydescription&taxonId=9606";
+    String s = System.getProperty("gov.nih.nci.rembrandt.cacore.url")!=null ? (String)System.getProperty("gov.nih.nci.rembrandt.cacore.url") : "http://biodbnet.abcc.ncifcrf.gov/webServices/rest.php";   
     
+    String urlStr = ReportGeneratorHelper.composeGeneReportUrl(s, db, pathwayName);    
     URL url = new URL(urlStr);
     SAXReader reader = new SAXReader();    
     Document reportXML = reader.read(url);
