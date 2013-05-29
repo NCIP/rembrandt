@@ -90,7 +90,7 @@ response.setHeader("Cache-Control","no-store"); //HTTP 1.1
   response.flushBuffer();	
   try{  
   		
-  	String s = System.getProperty("gov.nih.nci.rembrandt.cacore.url")!=null ? (String)System.getProperty("gov.nih.nci.rembrandt.cacore.url") : "http://cabioapi.nci.nih.gov/cabio42";
+  	String s = System.getProperty("gov.nih.nci.rembrandt.cacore.url")!=null ? (String)System.getProperty("gov.nih.nci.rembrandt.cacore.url") : "http://biodbnet.abcc.ncifcrf.gov/webServices/rest.php";
     URL url = new URL(s+"/biodbnetRestApi.xml?pathways=biocarta,ncipid,reactome&taxonId=9606");
     String pageNum = (String)request.getParameter("page"); 
     Document reportXML = null;
