@@ -170,6 +170,7 @@ String helpLinkClose = "', 350, 500);\" title=\"Click here for additional inform
      (CN)  Copy Number Analysis       
      </div>
     </fieldset>
+    <app:cshelp topic="hoa_results_overview" /> <br /> <br />
     <fieldset>
      	<legend>High Order Analysis</legend>
        	<div id="loadingMsg" style="color:red;font-weight:bold;">&nbsp;</div>
