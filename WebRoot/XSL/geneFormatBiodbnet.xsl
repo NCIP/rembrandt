@@ -98,7 +98,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink" exclude-result-prefixes="xlink" versi
 			<tr bgcolor="#D5E0E9">
 				<th width="150">Gene Symbol</th>
 				<th width="500">Gene Description</th>
-				<th width="150">Gene Entrez ID</th>
+				<th width="150">Entrez Gene ID</th>
 			</tr>
 			<xsl:for-each select="GeneInfo">
 			
