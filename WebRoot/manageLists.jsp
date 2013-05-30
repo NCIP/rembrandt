@@ -69,7 +69,8 @@ function addLoadEvent(func) {
 <span id="info">&nbsp;</span>
  
 <div style="text-align:center">
-	<app:cshelp topic="uploading_lists_help" /><br clear="left"/>
+	<app:cshelp topic="Manage_lists_overview" /><br clear="left"/>
+	
 
 <%
 	request.getSession().setAttribute("currentPage", "0");
@@ -127,7 +128,7 @@ function addLoadEvent(func) {
 <a name="addList"></a>
 <fieldset class="listForm" id="listForm">
 	<legend class="listLegend">
-		<a onclick="FormChanger.type2upload();return false;" href="#">Upload List</a> -or- <a href="#" onclick="FormChanger.upload2type();return false;">Manually type List</a>
+		<a onclick="FormChanger.type2upload();return false;" href="#">Upload List</a> -or- <a href="#" onclick="FormChanger.upload2type();return false;">Manually type List</a> <app:cshelp topic="uploading_lists_help" text="[?]"/>
 	</legend>
 	<br/>
 	<div id="uploadListDiv">
