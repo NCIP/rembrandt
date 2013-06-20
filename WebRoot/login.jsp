@@ -100,7 +100,7 @@ pageContext.setAttribute("map", map);
 						<p style="margin-bottom:10px; padding:0px 5px 0px 5px; font-size:.9em;">For optimal
 						performance, IE 6.0+ is recommended. 
 						-->
-						<p style="margin-bottom:10px; padding:0px 5px 0px 5px; font-size:.9em;">Please visit <a href="http://rembrandt.nci.nih.gov">http://rembrandt.nci.nih.gov</a>
+						<p style="margin-bottom:10px; padding:0px 5px 0px 5px; font-size:.9em;">Please visit <a href="https://wiki.nci.nih.gov/display/icrportals/REMBRANDT">https://wiki.nci.nih.gov/display/icrportals/REMBRANDT</a>
 						for more information.</p>
 					</td>
 				</tr>
