@@ -1,5 +1,6 @@
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 <%@ page import="java.util.*, java.lang.*, java.io.*, gov.nih.nci.rembrandt.util.RembrandtConstants" %>
 <%@ page import="java.io.FileInputStream" %>
@@ -101,7 +102,7 @@ String param = request.getParameter("s");
   	 }	
   	String strIncFile = "";
   	%>
-    <app:cshelp topic="<%=act%>" style=""float:right;padding:2px;" />
+    <app:cshelp topic="<%=act%>" style="cursor:pointer;float:right;padding:2px;" />
 
 	<c:choose> 
 	  	<c:when test="${requestScope.selectedView == 'regionView'}">
