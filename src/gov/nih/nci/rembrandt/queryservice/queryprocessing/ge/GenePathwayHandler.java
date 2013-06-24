@@ -103,6 +103,11 @@ public class GenePathwayHandler {
                 String symbol = (String) objs[0];
                 geneSymbols.add(new GeneIdentifierDE.GeneSymbol(symbol));
             }
+            
+            if( geneSymbols == null || geneSymbols.size() == 0) {
+            	GEReporterIDCriteria geReporterIDCriteria = new GEReporterIDCriteria();
+            	return geReporterIDCriteria;
+            }
             GeneIDCriteria geneIDCrit = new GeneIDCriteria();
             geneIDCrit.setGeneIdentifiers(geneSymbols);
             pb.close();
