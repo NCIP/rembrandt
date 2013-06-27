@@ -5,12 +5,23 @@
 				 gov.nih.nci.rembrandt.dto.query.*,
 				 gov.nih.nci.caintegrator.dto.query.*,
 				 gov.nih.nci.rembrandt.web.bean.SessionQueryBag,
-				 gov.nih.nci.rembrandt.util.RembrandtConstants" %>
+				 gov.nih.nci.rembrandt.util.RembrandtConstants,
+				 gov.nih.nci.caintegrator.security.UserCredentials" %>
 <%@ page import="org.apache.log4j.Logger;" %>
+
+<% 
+String dest = "menu.do";
+UserCredentials credent = (UserCredentials)session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
+if (credent == null || (credent.getUserName() != null && credent.getUserName().equalsIgnoreCase("RBTuser"))) {
+	dest = "login.do";
+} 
+ %>
+ 
 <div class="crumb">
 <span style="float:left">
 <a href="#main_content"><img src="../../images/skipnav.gif" alt="Skip Navigation Link" name="skipnav" width="1" height="1" border="0" id="skipnav"></a>
-<a style="font-size:.8em" href="menu.do">Home</a>&nbsp;&nbsp;&nbsp;
+
+<a style="font-size:.8em" href="<%= dest%>">Home</a>&nbsp;&nbsp;&nbsp;
 <app:cshelp topic="Welcome" style="font-size:.8em" text="Help"/>&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="http://ncicb.nci.nih.gov/NCICB/support" target="_blank">Support</a>&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="tutorials.jsp">Tutorials</a>&nbsp;&nbsp;&nbsp;
