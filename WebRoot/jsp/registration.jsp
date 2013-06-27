@@ -120,8 +120,8 @@
 	<fieldset>
 	<legend>New Users</legend>
 	<br clear="both"/>
-	<b class="msg">Register for an account to gain instant access to public data</b>
-		<br/>
+	<b class="msg">Register for an account to be able to save your queries and organize your workspace</b>
+		<br><br>
 	
 	<div id="regErr" class="mmsg"></div><br/>
 	<div><label for="Registration">&nbsp;</label>* required field<input type="hidden" id="registration" value=""/></div>
