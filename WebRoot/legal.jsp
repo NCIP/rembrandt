@@ -1,5 +1,6 @@
 <%@ page language="java" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
+
 <html>
 <head><title>REMBRANDT - Repository for Molecular Brain Neoplasia Data (User Guidelines)</title>
 <%@ include file="/jsp/tiles/htmlHead_tile.jsp" %>
@@ -19,10 +20,11 @@
 </tr>
 </table>
 <!--header REMBRANDT image map-->
+ 
 <div align="center" width="765px">
 <div style="width:765px; border-bottom: 1px solid #000000; margin:0px;">
 <map name="headerMap">
-<area alt="REMBRANDT application logo" coords="7,8,272,50" href="menu.do">
+<area alt="REMBRANDT application logo" coords="7,8,272,50" href="login.do">
 </map>
 <img src="images/header.jpg" width="765" height="65" alt="REMBRANDT application logo" border="0" usemap="#headerMap">
 </div>
