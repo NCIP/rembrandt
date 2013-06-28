@@ -110,7 +110,7 @@ var Reg = {
 		$('password').value = res.ps;
 		
 		$('regErr').innerHTML = "Thanks for registering";
-		$('loginMsg').innerHTML = "Please click 'login' to login using a temporary account.  This username and password was sent to the email account you registered.  Your full account details will be emailed to you shortly.";
+		//$('loginMsg').innerHTML = "Please click 'login' to login using a temporary account.  This username and password was sent to the email account you registered.  Your full account details will be emailed to you shortly.";
 		Fat.fade_element('loginMsg');
 	}
 	else	{
