@@ -96,7 +96,7 @@
 			</div>
 			Trouble logging in? <a href="http://ncicb.nci.nih.gov/NCICB/support" target="_blank">Contact support</a>
 			<br/><br/>
-			<div id="loginMsg"></div>
+			<!--  div id="loginMsg"></div> -->
 		</html:form>
 		<form id="listServeForm">
 			<div class="h">Rembrandt User List Serve:</div>
@@ -120,6 +120,7 @@
 	<fieldset>
 	<legend>New Users</legend>
 	<br clear="both"/>
+	
 	<b class="msg">Register for an account to be able to save your queries and organize your workspace</b>
 		<br><br>
 	
