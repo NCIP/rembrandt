@@ -96,9 +96,10 @@ public class RegHelper {
 		jso.put("msg", msg);
 		
 		if(status.equals("pass"))	{
-			jso.put("un", "RBTuser");
-			jso.put("ps", "RBTpass");
+			jso.put("un", "");
+			jso.put("ps", "");
 		}
+		
 		return jso.toString();
 	}
 	/*public static String pListServe1(String email, String subscription){
