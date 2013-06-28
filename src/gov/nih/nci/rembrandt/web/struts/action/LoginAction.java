@@ -133,8 +133,10 @@ public final class LoginAction extends Action
         }catch (SchedulerException se){
         	logger.error("Failed to schedule the job: " + se.getMessage());
         }
-        LoginForm f = (LoginForm) form;
+        LoginForm f = (LoginForm) form;       
+        
         if(f.getUserLoggedIn()){
+        	logger.error("Shan: User Logged");
         	session.setAttribute("logged", "yes");
             session.setAttribute("name", f.getUserName());
             UserPreferencesBean userPreferencesBean = new UserPreferencesBean();
@@ -217,8 +219,10 @@ public final class LoginAction extends Action
             }
             return (mapping.findForward("success"));
         }
-        else
-            return (mapping.findForward("failure"));  
+        else {
+        	logger.error("Shan: User NOT Logged");
+        	return (mapping.findForward("failure"));  
+        }
     }
     private UserList getUserList(UserList theList){
     	UserList userList = new UserList();
