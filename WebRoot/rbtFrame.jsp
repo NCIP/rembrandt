@@ -1,10 +1,15 @@
 <%@ page language="java" %>
+<%@ page import="gov.nih.nci.rembrandt.util.*" %>
 
 
 <% 
 	String bottomPage = "rbtFramesBottom.jsp";
-	if(request.getParameter("p") != null)
-	       bottomPage = request.getParameter("p");
+	String param = request.getParameter("p");
+	if (param != null) {
+		param = MoreStringUtils.cleanJavascriptAndSpecialChars(MoreStringUtils.specialCharacters, param);
+		bottomPage = param;
+	}
+	
 %>
 
 <HTML>
