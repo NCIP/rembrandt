@@ -37,7 +37,13 @@ org.dom4j.Document,org.dom4j.io.SAXReader,org.dom4j.io.XMLWriter,org.dom4j.io.Ou
 		
 	}	
  
+ 
    
+  }
+  
+
+  function openHelp(){
+  	window.open("https://wiki.nci.nih.gov/display/icrportals/3+Conducting+Advanced+Searches+v1.5.8#id-3ConductingAdvancedSearchesv158-SelectingaPathway", "Help",  "status,scrollbars,resizable,width=800,height=500");
   }
 </script>
 </head>
@@ -70,7 +76,8 @@ response.setHeader("Cache-Control","no-store"); //HTTP 1.1
  
  <div>
  	<b>Browse Pathway - Name</b>
- 	<app:cshelp topic="Browse_pathway" />
+ 	<!-- This doesn't work for some reason: app:cshelp topic="Browse_pathway" />-->
+ 	<img align="right" onclick="javascript:openHelp()" name="helpIcon" id="helpIcon" alt="help" title="help" src="/rembrandt/images/help.png" style="cursor:pointer;border:0px;padding:2px;">
  </div>
 
 <html:form method="post" action="geneexpression.do">
