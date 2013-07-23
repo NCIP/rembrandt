@@ -12,7 +12,8 @@ org.dom4j.Document,org.dom4j.io.SAXReader,org.dom4j.io.XMLWriter,org.dom4j.io.Ou
 
 <html>
 <head>
-	<script type="text/javascript" src="../js/lib/Help.js"></script>
+	<!--  script type="text/javascript" src="/rembrandt/js/rembrandtScript.js"></script>-->
+	<script language="JavaScript" type="text/javascript" src="js/rembrandtScript.js"></script>
  <script language="javascript">
  	//overwrite this
  	Help.url = "../"+Help.url;
@@ -37,11 +38,9 @@ org.dom4j.Document,org.dom4j.io.SAXReader,org.dom4j.io.XMLWriter,org.dom4j.io.Ou
 		
 	}	
  
- 
-   
   }
   
-
+  //This is to replace app:cshelp, which doesn't work for this page. Reason unknown
   function openHelp(){
   	window.open("https://wiki.nci.nih.gov/display/icrportals/3+Conducting+Advanced+Searches+v1.5.8#id-3ConductingAdvancedSearchesv158-SelectingaPathway", "Help",  "status,scrollbars,resizable,width=800,height=500");
   }
