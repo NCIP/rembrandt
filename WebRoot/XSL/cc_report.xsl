@@ -90,13 +90,13 @@
 	    <span style="z-index:900; float:right;position:absolute;top:10px;right:10px;">
 		  <!-- navigation icons courtesy of:  Anthony J. Brutico, D.O. -->
 		  <a href="#" onclick="javascript:window.close();" title="Close this report."><img alt="Close" align="right" src="images/close.png" border="0" /> </a> 
-		  <a href="javascript: Help.popHelp('Class_comparison_report');" title="Click here for additional information about this report."><img alt="Help" align="right" src="images/help.png" border="0" /></a>
+		  <a href="#" onclick="javascript: Help.popCCHelp('Class_comparison_report');" title="Click here for additional information about this report."><img alt="Help" align="right" src="images/help.png" border="0" /></a>
 		  <a href="#" onclick="javascript:runFindingCSV('{$key}')" title="Download for Excel."><img align="right" src="images/excel.png" border="0" alt="download for excel" /></a>
 		  <a href="#" onclick="javascript:window.print();" title="Print this report."><img align="right" alt="Print" src="images/print.png" border="0" /> </a> 
 		  <a href="#queryInfo" title="View Query Information."><img align="right" alt="View Query Information" src="images/text.png" border="0" /></a>
 		  <a href="#" onclick="javascript:toggleDiv('hideme');return false;" title="Show or Hide Report Tools"><img align="right" alt="Show or Hide Report Tools" src="images/tools.png" border="0" /></a>
 	  	</span>
-
+	  	
 		<form action="testReport.do?key={$key}" name="paginate" method="post">
 			<input type="hidden" name="queryName" value="{$qName}" />
 			<input type="hidden" name="p_page" value="{$p_page}" />
