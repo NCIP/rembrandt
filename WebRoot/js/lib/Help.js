@@ -1,8 +1,15 @@
 var Help = {
 	urlSingle : "helpDocs/REMBRANDT_Online_Help/index.html?single=true&context=REMBRANDT_Online_Help&topic=",
 	url : "helpDocs/REMBRANDT_Online_Help/index.html?context=REMBRANDT_Online_Help&topic=",
+	wikiurl : "https://wiki.nci.nih.gov/display/icrportals/5+Viewing+REMBRANDT+Results+v1.5.8#id-5ViewingREMBRANDTResultsv158-ClassComparisonReport",
 	popHelp: function(topic) {
 		window.open (Help.url+topic, "Help", "status,scrollbars,resizable,width=800,height=500");  
+		//use the below if you want the "always on top" feature, most dont like it
+		//window.open (Help.url+topic, "Help", "alwaysRaised,dependent,status,scrollbars,resizable,width=800,height=500");  
+		//alert(Help.url+topic);
+	},
+	popCCHelp: function(topic) {
+		window.open (Help.wikiurl, "Help", "status,scrollbars,resizable,width=800,height=500");  
 		//use the below if you want the "always on top" feature, most dont like it
 		//window.open (Help.url+topic, "Help", "alwaysRaised,dependent,status,scrollbars,resizable,width=800,height=500");  
 		//alert(Help.url+topic);
