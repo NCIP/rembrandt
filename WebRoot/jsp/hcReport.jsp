@@ -29,6 +29,15 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
     	<link rel="stylesheet" type="text/css" href="js/yui/resources/css/resizable.css"/>
 		
 		<script language="JavaScript" type="text/javascript" src="js/JSFX_ImageZoom.js"></script>  
+		
+		<script type="text/javascript">
+		//This is to replace app:cshelp, which doesn't work for this page. Reason unknown
+		function openHelp(){
+  			window.open("https://wiki.nci.nih.gov/display/icrportals/5+Viewing+REMBRANDT+Results+v1.5.8#id-5ViewingREMBRANDTResultsv158-HierarchicalClusteringReport", "Help",  "status,scrollbars,resizable,width=800,height=500");
+  		}
+		</script>
+		
+		
 	 	<LINK href="XSL/css.css" rel="stylesheet" type="text/css" />
 	</head>
 <body>
@@ -37,7 +46,8 @@ gov.nih.nci.rembrandt.web.factory.*, gov.nih.nci.rembrandt.web.bean.*, org.dom4j
 <span style="z-index:1000; float:right;">
 	<!-- navigation icons courtesy of:  Anthony J. Brutico, D.O. -->
 	<a href="javascript:top.close()"><img alt="Close" align="right" src="images/close.png" border="0"></a>
-	<app:cshelp topic="HCA_report" />
+	<!-- This doesn't work: app:cshelp topic="HCA_report" />-->
+	<img align="right" onclick="javascript:openHelp()" name="helpIcon" id="helpIcon" alt="help" title="help" src="/rembrandt/images/help.png" style="cursor:pointer;border:0px;padding:2px;">
 	<a href="#" onclick="javascript:window.print();" title="Print this report."><img alt="Print" align="right" src="images/print.png" border="0" /> </a> 	
 </span>
 

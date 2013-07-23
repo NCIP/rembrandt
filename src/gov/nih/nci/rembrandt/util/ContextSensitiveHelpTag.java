@@ -193,6 +193,8 @@ public class ContextSensitiveHelpTag implements Tag, Serializable {
 			String theText = "";
 			String theStyleClass = "";
 			String imageHref = "";
+			
+			logger.error("SY===================");
 			try {
 				// Get the text
 //				ResourceBundle theBundle = ResourceBundle.getBundle(myBundle);
@@ -230,12 +232,13 @@ public class ContextSensitiveHelpTag implements Tag, Serializable {
 						myTopic = "Class_comparison";
 					
 					Properties wikihelpProperties = new Properties();
+					logger.error("SY===================1");
 					try {
 
 						String wikihelpPropertiesFileName = null;
 
 						wikihelpPropertiesFileName = System.getProperty("gov.nih.nci.rembrandt.wikihelpProperties");
-						
+						logger.error("SY===================3");
 						try {
 						
 						FileInputStream in = new FileInputStream(wikihelpPropertiesFileName);
@@ -262,6 +265,7 @@ public class ContextSensitiveHelpTag implements Tag, Serializable {
 						e.printStackTrace();
 					}
 					theHref = "href=\"" + theJavascript + wikiSiteBegin + theTopic + "')\"";
+					
 					imageHref = theJavascript + wikiSiteBegin + theTopic + "')";
 				}
 
