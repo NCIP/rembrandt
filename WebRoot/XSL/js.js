@@ -1,5 +1,15 @@
 hideLoadingMessage();
 
+
+function openCCHelp() {
+	alert("In javascript:openCCHelp");
+	window.open ("https://wiki.nci.nih.gov/display/icrportals/5+Viewing+REMBRANDT+Results+v1.5.8#id-5ViewingREMBRANDTResultsv158-ClassComparisonReport", 
+			"Help", "status,scrollbars,resizable,width=800,height=500");  
+	//use the below if you want the "always on top" feature, most dont like it
+	//window.open (Help.url+topic, "Help", "alwaysRaised,dependent,status,scrollbars,resizable,width=800,height=500");  
+	//alert(Help.url+topic);
+}
+
 function stupidXSL(i, cPage, total)	{
 	var str = "";
 	if(i == cPage)
