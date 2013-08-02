@@ -157,6 +157,23 @@ public class MoreStringUtils extends StringUtils{
         }
         return true;
 	}
+	
+	public static String checkWhiteListBeforeCleaningJavascriptAndSpecialChars(
+			String unallowableCharacters, String stringToClean) {
+		if (stringToClean == null || stringToClean.length() == 0)
+			return stringToClean;
+		
+		if (stringToClean.startsWith("http") && stringToClean.contains("nih.gov"))
+			return stringToClean;
+		
+		if (stringToClean.startsWith("pcaApplet"))
+			return stringToClean;
+		
+		if (stringToClean.startsWith("testApplet"))
+			return stringToClean;
+		
+		return cleanJavascriptAndSpecialChars(unallowableCharacters, stringToClean);
+	}
 }
 
 

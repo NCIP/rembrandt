@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mapping>
+   <class name="gov.nih.nci.rembrandt.workspace.WorkspaceQuery">
+      <map-to xml="workspace-query" />
+      <field name="folderList"
+	         type="gov.nih.nci.rembrandt.dto.query.Query"
+	         collection="arraylist">
+         <bind-xml name="folder-list" />
+      </field>
+      <field name="QueryName" type="java.lang.String">
+         <bind-xml name="queryName" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria">
+      <field name="Institutions"
+	         type="gov.nih.nci.caintegrator.dto.de.InstitutionDE"
+	         collection="arraylist">
+         <bind-xml name="institutions" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.CloneOrProbeIDCriteria">
+      <field name="Identifiers"
+	         type="gov.nih.nci.caintegrator.dto.de.CloneIdentifierDE"
+	         collection="arraylist">
+         <bind-xml name="identifiers" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.de.InstitutionDE">
+      <field name="InstituteName" type="java.lang.String">
+         <bind-xml name="instituteName" />
+      </field>
+      <field name="ValueObject" type="java.lang.Long">
+         <bind-xml name="valueObject" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.GeneIDCriteria">
+      <field name="GeneIdentifiers"
+	         type="gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE$GeneSymbol"
+	         collection="arraylist">
+         <bind-xml name="geneIdentifiers" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE$GeneSymbol">
+      <field name="GeneIDType" type="java.lang.String">
+         <bind-xml name="geneIDType" />
+      </field>
+      <field name="ValueObject" type="java.lang.String">
+         <bind-xml name="valueObject" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.RaceCriteria">
+      <field name="Races"
+	         type="gov.nih.nci.caintegrator.dto.de.RaceDE"
+	         collection="arraylist">
+         <bind-xml name="races" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.DiseaseOrGradeCriteria">
+      <field name="Diseases"
+	         type="gov.nih.nci.caintegrator.dto.de.DiseaseNameDE"
+	         collection="arraylist">
+         <bind-xml name="diseases" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.PathwayCriteria">
+      <field name="PathwayNames"
+	         type="gov.nih.nci.caintegrator.dto.de.PathwayDE"
+	         collection="arraylist">
+         <bind-xml name="pathwayNames" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.PriorSurgeryTitleCriteria">
+      <field name="Titles"
+	         type="gov.nih.nci.caintegrator.dto.de.PriorSurgeryTitleDE"
+	         collection="arraylist">
+         <bind-xml name="titles" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.OnStudySurgeryTitleCriteria">
+      <field name="Titles"
+	         type="gov.nih.nci.caintegrator.dto.de.OnStudySurgeryTitleDE"
+	         collection="arraylist">
+         <bind-xml name="titles" />
+      </field>
+   </class>
+
+   <class name="gov.nih.nci.caintegrator.dto.critieria.OnStudySurgeryOutcomeCriteria">
+      <field name="Outcomes"
+	         type="gov.nih.nci.caintegrator.dto.de.OnStudySurgeryOutcomeDE"
+	         collection="arraylist">
+         <bind-xml name="outcomes" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.SurgeryOutcomeCriteria">
+      <field name="Outcomes"
+	         type="gov.nih.nci.caintegrator.dto.de.SurgeryOutcomeDE"
+	         collection="arraylist">
+         <bind-xml name="outcomes" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.OnStudyRadiationTherapyCriteria">
+      <field name="Radiations"
+	         type="gov.nih.nci.caintegrator.dto.de.OnStudyRadiationTherapyDE"
+	         collection="arraylist">
+         <bind-xml name="radiations" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.RadiationTherapyCriteria">
+      <field name="Radiations"
+	         type="gov.nih.nci.caintegrator.dto.de.RadiationTherapyDE"
+	         collection="arraylist">
+         <bind-xml name="radiations" />
+      </field>
+   </class>
+
+   <class name="gov.nih.nci.caintegrator.dto.critieria.OnStudyChemoAgentCriteria">
+      <field name="Agents"
+	         type="gov.nih.nci.caintegrator.dto.de.OnStudyChemoAgentDE"
+	         collection="arraylist">
+         <bind-xml name="agents" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.ChemoAgentCriteria">
+      <field name="Agents"
+	         type="gov.nih.nci.caintegrator.dto.de.ChemoAgentDE"
+	         collection="arraylist">
+         <bind-xml name="agents" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.SampleCriteria">
+      <field name="SampleIDs"
+	         type="gov.nih.nci.caintegrator.dto.de.SampleIDDE"
+	         collection="arraylist">
+         <bind-xml name="sample-iDs" />
+      </field>
+      <field name="sampleFile" type="java.lang.String">
+         <bind-xml name="sampleFile" />
+      </field>
+      <field name="sampleGroup" type="java.lang.String">
+         <bind-xml name="sampleGroup" />
+      </field>
+      <field name="specimenTypeValue" type="java.lang.String">
+         <bind-xml name="specimenTypeValue" />
+      </field>
+      <field name="excludeResections" type="java.lang.Boolean">
+         <bind-xml name="excludeResections" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.GeneOntologyCriteria">
+      <field name="GOIdentifiers"
+	         type="gov.nih.nci.caintegrator.dto.de.GeneOntologyDE"
+	         collection="arraylist">
+         <bind-xml name="gOIdentifiers" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria">
+      <field name="Platform"
+	         type="gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE">
+         <bind-xml name="platform" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.de.ArrayPlatformDE">
+      <field name="Value" type="java.lang.String">
+         <bind-xml name="value" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.AssayPlatformCriteria">
+      <field name="assayPlatformDE"
+	         type="gov.nih.nci.caintegrator.dto.de.AssayPlatformDE">
+         <bind-xml name="assayPlatformDE" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.de.AssayPlatformDE">
+      <field name="Value" type="java.lang.String">
+         <bind-xml name="value" />
+      </field>
+   </class>
+
+   <class name="gov.nih.nci.caintegrator.dto.critieria.RegionCriteria">
+      <field name="startCytoband"
+	         type="gov.nih.nci.caintegrator.dto.de.CytobandDE">
+         <bind-xml name="startCytoband" />
+      </field>
+      <field name="endCytoband"
+	         type="gov.nih.nci.caintegrator.dto.de.CytobandDE">
+         <bind-xml name="endCytoband" />
+      </field>
+      <field name="chromNumber"
+	         type="gov.nih.nci.caintegrator.dto.de.ChromosomeNumberDE">
+         <bind-xml name="chromNumber" />
+      </field>
+      <field name="start"
+	         type="gov.nih.nci.caintegrator.dto.de.BasePairPositionDE$StartPosition">
+         <bind-xml name="baseStart" />
+      </field>
+      <field name="end"
+	         type="gov.nih.nci.caintegrator.dto.de.BasePairPositionDE$EndPosition">
+         <bind-xml name="baseEnd" />
+      </field>
+      <field name="region" type="java.lang.String">
+         <bind-xml name="region" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.SNPCriteria">
+      <field name="SNPIdentifiers"
+	         type="gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE"
+	         collection="arraylist">
+         <bind-xml name="SNPIdentifiers" />
+      </field>
+      <field name="snpId" type="java.lang.String">
+         <bind-xml name="snpId" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.CopyNumberCriteria">
+      <field name="CopyNummbers"
+	         type="gov.nih.nci.caintegrator.dto.de.CopyNumberDE"
+	         collection="arraylist">
+         <bind-xml name="CopyNummbers" />
+      </field>
+      <field name="copyNumber" type="java.lang.String">
+         <bind-xml name="copyNumber" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.FoldChangeCriteria">
+      <field name="FoldChangeObjects"
+	         type="gov.nih.nci.caintegrator.dto.de.ExprFoldChangeDE"
+	         collection="arraylist">
+         <bind-xml name="FoldChangeObjects" />
+      </field>
+      <field name="regulationStatus" type="java.lang.String">
+         <bind-xml name="regulationStatus" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.SurvivalCriteria">
+      <field name="lowerSurvivalRange"
+	         type="gov.nih.nci.caintegrator.dto.de.SurvivalDE$LowerSurvivalRange">
+         <bind-xml name="lowerSurvivalRange" />
+      </field>
+      <field name="upperSurvivalRange"
+	         type="gov.nih.nci.caintegrator.dto.de.SurvivalDE$UpperSurvivalRange">
+         <bind-xml name="upperSurvivalRange" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.AgeCriteria">
+      <field name="lowerAgeLimit"
+	         type="gov.nih.nci.caintegrator.dto.de.AgeAtDiagnosisDE$LowerAgeLimit">
+         <bind-xml name="lowerAgeLimit" />
+      </field>
+      <field name="upperAgeLimit"
+	         type="gov.nih.nci.caintegrator.dto.de.AgeAtDiagnosisDE$UpperAgeLimit">
+         <bind-xml name="upperAgeLimit" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.critieria.GenderCriteria">
+      <field name="genderDE"
+	         type="gov.nih.nci.caintegrator.dto.de.GenderDE">
+         <bind-xml name="genderDE" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.view.ClinicalSampleView"> 
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.view.GeneExprSampleView">
+      <field name="groupType"
+	         type="gov.nih.nci.caintegrator.dto.view.GroupType">
+         <bind-xml name="groupType" />
+      </field>
+   </class>
+   <class name="gov.nih.nci.caintegrator.dto.view.CopyNumberSampleView">
+      <field name="groupType"
+	         type="gov.nih.nci.caintegrator.dto.view.GroupType">
+         <bind-xml name="groupType" />
+      </field>
+   </class>
+</mapping>
