@@ -6,7 +6,7 @@
 	String bottomPage = "rbtFramesBottom.jsp";
 	String param = request.getParameter("p");
 	if (param != null) {
-		param = MoreStringUtils.cleanJavascriptAndSpecialChars(MoreStringUtils.specialCharacters, param);
+		param = MoreStringUtils.checkWhiteListBeforeCleaningJavascriptAndSpecialChars(MoreStringUtils.specialCharacters, param);
 		bottomPage = param;
 	}
 	
