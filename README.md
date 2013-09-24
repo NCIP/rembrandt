@@ -18,7 +18,7 @@ You will find more details about the Rembrandt in the following links:
  * [Issue Tracker] (https://tracker.nci.nih.gov/browse/Rembrandt)
  * [Code Repository] (https://github.com/NCIP/rembrandt)
  * [Release Notes] (https://wiki.nci.nih.gov/x/CwDHB)
- * [NCI Hosted Instance] (https://caintegrator.nci.nih.gov/rembrandt)
+ * [NCI Instance] (https://caintegrator.nci.nih.gov/rembrandt)
  
 
 Please join us in further developing and improving the Rembrandt project.
