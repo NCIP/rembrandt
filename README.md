@@ -14,7 +14,6 @@ Please see the NOTICE and LICENSE files for details.
 You will find more details about the Rembrandt in the following links:
 
  * [Community Wiki] (https://wiki.nci.nih.gov/x/CwDHB)
- * [Installation Instructions] (https://wiki.nci.nih.gov/x/eJV8)
  * [Issue Tracker] (https://tracker.nci.nih.gov/browse/Rembrandt)
  * [Code Repository] (https://github.com/NCIP/rembrandt)
  * [Release Notes] (https://wiki.nci.nih.gov/x/CwDHB)
