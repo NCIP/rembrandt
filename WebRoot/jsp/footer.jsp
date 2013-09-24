@@ -1,3 +1,10 @@
+<%--L
+  Copyright (c) 2006 SAIC, SAIC-F.
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/rembrandt/LICENSE.txt for details.
+L--%>
+
 <!-- Start Footer Table -->
 <div class="content">
 <table width="100%" border="0" cellspacing="0" cellpadding="0" summary="This table is used to format page content">

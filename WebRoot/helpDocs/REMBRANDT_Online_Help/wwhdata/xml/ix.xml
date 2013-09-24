@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--L
+  Copyright (c) 2006 SAIC, SAIC-F.
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/rembrandt/LICENSE.txt for details.
+L-->
+
 <WebWorksHelpIX version="5.0" xmlns="urn:WebWorks-Help-Index-Schema">
   <g t="Numerics" o="001" s=" ">
     <i t="3-D Principal Component Analysis plot">

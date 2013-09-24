@@ -1,4 +1,12 @@
 <?xml version="1.0"  encoding="windows-1252"?>
+
+<!--L
+  Copyright (c) 2006 SAIC, SAIC-F.
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/rembrandt/LICENSE.txt for details.
+L-->
+
 <!DOCTYPE XMI SYSTEM "UML_EA.dtd">
 <XMI xmi.version="1.1" xmlns:UML="omg.org/UML1.3" timestamp="2004-08-03 18:28:34">
 	<XMI.header>

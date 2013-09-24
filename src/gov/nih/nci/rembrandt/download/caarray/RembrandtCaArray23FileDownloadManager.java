@@ -1,3 +1,10 @@
+/*L
+ * Copyright (c) 2006 SAIC, SAIC-F.
+ *
+ * Distributed under the OSI-approved BSD 3-Clause License.
+ * See http://ncip.github.com/rembrandt/LICENSE.txt for details.
+ */
+
 package gov.nih.nci.rembrandt.download.caarray;
 import gov.nih.nci.caarray.services.ServerConnectionException;
 import gov.nih.nci.caintegrator.application.download.carray23.CaArrayFileDownloadManager;

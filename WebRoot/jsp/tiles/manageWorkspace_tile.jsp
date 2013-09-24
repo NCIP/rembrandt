@@ -1,3 +1,10 @@
+<%--L
+  Copyright (c) 2006 SAIC, SAIC-F.
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/rembrandt/LICENSE.txt for details.
+L--%>
+
 <%@ page import="gov.nih.nci.rembrandt.web.ajax.WorkspaceHelper"%>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <link rel="stylesheet" type="text/css" href="components/treeManager/css/tree.css" />

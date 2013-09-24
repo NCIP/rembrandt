@@ -1,4 +1,12 @@
 <?xml version='1.0'?>
+
+<!--L
+  Copyright (c) 2006 SAIC, SAIC-F.
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/rembrandt/LICENSE.txt for details.
+L-->
+
 <!DOCTYPE policy PUBLIC
       "-//JBoss//DTD JBOSS Security Config 3.0//EN"
       "http://www.jboss.org/j2ee/dtd/security_config.dtd">
