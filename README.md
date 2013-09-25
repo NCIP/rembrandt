@@ -13,7 +13,7 @@ Please see the NOTICE and LICENSE files for details.
 
 You will find more details about the Rembrandt in the following links:
 
- * [Community Wiki] (https://wiki.nci.nih.gov/x/CwDHB)
+ * [Community Wiki] (https://wiki.nci.nih.gov/x/fIODBw)
  * [Issue Tracker] (https://tracker.nci.nih.gov/browse/Rembrandt)
  * [Code Repository] (https://github.com/NCIP/rembrandt)
  * [Documentation] (https://wiki.nci.nih.gov/x/CwDHB)
