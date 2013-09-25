@@ -4,7 +4,7 @@ Welcome to the Rembrandt Project!
 Researchers can use REMBRANDT data-aggregation, query, analysis, and visualization features to uncover critical 
 correlations among diverse types of data. The High-order Analysis tab offers three main options for data 
 analysis: class comparison, principal component,and hierarchical clustering. REMBRANDT also integrates with
-[GenePattern] (https://wiki.nci.nih.gov/display/GenePattern).
+[GenePattern] (http://www.broadinstitute.org/cancer/software/genepattern/).
 
 The Rembrandt is developed in Java and requires Apache Ant for building.
 
