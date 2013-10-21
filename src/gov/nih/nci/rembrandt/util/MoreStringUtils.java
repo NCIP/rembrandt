@@ -179,6 +179,9 @@ public class MoreStringUtils extends StringUtils{
 		if (stringToClean.startsWith("testApplet"))
 			return stringToClean;
 		
+		if (stringToClean.startsWith("/rembrandt/popGraph"))
+			return stringToClean;
+		
 		return cleanJavascriptAndSpecialChars(unallowableCharacters, stringToClean);
 	}
 }
