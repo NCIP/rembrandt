@@ -165,7 +165,12 @@ public class MoreStringUtils extends StringUtils{
         return true;
 	}
 	
-	
+	/**
+	 * Pass string through a white list for rembrandt before checking other special chars
+	 * @param unallowableCharacters
+	 * @param stringToClean
+	 * @return
+	 */
 	public static String checkWhiteListBeforeCleaningJavascriptAndSpecialChars(
 			String unallowableCharacters, String stringToClean) {
 		if (stringToClean == null || stringToClean.length() == 0)
