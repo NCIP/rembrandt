@@ -1,10 +1,3 @@
-/*L
- * Copyright (c) 2006 SAIC, SAIC-F.
- *
- * Distributed under the OSI-approved BSD 3-Clause License.
- * See http://ncip.github.com/rembrandt/LICENSE.txt for details.
- */
-
 package gov.nih.nci.rembrandt.web.struts.action;
 
 import java.util.ArrayList;
@@ -486,8 +479,6 @@ public class QuickSearchAction extends DispatchAction {
 //			String reporter = kmForm.getSelectedReporter();
 			//remove extra formatting
 			int pos = 0;
-			kmSampleInfos = kmResultsContainer.getMedianKMPlotSamples();
-			kmForm.setPlotVisible(true);
 			
 /*			 if (reporter.contains(CaIntegratorConstants.HIGHEST_GEOMETRIC_MEAN_INTENSITY)){
 				pos = reporter.indexOf(CaIntegratorConstants.HIGHEST_GEOMETRIC_MEAN_INTENSITY);
@@ -509,8 +500,27 @@ public class QuickSearchAction extends DispatchAction {
 			}
 */			
 				if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
+					String reporter = kmForm.getSelectedReporter();
+					if (reporter.contains(CaIntegratorConstants.HIGHEST_GEOMETRIC_MEAN_INTENSITY)){
+						pos = reporter.indexOf(CaIntegratorConstants.HIGHEST_GEOMETRIC_MEAN_INTENSITY);
+						reporter = reporter.substring(0,pos);
+					} else if (reporter.contains(CaIntegratorConstants.LOWEST_GEOMETRIC_MEAN_INTENSITY)) {
+						pos = reporter.indexOf(CaIntegratorConstants.LOWEST_GEOMETRIC_MEAN_INTENSITY);
+						reporter = reporter.substring(0,pos);
+					}
+					if ((reporter.trim().length() > 0  ) &&
+							((reporterList.contains(reporter)||
+									reporter.equals(CaIntegratorConstants.GRAPH_MEAN)
+									|| reporter.equals(CaIntegratorConstants.GRAPH_MEDIAN)))) {    
+						kmForm.setPlotVisible(true);
+					} else { // empty graph
+						KaplanMeierSampleInfo[] km = {new KaplanMeierSampleInfo(0, 0, 0)};
+						kmSampleInfos = km;
+						kmForm.setPlotVisible(false);
+					}
+					
 					kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedGEReportersSortedByMeanIntensity(), kmplotType, kmForm);
-/*					if (reporter.equals(
+					if (reporter.equals(
 							CaIntegratorConstants.GRAPH_MEAN)) {
 						kmSampleInfos = kmResultsContainer.getMeanKMPlotSamples();
 					} else if (reporter.equals(
@@ -518,8 +528,10 @@ public class QuickSearchAction extends DispatchAction {
 						kmSampleInfos = kmResultsContainer.getMedianKMPlotSamples();
 					} else if (!reporter.equals(CaIntegratorConstants.GRAPH_BLANK)){
 						kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(reporter);
-					}  */
+					}  
 				} else if (kmplotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)) {
+					kmSampleInfos = kmResultsContainer.getMedianKMPlotSamples();
+					kmForm.setPlotVisible(true);
 					kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedSNPReportersSortedByPosition(), kmplotType, kmForm);
 /*					if (reporter.equals(
 							CaIntegratorConstants.GRAPH_MEAN)) {
