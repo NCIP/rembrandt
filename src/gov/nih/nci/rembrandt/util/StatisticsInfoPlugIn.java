@@ -188,6 +188,7 @@ public class StatisticsInfoPlugIn implements PlugIn
 	{
 		if (sm_scheduler == null){
 			StatisticsInfoPlugIn.startScheduler(context);
+			
 			Trigger trigger = null;
 			if (schedulerType == 1)
 				trigger = TriggerUtils.makeDailyTrigger("rembrandtDailyTrigger", 0, 0);
@@ -209,8 +210,7 @@ public class StatisticsInfoPlugIn implements PlugIn
 				deleteOldResultsFilesJob.getJobDataMap().put("dirPath", dirPath);
 				deleteOldResultsFilesJob.getJobDataMap().put("fileRetentionPeriodInDays", fileRetentionPeriodInDays);
 
-			}
-			
+			}		
 			
 			sm_scheduler.scheduleJob(rembrandtstatisticsInfoJob, trigger);
 			sm_scheduler.scheduleJob(deleteOldResultsFilesJob, TriggerUtils.makeDailyTrigger("DeleteOldResultsFilesJob", 0, 0)); //run it daily at midnight			

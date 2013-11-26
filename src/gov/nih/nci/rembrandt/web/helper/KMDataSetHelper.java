@@ -15,7 +15,11 @@ package gov.nih.nci.rembrandt.web.helper;
 
 import gov.nih.nci.caintegrator.util.CaIntegratorConstants;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
-import gov.nih.nci.rembrandt.web.struts.form.KMDataSetForm;
+
+
+//Shan
+
+import gov.nih.nci.rembrandt.web.struts2.form.KMDataSetForm;
 
 import java.util.ArrayList;
 import java.util.List;

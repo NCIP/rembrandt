@@ -64,8 +64,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
 
 import org.apache.log4j.Logger;
-import org.apache.struts.action.ActionError;
-import org.apache.struts.action.ActionErrors;
 import org.dom4j.Document;
 import org.dom4j.io.HTMLWriter;
 import org.dom4j.io.OutputFormat;

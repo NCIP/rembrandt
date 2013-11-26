@@ -7,8 +7,6 @@
 
 package gov.nih.nci.rembrandt.util;
 
-import gov.nih.nci.rembrandt.web.struts.action.QuickSearchAction;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -27,7 +25,7 @@ public class ContextSensitiveHelpTag implements Tag, Serializable {
 
 	private static final long serialVersionUID = 5618297483211863400L;
 	
-	private static Logger logger = Logger.getLogger(QuickSearchAction.class);
+	private static Logger logger = Logger.getLogger(ContextSensitiveHelpTag.class);
 
 	private PageContext myPageContext = null;
 

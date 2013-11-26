@@ -14,9 +14,11 @@ import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.dto.query.Queriable;
 import gov.nih.nci.rembrandt.dto.query.Query;
-import gov.nih.nci.rembrandt.web.struts.form.ClinicalDataForm;
-import gov.nih.nci.rembrandt.web.struts.form.ComparativeGenomicForm;
-import gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm;
+
+//Shan
+//import gov.nih.nci.rembrandt.web.struts.form.ClinicalDataForm;
+//import gov.nih.nci.rembrandt.web.struts.form.ComparativeGenomicForm;
+//import gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -450,18 +452,19 @@ public class SessionQueryBag implements Serializable,Cloneable {
     		for(Object elementKey: keys) {
     			ActionForm it = formBeanMap.get(elementKey);
     			ActionForm itClone = null;
-    			if(it instanceof GeneExpressionForm) {
-    				GeneExpressionForm gef = (GeneExpressionForm)it;
-    				itClone = gef.cloneMe();
-    			}else if(it instanceof ClinicalDataForm) {
-    				ClinicalDataForm cdf = (ClinicalDataForm)it;
-    				itClone = cdf.cloneMe();
-    			}else if(it instanceof ComparativeGenomicForm) {
-    				ComparativeGenomicForm cgf = (ComparativeGenomicForm)it;
-    				itClone = cgf.cloneMe();
-    			}else {
-    				logger.warn(it.getClass().toString() + " is unsupported FormType to clone");
-    			}
+    			//Shan
+//    			if(it instanceof GeneExpressionForm) {
+//    				GeneExpressionForm gef = (GeneExpressionForm)it;
+//    				itClone = gef.cloneMe();
+//    			}else if(it instanceof ClinicalDataForm) {
+//    				ClinicalDataForm cdf = (ClinicalDataForm)it;
+//    				itClone = cdf.cloneMe();
+//    			}else if(it instanceof ComparativeGenomicForm) {
+//    				ComparativeGenomicForm cgf = (ComparativeGenomicForm)it;
+//    				itClone = cgf.cloneMe();
+//    			}else {
+//    				logger.warn(it.getClass().toString() + " is unsupported FormType to clone");
+//    			}
     			clonedformBeanMap.put((String)elementKey,itClone);
     		}
     		 myClone.formBeanMap = clonedformBeanMap;

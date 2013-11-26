@@ -42,9 +42,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.type.SerializationException;
 import org.hibernate.util.SerializationHelper;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.support.AbstractLobCreatingPreparedStatementCallback;
-import org.springframework.jdbc.support.lob.LobHandler;
+//import org.springframework.jdbc.core.JdbcTemplate;
+//import org.springframework.jdbc.core.support.AbstractLobCreatingPreparedStatementCallback;
+//import org.springframework.jdbc.support.lob.LobHandler;
 
 public class RembrandtListLoader extends ListLoader {
     private static Logger logger = Logger.getLogger(RembrandtListLoader.class);    
