@@ -5,8 +5,8 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+
 <%@ taglib uri="/WEB-INF/rembrandt.tld"  prefix="app" %>
 <%@ page import="java.util.*,
 				 gov.nih.nci.rembrandt.dto.query.*,
@@ -27,8 +27,7 @@ if (credent == null || (credent.getUserName() != null && credent.getUserName().e
 <div class="crumb">
 <span style="float:left">
 <a href="#main_content"><img src="../../images/skipnav.gif" alt="Skip Navigation Link" name="skipnav" width="1" height="1" border="0" id="skipnav"></a>
-
-<a style="font-size:.8em" href="<%= dest%>">Home</a>&nbsp;&nbsp;&nbsp;
+<a style="font-size:.8em" href="<%= dest%>">Home-Need fix</a>&nbsp;&nbsp;&nbsp;
 <app:cshelp topic="Welcome" style="font-size:.8em" text="Help"/>&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="http://ncicb.nci.nih.gov/NCICB/support" target="_blank">Support</a>&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="tutorials.jsp">Tutorials</a>&nbsp;&nbsp;&nbsp;
@@ -48,9 +47,10 @@ if(session.getAttribute("name") != null)	{
 <% } 
 	else	{
 %>
-	<a style="font-size:1.5em;" href="registration.do" onmouseover="return overlib('Please login to access additional features.', CAPTION, 'Login');" onmouseout="return nd();">
+	<s:url action="registration" id="aURL" />
+	<s:a style="font-size:1.5em;" href="%{aURL}" onmouseover="return overlib('Please login to access additional features.', CAPTION, 'Login');" onmouseout="return nd();">
       Login
-    </a><br/>
+    </s:a><br/>
 <%
 	}
 %>

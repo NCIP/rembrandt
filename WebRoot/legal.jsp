@@ -6,6 +6,7 @@
 L--%>
 
 <%@ page language="java" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 
 <html>
@@ -103,7 +104,8 @@ L--%>
 </p>
 		
 		<p style="color:#002185;font-weight:bold;text-align:left">I HAVE READ AND UNDERSTOOD THE ABOVE PROVISIONS,
-		AND SIGNIFY MY AGREEMENT BY <a href="home.do">CLICKING HERE</a> </p>
+		AND SIGNIFY MY AGREEMENT BY <s:url action="home" id="aURL" />
+		<s:a href="%{aURL}">CLICKING HERE</s:a> </p>
 
 </fieldset>
 

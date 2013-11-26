@@ -5,7 +5,8 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 
 <%
 /*
@@ -18,16 +19,16 @@ L--%>
 <html>
 <head>
 	<title>Rembrandt</title>
-	<tiles:insert attribute="htmlHead"/> <%-- include html head --%>
+	<tiles:insertAttribute name="htmlHead"/> <%-- include html head --%>
 </head>
 <body>
-    <tiles:insert attribute="overlib"/> <%-- include div for overlib --%>
-    <tiles:insert attribute="header"/> <%-- include header --%>
+    <tiles:insertAttribute name="overlib"/> <%-- include div for overlib --%>
+    <tiles:insertAttribute name="header"/> <%-- include header --%>
 	<div class="content">
-		<tiles:insert attribute="crumbMenu"/> <%-- include crumb menu --%>
+		<tiles:insertAttribute name="crumbMenu"/> <%-- include crumb menu --%>
 
-		<tiles:insert attribute="mainForm"/>
+		<tiles:insertAttribute name="mainForm"/>
 	</div>
-    <tiles:insert attribute="footer"/> <%-- include footer --%>
+    <tiles:insertAttribute name="footer"/> <%-- include footer --%>
 </body>
 </html>

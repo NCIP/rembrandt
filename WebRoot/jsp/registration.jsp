@@ -6,9 +6,9 @@
 L--%>
 
 <%@ page language="java" %>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+
+
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 
 <script type='text/javascript' src='js/lib/scriptaculous/effects.js'></script>
@@ -87,24 +87,26 @@ L--%>
 	<app:cshelp topic="Logging_in" style="float:right;padding:_8px;cursor:pointer;" />
 	<br clear="both"/>
 		<fieldset>
-		<html:form action="alogin.do">		
+		<s:form action="alogin">		
 		<legend>Existing Users</legend>
 		<br clear="both"/>
 		
 		<b class="msg">Login with your current credentials</b>
 		<br/><br/>
-		<html:errors property="invalidLogin" />
+		<!--  html:errors property="invalidLogin" /> -->
+		<s:actionerror />
 		<br/><br/>
 			<div class="h">Login:</div>
-			<div class="r"><label for="userName">Username:</label> <input type="text" name="userName" id="userName"/></div>
-			<div class="r"><label for="password">Password:</label> <input type="password" name="password" id="password" AUTOCOMPLETE = "off"/></div>
+			<div class="r"><label for="userName">Username:</label> <input type="text" name="loginForm.userName" id="userName"/></div>
+			<div class="r"><label for="password">Password:</label> <input type="password" name="loginForm.password" id="password" AUTOCOMPLETE = "off"/></div>
 			<div class="rb" style="text-align:center">
 				<input style="" type="submit" value="login"/>
 			</div>
 			Trouble logging in? <a href="http://ncicb.nci.nih.gov/NCICB/support" target="_blank">Contact support</a>
 			<br/><br/>
 			<!--  div id="loginMsg"></div> -->
-		</html:form>
+			<s:token />
+		</s:form>
 		<form id="listServeForm">
 			<div class="h">Rembrandt User List Serve:</div>
 			<div class="r" style="text-align:left">The list serve periodically informs Rembrandt users on application and data updates.</div>

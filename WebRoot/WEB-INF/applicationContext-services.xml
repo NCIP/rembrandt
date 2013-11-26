@@ -31,7 +31,7 @@ L-->
   		<property name="queueCapacity" value="400" />
 	</bean>
     <bean name="/login"
-		class="gov.nih.nci.rembrandt.web.struts.action.LoginAction">
+		class="gov.nih.nci.rembrandt.web.struts2.action.LoginAction">
 		<property name="listLoader">
 			<ref bean="listLoader" />
 		</property>

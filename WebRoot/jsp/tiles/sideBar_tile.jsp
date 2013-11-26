@@ -5,8 +5,8 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ page import="java.util.*,
 				 gov.nih.nci.rembrandt.web.bean.SessionQueryBag,
@@ -44,7 +44,7 @@ L--%>
 </div>
 
 <h3>Queries</h3>
-<html:form action ="delete_Query.do">
+<s:form action ="delete_Query">
 <script type="text/javascript">
 	var method;
 	var queryKey; 
@@ -138,14 +138,14 @@ if(queryCollection != null)	{
 if(j !=0 && j>=2)	{
 	if(pageStr != null && (pageStr2 ==null ||(pageStr2 != null && pageStr2.equals("1"))) )	{
 %>
-		<html:submit styleClass="xbutton" value="Delete All Queries" onclick="setMode('deleteAll', 'all')"/>
+		<s:submit styleClass="xbutton" value="Delete All Queries" onclick="setMode('deleteAll', 'all')"/>
 <%
 	}
 }
 %>
-	<html:hidden property="method"/>
-	<html:hidden property="queryKey" />
-	</html:form>
+	<s:hidden property="method"/>
+	<s:hidden property="queryKey" />
+	</s:form>
 	<br/>
 </div>
 

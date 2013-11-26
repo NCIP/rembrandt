@@ -5,64 +5,61 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 
 <%@ page import="java.util.*, java.lang.*, java.io.*, gov.nih.nci.caintegrator.util.CaIntegratorConstants" %>
 <br clear="both"/>
-    <html:form action="/quickSearch.do?method=quickSearch" styleId="qsForm">   
-      <fieldset>
+
+ 
+    <s:form action="quickSearch" method="quickSearch" id="qsForm">  
+    
+  	<fieldset>
+     
         <legend>
           Quick Search
         </legend>
-        <html:errors/>
+       <s:actionerror />
         <br />
         
-        <logic:notEmpty name="quickSearchForm" property="allGeneAlias">
+       <s:if test="quickSearchForm.getAllGeneAlias() != null">
             <app:cshelp topic="Eliminating_aliases" />
- 		</logic:notEmpty>
- 		<logic:empty name="quickSearchForm" property="allGeneAlias">
+ 		</s:if>
+ 		
+ 		<s:if test="quickSearchForm.getAllGeneAlias() == null">
            <app:cshelp topic="Simple_search_overview" />
-   		</logic:empty>
+   		</s:if>
    		
-        <logic:empty name="quickSearchForm" property="allGeneAlias">
+       <s:if test="quickSearchForm.getAllGeneAlias() == null">
 	        <strong>
 	          Select graph format:
 	        </strong>    
-	        <br />
+	        <br><br>
 	        
-	        <h5>Gene Expression-based  and Copy Number-based Graphs&nbsp;&nbsp;&nbsp;&nbsp;
+	        <b>Gene Expression-based  and Copy Number-based Graphs&nbsp;&nbsp;&nbsp;&nbsp;
 	        <!-- <app:help help="Select a search method and enter search criteria, such as a HUGO gene symbol." />-->
-	        </h5>
-	        <input type="radio" checked="checked" name="plot" id="geneExpPlot" class="radio" value="geneExpPlot" onclick="javascript:onRadio(this,0);needGVal = true;">
+	        </b>
+	        <br>
+	        <input type="radio" checked="checked" name="quickSearchForm.plot" id="geneExpPlot" class="radio" value="geneExpPlot" onclick="javascript:onRadio(this,0);needGVal = true;">
 	        <label for="geneExpPlot">Gene Expression plot&nbsp;</label><br />
 	        
-	        <input type="radio" name="plot" class="radio" id="kapMaiPlotGE" value="kapMaiPlotGE" onclick="javascript:onRadio(this,1);needGVal = true;">
+	        <input type="radio" name="quickSearchForm.plot" class="radio" id="kapMaiPlotGE" value="kapMaiPlotGE" onclick="javascript:onRadio(this,1);needGVal = true;">
 	        <label for="kapMaiPlotGE">Kaplan-Meier survival plot for Gene Expression Data&nbsp;</label><br />
 	        
-	        <!-- <h5>Copy Number-based Graph&nbsp;&nbsp;&nbsp;&nbsp;
-	        <app:help help="Enter a HUGO gene symbol (such as EGFR,WT1) or an Affymetrix 100K SNP Probeset ID (reporter) to plot a Kaplan-Meier survival plot based on the Gene copy number or the SNP reporter respectively." /></h5>
-	        -->
-	        <input type="radio" name="plot" id="kapMaiPlotCN" class="radio" value="kapMaiPlotCN" onclick="javascript:onRadio(this,2);needGVal = true;">
+	        <input type="radio" name="quickSearchForm.plot" id="kapMaiPlotCN" class="radio" value="kapMaiPlotCN" onclick="javascript:onRadio(this,2);needGVal = true;">
 	        <label for="kapMaiPlotCN">Kaplan-Meier survival plot for Copy Number Data</label><br/>
 	           
-	     <!--     <hr width=100% color="#002185" size="1px" /> -->
+	           <br>
+	  		<label for="quickSearchType">&#160;</label>
+	        <s:select name="quickSearchForm.quickSearchType" list="quickSearchForm.getQuickSearchTypes()" 
+	        id="quickSearchType" style="width:140px" theme="simple" />
 	        
-	        <label for="quickSearchType">&#160;</label><br/>
-	        <select name="quickSearchType" id="quickSearchType" style="width:140px">
-	       		<option>Gene Keyword</option>
-	        </select>
-
-        </logic:empty>
-        <logic:empty name="quickSearchForm" property="allGeneAlias">
-        	<input type="text" name="quickSearchName" id="quickSearchName" value="" size="40" />&nbsp;<label for="quickSearchName">&#160;</label>
+      		<label for="quickSearchName">&#160;</label>
+        	<s:textfield id="quickSearchName" name="quickSearchForm.quickSearchName" value="" size="40" theme="simple" />
         	
         	<!--  RCL testing -->
         	<script language="javascript">
-			//onblur="if(this.value!=''){$('indic').style.display='';DynamicListHelper.getGeneAliases($('quickSearchName').value, geneLookup_cb);}"
+			
 			//invoke when the forms submitted now
 			var needGVal = true;
         		var geneLookup_cb = function(ga)	{
@@ -122,37 +119,44 @@ L--%>
         			setTimeout(function()	{$('indic').style.display='none';}, 500);
         		}
         	</script>
+        	
         	<span id="indic" class="message" style="display:none;"><img src="images/indicator.gif" alt="validating"/>validating...</span>
-        	<!--  <a href="#" onclick="DynamicListHelper.getGeneAliases($('quickSearchName').value, geneLookup_cb);">[v]</a> -->
+        	
         	<div id="gAliases" style="display:none; border:1px solid red; border-top:4px solid red;padding:5px;margin:10px; width:95%;  "></div>
-        	<br/><label for="baselineGroupName">Restrict to sample group: </label>
-        	 <html:select property="baselineGroup" styleId="baselineGroupName" disabled="true">
-			 	<html:optionsCollection property="sampleGroupsList" />
-			</html:select>
-	
-	        <br/><br/>
-	 
+        	<br>
+        	
+        	
+	       	<label for="baselineGroupName">Restrict to sample group: </label>
+        	 <s:select property="baselineGroup" list="quickSearchForm.sampleGroupsList" id="baselineGroupName" disabled="true" theme="simple">
+			 	
+			</s:select>
+
+	        
+	  
+	        
+	        <br><br>
+	        
+	        
+	        
 	        <!--  sample based plots -->
-	        <h5>Sample-based Graph&nbsp;&nbsp;&nbsp;&nbsp;</h5>
-	        <input id="samplePlotRadio" type="radio" name="plot" class="radio" value="<%=CaIntegratorConstants.SAMPLE_KMPLOT%>" onclick="javascript:onRadio(this,3); needGVal = false;">
+	        <b>Sample-based Graph&nbsp;&nbsp;&nbsp;&nbsp;</b>
+	        <br>
+	        <input id="samplePlotRadio" type="radio" name="quickSearchForm.plot" class="radio" value="<%=CaIntegratorConstants.SAMPLE_KMPLOT%>" onclick="javascript:onRadio(this,3); needGVal = false;">
 	        <label for="samplePlotRadio">Kaplan-Meier survival plot for Sample Data&nbsp;</label>
-	        <br/><br/>
+	        <br><br>
+	        
+	        
 	        <label for="groupName">&#160;</label>
-	        <html:select property="groupName" style="margin-left:20px;width:200px;" styleId="groupName" disabled="false" onchange="examineGroups(this);needGVal = false;">
-			 	<html:optionsCollection property="sampleGroupsList" />
-			</html:select>
-			
-			<!-- 
-	        <input type="text" id="groupName" name="groupName" style="margin-left:25px"/> vs.
-	        <input type="text" id="groupNameCompare" name="groupNameCompare"/>
-	        -->
+	        <s:select name="quickSearchForm.groupName" list="quickSearchForm.sampleGroupsList" theme="simple" headerKey="0" style="margin-left:20px;width:200px;" id="groupName" disabled="false" onchange="examineGroups(this);needGVal = false;">
+			 	<!--  html:optionsCollection property="sampleGroupsList" /> -->
+			</s:select>
 	         vs.
-	         <html:select property="groupNameCompare" styleId="groupNameCompare" style="width:200px;" disabled="false" onchange="examineGroups(this);needGVal = false;">	         	
-			 	<html:optionsCollection property="sampleGroupsList" />
-			 	<option value="none" selected="true">None</option>
-			 	<option value="Rest of the Gliomas">Rest of the Gliomas</option>
-			</html:select>
-	        <label for="groupNameCompare">&#160;</label><br/>
+	         <s:select name="quickSearchForm.groupNameCompare" list="quickSearchForm.getSampleGroupListWithExtra()" theme="simple" id="groupNameCompare" style="width:200px;" disabled="false" onchange="examineGroups(this);needGVal = false;">	         	
+			 	
+			</s:select>
+	        
+	        <label for="groupNameCompare">&#160;</label>
+	        <br/>
 	        <script language="javascript">
 	        	try	{
 	        		//this overwrites the 'all' that is added in the qsForm as a placeholder
@@ -181,43 +185,39 @@ L--%>
 	    	    	}
 	    	    }
 	        </script>
-        </logic:empty>
+        </s:if>
         
-        <logic:notEmpty name="quickSearchForm" property="allGeneAlias">
+       <s:if test="quickSearchForm.getAllGeneAlias() != null">
         	<div style="text-align:center; margin-top:20px; margin-bottom:20px;">
-	        <select name="quickSearchName">
-	        <logic:iterate name="quickSearchForm" property="allGeneAlias" id="test">
-	          <option>
-	            <bean:write name='test' property='approvedSymbol' filter='true' />:
-	            <bean:write name='test' property='approvedName' filter='true' />            
-	          </option>
-	            </logic:iterate>
-	        </select>
+	        <s:select name="quickSearchForm.quickSearchName" list="quickSearchForm.allGeneAlias" theme="simple">
+	       
+	        </s:select>
 	        </div>
-	        <html:hidden property="plot" />
-      		<html:hidden property="quickSearchName" />
-      		<html:hidden property="baselineGroup" />
-        </logic:notEmpty>
+	        <s:hidden name="quickSearchForm.plot" />
+      		<s:hidden name="quickSearchForm.quickSearchName" />
+      		<s:hidden name="quickSearchForm.baselineGroup" />
+        </s:if>
         
         <br/><br/>
         <div style="text-align:center">
 	        <input type="submit" id="submitButton" onclick="" class="xbutton" style="width:50px;" value="Go" />
-		        
-	        <logic:notEmpty name="quickSearchForm" property="allGeneAlias">
+	        
+	        <s:if test="quickSearchForm.getAllGeneAlias() != null">
 	       		<html:button styleClass="xbutton" property="method" style="width:75px;" value="Cancel" onclick="javascript:location.href='home.do';" />
-	        </logic:notEmpty>
+	        </s:if>
         <!-- 
         	<app:help help="Select either the Gene Keyword or SNP Probe set ID option, as applicable, from the drop-down list and enter the keyword or ID in the text box.The SNP Probe set ID option is available only for the Copy Number-based Graph format." />
         -->
         
         </div>
-        <br />         
+        <br>         
       </fieldset>
       <!-- 
       <html:hidden property="plot" />
       <html:hidden property="quickSearchName" />
       -->
-    </html:form>
+      
+    </s:form>
     <br/>
  
     <div class="message">

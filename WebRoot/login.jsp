@@ -4,15 +4,14 @@
   Distributed under the OSI-approved BSD 3-Clause License.
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 
-<%@ page language="java" %>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/c.tld" prefix="c" %>
+
 <%@ taglib uri="/WEB-INF/c-rt.tld" prefix="c-rt" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld"  prefix="app" %>
-<%@ page import="gov.nih.nci.rembrandt.util.StatisticsInfoJob" %>
+<%@ page import="java.util.HashMap,gov.nih.nci.rembrandt.util.StatisticsInfoJob" %>
 <%
 if(session.getAttribute("logged") == "yes")
 {
@@ -30,18 +29,25 @@ pageContext.setAttribute("map", map);
 <html>
 <head><title>REMBRANDT - Repository for Molecular Brain Neoplasia Data</title>
 <link rel="shortcut icon" href="images/favicon.ico" />
+
 <%@ include file="/jsp/tiles/htmlHead_tile.jsp" %>
+
+
 <script type='text/javascript' src='dwr/engine.js'></script>
 <script language="javascript" src="js/caIntScript.js"></script>
 </head>
 <body>
 <c:import url="jsp/tiles/overlib_tile.jsp"></c:import>
+
+
+
 <!--header NCI-->
 <%@ include file="/jsp/header.jsp" %>
 <!--end all headers-->
 
 <!--navigation bar-->
 <div style="background-color:#D5E0E9; width:765px; padding:1px 0px 1px 0px;text-align:left">
+
 <%@ include file="/jsp/tiles/crumbMenu_tile.jsp" %>
 </div>
 <!--end nav bar-->
@@ -143,18 +149,8 @@ pageContext.setAttribute("map", map);
 									<c:out value="No. of Specimens"/>
 								</td>
 							</tr>
-						<c:forEach var="dataType" items="${map}">
-							<tr>
-								<td style="color:#002185;background-color:#e0e0e0;font-size:0.9em;padding:0px 5px 0px 5px"> 
-									<c:out value="${dataType.key}"/>
-								</td>
-								<c:forEach items="${dataType.value}" var="data">
-									<td style="background-color:#e0e0e0;font-size:0.9em;padding:0px 5px 0px 5px"> 	
-										<c:out value="${data.value}"/>
-									</td>	
-								</c:forEach>
-							</tr>
-						</c:forEach>
+							<tr><td>c.tld tags need fixes here</td></tr>
+						
 						</table>
 					</td>
 				</tr>
@@ -167,21 +163,6 @@ pageContext.setAttribute("map", map);
          <p style="font-size:1.2em; font-weight:bold; margin-left:0px;width:100%; background-color:#416599; color:#FFFFFF; margin-bottom:5px;">
 		 &nbsp;&nbsp;Browse Rembrandt Data 
          </p>
-		 
-		 <!-- 
-		 <div id="loginDiv">
-           <html:errors property="invalidLogin" />
-	       <html:form action="login.do">  
-		   <table border="0" style="margin: 0px 0px 0px 60px;font-size:8pt">
-	            <tr><td>User Name:</td><td rowspan="5"><br /><img src="images/remLogo_10.gif" alt="REMBRANDT logo" /></td></tr>
-	            <tr><td><html:text property="userName" /></td></tr>
-	            <tr><Td>Password:</td></tr>
-	            <tr><td><html:password property="password" /></td></tr>
-			</table>
-	          <span style="margin: 0px 0px 0px 65px">&nbsp;<html:submit/>&nbsp;&nbsp;<html:reset/></span>
-	       </html:form>
-  		</div>
-		-->  		
   		<div id="browseRBTDiv" style="padding:15px; padding-bottom:10px;">
   		<table cellpadding="0" cellspacing="0" border="0" summary="This table is used to format page content">
   			<tr>
@@ -231,7 +212,7 @@ pageContext.setAttribute("map", map);
 <!--end footer-->
 
 <!--begin NCI footer-->
-<%@ include file="/jsp/footer.jsp" %>
+<!--  %@ include file="/jsp/footer.jsp" %> -->
 <!--end NCI footer-->
 </div>
 

@@ -6,9 +6,9 @@
 L--%>
 
 <%@ page language="java" %>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <app:checkLogin name="logged" page="/login.jsp" />
 <%
@@ -20,7 +20,7 @@ L--%>
 <html>
 <head>
 	<title><tiles:getAsString name="title"/></title>
-	<tiles:insert attribute="htmlHead"/> <%-- include html head --%>
+	<tiles:insertAttribute name="htmlHead"/> <%-- include html head --%>
 </head>
 <%
 	String preview = (String) request.getAttribute("preview");
@@ -33,12 +33,12 @@ L--%>
 <body onload="javascript:checkForm();">
 <% } %>
 	 <%-- include div for overlib --%>
-    <tiles:insert attribute="overlib"/>
+    <tiles:insertAttribute name="overlib"/>
     <%-- include header --%>
-    <tiles:insert attribute="header"/> 
+    <tiles:insertAttribute name="header"/> 
 	<div class="content">
 		<%-- include crumb menu --%>
-		<tiles:insert attribute="crumbMenu"/> 
+		<tiles:insertAttribute name="crumbMenu"/> 
 		<table cellspacing="0" cellpadding="0" border="0" width="100%" summary="This table is used to format page content">
 			<tr>
 				<th></th><th></th>
@@ -54,19 +54,19 @@ L--%>
 						</tr>   
 						<tr>
 							<td>
-								<tiles:insert attribute="tabs"/>
+								<tiles:insertAttribute name="tabs"/>
 								<div id="main" style="min-height:370px;_height:390px;">
 									<a name="main_content"></a>
 									<%-- include the main form --%>
-									<tiles:insert attribute="mainForm"/> 
+									<tiles:insertAttribute name="mainForm"/> 
 									<div>
-										<tiles:insert attribute="reqdFieldsMsg"/><br/>
+										<tiles:insertAttribute name="reqdFieldsMsg"/><br/>
 									</div>
 								</div>
 							</td>
 						</tr>
 						<tr><td>
-							<tiles:insert attribute="applets"/>
+							<tiles:insertAttribute name="applets"/>
 						</td></tr>	
 					</table>
 				</td>
@@ -77,12 +77,12 @@ L--%>
 				</div>
 				-->
 					<%-- include sidebar --%>
-				    <tiles:insert attribute="sideBar"/> 
+				    <tiles:insertAttribute name="sideBar"/> 
 				</td>
 			</tr>
 		</table>
 	<%-- include footer --%>	
-	<tiles:insert attribute="footer"/> 
+	<tiles:insertAttribute name="footer"/> 
 	</div>
 </body>
 </html>
