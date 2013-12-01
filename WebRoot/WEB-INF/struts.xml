@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+    <constant name="struts.devMode" value="true" />
+
+    <package name="default" extends="struts-default" namespace="/">
+
+        <result-types>
+			<result-type name="tiles"
+				class="org.apache.struts2.views.tiles.TilesResult" />
+		</result-types>	
+		
+        	<interceptors>
+			
+			<interceptor-stack name="loggingStack">
+			<interceptor-ref name="token">
+				<param name="excludeMethods">populate</param>
+			</interceptor-ref>
+          
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors> 
+
+        <action name="index">
+            <result type="redirectAction">
+                <param name="actionName">HelloWorld</param>
+                <param name="namespace">/example</param>
+            </result>
+        </action>
+        
+           
+   <!--  action name="login"
+           class="org.springframework.web.struts.DelegatingActionProxy">
+    <result name="success">/legal.jsp</result>
+    <result name="error">/error.jsp</result>
+    </action> -->
+    
+    <action name="alogin"
+           class="gov.nih.nci.rembrandt.web.struts2.action.LoginAction">
+           <interceptor-ref name="tokenSession"/>  
+            <interceptor-ref name="defaultStack"/>  
+    <result name="success">/legal.jsp</result>
+    <result name="input" type="tiles">registration</result>
+    <result name="error" type="tiles">registration</result>
+    <result name="invalid.token" type="tiles">registration</result>
+    </action>
+    
+    <action name="registration" 
+		class="gov.nih.nci.rembrandt.web.struts2.action.RegistrationAction">
+		<result name="success" type="tiles">registration</result>
+	</action>
+	
+	<action name="home"
+		class="gov.nih.nci.rembrandt.web.struts2.action.DoFirst">
+		<result name="success" type="tiles">nautilus.home</result>
+	</action>
+	
+	<action name="kmGraph"            
+        class="gov.nih.nci.rembrandt.web.struts2.action.QuickSearchAction" method="doKMPlot">     
+		 <result name="kmplot" type="tiles">nautilus.KMGraph</result>
+         <result name="badgraph" type="redirectAction">
+         	<param name="actionName">home</param>
+         	 <param name="namespace">/rembrandt</param>
+        </result>
+	</action>
+	           
+	<!-- scope="request"
+			input="nautilus.home"
+            validate="true"
+            parameter="method"> what's this? -->
+	<action name="quickSearch"            
+            class="gov.nih.nci.rembrandt.web.struts2.action.QuickSearchAction" method="quickSearch">
+             <interceptor-ref name="prepare"/>
+     <interceptor-ref name="basicStack"/>
+         <result name="histogram" type="redirectAction">
+        	 <param name="actionName">graph</param>
+         </result>      
+		 
+ 		 <result name="mismatch" type="tiles">nautilus.home</result>
+ 		 
+ 		 <result name="badgraph" type="redirectAction">
+        	 <param name="actionName">home</param>
+         </result> 
+         
+         <result name="kmplot" type="redirectAction">
+        	 <param name="actionName">kmGraph</param>
+        	 <param name="namespace">/rembrandt</param>
+        	 <!-- param name="method">doKMPlot</param>  -->
+         </result>
+  		 
+		 <result name="failure" type="redirectAction">
+		 	<param name="actionName">login</param>
+		 </result>
+	</action>
+	
+	<action name="graph">
+		<result type="tiles">nautilus.graph</result>
+     </action>
+           
+    <action name="home"
+		class="gov.nih.nci.rembrandt.web.struts2.action.DoFirst">
+		<result name="success" type="tiles">nautilus.home</result>
+	</action>
+	
+	<action name="menu">
+		<result type="tiles">nautilus.menu</result>
+	</action>
+		
+	
+	<!-- 
+	type="gov.nih.nci.rembrandt.web.struts2.action.DeleteQueryAction"
+            scope="request"
+			parameter="method"
+            validate="false" -->
+	<action name="delete_Query">       
+         
+	</action>
+        
+    </package>
+
+    <include file="example.xml"/>
+
+    <!-- Add packages here -->
+
+</struts>
