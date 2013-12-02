@@ -291,6 +291,12 @@ L-->
 	-->
 	<target name="build_war_anthill" depends="config_cache,copy_resources_anthill">
 		<delete file="${app.war.name}.war"/>
+		<!-- Struts2: strutx.xml needs to be in classpath -->
+		<copy todir="${build.classes.dir}">
+					<fileset dir="${webapp.dir}/WEB-INF/">
+						<include name="struts.xml"/>
+					</fileset>
+				</copy>
 		<war destfile="${app.war.name}.war" webxml="${webapp.dir}/WEB-INF/web.xml">
 			<fileset file="${webapp.dir}/*.*"/>
 			<zipfileset dir="${webapp.dir}/css" prefix="css"/>
