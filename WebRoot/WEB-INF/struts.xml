@@ -75,8 +75,6 @@
             parameter="method"> what's this? -->
 	<action name="quickSearch"            
             class="gov.nih.nci.rembrandt.web.struts2.action.QuickSearchAction" method="quickSearch">
-             <interceptor-ref name="prepare"/>
-     <interceptor-ref name="basicStack"/>
          <result name="histogram" type="redirectAction">
         	 <param name="actionName">graph</param>
          </result>      
@@ -87,9 +85,11 @@
         	 <param name="actionName">home</param>
          </result> 
          
-         <result name="kmplot" type="redirectAction">
-        	 <param name="actionName">kmGraph</param>
-        	 <param name="namespace">/rembrandt</param>
+         <!--  result name="kmplot" type="redirect">/kmGraph.action-->
+          <result name="kmplot" type="redirectAction">
+          	<param name="actionName">kmGraph</param>
+        	 <param name="quickSearchForm">${quickSearchForm}</param>
+        	 
         	 <!-- param name="method">doKMPlot</param>  -->
          </result>
   		 
