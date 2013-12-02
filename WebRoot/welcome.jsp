@@ -10,4 +10,8 @@ L--%>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 
 <app:checkLogin name="logged" page="/login.jsp" />
-<jsp:forward page="/menu.do" /> 
+<!-- Shan comment out for now -->
+<!-- jsp:forward page="menu" / --> 
+
+<!-- META HTTP-EQUIV="Refresh" CONTENT="1;URL=Login.action" -->
+<META HTTP-EQUIV="Refresh" CONTENT="0;URL=menu.action">
