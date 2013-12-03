@@ -91,7 +91,7 @@ public class UIFormValidator {
     
     public static String FIELD_SEPARATOR = "|";
     
-    //TODO Shan temp change
+    //Shan TODO temp change
     public static List<String> validateLDAP(String username, String password,
             List<String> errors) {
     	
