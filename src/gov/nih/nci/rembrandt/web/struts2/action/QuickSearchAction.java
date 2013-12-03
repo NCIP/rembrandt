@@ -594,8 +594,6 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 
 		QuickSearchForm qsForm = quickSearchForm;
 		
-		
-		
 		//ActionErrors errors = new ActionErrors();
 		List<String> errors = new ArrayList<String>();
 		

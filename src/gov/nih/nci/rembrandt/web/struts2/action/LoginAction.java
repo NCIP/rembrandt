@@ -128,9 +128,6 @@ public final class LoginAction extends ActionSupport implements SessionAware, Se
     
     LoginForm loginForm;
     
-   //TODO: 
-	//public ActionForward execute(ActionMapping mapping, ActionForm form,
-    //        HttpServletRequest request, HttpServletResponse response)
     public String execute()
     {
     	/**
@@ -340,7 +337,7 @@ public final class LoginAction extends ActionSupport implements SessionAware, Se
 		
 		// Checking for Injected Sessions (Appscan)
 		/*
-		 * TODO: use the struts 2 way to handle this
+		 * Shan TODO: use the struts 2 way to handle this
 		String saved = (String) request.getSession().getAttribute("org.apache.struts.action.TOKEN");
 		String token = request.getParameter("org.apache.struts.taglib.html.TOKEN");
 		

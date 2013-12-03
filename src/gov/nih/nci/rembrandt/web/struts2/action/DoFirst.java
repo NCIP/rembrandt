@@ -148,7 +148,9 @@ public class DoFirst extends ActionSupport implements SessionAware, ServletReque
 					logger.error(e);
 				}
 		
-				session.invalidate();
+				//Shan: what's this for?
+				//session.invalidate();
+				
 				if (credentials != null && credentials.authenticated()) {
 					session.setAttribute(RembrandtConstants.USER_CREDENTIALS,credentials);
 				}
