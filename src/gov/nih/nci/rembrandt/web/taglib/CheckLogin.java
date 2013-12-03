@@ -123,7 +123,10 @@ public final class CheckLogin extends TagSupport
         ModuleConfig config = (ModuleConfig)pageContext.getServletContext().getAttribute("org.apache.struts.action.MODULE");
         try
         {
-            pageContext.forward(config.getPrefix() + page);
+        	//Shan
+            //pageContext.forward(config.getPrefix() + page);
+        	pageContext.forward("/login.jsp");
+        	
         }
         catch(ServletException e)
         {
