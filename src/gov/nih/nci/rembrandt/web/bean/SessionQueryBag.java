@@ -15,10 +15,10 @@ import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
 import gov.nih.nci.rembrandt.dto.query.Queriable;
 import gov.nih.nci.rembrandt.dto.query.Query;
 
-//Shan
-//import gov.nih.nci.rembrandt.web.struts.form.ClinicalDataForm;
-//import gov.nih.nci.rembrandt.web.struts.form.ComparativeGenomicForm;
-//import gov.nih.nci.rembrandt.web.struts.form.GeneExpressionForm;
+import gov.nih.nci.rembrandt.web.struts2.form.BaseForm;
+import gov.nih.nci.rembrandt.web.struts2.form.ClinicalDataForm;
+import gov.nih.nci.rembrandt.web.struts2.form.ComparativeGenomicForm;
+import gov.nih.nci.rembrandt.web.struts2.form.GeneExpressionForm;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -96,6 +96,10 @@ import org.apache.struts.action.ActionForm;
 * 
 */
 
+
+//Shan: changed all ref to ActionForm to BaseForm, as form beans are extended from BaseForm
+// TO review
+
 public class SessionQueryBag implements Serializable,Cloneable {
 	/**
 	 * 
@@ -114,7 +118,8 @@ public class SessionQueryBag implements Serializable,Cloneable {
     //this map is strictly for queryDTOs
     private transient Map<String, QueryDTO> queryDTOMap = new TreeMap<String, QueryDTO>();    
 	//hold form beans
-	private Map<String,ActionForm> formBeanMap = new HashMap<String,ActionForm>();
+    //
+	private Map<String,BaseForm> formBeanMap = new HashMap<String,BaseForm>();
 	
 	/* This is the current compound query that has been validated and is ready
 	 * to run...
@@ -124,13 +129,13 @@ public class SessionQueryBag implements Serializable,Cloneable {
 	
 	private Map<String, Queriable> compoundQueryMap = new TreeMap<String, Queriable>();
 	
-	public void putQuery(Query query, ActionForm form) {
+	public void putQuery(Query query, BaseForm form) {
 		if(queryMap == null){
     		queryMap = new TreeMap<String, Query>();   
     		logger.debug("queryMap was null");
     	}
     	if(formBeanMap == null){
-    		formBeanMap = new HashMap<String,ActionForm>();
+    		formBeanMap = new HashMap<String,BaseForm>();
     		logger.debug("formBeanMap was null");
     	}
 		if (query != null && query.getQueryName() != null) {
@@ -140,13 +145,13 @@ public class SessionQueryBag implements Serializable,Cloneable {
 			logger.debug("Null pointer encountered in putQuery");
 		}
 	}
-    public void putQueryDTO(QueryDTO queryDTO, ActionForm form) {
+    public void putQueryDTO(QueryDTO queryDTO, BaseForm form) {
     	if(queryDTOMap == null){
     		queryDTOMap = new TreeMap<String, QueryDTO>();   
     		logger.debug("queryDTOMap was null");
     	}
     	if(formBeanMap == null){
-    		formBeanMap = new HashMap<String,ActionForm>();
+    		formBeanMap = new HashMap<String,BaseForm>();
     		logger.debug("formBeanMap was null");
     	}
         if (queryDTO != null && queryDTO.getQueryName() != null) {
@@ -406,7 +411,7 @@ public class SessionQueryBag implements Serializable,Cloneable {
     /**
      * @param formBeanMap The formBeanMap to set.
      */
-    public void setFormBeanMap(Map<String,ActionForm> formBeanMap) {
+    public void setFormBeanMap(Map<String,BaseForm> formBeanMap) {
         this.formBeanMap = formBeanMap;
     }
     /**
@@ -445,26 +450,26 @@ public class SessionQueryBag implements Serializable,Cloneable {
         }
 	    
 	    myClone.queryMap = clonedQueryMap;
-	    Map<String,ActionForm> clonedformBeanMap = null;
+	    Map<String,BaseForm> clonedformBeanMap = null;
 	    if(formBeanMap != null){
-	    	clonedformBeanMap = new HashMap<String,ActionForm>();
+	    	clonedformBeanMap = new HashMap<String,BaseForm>();
         	Set keys = formBeanMap.keySet(); 
     		for(Object elementKey: keys) {
-    			ActionForm it = formBeanMap.get(elementKey);
-    			ActionForm itClone = null;
+    			BaseForm it = formBeanMap.get(elementKey);
+    			BaseForm itClone = null;
     			//Shan
-//    			if(it instanceof GeneExpressionForm) {
-//    				GeneExpressionForm gef = (GeneExpressionForm)it;
-//    				itClone = gef.cloneMe();
-//    			}else if(it instanceof ClinicalDataForm) {
-//    				ClinicalDataForm cdf = (ClinicalDataForm)it;
-//    				itClone = cdf.cloneMe();
-//    			}else if(it instanceof ComparativeGenomicForm) {
-//    				ComparativeGenomicForm cgf = (ComparativeGenomicForm)it;
-//    				itClone = cgf.cloneMe();
-//    			}else {
-//    				logger.warn(it.getClass().toString() + " is unsupported FormType to clone");
-//    			}
+    			if(it instanceof GeneExpressionForm) {
+    				GeneExpressionForm gef = (GeneExpressionForm)it;
+    				itClone = gef.cloneMe();
+    			}else if(it instanceof ClinicalDataForm) {
+    				ClinicalDataForm cdf = (ClinicalDataForm)it;
+    				itClone = cdf.cloneMe();
+    			}else if(it instanceof ComparativeGenomicForm) {
+    				ComparativeGenomicForm cgf = (ComparativeGenomicForm)it;
+    				itClone = cgf.cloneMe();
+    			}else {
+    				logger.warn(it.getClass().toString() + " is unsupported FormType to clone");
+    			}
     			clonedformBeanMap.put((String)elementKey,itClone);
     		}
     		 myClone.formBeanMap = clonedformBeanMap;
