@@ -121,6 +121,9 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 	QuickSearchForm quickSearchForm;
 	HttpServletRequest servletRequest;
 	KMDataSetForm kmForm;
+	
+	static final String QUICK_SEARCH_FORM_OBJ = "quickSearchForm";
+	static final String KMDATASET_FORM_OBJ = "kmForm";
 
 	public void prepare() {
 		quickSearchForm.reset(servletRequest);
@@ -175,12 +178,17 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 			throws Exception {
 		
 		String sessionId = servletRequest.getSession().getId();
+		
+		this.quickSearchForm = (QuickSearchForm)servletRequest.getSession().getAttribute(QUICK_SEARCH_FORM_OBJ);
 		//KMDataSetForm kmForm = (KMDataSetForm) form;
+		kmForm = new KMDataSetForm();
+		
+		
 		InstitutionCriteria institutionCriteria = InsitutionAccessHelper.getInsititutionCriteria(servletRequest.getSession());
 		
 		//ActionErrors errors = new ActionErrors();
 		String quickSearchVariableName = MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, 
-				((String) servletRequest.getAttribute("quickSearchName")));
+				((String) servletRequest.getSession().getAttribute("quickSearchName")));
 		if (quickSearchVariableName != null) {
 			quickSearchVariableName = quickSearchVariableName.toUpperCase();
 		}
@@ -192,9 +200,9 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 		double upFold = kmForm.getUpFold();
 		double downFold = kmForm.getDownFold();
 		//TEMP COMENTED OUT
-		String kmplotType = MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, ((String) servletRequest.getAttribute("plotType")));
-		String qsGroupName = MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, ((String) servletRequest.getAttribute("quickSearchGroupName")));
-		String qsGroupNameCompare = MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, ((String) servletRequest.getAttribute("quickSearchGroupNameCompare")));
+		String kmplotType = MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, ((String) servletRequest.getSession().getAttribute("plotType")));
+		String qsGroupName = MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, ((String) servletRequest.getSession().getAttribute("quickSearchGroupName")));
+		String qsGroupNameCompare = MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, ((String) servletRequest.getSession().getAttribute("quickSearchGroupNameCompare")));
 		//String kmplotType = CaIntegratorConstants.SAMPLE_KMPLOT;
 
        	kmForm.setPlotType(kmplotType);
@@ -413,11 +421,54 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 		 * Select the mapping to follow
 		 */
 		
+		this.servletRequest.getSession().setAttribute(this.KMDATASET_FORM_OBJ, kmForm);
 		if (errors.isEmpty()) {
 			return "kmplot";
 		} else {
 			return "badgraph";
 		}
+	}
+	
+	/**
+	 * This is moved from top of bodyKMGraph.jsp
+	 * @return
+	 */
+	public String getHelpTopic() {
+		String km = "kmplotGE";
+		String ta = "Simple_KM_sample_plot";
+
+		if (this.quickSearchForm == null || this.quickSearchForm.getPlot() == null) {
+			if (this.kmForm == null)
+				return ta;
+
+			if ("GE_KM_PLOT".equalsIgnoreCase(this.kmForm.getPlotType())) {
+				km = "kmplotGE";
+				ta = "Simple_KM_gene_expression_plot";
+			} else if ("COPY_NUM_KM_PLOT".equalsIgnoreCase(this.kmForm.getPlotType())) {
+				km = "kmplotCN";
+				ta = "Simple_KM_copy_number_plot";
+			} else if ("SAMPLE_KM_PLOT".equalsIgnoreCase(this.kmForm.getPlotType())) {
+				km = "kmplotGE";
+				ta = "Simple_KM_sample_plot";
+			}
+
+		} else {
+
+			if ("kapMaiPlotGE".equalsIgnoreCase(this.quickSearchForm.getPlot())) {
+				km = "kmplotGE";
+				ta = "Simple_KM_gene_expression_plot";
+			} else if ("kapMaiPlotCN".equalsIgnoreCase(this.quickSearchForm.getPlot())) {
+				km = "kmplotCN";
+				ta = "Simple_KM_copy_number_plot";
+			} else if ("kapMaiPlotGE".equalsIgnoreCase(this.quickSearchForm.getPlot())) {
+				km = "kmplotGE";
+				ta = "Simple_KM_sample_plot";
+			}
+
+		}
+		
+		return ta;
+
 	}
 
 	public String redrawKMPlot()
@@ -428,6 +479,8 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 		//KMDataSetForm kmForm = (KMDataSetForm) form;
 		KaplanMeierSampleInfo[] kmSampleInfos = null;
 		
+		kmForm = (KMDataSetForm)this.servletRequest.getSession().getAttribute(this.KMDATASET_FORM_OBJ);
+		
 		// cleanup data - To prevent cross-site scripting
 		if( kmForm.getGeneOrCytoband() != null )
 			kmForm.setGeneOrCytoband(MoreStringUtils.cleanJavascriptAndSpecialChars(MoreStringUtils.specialCharacters, kmForm.getGeneOrCytoband()));
@@ -437,6 +490,9 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 		String baselineGroup = servletRequest.getParameter("baselineGroup")!=null ? (String)servletRequest.getParameter("baselineGroup") : "ALL GLIOMA";
 		baselineGroup = MoreStringUtils.cleanJavascriptAndSpecialChars(MoreStringUtils.specialCharacters, baselineGroup);
 
+		String cy = servletRequest.getParameter("geneOrCytoband");
+		String type = servletRequest.getParameter("plotType");
+		
 		//		see if we are constraining by a group of samples
 		String cGroupName = "ALL GLIOMA"; //get from the Form
 		
@@ -462,20 +518,13 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
         KaplanMeierPlotContainer kmResultsContainer = null;
         if(algorithm.equals(RembrandtConstants.REPORTER_SELECTION_UNI)){
             kmResultsContainer = performKMGeneExpressionQuery(sampleList, kmForm.getGeneOrCytoband(), GeneExpressionDataSetType.UnifiedGeneExpressionDataSet, institutionCriteria);
-
-            //if (kmForm.getSelectedReporter().equals(CaIntegratorConstants.GRAPH_MEAN)  || kmForm.getSelectedReporter().equals(CaIntegratorConstants.GRAPH_MEDIAN)){
-            //	kmForm.setSelectedReporter(CaIntegratorConstants.GRAPH_BLANK);
-            //}
+            
         }
         else{
         	//this is cached....if we are switching the sample groups, then dont get it from cache
             kmResultsContainer = getKmResultsContainer(servletRequest.getSession().getId());
         
-          //  String quickSearchVariableName = kmForm.getGeneOrCytoband();
-        	//try and see which type of KM plot this WAS, since this is not preserved by the KMDataSetForm
-          //  String quickSearchType = ""; //kmResultsContainer.getCytobandDE() == null ? RembrandtConstants.GENE_SYMBOL : RembrandtConstants.SNP_PROBESET_ID;
-         //   quickSearchType = RembrandtConstants.SNP_PROBESET_ID;
-         //   kmResultsContainer = performKMCopyNumberQuery(sampleList, quickSearchVariableName, quickSearchType, institutionCriteria);
+       
 
         }
 //		if (kmResultsContainer != null	&& kmForm.getSelectedReporter() != null){
@@ -585,6 +634,14 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 		//	return mapping.findForward("failure");
 		//}
 		
+		List<String> errors = validateFormData();
+		if (errors.size() > 0) {
+			for (String error : errors)
+				addActionError(error);
+			
+			return ERROR;
+		}
+		
     	String sID = servletRequest.getHeader("Referer");
     	
     	// prevents Referer Header injection
@@ -595,7 +652,7 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 		QuickSearchForm qsForm = quickSearchForm;
 		
 		//ActionErrors errors = new ActionErrors();
-		List<String> errors = new ArrayList<String>();
+		
 		
 		
 		// cleanup data - To prevent cross-site scripting
@@ -612,6 +669,9 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 		if (errors.isEmpty()) {
 	        //TODO: what to do
 			//resetToken(request);
+			
+			//Save form to session for chained / redirect action use
+			servletRequest.getSession().setAttribute(QUICK_SEARCH_FORM_OBJ, quickSearchForm);
 
 			String chartType = qsForm.getPlot();
 
@@ -627,6 +687,10 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 				servletRequest.setAttribute("quickSearchType", qsForm.getQuickSearchType());
 				servletRequest.setAttribute("quickSearchName", qsForm.getQuickSearchName());
 				servletRequest.setAttribute("plotType",CaIntegratorConstants.COPY_NUMBER_KMPLOT);
+				
+				servletRequest.getSession().setAttribute("quickSearchType", qsForm.getQuickSearchType());
+				servletRequest.getSession().setAttribute("quickSearchName", qsForm.getQuickSearchName());
+				servletRequest.getSession().setAttribute("plotType",CaIntegratorConstants.COPY_NUMBER_KMPLOT);
 				return "kmplot";
 			}
 			if (chartType.equalsIgnoreCase(CaIntegratorConstants.SAMPLE_KMPLOT)) {
@@ -857,8 +921,7 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 		this.servletRequest = servletRequest;
 	}
 	
-	@Override
-	public void validate() {
+	public List<String> validateFormData() {
 	    
 		//ActionErrors errors = new ActionErrors();
 		List<String> errors = new ArrayList<String>();
@@ -880,9 +943,10 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 			}
 	    }
 		
-		for (String error : errors) {
-			addActionError(error);
-		}
+		//for (String error : errors) {
+		//	addActionError(error);
+		//}
+		return errors;
 		
 
 	}
