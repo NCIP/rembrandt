@@ -5,9 +5,8 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ page import="java.util.*, java.lang.*, java.io.*" %>
 <%
 //below, we need to set the form action to the name cooresponding bean/action -
@@ -34,10 +33,10 @@ String strIncFile2 = "/jsp/tiles/region_tile.jsp?act="+act;
 <br/>
 
 <div id="geneView">
-	<tiles:insert page="<%= strIncFile %>" flush="false" />
+	<tiles:insertAttribute page="<%= strIncFile %>" flush="false" />
 </div>
 <div id="regionView">
-	<tiles:insert page="<%= strIncFile2 %>" flush="false" />
+	<tiles:insertAttribute page="<%= strIncFile2 %>" flush="false" />
 </div>
 
 <br/>
