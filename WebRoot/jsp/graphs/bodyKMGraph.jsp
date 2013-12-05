@@ -6,55 +6,40 @@
 L--%>
 
 <%@page contentType="text/html"%>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles"%>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+
 <%@taglib uri='/WEB-INF/caintegrator-graphing.tld' prefix='graphing' %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ page import="java.util.*" %>
 <%@ page import="gov.nih.nci.rembrandt.util.*" %>
 
-<div><html:errors /> <%
-   String km = "kmplotGE";
-   String ta = "Simple_KM_sample_plot";
-   if(  ((request.getParameter("plot") != null) && 
-         (request.getParameter("plot").equalsIgnoreCase("kapMaiPlotGE")))
-           || 
-        ((request.getParameter("plot") == null) && 
-         (request.getParameter("plotType").equalsIgnoreCase("GE_KM_PLOT"))) ){
-         km = "kmplotGE";
-         ta = "Simple_KM_gene_expression_plot";
-   }
-   else if(  ((request.getParameter("plot") != null) && 
-         (request.getParameter("plot").equalsIgnoreCase("kapMaiPlotCN")))
-           || 
-        ((request.getParameter("plot") == null) && 
-         (request.getParameter("plotType").equalsIgnoreCase("COPY_NUM_KM_PLOT"))) ){
-        km = "kmplotCN";
-        ta = "Simple_KM_copy_number_plot";
-   }
-   else if(  ((request.getParameter("plot") != null) && 
-         (request.getParameter("plot").equalsIgnoreCase("kapMaiPlotGE")))
-           || 
-        ((request.getParameter("plot") == null) && 
-         (request.getParameter("plotType").equalsIgnoreCase("SAMPLE_KM_PLOT"))) ){//HACK FOR NOW
-         km = "kmplotGE";
-         ta = "Simple_KM_sample_plot";
-   }
-	
-	String baselineGroup = request.getParameter("baselineGroup")!=null ? (String)request.getParameter("baselineGroup") : "";
-	baselineGroup = MoreStringUtils.cleanJavascriptAndSpecialChars(MoreStringUtils.specialCharacters, baselineGroup);
-%><app:cshelp topic="<%=ta%>" /><br clear="all"/>
+<div>
+<s:actionerror />
+
+
+<s:set var="ta" value="getHelpTopic()" />
+<app:cshelp topic="${ta}" /><br clear="all"/>
    
 </div>
 
-<html:form action="/kmGraph.do?method=redrawKMPlot">
+<!--  html:form action="/kmGraph.do?method=redrawKMPlot"> -->
+ <s:form action="redrawKMPlot" method="post" >
+ <%	
+	String baselineGroup = request.getParameter("baselineGroup")!=null ? (String)request.getParameter("baselineGroup") : "";
+	baselineGroup = MoreStringUtils.cleanJavascriptAndSpecialChars(MoreStringUtils.specialCharacters, baselineGroup);	
+	out.println("BaseLine Group: " + baselineGroup);
+%>
 	<input type="hidden" name="baselineGroup" value="<%=baselineGroup%>"/>
-	<html:hidden property="geneOrCytoband" />
-	<html:hidden property="plotType" />
+	<input type="hidden" name="geneOrCytoband" value="<s:property value="kmForm.geneOrCytoband" />"/>
+	<input type="hidden" name="plotType" value="<s:property value="kmForm.plotType" />"/>
 	
-	<logic:notEqual name="kmDataSetForm" property="plotType" value="SAMPLE_KM_PLOT">
+	<s:set var="cyto" value="<s:property value='kmForm.geneOrCytoband' />" />
+	<!--  s:hidden name="kmForm.geneOrCytoband" value="" /> -->
+	<!--  s:hidden name="kmForm.plotType" value="<s:property value="#kmForm.plotType" />" /> -->
+	
+	<!--  logic:notEqual name="kmDataSetForm" property="plotType" value="SAMPLE_KM_PLOT">-->
+	<s:if test="!kmForm.plotType.equals('SAMPLE_KM_PLOT')">
 	<div>
 	<% if(baselineGroup.length()>0)	{	%>
 		<b>Constrained to group: <%=baselineGroup%></b><br/><br/>
@@ -66,36 +51,41 @@ L--%>
 			<tr>			
 				<td>
 					<!-- Upregulated/Amplified  -->
-					<span style="font-size:.9em"><label for="upFold"><bean:write name="kmDataSetForm" property="upOrAmplified" /></label></span>
+					<span style="font-size:.9em">
+					<label for="upFold">
+					<s:property value="kmForm.upOrAmplified" />
+					</label>
+					</span>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&ge;&nbsp; 
 				<!--check to see if it is copy number km plot or GE km plot. if it is, change the amplified fold change values-->
-				<logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">	
-					<html:select styleId="upFold" property="upFold">
-						<html:options property="folds" />
-					</html:select>
-				</logic:equal>
-				<logic:equal name="kmDataSetForm" property="plotType" value="COPY_NUM_KM_PLOT">						
-					<html:select styleId="upFold" property="upFold">
-						<html:options property="copyNumberUpFolds" />
-					</html:select>
-				</logic:equal>
+				<!--  logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">	-->
+				<s:if test="kmForm.plotType.equals('GE_KM_PLOT')">
+					<s:select id="upFold" name="kmForm.upFold" list="kmForm.folds" theme="simple">
+					</s:select>
+				</s:if>
+				
+				
+				<s:if test="kmForm.plotType.equals('COPY_NUM_KM_PLOT')">					
+					<s:select id="upFold" name="kmForm.upFold" list="kmForm.copyNumberUpFolds" theme="simple">
+					</s:select>
+				</s:if>
 				<!--end after up fold change values have been determined-->
 					
-					
-					
-					
-					<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="changeType" /></span>
+					<span style="font-size:.9em">
+					<s:property value="kmForm.changeType" />
+					</span>
 				</td>
 				
 				<td>			
-					<!--make sure plot is GE and not Copy # before giving option of algorithm to use-->
-					<logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">						
+					<!--make sure plot is GE and not Copy # before giving option of algorithm to use-->	
+					<s:if test="kmForm.plotType.equals('GE_KM_PLOT')">					
 						<!--Unified or regular algorithm-->
 						<span style="font-size:.9em;margin-left:10px"><label for="reporterType">Reporter Type</label></span>			
-						<html:select styleId="reporterType" property="reporterSelection" onchange="$('redrawGraphButton').disabled = 'true';$('redrawGraphButton').style.color='gray'; document.forms[0].selectedReporter.selectedIndex=0;  document.forms[0].submit();">
-							<html:options property="algorithms" />
-						</html:select> &nbsp; 	
-					</logic:equal>		
+						<s:select id="reporterType" name="kmForm.reporterSelection" list="kmForm.algorithms" theme="simple"
+						onchange="$('redrawGraphButton').disabled = 'true';$('redrawGraphButton').style.color='gray'; document.forms[0].selectedReporter.selectedIndex=0;  document.forms[0].submit();">
+							
+						</s:select> &nbsp; 	
+					</s:if>		
 				</td>
 				
 			</tr>
@@ -104,69 +94,74 @@ L--%>
 			<tr>
 				<td>
 				<!-- Downregulated/Deleted -->
-				<span style="font-size:.9em"><label for="downFold"><bean:write name="kmDataSetForm" property="downOrDeleted" /></label></span>			
+				<span style="font-size:.9em"><label for="downFold">
+				<s:property value="kmForm.downOrDeleted" />
+				</label></span>			
 				
 				<!--check to see if it is copy number km plot or GE km plot. if it is, change the deleted fold change values-->
-				<logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">						
+				<s:if test="kmForm.plotType.equals('GE_KM_PLOT')">					
 					&nbsp;&ge;&nbsp; 
-					<html:select styleId="downFold" property="downFold">
-						<html:options property="folds" />
-					</html:select>
-				</logic:equal>
-				<logic:equal name="kmDataSetForm" property="plotType" value="COPY_NUM_KM_PLOT">						
+					<s:select id="downFold" name="kmForm.downFold" list="kmForm.folds" theme="simple">
+	
+					</s:select>
+				</s:if>
+				<s:if test="kmForm.plotType.equals('COPY_NUM_KM_PLOT')">					
 					&nbsp;&le;&nbsp; 
-					<html:select styleId="downFold" property="downFold">
-						<html:options property="copyNumberDownFolds" />
-					</html:select>
-				</logic:equal>
+					<s:select id="downFold" name="kmForm.downFold" list="kmForm.copyNumberDownFolds" theme="simple">
+						
+					</s:select>
+				</s:if>
 				<!--end after deleted fold change values have been determined-->
 				 			
-				<span style="font-size:.9em"><bean:write name="kmDataSetForm" property="changeType" /></span> 
+				<span style="font-size:.9em">
+				<s:property value="kmForm.changeType" />
+				</span> 
 				</td>
 				
 				<!--Reporters-->
 				<td>
 					<!--make sure plot is GE and not Copy # before giving option of algorithm to use-->
-					<logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">	
+					<s:if test="kmForm.plotType.equals('GE_KM_PLOT')">
 						<span style="font-size:.9em;margin-left:10px"><label for="selectedReporter">Reporters</label></span>
-						<html:select styleId="selectedReporter" property="selectedReporter">
-							<html:options property="reporters" />
-						</html:select>
-					</logic:equal>	
+						
+						<s:select id="selectedReporter" name="kmForm.selectedReporter" list="kmForm.reporters" theme="simple">
+						</s:select>
+					</s:if>	
 				</td>
 			</tr>
 			
 			<tr>
 				<td align="center" colspan="2" style="font-size:.9em;margin-left:10px">
 					<p align="left">Select which plots should be visible in the redrawn graph:<label for="item">&#160;</label><br/></p>
-				    <logic:iterate id="item" property="items" name="kmDataSetForm">
-				      	<html:multibox styleId="item" property="selectedItems" name="kmDataSetForm">
-				       		<bean:write name="item"/> 
-				      	</html:multibox> 
-				       	<bean:write name="item"/>
-				    </logic:iterate>
+					<s:iterator value="kmForm.items" var="item"> 
+						<s:checkbox name="kmForm.selectedItems" theme = "simple">
+							<s:property value="#item" />
+						</s:checkbox>
+					</s:iterator>
 				</td>
 			</tr>
 			
 		</table>
 	</div>
 	<br/>
-	<html:submit value="Redraw Graph" styleId="redrawGraphButton" />
-	</logic:notEqual>
+	<!--  s:submit value="Redraw Graph" id="redrawGraphButton" /> -->
+	<s:submit type="button" id="redrawGraphButton" theme="simple">Redraw Graph</s:submit>
+	</s:if>
 		
 	<div>
-	<logic:equal name="kmDataSetForm" property="plotVisible" value="true">
+	<s:if test="kmForm.plotVisible == true">
+	
 		<hr/>
 		<b> 
 			<font size="+1"> 
-				<bean:write name="kmDataSetForm" property="chartTitle" /> 
+				<s:property value="kmForm.chartTitle" />
 			</font>
 		</b>
 		<br/>
 		
 		<!-- INSERT CHART HERE --> 
 		<p>
-			<graphing:KaplanMeierPlot bean="kmDataSetForm" dataset="selectedDataset" />
+			<graphing:KaplanMeierPlot bean="kmForm" dataset="selectedDataset" />
 		</p>
 		<p>
 		<br/>
@@ -176,85 +171,76 @@ L--%>
 		View Clinical Reports<br />
 	
 		
-		<bean:define id="selectedItemsId" name="kmDataSetForm" property="selectedItems" />
+		<!-- bean:define id="selectedItemsId" name="kmDataSetForm" property="selectedItems" />  -->
+		<s:set var="selectedItemsId" value="kmForm.selectedItems" />
+		
 		<% 
-		String[] selectedGroups = (String[])selectedItemsId; 
-		List selectedGrpList = Arrays.asList(selectedGroups);
+		//Shan: why do we need this
+		//String[] selectedGroups = (String[])selectedItemsId; 
+		//List selectedGrpList = Arrays.asList(selectedGroups);
 		%>
 
 		<!--check what type of plot it is as to display the correct link text-->
-		<logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">		
-			<%
-			if ( selectedGrpList != null && selectedGrpList.contains("Up-Regulated") ) {
-			%>
-				<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=up',700,500,'clinicalPlots');"/>Upregulating Samples</a>
-			<%
-			}
-			if ( selectedGrpList != null && selectedGrpList.contains("Down-Regulated") ) {
-			%>
+		<!--  logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">	-->
+		<s:if test="kmForm.plotType.equals('GE_KM_PLOT')">	
+			<s:if test="kmForm.selectedItems != null && kmForm.selectedItems.contains('Up-Regulated')">
+				<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=up',700,500,'clinicalPlots');"/>
+				Upregulating Samples</a>
+			</s:if>
+			<s:if test="kmForm.selectedItems != null && kmForm.selectedItems.contains('Down-Regulated')">
 		 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=down',700,500,'clinicalPlots');"/>Downregulating samples</a>
-			<%
-			}
-			%>
-			<!--  
-			<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=up',700,500,'clinicalPlots');"/>Upregulating Samples</a>
-		 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=down',700,500,'clinicalPlots');"/>Downregulating samples</a>
-			-->
-		</logic:equal>
-		<logic:equal name="kmDataSetForm" property="plotType" value="COPY_NUM_KM_PLOT">		
-			<%
-			if ( selectedGrpList != null && selectedGrpList.contains("Up-Regulated") ) {
-			%>
+			</s:if>
+			
+		</s:if>
+		<s:if test="kmForm.plotType.equals('COPY_NUM_KM_PLOT')">	
+			
+			<s:if test="kmForm.selectedItems != null && kmForm.selectedItems.contains('Up-Regulated')">
 				<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=up',700,500,'clinicalPlots');"/>Samples with Amplification</a>
-			<%
-			}
-			if ( selectedGrpList != null && selectedGrpList.contains("Down-Regulated") ) {
-			%>
+			</s:if>
+			
+			<s:if test="kmForm.selectedItems != null && kmForm.selectedItems.contains('Down-Regulated')">
 		 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=down',700,500,'clinicalPlots');"/>Samples with Deletion</a>
-			<%
-			}
-			%>
-			<!--  
-			<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=up',700,500,'clinicalPlots');"/>Samples with Amplification</a>
-		 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=down',700,500,'clinicalPlots');"/>Samples with Deletion</a>
-			-->
-		</logic:equal>
-		<logic:notEqual name="kmDataSetForm" property="plotType" value="SAMPLE_KM_PLOT">
-			<%
-			if ( selectedGrpList != null && selectedGrpList.contains("Intermediate") ) {
-			%>
+			</s:if>
+			
+		</s:if>
+		
+		<s:if test="!kmForm.plotType.equals('SAMPLE_KM_PLOT')">
+			
+			<s:if test="kmForm.selectedItems != null && kmForm.selectedItems.contains('Intermediate')">
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=inter',700,500,'clinicalPlots');"/>Intermediate Samples</a>
-			<%
-			}
-			%>
-			<!--  
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=inter',700,500,'clinicalPlots');"/>Intermediate Samples</a>
-			-->		
-		</logic:notEqual>
-		<logic:equal name="kmDataSetForm" property="plotType" value="SAMPLE_KM_PLOT">
+			</s:if>
+				
+		</s:if>
+		
+		<s:if test="kmForm.plotType.equals('SAMPLE_KM_PLOT')">
 			<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=list1',700,500,'clinicalPlots');return false;"/><bean:write name="kmDataSetForm" property="storedData.samplePlot1Label" /></a>
-			<logic:notEqual name="kmDataSetForm" property="storedData.samplePlot2Label" value="none">
-				<a style="margin-left:20px" href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=list2',700,500,'clinicalPlots');return false;"/><bean:write name="kmDataSetForm" property="storedData.samplePlot2Label" /></a>
-			</logic:notEqual>
-		</logic:equal>
+			
+			<s:if test="!kmForm.storedData.samplePlot2Label.equals('none')">
+				<a style="margin-left:20px" href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=list2',700,500,'clinicalPlots');return false;"/>
+				<!-- bean:write name="kmDataSetForm" property="storedData.samplePlot2Label" />  -->
+				<s:property value="kmForm.storedData.samplePlot2Label" />
+				</a>
+			</s:if>
+		</s:if>
 		
 		<!-- Statistical Data  STARTS HERE --></p>
 		<fieldset class="gray" style="text-align:left">
 		<legend class="red">Statistical	Report:</legend>
 		<table class="graphTable" border="0" cellpadding="2" cellspacing="0">
-			<logic:present name="kmDataSetForm" property="geneOrCytoband">
+			<s:if test="kmForm.geneOrCytoband != null && kmForm.geneOrCytoband.length() > 0">
 				<tr>
 					<td colspan="2" id="reportBold">
-					<bean:write name="kmDataSetForm" property="geneOrCytoband" /></td>
+						<s:property value="kmForm.geneOrCytoband" />
+					</td>
 				</tr>
-			</logic:present>
-			<logic:present name="kmDataSetForm" property="selectedReporter">
+			</s:if>
+			<s:if test="kmForm.selectedReporter != null && kmForm.selectedReporter.length() > 0">
 				<!--Show the selected Reporter -->
 				<tr>
-					<td colspan="2" id="reportBold">Reporter: <bean:write
-						name="kmDataSetForm" property="selectedReporter" /></td>
+					<td colspan="2" id="reportBold">Reporter: <s:property value="kmForm.selectedReporter" />
+						</td>
 				</tr>
-			</logic:present>
+			</s:if>
 			<tr>
 				<td colspan="2">&nbsp;</td>
 			</tr>
@@ -262,41 +248,53 @@ L--%>
 			<tr>
 				<td colspan="2" id="reportBold">Number of samples in group:</td>
 			</tr>
-    		<logic:greaterThan name="kmDataSetForm" property="storedData.upSampleCount"
-				value="0">
+    		<s:if test="kmForm.storedData.upSampleCount > 0">
 				<tr>
-					<td><bean:write name="kmDataSetForm" property="upOrAmplified" />:</td>
-					<td><bean:write name="kmDataSetForm" property="storedData.upSampleCount" /></td>
+					<td>
+					<s:property value="kmForm.upOrAmplified" />:</td>
+					<td>
+					<s:property value="kmForm.storedData.upSampleCount" />
+					upOrAmplified
+					</td>
 				</tr>
-			</logic:greaterThan>
-			<logic:greaterThan name="kmDataSetForm" property="storedData.downSampleCount"
-				value="0">
+			</s:if>
+			<s:if test="kmForm.storedData.downSampleCount > 0">
 				<tr>
-					<td><bean:write name="kmDataSetForm" property="downOrDeleted" />:</td>
-					<td><bean:write name="kmDataSetForm" property="storedData.downSampleCount" /></td>
+					<td>
+					<s:property value="kmForm.storedData.downOrDeleted" />:</td>
+					<td>
+					<s:property value="kmForm.storedData.downSampleCount" />
+					</td>
 				</tr>
-			</logic:greaterThan>
-			<logic:greaterThan name="kmDataSetForm" property="storedData.intSampleCount"
-				value="0">
+			</s:if>
+			<s:if test="kmForm.storedData.intSampleCount > 0">
 				<tr>
 					<td>Intermediate:</td>
-					<td><bean:write name="kmDataSetForm" property="storedData.intSampleCount" /></td>
+					<td>
+					<s:property value="kmForm.storedData.intSampleCount" />
+					</td>
 				</tr>
-			</logic:greaterThan>
-			<logic:greaterThan name="kmDataSetForm" property="storedData.sampleList1Count"
-				value="0">
+			</s:if>
+			<s:if test="kmForm.storedData.sampleList1Count > 0">
 				<tr>
-					<td><bean:write name="kmDataSetForm" property="storedData.samplePlot1Label" /></td>
-					<td><bean:write name="kmDataSetForm" property="storedData.sampleList1Count" /></td>
+					<td>
+					<s:property value="kmForm.storedData.samplePlot1Label" />
+					</td>
+					<td>
+					<s:property value="kmForm.storedData.sampleList1Count" />
+					</td>
 				</tr>
-			</logic:greaterThan>
-			<logic:greaterThan name="kmDataSetForm" property="storedData.sampleList2Count"
-				value="0">
+			</s:if>
+			<s:if test="kmForm.storedData.sampleList2Count > 0">
 				<tr>
-					<td><bean:write name="kmDataSetForm" property="storedData.samplePlot2Label" /></td>
-					<td><bean:write name="kmDataSetForm" property="storedData.sampleList2Count" /></td>
+					<td>
+					<s:property value="kmForm.storedData.samplePlot2Label" />
+					</td>
+					<td>
+					<s:property value="kmForm.storedData.sampleList2Count" />
+					</td>
 				</tr>
-			</logic:greaterThan>
+			</s:if>
 			<tr>
 				<td colspan="2">
 				<hr width="100%" size="1" color="black" />
@@ -307,84 +305,96 @@ L--%>
 				<td id="reportBold" colspan="3">Log-rank p-value(for significance of
 				difference of survival between group of samples)</td>
 			</tr>
-			<logic:greaterThan name="kmDataSetForm" property="storedData.upVsIntPvalue"
-				value="-100">
+			<s:if test="kmForm.storedData.upVsIntPvalue > -100">
 				<tr>
-					<td><bean:write name="kmDataSetForm" property="upOrAmplified" />
+					<td>
+					<s:property value="kmForm.upOrAmplified" />
 					vs. Intermediate:</td>
-					<td><bean:write name="kmDataSetForm" property="storedData.upVsIntPvalue" /></td>
+					<td>
+					<s:property value="kmForm.storedData.upVsIntPvalue" />
+					</td>
 				</tr>
-			</logic:greaterThan>
+			</s:if>
 
-			<logic:greaterThan name="kmDataSetForm" property="storedData.upVsDownPvalue"
-				value="-100">
+			<s:if test="kmForm.storedData.upVsDownPvalue > -100">
 				<tr>
-					<td><bean:write name="kmDataSetForm" property="upOrAmplified" />
-					 vs. <bean:write name="kmDataSetForm" property="downOrDeleted" />:</td>
-					<td><bean:write name="kmDataSetForm" property="storedData.upVsDownPvalue" /></td>
+					<td>
+					<s:property value="kmForm.upOrAmplified" />
+					 vs. <s:property value="kmForm.downOrDeleted" />:</td>
+					<td>
+					<s:property value="kmForm.storedData.upVsDownPvalue" />
+					</td>
 				</tr>
-			</logic:greaterThan>
+			</s:if>
 
-			<logic:greaterThan name="kmDataSetForm" property="storedData.downVsIntPvalue"
-				value="-100">
+			<s:if test="kmForm.storedData.downVsIntPvalue > -100">
 				<tr>
-					<td><bean:write name="kmDataSetForm" property="downOrDeleted" />
+					<td>
+					<s:property value="kmForm.downOrDeleted" />
 					vs. Intermediate:</td>
-					<td><bean:write name="kmDataSetForm" property="storedData.downVsIntPvalue" /></td>
+					<td>
+					<s:property value="kmForm.storedData.downVsIntPvalue" />
+					</td>
 				</tr>
-			</logic:greaterThan>
-			<logic:greaterThan name="kmDataSetForm" property="storedData.numberOfPlots"
-				value="2">
+			</s:if>
+			<s:if test="kmForm.storedData.numberOfPlots > 2">
 				<tr>
 					<td colspan="2">
 					<hr width="100%" size="1" color="black" />
 					</td>
 				</tr>
-				<logic:greaterThan name="kmDataSetForm" property="storedData.upVsRestPvalue"
-					value="-100">
+				<s:if test="kmForm.storedData.upVsRestPvalue > -100">
 					<tr>
-						<td><bean:write name="kmDataSetForm" property="upOrAmplified" />
+						<td>
+						<s:property value="kmForm.upOrAmplified" />
 						vs. all other samples:</td>
-						<td><bean:write name="kmDataSetForm" property="storedData.upVsRestPvalue" /></td>
+						<td>
+						<s:property value="kmForm.storedData.upVsRestPvalue" />
+						</td>
 					</tr>
-				</logic:greaterThan>
-				<logic:greaterThan name="kmDataSetForm" property="storedData.downVsRestPvalue"
-					value="-100">
+				</s:if>
+				<s:if test="kmForm.storedData.downVsRestPvalue > -100">
 					<tr>
-						<td><bean:write name="kmDataSetForm" property="downOrDeleted" />
+						<td>
+						<s:property value="kmForm.downOrDeleted" />
 						vs. all other samples:</td>
-						<td><bean:write name="kmDataSetForm" property="storedData.downVsRestPvalue" /></td>
+						<td>
+						<s:property value="kmForm.storedData.downVsRestPvalue" />
+						</td>
 					</tr>
-				</logic:greaterThan>
-				<logic:greaterThan name="kmDataSetForm" property="storedData.intVsRestPvalue"
-					value="-100">
+				</s:if>
+				<s:if test="kmForm.storedData.intVsRestPvalue > -100">
 					<tr>
 						<td>Intermediate vs. all other samples:</td>
-						<td><bean:write name="kmDataSetForm" property="storedData.intVsRestPvalue" /></td>
+						<td>
+						<s:property value="kmForm.storedData.intVsRestPvalue" />
+						</td>
 					</tr>
-				</logic:greaterThan>
-			</logic:greaterThan>
-				<logic:greaterThan name="kmDataSetForm" property="storedData.sampleList1VsSampleList2"
-					value="-100">
+				</s:if>
+			</s:if>
+				<s:if test="kmForm.storedData.sampleList1VsSampleList2 > -100">
 					<tr>
-						<td><bean:write name="kmDataSetForm" property="storedData.samplePlot1Label" /> vs. <bean:write name="kmDataSetForm" property="storedData.samplePlot2Label" />:</td>
-						<td><bean:write name="kmDataSetForm" property="storedData.sampleList1VsSampleList2" /></td>
+						<td>
+						<s:property value="kmForm.storedData.samplePlot1Label" /> vs. <s:property value="kmForm.storedData.samplePlot2Label" />:</td>
+						<td>
+						<s:property value="kmForm.storedData.sampleList1VsSampleList2" />
+						</td>
 					</tr>
-				</logic:greaterThan>
+				</s:if>
 
-			<logic:lessEqual name="kmDataSetForm" property="storedData.numberOfPlots"
-				value="1">
+			<s:if test="kmForm.storedData.numberOfPlots < 1">
 				<td>N/A ( Not Applicable )</td>
-			</logic:lessEqual>
+			</s:if>
 		</table>
 		</fieldset>
 		
-	</logic:equal> <!-- TAG CREATION WOULD NEED TO CONTAIN THE ABOVE --> 
-	<logic:equal name="kmDataSetForm" property="plotVisible" value="false">
+	</s:if> <!-- TAG CREATION WOULD NEED TO CONTAIN THE ABOVE --> 
+	
+	<s:if test="kmForm.plotVisible == false">
 		<p>To display graph, Please select a Reporter for the Gene: 
-		<bean:write	name="kmDataSetForm" property="geneOrCytoband" /> and select "Redraw Graph"
+		<s:property value="kmForm.geneOrCytoband" /> and select "Redraw Graph"
 		</p>
-	</logic:equal>
+	</s:if>
 </div>
-</html:form>
+</s:form>
 
