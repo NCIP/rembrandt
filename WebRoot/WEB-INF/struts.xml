@@ -59,15 +59,6 @@
 		class="gov.nih.nci.rembrandt.web.struts2.action.DoFirst">
 		<result name="success" type="tiles">nautilus.home</result>
 	</action>
-	
-	<action name="kmGraph"            
-        class="gov.nih.nci.rembrandt.web.struts2.action.QuickSearchAction" method="doKMPlot">     
-		 <result name="kmplot" type="tiles">nautilus.KMGraph</result>
-         <result name="badgraph" type="redirectAction">
-         	<param name="actionName">home</param>
-         	 <param name="namespace">/rembrandt</param>
-        </result>
-	</action>
 	           
 	<!-- scope="request"
 			input="nautilus.home"
@@ -88,7 +79,7 @@
          <!--  result name="kmplot" type="redirect">/kmGraph.action-->
           <result name="kmplot" type="redirectAction">
           	<param name="actionName">kmGraph</param>
-        	 <param name="quickSearchForm">${quickSearchForm}</param>
+        	
         	 
         	 <!-- param name="method">doKMPlot</param>  -->
          </result>
@@ -96,6 +87,24 @@
 		 <result name="failure" type="redirectAction">
 		 	<param name="actionName">login</param>
 		 </result>
+	</action>
+	
+	<action name="kmGraph"            
+        class="gov.nih.nci.rembrandt.web.struts2.action.QuickSearchAction" method="doKMPlot">     
+		 <result name="kmplot" type="tiles">nautilus.KMGraph</result>
+         <result name="badgraph" type="redirectAction">
+         	<param name="actionName">home</param>
+         	 <!--  param name="namespace">/rembrandt</param> -->
+        </result>
+	</action>
+	
+	<action name="redrawKMPlot"            
+        class="gov.nih.nci.rembrandt.web.struts2.action.QuickSearchAction" method="redrawKMPlot">     
+		 <result name="kmplot" type="tiles">nautilus.KMGraph</result>
+         <result name="badgraph" type="redirectAction">
+         	<param name="actionName">home</param>
+         	 <!--  param name="namespace">/rembrandt</param> -->
+        </result>
 	</action>
 	
 	<action name="graph">

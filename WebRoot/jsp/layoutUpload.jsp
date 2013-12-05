@@ -18,15 +18,15 @@ L--%>
 <html>
 <head>
 	<title><tiles:getAsString name="title"/></title>
-	<tiles:insert attribute="htmlHead"/> <%-- include html head --%>
+	<tiles:insertAttribute name="htmlHead"/> <%-- include html head --%>
 </head>
 <body>
-    <tiles:insert attribute="overlib"/> <%-- include div for overlib --%>
-    <tiles:insert attribute="header"/> <%-- include header --%>
+    <tiles:insertAttribute name="overlib"/> <%-- include div for overlib --%>
+    <tiles:insertAttribute name="header"/> <%-- include header --%>
 	<div class="content">
 		<h3><tiles:getAsString name="title"/></h3>
 		
-		<tiles:insert attribute="mainForm"/>
+		<tiles:insertAttribute name="mainForm"/>
 		
 	</div>
     

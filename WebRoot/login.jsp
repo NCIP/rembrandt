@@ -17,6 +17,7 @@ if(session.getAttribute("logged") == "yes")
 {
 //youre already logged in, why are you here?
 response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+
 String newLocn = "welcome.jsp";
 response.setHeader("Location",newLocn);
 }

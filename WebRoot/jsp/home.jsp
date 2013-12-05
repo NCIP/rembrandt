@@ -12,7 +12,7 @@ L--%>
 <br clear="both"/>
 
  
-    <s:form action="quickSearch" method="quickSearch" id="qsForm">  
+    <s:form action="quickSearch" method="post" id="qsForm">  
     
   	<fieldset>
      
@@ -36,9 +36,9 @@ L--%>
 	        </strong>    
 	        <br><br>
 	        
-	        <b>Gene Expression-based  and Copy Number-based Graphs&nbsp;&nbsp;&nbsp;&nbsp;
+	        <h5>Gene Expression-based  and Copy Number-based Graphs&nbsp;&nbsp;&nbsp;&nbsp;
 	        <!-- <app:help help="Select a search method and enter search criteria, such as a HUGO gene symbol." />-->
-	        </b>
+	        </h5>
 	        <br>
 	        <input type="radio" checked="checked" name="quickSearchForm.plot" id="geneExpPlot" class="radio" value="geneExpPlot" onclick="javascript:onRadio(this,0);needGVal = true;">
 	        <label for="geneExpPlot">Gene Expression plot&nbsp;</label><br />
@@ -130,16 +130,11 @@ L--%>
         	 <s:select property="baselineGroup" list="quickSearchForm.sampleGroupsList" id="baselineGroupName" disabled="true" theme="simple">
 			 	
 			</s:select>
-
-	        
-	  
 	        
 	        <br><br>
 	        
-	        
-	        
 	        <!--  sample based plots -->
-	        <b>Sample-based Graph&nbsp;&nbsp;&nbsp;&nbsp;</b>
+	        <h5>Sample-based Graph&nbsp;&nbsp;&nbsp;&nbsp;</h5>
 	        <br>
 	        <input id="samplePlotRadio" type="radio" name="quickSearchForm.plot" class="radio" value="<%=CaIntegratorConstants.SAMPLE_KMPLOT%>" onclick="javascript:onRadio(this,3); needGVal = false;">
 	        <label for="samplePlotRadio">Kaplan-Meier survival plot for Sample Data&nbsp;</label>
@@ -187,10 +182,10 @@ L--%>
 	        </script>
         </s:if>
         
-       <s:if test="quickSearchForm.getAllGeneAlias() != null">
+       <s:if test="quickSearchForm.getAllGeneAlias() != null && quickSearchForm.getAllGeneAlias().size() > 0">
         	<div style="text-align:center; margin-top:20px; margin-bottom:20px;">
 	        <s:select name="quickSearchForm.quickSearchName" list="quickSearchForm.allGeneAlias" theme="simple">
-	       
+	       <!--  Shan: there might be sth else here -->
 	        </s:select>
 	        </div>
 	        <s:hidden name="quickSearchForm.plot" />
@@ -202,20 +197,15 @@ L--%>
         <div style="text-align:center">
 	        <input type="submit" id="submitButton" onclick="" class="xbutton" style="width:50px;" value="Go" />
 	        
+	        <!-- Shan: what is this -->
 	        <s:if test="quickSearchForm.getAllGeneAlias() != null">
 	       		<html:button styleClass="xbutton" property="method" style="width:75px;" value="Cancel" onclick="javascript:location.href='home.do';" />
 	        </s:if>
-        <!-- 
-        	<app:help help="Select either the Gene Keyword or SNP Probe set ID option, as applicable, from the drop-down list and enter the keyword or ID in the text box.The SNP Probe set ID option is available only for the Copy Number-based Graph format." />
-        -->
+        
         
         </div>
         <br>         
       </fieldset>
-      <!-- 
-      <html:hidden property="plot" />
-      <html:hidden property="quickSearchName" />
-      -->
       
     </s:form>
     <br/>
@@ -228,7 +218,9 @@ L--%>
 
 <script type="text/javascript">
 	window.onload = function()	{ 
-		$('qsForm').reset();
+		
+		//Shan this probably is not needed
+		//$('qsForm').reset();
 		
 		//preselect ALL
     	var opts = document.getElementById("baselineGroupName").options;
@@ -242,6 +234,9 @@ L--%>
 		$('quickSearchName').disabled = false;
 		
 		$('qsForm').onsubmit = function()	{
+			
+			//alert("In onsubmit");
+			
 			//test this on mac
 			//dont do the alias look up for SNP
 			if(document.forms[0].quickSearchType.selectedIndex==1)	{

@@ -5,8 +5,8 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 <%@ page import="java.util.*, java.lang.*, java.io.*, gov.nih.nci.rembrandt.util.RembrandtConstants" %>
@@ -177,7 +177,7 @@ String param = request.getParameter("s");
   		System.out.println();
  	%>
  	<div class="report" style="padding:3px">
-      <tiles:insert page="<%= strIncFile %>" flush="false" />
+      <tiles:insertAttribute page="<%= strIncFile %>" flush="false" />
 	</div>
   <%
   }
