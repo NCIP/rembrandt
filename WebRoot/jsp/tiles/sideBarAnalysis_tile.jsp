@@ -5,10 +5,8 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ page import="java.util.*"%> 
 
 <jsp:useBean id="userPreferences" class="gov.nih.nci.rembrandt.web.bean.UserPreferencesBean" scope="session"/>
@@ -29,4 +27,4 @@ L--%>
 	
 </div>
 
-<tiles:insert page="/jsp/tiles/sideBar_tile.jsp" flush="false" />
+<tiles:insertAttribute page="/jsp/tiles/sideBar_tile.jsp" flush="false" />
