@@ -5,9 +5,8 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ page import="java.util.*, java.lang.*, java.io.*" %>
 <%
 //below, we need to set the form action to the name cooresponding bean/action -
@@ -48,9 +47,9 @@ strIncFile6 = "/jsp/tiles/segmentMean_tile.jsp?act="+act;
 <fieldset style="padding:5px;">
 <legend class="right" align="right">AND</legend><br clear="both"/><br clear="both"/>
 
-<tiles:insert page="<%= strIncFile %>" flush="false" />
-<tiles:insert page="<%= strIncFile4 %>" flush="false" />
-<tiles:insert page="<%= strIncFile5 %>" flush="false" />
+<tiles:insertAttribute page="<%= strIncFile %>" flush="false" />
+<tiles:insertAttribute page="<%= strIncFile4 %>" flush="false" />
+<tiles:insertAttribute page="<%= strIncFile5 %>" flush="false" />
 <%
 if(act.equalsIgnoreCase("comparitivegenomic"))	{
 %>
@@ -61,20 +60,20 @@ if(act.equalsIgnoreCase("comparitivegenomic"))	{
 <br/>
 
 <div id="calculatedCN">
-	<tiles:insert page="<%= strIncFile2 %>" flush="false" />
+	<tiles:insertAttribute page="<%= strIncFile2 %>" flush="false" />
  </div>
 
 <div id="segmentMean"> 
-	<tiles:insert page="<%= strIncFile6 %>" flush="false" /> 
+	<tiles:insertAttribute page="<%= strIncFile6 %>" flush="false" /> 
 </div>  
 <%
 } else{%>
-<tiles:insert page="<%= strIncFile2 %>" flush="false" />
+<tiles:insertAttribute page="<%= strIncFile2 %>" flush="false" />
 <%
 }
 %>
 
-<tiles:insert page="<%= strIncFile3 %>" flush="false" />
+<tiles:insertAttribute page="<%= strIncFile3 %>" flush="false" />
 
 
 
