@@ -28,11 +28,12 @@ L--%>
  <%	
 	String baselineGroup = request.getParameter("baselineGroup")!=null ? (String)request.getParameter("baselineGroup") : "";
 	baselineGroup = MoreStringUtils.cleanJavascriptAndSpecialChars(MoreStringUtils.specialCharacters, baselineGroup);	
-	out.println("BaseLine Group: " + baselineGroup);
+	//baselineGroup = "debug";
+	//out.println("BaseLine Group: " + baselineGroup);
 %>
 	<input type="hidden" name="baselineGroup" value="<%=baselineGroup%>"/>
-	<input type="hidden" name="geneOrCytoband" value="<s:property value="kmForm.geneOrCytoband" />"/>
-	<input type="hidden" name="plotType" value="<s:property value="kmForm.plotType" />"/>
+	<!--  s:hidden name="redrawInputForm.geneOrCytoband" value="<s:property value="kmForm.geneOrCytoband" />"/> -->
+	<!--  s:hidden name="redrawInputForm.plotType" value="<s:property value="kmForm.plotType" />"/> -->
 	
 	<s:set var="cyto" value="<s:property value='kmForm.geneOrCytoband' />" />
 	<!--  s:hidden name="kmForm.geneOrCytoband" value="" /> -->
@@ -60,13 +61,13 @@ L--%>
 				<!--check to see if it is copy number km plot or GE km plot. if it is, change the amplified fold change values-->
 				<!--  logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">	-->
 				<s:if test="kmForm.plotType.equals('GE_KM_PLOT')">
-					<s:select id="upFold" name="kmForm.upFold" list="kmForm.folds" theme="simple">
+					<s:select id="upFold" name="redrawInputForm.upFold" list="kmForm.folds" theme="simple">
 					</s:select>
 				</s:if>
 				
 				
 				<s:if test="kmForm.plotType.equals('COPY_NUM_KM_PLOT')">					
-					<s:select id="upFold" name="kmForm.upFold" list="kmForm.copyNumberUpFolds" theme="simple">
+					<s:select id="upFold" name="redrawInputForm.upFold" list="kmForm.copyNumberUpFolds" theme="simple">
 					</s:select>
 				</s:if>
 				<!--end after up fold change values have been determined-->
@@ -81,7 +82,7 @@ L--%>
 					<s:if test="kmForm.plotType.equals('GE_KM_PLOT')">					
 						<!--Unified or regular algorithm-->
 						<span style="font-size:.9em;margin-left:10px"><label for="reporterType">Reporter Type</label></span>			
-						<s:select id="reporterType" name="kmForm.reporterSelection" list="kmForm.algorithms" theme="simple"
+						<s:select id="reporterType" name="redrawInputForm.reporterSelection" list="kmForm.algorithms" theme="simple"
 						onchange="$('redrawGraphButton').disabled = 'true';$('redrawGraphButton').style.color='gray'; document.forms[0].selectedReporter.selectedIndex=0;  document.forms[0].submit();">
 							
 						</s:select> &nbsp; 	
@@ -101,13 +102,13 @@ L--%>
 				<!--check to see if it is copy number km plot or GE km plot. if it is, change the deleted fold change values-->
 				<s:if test="kmForm.plotType.equals('GE_KM_PLOT')">					
 					&nbsp;&ge;&nbsp; 
-					<s:select id="downFold" name="kmForm.downFold" list="kmForm.folds" theme="simple">
+					<s:select id="downFold" name="redrawInputForm.downFold" list="kmForm.folds" theme="simple">
 	
 					</s:select>
 				</s:if>
 				<s:if test="kmForm.plotType.equals('COPY_NUM_KM_PLOT')">					
 					&nbsp;&le;&nbsp; 
-					<s:select id="downFold" name="kmForm.downFold" list="kmForm.copyNumberDownFolds" theme="simple">
+					<s:select id="downFold" name="redrawInputForm.downFold" list="kmForm.copyNumberDownFolds" theme="simple">
 						
 					</s:select>
 				</s:if>
@@ -124,7 +125,7 @@ L--%>
 					<s:if test="kmForm.plotType.equals('GE_KM_PLOT')">
 						<span style="font-size:.9em;margin-left:10px"><label for="selectedReporter">Reporters</label></span>
 						
-						<s:select id="selectedReporter" name="kmForm.selectedReporter" list="kmForm.reporters" theme="simple">
+						<s:select id="selectedReporter" name="redrawInputForm.selectedReporter" list="kmForm.reporters" theme="simple">
 						</s:select>
 					</s:if>	
 				</td>
@@ -134,7 +135,7 @@ L--%>
 				<td align="center" colspan="2" style="font-size:.9em;margin-left:10px">
 					<p align="left">Select which plots should be visible in the redrawn graph:<label for="item">&#160;</label><br/></p>
 					<s:iterator value="kmForm.items" var="item"> 
-						<s:checkbox name="kmForm.selectedItems" theme = "simple">
+						<s:checkbox name="redrawInputForm.selectedItems" fieldValue="%{item}" theme = "simple">
 							<s:property value="#item" />
 						</s:checkbox>
 					</s:iterator>
