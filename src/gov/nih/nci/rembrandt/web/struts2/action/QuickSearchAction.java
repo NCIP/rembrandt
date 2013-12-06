@@ -122,6 +122,9 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 	HttpServletRequest servletRequest;
 	KMDataSetForm kmForm;
 	
+	KMDataSetForm redrawInputForm;
+	QuickSearchForm redrawInputSearchForm;
+	
 	static final String QUICK_SEARCH_FORM_OBJ = "quickSearchForm";
 	static final String KMDATASET_FORM_OBJ = "kmForm";
 
@@ -476,27 +479,32 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 		
 		InstitutionCriteria institutionCriteria = InsitutionAccessHelper.getInsititutionCriteria(servletRequest.getSession());
 
-		//KMDataSetForm kmForm = (KMDataSetForm) form;
 		KaplanMeierSampleInfo[] kmSampleInfos = null;
 		
-		kmForm = (KMDataSetForm)this.servletRequest.getSession().getAttribute(this.KMDATASET_FORM_OBJ);
-		
-		// cleanup data - To prevent cross-site scripting
-		if( kmForm.getGeneOrCytoband() != null )
-			kmForm.setGeneOrCytoband(MoreStringUtils.cleanJavascriptAndSpecialChars(MoreStringUtils.specialCharacters, kmForm.getGeneOrCytoband()));
-		if( kmForm.getPlotType() != null )
-			kmForm.setPlotType(MoreStringUtils.cleanJavascriptAndSpecialChars(MoreStringUtils.specialCharacters, kmForm.getPlotType()));
-		
+		//kmForm contains all info from the quick search main page
+		//redrawInputForm has user input before hitting redraw
+		kmForm = (KMDataSetForm)this.servletRequest.getSession().getAttribute(KMDATASET_FORM_OBJ);
+
+		String kmplotType = kmForm.getPlotType();
+		double upRegulation = redrawInputForm.getUpFold();
+		double downRegulation = redrawInputForm.getDownFold();
+		String algorithm = redrawInputForm.getReporterSelection(); 
+		String[] selectedPlots = redrawInputForm.getSelectedItems();
+
+		//transfer input to the kmform in session
+		kmForm.setPlotType(kmplotType);
+		kmForm.setUpFold(upRegulation);
+		kmForm.setDownFold(downRegulation);
+		kmForm.setReporterSelection(algorithm);
+		kmForm.setSelectedItems(selectedPlots);
+
 		String baselineGroup = servletRequest.getParameter("baselineGroup")!=null ? (String)servletRequest.getParameter("baselineGroup") : "ALL GLIOMA";
+		//String baselineGroup = this.redrawInputSearchForm.getBaselineGroup();
+		baselineGroup = (baselineGroup == null || baselineGroup.length() == 0) ? "ALL GLIOMA" : baselineGroup;
 		baselineGroup = MoreStringUtils.cleanJavascriptAndSpecialChars(MoreStringUtils.specialCharacters, baselineGroup);
 
-		String cy = servletRequest.getParameter("geneOrCytoband");
-		String type = servletRequest.getParameter("plotType");
-		
 		//		see if we are constraining by a group of samples
-		String cGroupName = "ALL GLIOMA"; //get from the Form
-		
-		cGroupName = baselineGroup;
+		String cGroupName = baselineGroup;
 		
 		List<SampleIDDE> sampleList = null;
 		UserListBeanHelper helper = new UserListBeanHelper(servletRequest.getSession());
@@ -508,118 +516,75 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 		catch(Exception e){
 			System.out.println("GROUP " + cGroupName + " NOT FOUND");
 		}
-		
-
-		// kmForm.setReporters(populateReporters());
-		String kmplotType = kmForm.getPlotType();
-		double upRegulation = kmForm.getUpFold();
-		double downRegulation = kmForm.getDownFold();
-        String algorithm = kmForm.getReporterSelection(); 
+        
         KaplanMeierPlotContainer kmResultsContainer = null;
         if(algorithm.equals(RembrandtConstants.REPORTER_SELECTION_UNI)){
-            kmResultsContainer = performKMGeneExpressionQuery(sampleList, kmForm.getGeneOrCytoband(), GeneExpressionDataSetType.UnifiedGeneExpressionDataSet, institutionCriteria);
+            kmResultsContainer = performKMGeneExpressionQuery(sampleList, kmForm.getGeneOrCytoband(), 
+            		GeneExpressionDataSetType.UnifiedGeneExpressionDataSet, institutionCriteria);
             
         }
         else{
         	//this is cached....if we are switching the sample groups, then dont get it from cache
             kmResultsContainer = getKmResultsContainer(servletRequest.getSession().getId());
-        
-       
-
         }
-//		if (kmResultsContainer != null	&& kmForm.getSelectedReporter() != null){
-		if (kmResultsContainer != null){			
-			List reporterList = kmResultsContainer.getAssociatedReporters();
-//			String reporter = kmForm.getSelectedReporter();
-			//remove extra formatting
-			int pos = 0;
-			
-/*			 if (reporter.contains(CaIntegratorConstants.HIGHEST_GEOMETRIC_MEAN_INTENSITY)){
-				pos = reporter.indexOf(CaIntegratorConstants.HIGHEST_GEOMETRIC_MEAN_INTENSITY);
-				reporter = reporter.substring(0,pos).trim();
-			} else if (reporter.contains(CaIntegratorConstants.LOWEST_GEOMETRIC_MEAN_INTENSITY)){
-				pos = reporter.indexOf(CaIntegratorConstants.LOWEST_GEOMETRIC_MEAN_INTENSITY);
-				reporter = reporter.substring(0,pos).trim();
-			} 
-			 
-			if ((reporter.trim().length() > 0  ) &&
-					((reporterList.contains(reporter)||
-							reporter.equals(CaIntegratorConstants.GRAPH_MEAN)
-							|| reporter.equals(CaIntegratorConstants.GRAPH_MEDIAN)))) {    
-				kmForm.setPlotVisible(true);
-			} else { // empty graph
-				KaplanMeierSampleInfo[] km = {new KaplanMeierSampleInfo(0, 0, 0)};
-				kmSampleInfos = km;
-				kmForm.setPlotVisible(false);
-			}
-*/			
-				if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
-					String reporter = kmForm.getSelectedReporter();
-					if (reporter.contains(CaIntegratorConstants.HIGHEST_GEOMETRIC_MEAN_INTENSITY)){
-						pos = reporter.indexOf(CaIntegratorConstants.HIGHEST_GEOMETRIC_MEAN_INTENSITY);
-						reporter = reporter.substring(0,pos);
-					} else if (reporter.contains(CaIntegratorConstants.LOWEST_GEOMETRIC_MEAN_INTENSITY)) {
-						pos = reporter.indexOf(CaIntegratorConstants.LOWEST_GEOMETRIC_MEAN_INTENSITY);
-						reporter = reporter.substring(0,pos);
-					}
-					if ((reporter.trim().length() > 0  ) &&
-							((reporterList.contains(reporter)||
-									reporter.equals(CaIntegratorConstants.GRAPH_MEAN)
-									|| reporter.equals(CaIntegratorConstants.GRAPH_MEDIAN)))) {    
-						kmForm.setPlotVisible(true);
-					} else { // empty graph
-						KaplanMeierSampleInfo[] km = {new KaplanMeierSampleInfo(0, 0, 0)};
-						kmSampleInfos = km;
-						kmForm.setPlotVisible(false);
-					}
-					
-					kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedGEReportersSortedByMeanIntensity(), kmplotType, kmForm);
-					if (reporter.equals(
-							CaIntegratorConstants.GRAPH_MEAN)) {
-						kmSampleInfos = kmResultsContainer.getMeanKMPlotSamples();
-					} else if (reporter.equals(
-							CaIntegratorConstants.GRAPH_MEDIAN)) {
-						kmSampleInfos = kmResultsContainer.getMedianKMPlotSamples();
-					} else if (!reporter.equals(CaIntegratorConstants.GRAPH_BLANK)){
-						kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(reporter);
-					}  
-				} else if (kmplotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)) {
-					kmSampleInfos = kmResultsContainer.getMedianKMPlotSamples();
-					kmForm.setPlotVisible(true);
-					kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedSNPReportersSortedByPosition(), kmplotType, kmForm);
-/*					if (reporter.equals(
-							CaIntegratorConstants.GRAPH_MEAN)) {
-						kmSampleInfos = kmResultsContainer.getMeanKMPlotSamples();
-					} else if (reporter.equals(
-							CaIntegratorConstants.GRAPH_MEDIAN)) {
-						kmSampleInfos = kmResultsContainer.getMedianKMPlotSamples();
-					} else if (!reporter.equals(CaIntegratorConstants.GRAPH_BLANK)){
-						kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(reporter);
-					}
-					else{
-						kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(reporter);
-					}  */
-				}
 
-			//System.out.println("\n***********************************************************");
-			//for (int i=0; i < selectedPlots.length; i++ ) {
-			//	System.out.println(selectedPlots[i]);
-			//}
-			//System.out.println("\n***********************************************************");
-				
-			//KaplanMeierDataController dataGenerator = new KaplanMeierDataController(upRegulation, downRegulation, kmForm.getGeneOrCytoband(), kmSampleInfos, kmplotType, baselineGroup);
-			String[] selectedPlots = kmForm.getSelectedItems();
-			KaplanMeierDataController dataGenerator = new KaplanMeierDataController(upRegulation, downRegulation, kmForm.getGeneOrCytoband(), kmSampleInfos, kmplotType, baselineGroup, selectedPlots);
-			KaplanMeierStoredData storedData = dataGenerator.getStoredData();
-			storedData.setId("KAPLAN");
-			kmForm.setStoredData(storedData);
-			kmForm.setSelectedDataset("KAPLAN");
-			presentationTierCache.addSessionGraphingData(servletRequest.getSession().getId(), storedData);
-			kmForm.setDownFold(downRegulation);
-			kmForm.setUpFold(upRegulation);
-			
-			return "kmplot";
-		}
+        if (kmResultsContainer != null){			
+        	List reporterList = kmResultsContainer.getAssociatedReporters();
+
+        	//remove extra formatting
+        	int pos = 0;
+
+
+        	if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {
+        		String reporter = kmForm.getSelectedReporter();
+        		if (reporter.contains(CaIntegratorConstants.HIGHEST_GEOMETRIC_MEAN_INTENSITY)){
+        			pos = reporter.indexOf(CaIntegratorConstants.HIGHEST_GEOMETRIC_MEAN_INTENSITY);
+        			reporter = reporter.substring(0,pos);
+        		} else if (reporter.contains(CaIntegratorConstants.LOWEST_GEOMETRIC_MEAN_INTENSITY)) {
+        			pos = reporter.indexOf(CaIntegratorConstants.LOWEST_GEOMETRIC_MEAN_INTENSITY);
+        			reporter = reporter.substring(0,pos);
+        		}
+        		if ((reporter.trim().length() > 0  ) &&
+        				((reporterList.contains(reporter)||
+        						reporter.equals(CaIntegratorConstants.GRAPH_MEAN)
+        						|| reporter.equals(CaIntegratorConstants.GRAPH_MEDIAN)))) {    
+        			kmForm.setPlotVisible(true);
+        		} else { // empty graph
+        			KaplanMeierSampleInfo[] km = {new KaplanMeierSampleInfo(0, 0, 0)};
+        			kmSampleInfos = km;
+        			kmForm.setPlotVisible(false);
+        		}
+
+        		kmForm = KMDataSetHelper.populateReporters(
+        				kmResultsContainer.getAssociatedGEReportersSortedByMeanIntensity(), kmplotType, kmForm);
+        		if (reporter.equals(
+        				CaIntegratorConstants.GRAPH_MEAN)) {
+        			kmSampleInfos = kmResultsContainer.getMeanKMPlotSamples();
+        		} else if (reporter.equals(
+        				CaIntegratorConstants.GRAPH_MEDIAN)) {
+        			kmSampleInfos = kmResultsContainer.getMedianKMPlotSamples();
+        		} else if (!reporter.equals(CaIntegratorConstants.GRAPH_BLANK)){
+        			kmSampleInfos = kmResultsContainer.getKMPlotSamplesForReporter(reporter);
+        		}  
+        	} else if (kmplotType.equals(CaIntegratorConstants.COPY_NUMBER_KMPLOT)) {
+        		kmSampleInfos = kmResultsContainer.getMedianKMPlotSamples();
+        		kmForm.setPlotVisible(true);
+        		kmForm = KMDataSetHelper.populateReporters(kmResultsContainer.getAssociatedSNPReportersSortedByPosition(), kmplotType, kmForm);
+        	}
+
+        	//String[] selectedPlots = redrawInputForm.getSelectedItems();
+        	KaplanMeierDataController dataGenerator = new KaplanMeierDataController(upRegulation, downRegulation, 
+        			kmForm.getGeneOrCytoband(), kmSampleInfos, kmplotType, baselineGroup, selectedPlots);
+        	KaplanMeierStoredData storedData = dataGenerator.getStoredData();
+        	storedData.setId("KAPLAN");
+        	kmForm.setStoredData(storedData);
+        	kmForm.setSelectedDataset("KAPLAN");
+        	presentationTierCache.addSessionGraphingData(servletRequest.getSession().getId(), storedData);
+        	kmForm.setDownFold(downRegulation);
+        	kmForm.setUpFold(upRegulation);
+
+        	return "kmplot";
+        }
 		return "badgraph";
 	}
 	
@@ -950,5 +915,22 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 		
 
 	}
+
+	public KMDataSetForm getRedrawInputForm() {
+		return redrawInputForm;
+	}
+
+	public void setRedrawInputForm(KMDataSetForm redrawInputForm) {
+		this.redrawInputForm = redrawInputForm;
+	}
+
+	public QuickSearchForm getRedrawInputSearchForm() {
+		return redrawInputSearchForm;
+	}
+
+	public void setRedrawInputSearchForm(QuickSearchForm redrawInputSearchForm) {
+		this.redrawInputSearchForm = redrawInputSearchForm;
+	}
+	
 	
 }
