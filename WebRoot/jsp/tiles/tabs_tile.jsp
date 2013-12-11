@@ -81,7 +81,7 @@ L--%>
 							//"<li><a href=\"#\">Upload Lists</a></li>\n" +
 							"</ul>\n";				
 	String simpleSecondary = "<ul id=\"secondary\">\n" +
-							"<li><a href=\"home.do\">Simple Search Home</a></li>\n" +
+							"<li><a href=\"home.action\">Simple Search Home</a></li>\n" +
 							"</ul>\n";
 	String analysisSecondary = "<ul id=\"secondary\">\n" +
 							"<li><a href=\"analysisHome.do\">Analysis Home</a></li>\n" +
@@ -138,7 +138,7 @@ L--%>
 				break;
 			case 3:
 				//3 is view results
-				simple = "<a href=\"home.do\">Simple Search</a>";
+				simple = "<a href=\"home.action\">Simple Search</a>";
 				adv = "<a href=\"menu.do\">Advanced Search</a>";
 				viewResults = "<span id=\"inboxStatus\">View Results&nbsp;&nbsp;</span>\n" + resultSecondary;
 				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
@@ -148,7 +148,7 @@ L--%>
 				break;
 			case 4:
 				//4 is high order analysis
-				simple = "<a href=\"home.do\">Simple Search</a>";
+				simple = "<a href=\"home.action\">Simple Search</a>";
 				adv = "<a href=\"menu.do\">Advanced Search</a>";
 				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
 				analysis = "<span>High Order Analysis</span>\n" + analysisSecondary;
@@ -158,7 +158,7 @@ L--%>
 				break;
 			case 5:
 				//5 is list mgr
-				simple = "<a href=\"home.do\">Simple Search</a>";
+				simple = "<a href=\"home.action\">Simple Search</a>";
 				adv = "<a href=\"menu.do\">Advanced Search</a>";
 				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
 				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
@@ -167,7 +167,7 @@ L--%>
 				download="<a href=\"downloadInit.do?method=setup\">Download</a>";
 				break;
 			case 6: //download
-				simple = "<a href=\"home.do\">Simple Search</a>";
+				simple = "<a href=\"home.action\">Simple Search</a>";
 				adv = "<a href=\"menu.do\">Advanced Search</a>";
 				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
 				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
@@ -176,7 +176,7 @@ L--%>
 				download="<span>Download</span>\n";
 				break;
 			case 7: //myworkspace
-				simple = "<a href=\"home.do\">Simple Search</a>";
+				simple = "<a href=\"home.action\">Simple Search</a>";
 				adv = "<a href=\"menu.do\">Advanced Search</a>";
 				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
 				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
@@ -186,7 +186,7 @@ L--%>
 				break;
 			case 0:
 			default:
-				simple = "<a href=\"home.do\">Simple Search</a>";
+				simple = "<a href=\"home.action\">Simple Search</a>";
 				adv = "<a href=\"menu.do\">Advanced Search</a>";
 				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
 				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
