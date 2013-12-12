@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry excluding="gov/nih/nci/nautilus/test/" kind="src" path="src"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="con" path="com.genuitec.eclipse.j2eedt.core.J2EE14_CONTAINER"/>
-	<classpathentry exported="true" kind="var" path="JBOSS_HOME/server/default/lib/javax.servlet.jar"/>
-	<classpathentry exported="true" kind="var" path="JBOSS_HOME/server/default/lib/javax.servlet.jsp.jar"/>
-	<classpathentry exported="true" kind="var" path="JBOSS_HOME/server/default/lib/log4j.jar"/>
+	<classpathentry exported="true" kind="var" path="JBOSS_HOME/server/default/lib/javax.servlet.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="var" path="JBOSS_HOME/server/default/lib/javax.servlet.jsp.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="var" path="JBOSS_HOME/server/default/lib/log4j.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/batik-awt-util.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/batik-dom.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/batik-svggen.jar"/>
@@ -34,22 +45,20 @@
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/krysalis-jCharts-1.0.0-alpha-1.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/odmg-3.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/ojdbc14.jar"/>
-	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/oracle.jar"/>
-	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/struts.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/weka.jar"/>
-	<classpathentry exported="true" kind="var" path="JUNIT_HOME/junit.jar" sourcepath="ECLIPSE_HOME/plugins/org.eclipse.jdt.source_3.1.0/src/org.junit_3.8.1/junitsrc.zip"/>
+	<classpathentry exported="true" kind="var" path="JUNIT_HOME/junit.jar" sourcepath="ECLIPSE_HOME/plugins/org.eclipse.jdt.source_3.1.0/src/org.junit_3.8.1/junitsrc.zip">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/antlr.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/commons-logging.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/jakarta-oro.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/appStateClient.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/commons-collections-3.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/ehcache-1.2beta2.jar" sourcepath="jar_source_files/ehcache-1.2beta2-src.zip"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/caintegrator-analysis-commons"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/client.jar"/>
-	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/spring.jar"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/caintegrator-application-commons"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/json_simple.jar"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/caintegrator-spec"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/csmapi.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/clm.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/hibernate3.jar"/>
@@ -65,10 +74,31 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/dom4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jdbc2_0-stdext.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jta.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/junit-3.8.1.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xerces-2.6.2.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xml-apis.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/clmwebapp.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/classes12.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="con" path="com.genuitec.runtime.library/com.genuitec.generic_1.4">
+		<attributes>
+			<attribute name="owner.project.facets" value="jst.web"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/stats-analysis"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/stats-analysis-commons"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/stats-application-commons"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/ehcache-1.4.1.jar"/>
+	<classpathentry kind="lib" path="not_deployed_jars/xerces-2.6.2.jar"/>
+	<classpathentry kind="lib" path="not_deployed_jars/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="not_deployed_jars/xml-apis.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/struts2-config-browser-plugin-2.3.15.3.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/struts2-convention-plugin-2.3.15.3.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/struts2-core-2.3.15.3.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/struts2-dojo-plugin-2.3.15.3.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/struts2-tiles-plugin-2.3.15.3.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/spring-2.5.6.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/spring-beans-2.5.6.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/spring-mock.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/spring-webmvc-2.5.6.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

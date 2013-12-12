@@ -154,9 +154,9 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 		//QuickSearchForm qsForm = (QuickSearchForm) form;
 		//need this to pass the geneSymbol to the JSP
 		
-		servletRequest.setAttribute("geneSymbol", quickSearchForm.getGeneSymbol());
+		servletRequest.getSession().setAttribute("geneSymbol", quickSearchForm.getGeneSymbol());
 		
-		servletRequest.setAttribute("geneSymbol", MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, 
+		servletRequest.getSession().setAttribute("geneSymbol", MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, 
 				quickSearchForm.getGeneSymbol()));
 		
         //generator.setRequestAttributes(request);
@@ -618,8 +618,6 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 		
 		//ActionErrors errors = new ActionErrors();
 		
-		
-		
 		// cleanup data - To prevent cross-site scripting
 		if( qsForm.getQuickSearchName() != null )
 			qsForm.setQuickSearchName(MoreStringUtils.cleanJavascriptAndSpecialChars(
@@ -637,21 +635,22 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 			
 			//Save form to session for chained / redirect action use
 			servletRequest.getSession().setAttribute(QUICK_SEARCH_FORM_OBJ, quickSearchForm);
+			
 
 			String chartType = qsForm.getPlot();
 
 			if (chartType.equalsIgnoreCase("kapMaiPlotGE")) {
 				logger.debug("user requested geneExp kapMai w/ genesymbol");
-				servletRequest.setAttribute("quickSearchName", qsForm.getQuickSearchName());
-				servletRequest.setAttribute("quickSearchType", qsForm.getQuickSearchType());
-				servletRequest.setAttribute("plotType",CaIntegratorConstants.GENE_EXP_KMPLOT);
+				servletRequest.getSession().setAttribute("quickSearchName", qsForm.getQuickSearchName());
+				servletRequest.getSession().setAttribute("quickSearchType", qsForm.getQuickSearchType());
+				servletRequest.getSession().setAttribute("plotType",CaIntegratorConstants.GENE_EXP_KMPLOT);
 				return "kmplot";
 			}
 			if (chartType.equalsIgnoreCase("kapMaiPlotCN")) {
 				logger.debug("user rquested SNP kapMaiPlotCN");
-				servletRequest.setAttribute("quickSearchType", qsForm.getQuickSearchType());
-				servletRequest.setAttribute("quickSearchName", qsForm.getQuickSearchName());
-				servletRequest.setAttribute("plotType",CaIntegratorConstants.COPY_NUMBER_KMPLOT);
+				servletRequest.getSession().setAttribute("quickSearchType", qsForm.getQuickSearchType());
+				servletRequest.getSession().setAttribute("quickSearchName", qsForm.getQuickSearchName());
+				servletRequest.getSession().setAttribute("plotType",CaIntegratorConstants.COPY_NUMBER_KMPLOT);
 				
 				servletRequest.getSession().setAttribute("quickSearchType", qsForm.getQuickSearchType());
 				servletRequest.getSession().setAttribute("quickSearchName", qsForm.getQuickSearchName());
@@ -660,11 +659,11 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 			}
 			if (chartType.equalsIgnoreCase(CaIntegratorConstants.SAMPLE_KMPLOT)) {
 				logger.debug("user rquested SNP kapMaiPlotCN");
-				servletRequest.setAttribute("quickSearchType", qsForm.getQuickSearchType());
-				servletRequest.setAttribute("quickSearchName", qsForm.getQuickSearchName());
-				servletRequest.setAttribute("quickSearchGroupName", qsForm.getGroupName());
-				servletRequest.setAttribute("quickSearchGroupNameCompare", qsForm.getGroupNameCompare());
-				servletRequest.setAttribute("plotType",CaIntegratorConstants.SAMPLE_KMPLOT);
+				servletRequest.getSession().setAttribute("quickSearchType", qsForm.getQuickSearchType());
+				servletRequest.getSession().setAttribute("quickSearchName", qsForm.getQuickSearchName());
+				servletRequest.getSession().setAttribute("quickSearchGroupName", qsForm.getGroupName());
+				servletRequest.getSession().setAttribute("quickSearchGroupNameCompare", qsForm.getGroupNameCompare());
+				servletRequest.getSession().setAttribute("plotType",CaIntegratorConstants.SAMPLE_KMPLOT);
 				return "kmplot";
 			}
 			else if (chartType.equalsIgnoreCase("geneExpPlot")) {
@@ -688,11 +687,25 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 		return "mismatch";
 	}
 	
+	//action: clinical2KmSearch
 	public String clinical2KmSearch()
 			throws Exception {
 		
+		QuickSearchForm qsFormInput = this.quickSearchForm;
+		
+		this.kmForm = (KMDataSetForm)this.servletRequest.getSession().getAttribute(KMDATASET_FORM_OBJ);
+		
+		//kmForm = (KMDataSetForm)this.servletRequest.getSession().getAttribute(KMDATASET_FORM_OBJ);
+		this.quickSearchForm = (QuickSearchForm) servletRequest.getSession().getAttribute(QUICK_SEARCH_FORM_OBJ);
+		this.quickSearchForm.setGroupName(qsFormInput.getGroupName());
+		this.quickSearchForm.setGroupNameCompare(qsFormInput.getGroupNameCompare());
+		this.quickSearchForm.setPlot(qsFormInput.getPlot());
 		
 		QuickSearchForm qsForm = quickSearchForm;
+		
+		//debug
+		QuickSearchForm qsFormInput2 = (QuickSearchForm) servletRequest.getSession().getAttribute(QUICK_SEARCH_FORM_OBJ);
+		
 		//ActionErrors errors = new ActionErrors();
 		List<String> errors = new ArrayList<String>();
 		
@@ -710,25 +723,25 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 
 			if (chartType.equalsIgnoreCase("kapMaiPlotGE")) {
 				logger.debug("user requested geneExp kapMai w/ genesymbol");
-				servletRequest.setAttribute("quickSearchName", qsForm.getQuickSearchName());
-				servletRequest.setAttribute("quickSearchType", qsForm.getQuickSearchType());
+				servletRequest.getSession().setAttribute("quickSearchName", qsForm.getQuickSearchName());
+				servletRequest.getSession().setAttribute("quickSearchType", qsForm.getQuickSearchType());
 				servletRequest.setAttribute("plotType",CaIntegratorConstants.GENE_EXP_KMPLOT);
 				return "kmplot";
 			}
 			if (chartType.equalsIgnoreCase("kapMaiPlotCN")) {
 				logger.debug("user rquested SNP kapMaiPlotCN");
-				servletRequest.setAttribute("quickSearchType", qsForm.getQuickSearchType());
-				servletRequest.setAttribute("quickSearchName", qsForm.getQuickSearchName());
-				servletRequest.setAttribute("plotType",CaIntegratorConstants.COPY_NUMBER_KMPLOT);
+				servletRequest.getSession().setAttribute("quickSearchType", qsForm.getQuickSearchType());
+				servletRequest.getSession().setAttribute("quickSearchName", qsForm.getQuickSearchName());
+				servletRequest.getSession().setAttribute("plotType",CaIntegratorConstants.COPY_NUMBER_KMPLOT);
 				return "kmplot";
 			}
 			if (chartType.equalsIgnoreCase(CaIntegratorConstants.SAMPLE_KMPLOT)) {
 				logger.debug("user rquested SNP kapMaiPlotCN");
-				servletRequest.setAttribute("quickSearchType", qsForm.getQuickSearchType());
-				servletRequest.setAttribute("quickSearchName", qsForm.getQuickSearchName());
-				servletRequest.setAttribute("quickSearchGroupName", qsForm.getGroupName());
-				servletRequest.setAttribute("quickSearchGroupNameCompare", qsForm.getGroupNameCompare());
-				servletRequest.setAttribute("plotType",CaIntegratorConstants.SAMPLE_KMPLOT);
+				servletRequest.getSession().setAttribute("quickSearchType", qsForm.getQuickSearchType());
+				servletRequest.getSession().setAttribute("quickSearchName", qsForm.getQuickSearchName());
+				servletRequest.getSession().setAttribute("quickSearchGroupName", qsForm.getGroupName());
+				servletRequest.getSession().setAttribute("quickSearchGroupNameCompare", qsForm.getGroupNameCompare());
+				servletRequest.getSession().setAttribute("plotType",CaIntegratorConstants.SAMPLE_KMPLOT);
 				return "kmplot";
 			}
 			else if (chartType.equalsIgnoreCase("geneExpPlot")) {

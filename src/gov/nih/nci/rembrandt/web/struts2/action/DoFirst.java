@@ -117,7 +117,11 @@ public class DoFirst extends ActionSupport implements SessionAware, ServletReque
     private QuickSearchForm quickSearchForm;
     private HttpServletRequest request;
 
-
+    //Shan: added to temporarily fix a struts 2 exception
+    // seems the exception doesn't break the workflow
+    private String dataName;
+    private String sampleGroup;
+    
 	public String execute() {
 		
 			UserCredentials credentials;
@@ -253,6 +257,26 @@ public class DoFirst extends ActionSupport implements SessionAware, ServletReque
 
 	public void setRequest(HttpServletRequest request) {
 		this.request = request;
+	}
+
+
+	public String getDataName() {
+		return dataName;
+	}
+
+
+	public void setDataName(String dataName) {
+		this.dataName = dataName;
+	}
+
+
+	public String getSampleGroup() {
+		return sampleGroup;
+	}
+
+
+	public void setSampleGroup(String sampleGroup) {
+		this.sampleGroup = sampleGroup;
 	}
 
 	
