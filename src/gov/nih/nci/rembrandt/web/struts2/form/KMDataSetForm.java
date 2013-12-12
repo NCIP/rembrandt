@@ -14,6 +14,7 @@ import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -468,6 +469,11 @@ public class KMDataSetForm implements Serializable {
     public String[] getSelectedItems() { 
       return this.selectedItems; 
     } 
+    
+    public List<String> getSelectedItemsInList() {
+    	List<String> se = Arrays.asList(this.selectedItems);
+    	return se;
+    }
     
     /**
      * @param selectedItems The selected plot options.
