@@ -7,7 +7,7 @@
 
     <constant name="struts.enable.DynamicMethodInvocation" value="false" />
     <constant name="struts.devMode" value="true" />
-
+ 	
     <package name="default" extends="struts-default" namespace="/">
 
         <result-types>
@@ -107,6 +107,18 @@
         </result>
 	</action>
 	
+	<action name="clinical2KmSearch"            
+        class="gov.nih.nci.rembrandt.web.struts2.action.QuickSearchAction" method="clinical2KmSearch">     
+		 <result name="kmplot" type="tiles">nautilus.KMGraph</result>
+		 <result name="histogram" type="redirectAction">
+        	 <param name="actionName">graph</param>
+         </result>
+         <result name="mismatch" type="redirectAction">
+         	<param name="actionName">home</param>
+         	<!--  param name="namespace">/</param> -->
+        </result>
+	</action>
+	
 	<action name="graph">
 		<result type="tiles">nautilus.graph</result>
      </action>
@@ -119,7 +131,16 @@
 	<action name="menu">
 		<result type="tiles">nautilus.menu</result>
 	</action>
+	
+	<action name="clinicalViaKMReport"
+		class="gov.nih.nci.rembrandt.web.struts2.action.DoFirst">
+		<result name="success">jsp/clinicalViaKMReport.jsp</result>
+	</action>
 		
+	<action name="clinicalPlots"
+		class="gov.nih.nci.rembrandt.web.struts2.action.DoFirst">
+		<result name="success">jsp/clinicalPlots.jsp</result>
+	</action>
 	
 	<!-- 
 	type="gov.nih.nci.rembrandt.web.struts2.action.DeleteQueryAction"
