@@ -12,9 +12,9 @@ L--%>
 <br clear="both"/>
 
  
-    <s:form action="quickSearch" method="post" id="qsForm">  
+    <s:form action="quickSearch" method="post" id="qsForm" theme="simple">  
     
-  	<fieldset>
+  	<fieldset >
      
         <legend>
           Quick Search
@@ -199,7 +199,7 @@ L--%>
 	        
 	        <!-- Shan: what is this -->
 	        <s:if test="quickSearchForm.getAllGeneAlias() != null">
-	       		<html:button styleClass="xbutton" property="method" style="width:75px;" value="Cancel" onclick="javascript:location.href='home.do';" />
+	       		<input type="button" class="xbutton" style="width:75px;" value="Cancel" onclick="javascript:location.href='home.action';" />
 	        </s:if>
         
         

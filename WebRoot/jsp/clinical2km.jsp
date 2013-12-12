@@ -5,20 +5,18 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
-
 <%@ page import="java.util.*, java.lang.*, java.io.*, gov.nih.nci.caintegrator.util.CaIntegratorConstants" %>
 
 <html>
 <body onload="document.getElementById('qsForm').submit();">
-<html:form action="/quickSearch.do?method=clinical2KmSearch" styleId="qsForm">  
-<input type="hidden" name="plot" value="<%=CaIntegratorConstants.SAMPLE_KMPLOT%>" />
-<input type="hidden" name="groupName" value="SamplesFromClinicalReport"/>
-<input type="hidden" name="groupNameCompare" value=""/>
-</html:form>
+
+<s:form action="clinical2KmSearch" method="post" namespace="/" id="qsForm" theme="simple">
+<input type="hidden" name="quickSearchForm.plot" value="<%=CaIntegratorConstants.SAMPLE_KMPLOT%>" />
+<input type="hidden" name="quickSearchForm.groupName" value="SamplesFromClinicalReport"/>
+<input type="hidden" name="quickSearchForm.groupNameCompare" value=""/>
+</s:form>
 </body>
 </html>

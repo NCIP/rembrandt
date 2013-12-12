@@ -57,17 +57,17 @@ L--%>
 					<s:property value="kmForm.upOrAmplified" />
 					</label>
 					</span>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&ge;&nbsp; 
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&ge;&nbsp;
 				<!--check to see if it is copy number km plot or GE km plot. if it is, change the amplified fold change values-->
 				<!--  logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">	-->
 				<s:if test="kmForm.plotType.equals('GE_KM_PLOT')">
-					<s:select id="upFold" name="redrawInputForm.upFold" list="kmForm.folds" theme="simple">
+					<s:select id="upFold" name="redrawInputForm.upFold" list="kmForm.folds" value="kmForm.upFold" theme="simple">
 					</s:select>
 				</s:if>
 				
 				
 				<s:if test="kmForm.plotType.equals('COPY_NUM_KM_PLOT')">					
-					<s:select id="upFold" name="redrawInputForm.upFold" list="kmForm.copyNumberUpFolds" theme="simple">
+					<s:select id="upFold" name="redrawInputForm.upFold" list="kmForm.copyNumberUpFolds" value="kmForm.upFold" theme="simple">
 					</s:select>
 				</s:if>
 				<!--end after up fold change values have been determined-->
@@ -82,7 +82,7 @@ L--%>
 					<s:if test="kmForm.plotType.equals('GE_KM_PLOT')">					
 						<!--Unified or regular algorithm-->
 						<span style="font-size:.9em;margin-left:10px"><label for="reporterType">Reporter Type</label></span>			
-						<s:select id="reporterType" name="redrawInputForm.reporterSelection" list="kmForm.algorithms" theme="simple"
+						<s:select id="reporterType" name="redrawInputForm.reporterSelection" list="kmForm.algorithms" value="kmForm.reporterSelection" theme="simple"
 						onchange="$('redrawGraphButton').disabled = 'true';$('redrawGraphButton').style.color='gray'; document.forms[0].selectedReporter.selectedIndex=0;  document.forms[0].submit();">
 							
 						</s:select> &nbsp; 	
@@ -102,13 +102,13 @@ L--%>
 				<!--check to see if it is copy number km plot or GE km plot. if it is, change the deleted fold change values-->
 				<s:if test="kmForm.plotType.equals('GE_KM_PLOT')">					
 					&nbsp;&ge;&nbsp; 
-					<s:select id="downFold" name="redrawInputForm.downFold" list="kmForm.folds" theme="simple">
+					<s:select id="downFold" name="redrawInputForm.downFold" list="kmForm.folds" value="kmForm.downFold" theme="simple">
 	
 					</s:select>
 				</s:if>
 				<s:if test="kmForm.plotType.equals('COPY_NUM_KM_PLOT')">					
 					&nbsp;&le;&nbsp; 
-					<s:select id="downFold" name="redrawInputForm.downFold" list="kmForm.copyNumberDownFolds" theme="simple">
+					<s:select id="downFold" name="redrawInputForm.downFold" list="kmForm.copyNumberDownFolds" value="kmForm.downFold" theme="simple">
 						
 					</s:select>
 				</s:if>
@@ -125,7 +125,7 @@ L--%>
 					<s:if test="kmForm.plotType.equals('GE_KM_PLOT')">
 						<span style="font-size:.9em;margin-left:10px"><label for="selectedReporter">Reporters</label></span>
 						
-						<s:select id="selectedReporter" name="redrawInputForm.selectedReporter" list="kmForm.reporters" theme="simple">
+						<s:select id="selectedReporter" name="redrawInputForm.selectedReporter" list="kmForm.reporters" value="kmForm.selectedReporter" theme="simple">
 						</s:select>
 					</s:if>	
 				</td>
@@ -170,54 +170,50 @@ L--%>
 		<!--  BEGIN LEGEND: LINKS TO CLINICAL -->
 		
 		View Clinical Reports<br />
-	
 		
 		<!-- bean:define id="selectedItemsId" name="kmDataSetForm" property="selectedItems" />  -->
-		<s:set var="selectedItemsId" value="kmForm.selectedItems" />
-		
-		<% 
-		//Shan: why do we need this
-		//String[] selectedGroups = (String[])selectedItemsId; 
-		//List selectedGrpList = Arrays.asList(selectedGroups);
-		%>
+		<s:set var="selectedItemsId" value="kmForm.getSelectedItemsInList()" />
 
 		<!--check what type of plot it is as to display the correct link text-->
 		<!--  logic:equal name="kmDataSetForm" property="plotType" value="GE_KM_PLOT">	-->
 		<s:if test="kmForm.plotType.equals('GE_KM_PLOT')">	
-			<s:if test="kmForm.selectedItems != null && kmForm.selectedItems.contains('Up-Regulated')">
-				<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=up',700,500,'clinicalPlots');"/>
-				Upregulating Samples</a>
+			<s:if test="#selectedItemsId != null && #selectedItemsId.contains('Up-Regulated')">
+				<a href="#" onclick="spawnx('clinicalViaKMReport.action?dataName=KAPLAN&sampleGroup=up',700,500,'clinicalPlots');">Upregulating Samples</a>
 			</s:if>
-			<s:if test="kmForm.selectedItems != null && kmForm.selectedItems.contains('Down-Regulated')">
-		 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=down',700,500,'clinicalPlots');"/>Downregulating samples</a>
+			<s:if test="#selectedItemsId != null && #selectedItemsId.contains('Down-Regulated')">
+		 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		 		<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.action?dataName=KAPLAN&sampleGroup=down',700,500,'clinicalPlots');">Downregulating samples</a>
 			</s:if>
 			
 		</s:if>
-		<s:if test="kmForm.plotType.equals('COPY_NUM_KM_PLOT')">	
+		<s:if test="kmForm.plotType.equals('COPY_NUM_KM_PLOT')">				
 			
-			<s:if test="kmForm.selectedItems != null && kmForm.selectedItems.contains('Up-Regulated')">
-				<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=up',700,500,'clinicalPlots');"/>Samples with Amplification</a>
+			<s:if test="#selectedItemsId != null && #selectedItemsId.contains('Up-Regulated')">
+				<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.action?dataName=KAPLAN&sampleGroup=up',700,500,'clinicalPlots');">Samples with Amplification</a>
 			</s:if>
 			
-			<s:if test="kmForm.selectedItems != null && kmForm.selectedItems.contains('Down-Regulated')">
-		 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=down',700,500,'clinicalPlots');"/>Samples with Deletion</a>
+			<s:if test="#selectedItemsId != null && #selectedItemsId.contains('Down-Regulated')">
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.action?dataName=KAPLAN&sampleGroup=down',700,500,'clinicalPlots');">Samples with Deletion</a>
 			</s:if>
 			
 		</s:if>
 		
 		<s:if test="!kmForm.plotType.equals('SAMPLE_KM_PLOT')">
 			
-			<s:if test="kmForm.selectedItems != null && kmForm.selectedItems.contains('Intermediate')">
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=inter',700,500,'clinicalPlots');"/>Intermediate Samples</a>
+			<s:if test="#selectedItemsId != null && #selectedItemsId.contains('Intermediate')">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.action?dataName=KAPLAN&sampleGroup=inter',700,500,'clinicalPlots');">Intermediate Samples</a>
 			</s:if>
 				
 		</s:if>
 		
 		<s:if test="kmForm.plotType.equals('SAMPLE_KM_PLOT')">
-			<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=list1',700,500,'clinicalPlots');return false;"/><bean:write name="kmDataSetForm" property="storedData.samplePlot1Label" /></a>
+			<a href="#" onclick="javascript:spawnx('clinicalViaKMReport.action?dataName=KAPLAN&sampleGroup=list1',700,500,'clinicalPlots');return false;">
+			<s:property value="kmForm.storedData.samplePlot1Label" />
+			</a>
 			
 			<s:if test="!kmForm.storedData.samplePlot2Label.equals('none')">
-				<a style="margin-left:20px" href="#" onclick="javascript:spawnx('clinicalViaKMReport.do?dataName=KAPLAN&sampleGroup=list2',700,500,'clinicalPlots');return false;"/>
+				<a style="margin-left:20px" href="#" onclick="javascript:spawnx('clinicalViaKMReport.action?dataName=KAPLAN&sampleGroup=list2',700,500,'clinicalPlots');return false;">
 				<!-- bean:write name="kmDataSetForm" property="storedData.samplePlot2Label" />  -->
 				<s:property value="kmForm.storedData.samplePlot2Label" />
 				</a>
