@@ -7,7 +7,8 @@
 
     <constant name="struts.enable.DynamicMethodInvocation" value="false" />
     <constant name="struts.devMode" value="true" />
-
+    <constant name="struts.custom.i18n.resources" value="ApplicationResources" />
+ 	
     <package name="default" extends="struts-default" namespace="/">
 
         <result-types>
@@ -107,6 +108,18 @@
         </result>
 	</action>
 	
+	<action name="clinical2KmSearch"            
+        class="gov.nih.nci.rembrandt.web.struts2.action.QuickSearchAction" method="clinical2KmSearch">     
+		 <result name="kmplot" type="tiles">nautilus.KMGraph</result>
+		 <result name="histogram" type="redirectAction">
+        	 <param name="actionName">graph</param>
+         </result>
+         <result name="mismatch" type="redirectAction">
+         	<param name="actionName">home</param>
+         	<!--  param name="namespace">/</param> -->
+        </result>
+	</action>
+	
 	<action name="graph">
 		<result type="tiles">nautilus.graph</result>
      </action>
@@ -119,7 +132,16 @@
 	<action name="menu">
 		<result type="tiles">nautilus.menu</result>
 	</action>
+	
+	<action name="clinicalViaKMReport"
+		class="gov.nih.nci.rembrandt.web.struts2.action.DoFirst">
+		<result name="success">jsp/clinicalViaKMReport.jsp</result>
+	</action>
 		
+	<action name="clinicalPlots"
+		class="gov.nih.nci.rembrandt.web.struts2.action.DoFirst">
+		<result name="success">jsp/clinicalPlots.jsp</result>
+	</action>
 	
 	<!-- 
 	type="gov.nih.nci.rembrandt.web.struts2.action.DeleteQueryAction"
@@ -129,6 +151,27 @@
 	<action name="delete_Query">       
          
 	</action>
+	
+	<action name="analysisHome"
+		class="gov.nih.nci.rembrandt.web.struts2.action.DoFirst">
+		<result name="success" type="tiles">nautilus.analysisHome</result>
+	</action>
+	
+	<action name="classcomparisonInit"    	    
+	    class="gov.nih.nci.rembrandt.web.struts2.action.ClassComparisonAction" method="setup">
+		<result name="backToClassComparison"  type="tiles">nautilus.classComparison</result>
+	</action>
+	
+	<action name="classcomparison"
+		class="gov.nih.nci.rembrandt.web.struts2.action.ClassComparisonAction"  method="setup">
+		<result name="backToClassComparison"  type="tiles">nautilus.classComparison</result>
+		<!-- result name="viewResults" type="redirectAction">
+		 	<param name="actionName">viewResults</param>
+		 </result -->
+		 <result name="failure" type="redirectAction">
+		 	<param name="actionName">login</param>
+		 </result>
+	</action>	
         
     </package>
 

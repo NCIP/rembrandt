@@ -71,33 +71,33 @@ L--%>
 	String list = "";
 	String download="";
 	String advSecondary = "<ul id=\"secondary\">\n" +
-							"<li><a href=\"menu.do\">Advanced Search Home</a></li>\n" +
-							//"<li><a href=\"menu.do\">Build Query</a></li>\n" +
-							"<li><a href=\"refinecheck.do\">Refine Query</a></li>\n" +
+							"<li><a href=\"menu.action\">Advanced Search Home</a></li>\n" +
+							//"<li><a href=\"menu.action\">Build Query</a></li>\n" +
+							"<li><a href=\"refinecheck.action\">Refine Query</a></li>\n" +
 							"</ul>\n";
 	String resultsSecondary = "<ul id=\"secondary\">\n" +
-							"<li><a href=\"viewResults.do\">View Findings</a></li>\n" +
+							"<li><a href=\"viewResults.action\">View Findings</a></li>\n" +
 							"<li><a href=\"#\">Managed Saved Lists</a></li>\n" +
 							//"<li><a href=\"#\">Upload Lists</a></li>\n" +
 							"</ul>\n";				
 	String simpleSecondary = "<ul id=\"secondary\">\n" +
-							"<li><a href=\"home.do\">Simple Search Home</a></li>\n" +
+							"<li><a href=\"home.action\">Simple Search Home</a></li>\n" +
 							"</ul>\n";
 	String analysisSecondary = "<ul id=\"secondary\">\n" +
-							"<li><a href=\"analysisHome.do\">Analysis Home</a></li>\n" +
+							"<li><a href=\"analysisHome.action\">Analysis Home</a></li>\n" +
 							"</ul>\n";
 
 	String resultSecondary = "<ul id=\"secondary\">\n" +
-							//"<li><a href=\"graph.do?method=setup\">Search</a></li>\n" +
-							"<li><a href=\"viewResults.do\">Report Results</a></li>\n" +
-							"<li><a href=\"gpProcess.do?method=setup\">GenePattern Job Results</a></li>\n" +							
+							//"<li><a href=\"graph.action?method=setup\">Search</a></li>\n" +
+							"<li><a href=\"viewResults.action\">Report Results</a></li>\n" +
+							"<li><a href=\"gpProcess.action?method=setup\">GenePattern Job Results</a></li>\n" +							
 							"</ul>\n";
 	
 	String autoLogged  = (String)request.getSession().getAttribute("autoLogged");
 	String myWorkspaceSecondary = "";
 	if( autoLogged != null && autoLogged.equals("yes")) {
 		myWorkspaceSecondary = "<ul id=\"secondary\">\n" +
-							"<li><a href=\"manageLists.do\">Manage Lists</a></li>\n" +
+							"<li><a href=\"manageLists.action\">Manage Lists</a></li>\n" +
 							"<li><span style='color:#777777;text-decoration:underline;' onmouseover=\"return overlib('Please login to access additional features.', CAPTION, 'Login');\" onmouseout=\"return nd();\">Organize</span></li>\n" +
 							"<li><span style='color:#777777;text-decoration:underline;' onmouseover=\"return overlib('Please login to access additional features.', CAPTION, 'Login');\" onmouseout=\"return nd();\">Import</span></li>\n" +
 							"<li><span style='color:#777777;text-decoration:underline;' onmouseover=\"return overlib('Please login to access additional features.', CAPTION, 'Login');\" onmouseout=\"return nd();\">Export</span></li>\n" +							
@@ -106,10 +106,10 @@ L--%>
 	}
 	else {								
 	myWorkspaceSecondary = "<ul id=\"secondary\">\n" +
-							"<li><a href=\"manageLists.do\">Manage Lists</a></li>\n" +
-							"<li><a href=\"manageWorkspace.do\">Organize</a></li>\n" +
-							"<li><a href=\"importWorkspace.do\">Import</a></li>\n" +
-							"<li><a href=\"exportWorkspace.do\">Export</a></li>\n" +							
+							"<li><a href=\"manageLists.action\">Manage Lists</a></li>\n" +
+							"<li><a href=\"manageWorkspace.action\">Organize</a></li>\n" +
+							"<li><a href=\"importWorkspace.action\">Import</a></li>\n" +
+							"<li><a href=\"exportWorkspace.action\">Export</a></li>\n" +							
 							"</ul>\n";
 	}							
 	String s = request.getParameter("s")!=null ? (String) request.getParameter("s") : null;
@@ -119,80 +119,80 @@ L--%>
 			case 1:
 				//1 is simple search
 				simple = "<span>Simple Search</span>\n" + simpleSecondary;
-				adv = "<a href=\"menu.do\">Advanced Search</a>";
-				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
-				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
-				list = "<a href=\"manageLists.do\">Manage Lists</a>";
-				myWorkspace = "<a href=\"manageLists.do\">My Workspace</a>";
-				download="<a href=\"downloadInit.do?method=setup\">Download</a>";
+				adv = "<a href=\"menu.action\">Advanced Search</a>";
+				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.action\">View Results&nbsp;&nbsp;</a>";
+				analysis = "<a href=\"analysisHome.action\">High Order Analysis</a>";
+				list = "<a href=\"manageLists.action\">Manage Lists</a>";
+				myWorkspace = "<a href=\"manageLists.action\">My Workspace</a>";
+				download="<a href=\"downloadInit.action?method=setup\">Download</a>";
 				break;
 			case 2:
 				//2 is adv
-				simple = "<a href=\"home.do\">Simple Search</a>";
+				simple = "<a href=\"home.action\">Simple Search</a>";
 				adv = "<span>Advanced Search</span>\n" + advSecondary;
-				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
-				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
-				list = "<a href=\"manageLists.do\">Manage Lists</a>";
-				myWorkspace = "<a href=\"manageLists.do\">My Workspace</a>";
-				download="<a href=\"downloadInit.do?method=setup\">Download</a>";
+				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.action\">View Results&nbsp;&nbsp;</a>";
+				analysis = "<a href=\"analysisHome.action\">High Order Analysis</a>";
+				list = "<a href=\"manageLists.action\">Manage Lists</a>";
+				myWorkspace = "<a href=\"manageLists.action\">My Workspace</a>";
+				download="<a href=\"downloadInit.action?method=setup\">Download</a>";
 				break;
 			case 3:
 				//3 is view results
-				simple = "<a href=\"home.do\">Simple Search</a>";
-				adv = "<a href=\"menu.do\">Advanced Search</a>";
+				simple = "<a href=\"home.action\">Simple Search</a>";
+				adv = "<a href=\"menu.action\">Advanced Search</a>";
 				viewResults = "<span id=\"inboxStatus\">View Results&nbsp;&nbsp;</span>\n" + resultSecondary;
-				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
-				list = "<a href=\"manageLists.do\">Manage Lists</a>";
-				myWorkspace = "<a href=\"manageLists.do\">My Workspace</a>";
-				download="<a href=\"downloadInit.do?method=setup\">Download</a>";
+				analysis = "<a href=\"analysisHome.action\">High Order Analysis</a>";
+				list = "<a href=\"manageLists.action\">Manage Lists</a>";
+				myWorkspace = "<a href=\"manageLists.action\">My Workspace</a>";
+				download="<a href=\"downloadInit.action?method=setup\">Download</a>";
 				break;
 			case 4:
 				//4 is high order analysis
-				simple = "<a href=\"home.do\">Simple Search</a>";
-				adv = "<a href=\"menu.do\">Advanced Search</a>";
-				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
+				simple = "<a href=\"home.action\">Simple Search</a>";
+				adv = "<a href=\"menu.action\">Advanced Search</a>";
+				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.action\">View Results&nbsp;&nbsp;</a>";
 				analysis = "<span>High Order Analysis</span>\n" + analysisSecondary;
-				list = "<a href=\"manageLists.do\">Manage Lists</a>";
-				myWorkspace = "<a href=\"manageLists.do\">My Workspace</a>";
-				download="<a href=\"downloadInit.do?method=setup\">Download</a>";
+				list = "<a href=\"manageLists.action\">Manage Lists</a>";
+				myWorkspace = "<a href=\"manageLists.action\">My Workspace</a>";
+				download="<a href=\"downloadInit.action?method=setup\">Download</a>";
 				break;
 			case 5:
 				//5 is list mgr
-				simple = "<a href=\"home.do\">Simple Search</a>";
-				adv = "<a href=\"menu.do\">Advanced Search</a>";
-				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
-				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
+				simple = "<a href=\"home.action\">Simple Search</a>";
+				adv = "<a href=\"menu.action\">Advanced Search</a>";
+				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.action\">View Results&nbsp;&nbsp;</a>";
+				analysis = "<a href=\"analysisHome.action\">High Order Analysis</a>";
 				list = "<span>Manage Lists</span>\n";
-				myWorkspace = "<a href=\"manageLists.do\">My Workspace</a>";
-				download="<a href=\"downloadInit.do?method=setup\">Download</a>";
+				myWorkspace = "<a href=\"manageLists.action\">My Workspace</a>";
+				download="<a href=\"downloadInit.action?method=setup\">Download</a>";
 				break;
 			case 6: //download
-				simple = "<a href=\"home.do\">Simple Search</a>";
-				adv = "<a href=\"menu.do\">Advanced Search</a>";
-				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
-				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
-				list = "<a href=\"manageLists.do\">Manage Lists</a>";
-				myWorkspace = "<a href=\"manageLists.do\">My Workspace</a>";
+				simple = "<a href=\"home.action\">Simple Search</a>";
+				adv = "<a href=\"menu.action\">Advanced Search</a>";
+				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.action\">View Results&nbsp;&nbsp;</a>";
+				analysis = "<a href=\"analysisHome.action\">High Order Analysis</a>";
+				list = "<a href=\"manageLists.action\">Manage Lists</a>";
+				myWorkspace = "<a href=\"manageLists.action\">My Workspace</a>";
 				download="<span>Download</span>\n";
 				break;
 			case 7: //myworkspace
-				simple = "<a href=\"home.do\">Simple Search</a>";
-				adv = "<a href=\"menu.do\">Advanced Search</a>";
-				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
-				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
-				list = "<a href=\"manageLists.do\">Manage Lists</a>";
+				simple = "<a href=\"home.action\">Simple Search</a>";
+				adv = "<a href=\"menu.action\">Advanced Search</a>";
+				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.action\">View Results&nbsp;&nbsp;</a>";
+				analysis = "<a href=\"analysisHome.action\">High Order Analysis</a>";
+				list = "<a href=\"manageLists.action\">Manage Lists</a>";
 				myWorkspace="<span>My Workspace</span>\n" + myWorkspaceSecondary;
-				download="<a href=\"downloadInit.do?method=setup\">Download</a>";
+				download="<a href=\"downloadInit.action?method=setup\">Download</a>";
 				break;
 			case 0:
 			default:
-				simple = "<a href=\"home.do\">Simple Search</a>";
-				adv = "<a href=\"menu.do\">Advanced Search</a>";
-				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.do\">View Results&nbsp;&nbsp;</a>";
-				analysis = "<a href=\"analysisHome.do\">High Order Analysis</a>";
-				list = "<a href=\"manageLists.do\">Manage Lists</a>";
-				myWorkspace = "<a href=\"manageLists.do\">My Workspace</a>";
-				download="<a href=\"downloadInit.do?method=setup\">Download</a>";
+				simple = "<a href=\"home.action\">Simple Search</a>";
+				adv = "<a href=\"menu.action\">Advanced Search</a>";
+				viewResults = "<a id=\"inboxStatus\" href=\"viewResults.action\">View Results&nbsp;&nbsp;</a>";
+				analysis = "<a href=\"analysisHome.action\">High Order Analysis</a>";
+				list = "<a href=\"manageLists.action\">Manage Lists</a>";
+				myWorkspace = "<a href=\"manageLists.action\">My Workspace</a>";
+				download="<a href=\"downloadInit.action?method=setup\">Download</a>";
 				break;
 		}
 	

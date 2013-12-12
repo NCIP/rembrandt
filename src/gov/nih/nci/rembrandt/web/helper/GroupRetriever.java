@@ -17,7 +17,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.struts.util.LabelValueBean;
+import gov.nih.nci.rembrandt.web.bean.LabelValueBean;
 
 public class GroupRetriever {
     private List<LabelValueBean> clinicalGroupsCollection = new ArrayList<LabelValueBean>();

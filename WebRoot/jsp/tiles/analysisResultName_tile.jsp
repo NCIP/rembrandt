@@ -6,9 +6,7 @@
 L--%>
 
 <%@ page import="java.util.*, java.text.*" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ page import="gov.nih.nci.caintegrator.dto.query.QueryDTO,
 				 gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache,
@@ -19,21 +17,21 @@ L--%>
 <fieldset class="gray">
 <legend class="red">
 
-		<logic:present name="principalComponentForm">
+		<s:if test="principalComponentForm != null">
 		Step 4: 
-		</logic:present>
-		<logic:present name="classComparisonForm">
+		</s:if>
+		<s:if test="classComparisonForm != null">
 		Step 4: 
-		</logic:present>
-		<logic:present name="gpIntegrationForm">
+		</s:if>
+		<s:if test="gpIntegrationForm != null">
 		Step 3: 
-		</logic:present>
-		<logic:present name="igvIntegrationForm">
+		</s:if>
+		<s:if test="igvIntegrationForm != null">
 		Step 4: 
-		</logic:present>		
-		<logic:present name="hierarchicalClusteringForm">
+		</s:if>	
+		<s:if test="hierarchicalClusteringForm != null">
 		Step 5: 
-		</logic:present>
+		</s:if>
 		<label for="analysisResultName">Name Analysis Result</label>
 <b class="req">*</b>
 <%
@@ -43,10 +41,10 @@ L--%>
 <app:cshelp topic="<%=act%>" text="[?]"/>   
 </legend>
 <br>
-	<html:errors property="analysisResultName"/>
-<html:text styleId="analysisResultName" property="analysisResultName" size="50" /> (should be unique)
+	<s:actionerror name="analysisResultName"/>
+<s:textfield id="analysisResultName" name="analysisResultName" size="50" theme="simple" /> (should be unique)
 <br />
-<html:errors property="queryName"/><br />
+<s:actionerror name="queryName"/><br />
 </fieldset>
 <%
 		final Logger logger = Logger.getLogger("analysisResultName_tile");

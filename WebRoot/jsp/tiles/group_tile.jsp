@@ -5,12 +5,11 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <%@ taglib prefix="x" uri="http://java.sun.com/jstl/xml" %>
-<%@ page import="java.util.*, gov.nih.nci.rembrandt.web.struts.form.*,gov.nih.nci.rembrandt.web.bean.*" %> 
+<%@ page import="java.util.*, gov.nih.nci.rembrandt.web.struts2.form.*,gov.nih.nci.rembrandt.web.bean.*" %> 
 <%
 	String act = request.getParameter("act");
 	String gHelp = request.getParameter("act") + "_Group_tooltip";
@@ -20,22 +19,20 @@ L--%>
 <fieldset class="gray">
 
 
-
-<logic:present name="principalComponentForm">
+<s:if test="principalComponentForm != null">
 <legend class="red">Step 1: Select Group<b class="req">*</b>
 <!-- <app:help help="Search on All Samples, or specify at least two Existing Groups." />-->
 <app:cshelp topic="<%=gHelp%>" text="[?]"/>  
 </legend>
-<html:radio property="groupsOption" styleId="allSamplesRadio" styleClass="radio" value="allSamples" /><label for="allSamplesRadio">Show all samples</label><br /><br />
+<input type="radio" name="groupsOption" value="allSamples" checked="checked" id="allSamplesRadio" class="radio"><label for="allSamplesRadio">Show all samples</label><br /><br />
 
-<html:radio property="groupsOption" styleId="variousSamplesRadio" styleClass="radio" value="variousSamples" /><label for="variousSamplesRadio">Select samples</label><br />
+<input type="radio" name="groupsOption" value="variousSamples" id="variousSamplesRadio" class="radio"><label for="variousSamplesRadio">Select samples</label><br />
 <table align="center" border="0" summary="This table is used to format page content">
     <tr style="vertical-align:top">
       <td><label for="nonselectedGroups">Existing Groups</label>
         <br/>
-        <html:select styleId="nonselectedGroups" size="5" multiple="true" style="width:200px" property="existingGroups" onclick="radioFold(this);" ondblclick="move(document.getElementById('nonselectedGroups'),document.getElementById('selectedGroups'));">
-           <html:optionsCollection property="existingGroupsList"/>
-		</html:select>
+        <s:select id="nonselectedGroups" size="5" multiple="true" style="width:200px" name="existingGroups" onclick="radioFold(this);" list="principalComponentForm.existingGroupsList" listKey="value" listValue="label" ondblclick="move(document.getElementById('nonselectedGroups'),document.getElementById('selectedGroups'));" theme="simple">
+		</s:select>
       </td>
       <td style="vertical-align:middle">
         <input id="button1" onclick="preMove(document.getElementById('variousSamplesRadio').checked, document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups'))" value="<<" type="button"  /><br />
@@ -44,36 +41,35 @@ L--%>
       <td><label for="selectedGroups">Selected Groups</label>
         <br/>
 
-        <html:select styleId="selectedGroups" size="5" multiple="true" style="width:200px" property="selectedGroups" ondblclick="move(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups'));">
+        <s:select id="selectedGroups" size="5" multiple="true" style="width:200px" name="selectedGroups" ondblclick="move(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups'));" list="#{}" theme="simple">
         	
-		</html:select>
+		</s:select>
       </td>
     </tr>
     
   </table>
-</logic:present>
+</s:if>
 
-<c:if test="${param.act eq 'gpintegration' || param.act eq 'igvintegration'}">
+<s:if test="param.act eq 'gpintegration' || param.act eq 'igvintegration'">
 <legend class="red">Step 1: Select Group<b class="req">*</b>
 <!-- <app:help help="Search on All Samples, or specify at least two Existing Groups." />-->
 <app:cshelp topic="<%=gHelp%>" text="[?]"/>   
 </legend>
 
 
- <c:if test="${param.act eq 'gpintegration'}">
- 	<html:errors property="selectedGroups"/>Select 2 or More Groups <br />
- </c:if>
- <c:if test="${param.act eq 'igvintegration'}">
- 	<html:errors property="selectedGroups"/>Select 1 or More Groups <br />
- </c:if>
+ <s:if test="param.act eq 'gpintegration'">
+ 	<s:actionerror name="selectedGroups"/>Select 2 or More Groups <br />
+ </s:if>
+ <s:if test="param.act eq 'igvintegration'">
+ 	<s:actionerror name="selectedGroups"/>Select 1 or More Groups <br />
+ </s:if>
 
 <table align="center" border="0" summary="This table is used to format page content">
     <tr style="vertical-align:top">
       <td><label for="nonselectedGroups">Existing Groups</label>
         <br/>
-        <html:select styleId="nonselectedGroups" size="5" multiple="true" style="width:200px" property="existingGroups" onclick="radioFold(this);" ondblclick="move(document.getElementById('nonselectedGroups'),document.getElementById('selectedGroups'));">
-                 <html:optionsCollection property="existingGroupsList"/>
-		</html:select>
+        <s:select id="nonselectedGroups" size="5" multiple="true" style="width:200px" name="existingGroups" list="form.existingGroupsList" listKey="value" listValue="label" onclick="radioFold(this);" ondblclick="move(document.getElementById('nonselectedGroups'),document.getElementById('selectedGroups'));" theme="simple">
+		</s:select>
       </td>
       <td style="vertical-align:middle">
       		<input onclick="move($('selectedGroups'),$('nonselectedGroups'));initBaseline();" value="&lt;&lt;" type="button"/><br />
@@ -88,33 +84,31 @@ L--%>
       <td><label for="selectedGroups">Selected Groups</label>
         <br/>
 
-        <html:select styleId="selectedGroups" size="5" multiple="true" style="width:200px" property="selectedGroups" ondblclick="move(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups'));">
+        <s:select id="selectedGroups" size="5" multiple="true" style="width:200px" name="selectedGroups" list="#{}" ondblclick="move(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups'));" theme="simple">
         	
-		</html:select>
+		</s:select>
       </td>
     </tr>
     
   </table>
-  </c:if>
+  </s:if>
 
 
 
-
-<logic:present name="classComparisonForm">
+<s:if test="classComparisonForm != null">
 <legend class="red">Step 1: Select Group<b class="req">*</b>
 <app:cshelp topic="<%=gHelp%>" text="[?]"/>  
 <!-- <app:help help="Select two or more Existing Groups, and click >> to move them to Selected Groups. " />-->
 </legend>
 <br clear="both"/>
 	<em>choose 2 or more groups</em>
-	<html:errors property="selectedGroups"/>
+	<s:actionerror name="selectedGroups"/>
 	<table align="center" border="0" summary="This table is used to format page content">
     <tr style="vertical-align:top">
       <td><label for="nonselectedGroups">Existing Groups</label>
         <br/>
-        <html:select styleId="nonselectedGroups" size="5" multiple="true" style="width:200px" property="existingGroups" ondblclick="move(document.getElementById('nonselectedGroups'),document.getElementById('selectedGroups'));initBaseline();">
-           <html:optionsCollection property="existingGroupsList"/>
-		</html:select>
+        <s:select id="nonselectedGroups" size="5" multiple="true" style="width:200px" name="existingGroups" list="classComparisonForm.existingGroupsList" listKey="value" listValue="label" ondblclick="move(document.getElementById('nonselectedGroups'),document.getElementById('selectedGroups'));initBaseline();" theme="simple">
+		</s:select>
       </td>
       <td style="vertical-align:middle">
         <input onclick="move(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups'));initBaseline();" value="&lt;&lt;" type="button"/><br />
@@ -123,9 +117,9 @@ L--%>
       <td><label for="selectedGroups">Selected Groups</label>
         <br/>
 
-        <html:select styleId="selectedGroups" size="5" multiple="true" style="width:200px; overflow:none;" property="selectedGroups" ondblclick="move(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups')); initBaseline();">
+        <s:select id="selectedGroups" size="5" multiple="true" style="width:200px; overflow:none;" name="selectedGroups" list="#{}" ondblclick="move(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups')); initBaseline();" theme="simple">
         	
-		</html:select>
+		</s:select>
 	<br/>	
 	<div style="padding-top:10px; padding-left:5px;">
 	<span style="cursor:pointer; border:1px solid; padding-right:3px; padding-left:3px;" onclick="javascript:moveUpList(document.getElementById('selectedGroups'));initBaseline();">&uarr;</span>
@@ -220,7 +214,7 @@ L--%>
 	
 	//initBaseline();
 </script>
-</logic:present>
+</s:if>
 
 </fieldset>
 <br clear="all"/>

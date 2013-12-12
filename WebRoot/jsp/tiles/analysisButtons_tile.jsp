@@ -6,10 +6,8 @@
 L--%>
 
 <%@page contentType="text/html"%>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+
 
 <%
 long randomness = System.currentTimeMillis(); //prevent image caching
@@ -19,35 +17,30 @@ document.forms[0].target = "_self";
 </script>
 
 
-<html:reset styleId="clearButton" styleClass="xbutton" value="Clear" />&nbsp;&nbsp;
-<html:button styleClass="xbutton" property="method" value="Cancel" onclick="javascript:alertUser('analysisHome');"/>&nbsp;&nbsp;
+<s:reset id="clearButton" cssClass="xbutton" value="Clear" theme="simple"/>&nbsp;&nbsp;
+<s:submit type="input" cssClass="xbutton" name="method" value="Cancel" onclick="javascript:alertUser('analysisHome');" theme="simple"/>&nbsp;&nbsp;
 
-<logic:notPresent name="hierarchicalClusteringForm">
-	<logic:present name="gpIntegrationForm">
-		<html:submit styleId="submittalButton" styleClass="subButton" property="method" onclick="javascript: saveMe(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups')); return checkNull(document.forms[0].analysisResultName, 'false');">
-			<bean:message key="buttons_tile.submittalButton" />
-		</html:submit>
-	</logic:present>
-	<logic:present name="igvIntegrationForm">
-		<html:submit styleId="submittalButton" styleClass="subButton" property="method" onclick="javascript: saveMe(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups')); javascript: saveMe(document.getElementById('selectedAnnotationList'),document.getElementById('annotationList')); return checkNull(document.forms[0].analysisResultName, 'false');">
-			<bean:message key="buttons_tile.submittalButton" />
-		</html:submit>
-	</logic:present>
+<s:if test="hierarchicalClusteringForm == null">
+	<s:if test="gpIntegrationForm != null">
+		<s:submit id="submittalButton" cssClass="subButton" name="method" onclick="javascript: saveMe(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups')); return checkNull(document.forms[0].analysisResultName, 'false');" value="%{getText('buttons_tile.submittalButton')}" theme="simple">
+		</s:submit>
+	</s:if>
+	<s:if test="igvIntegrationForm != null">
+		<s:submit id="submittalButton" cssClass="subButton" name="method" onclick="javascript: saveMe(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups')); javascript: saveMe(document.getElementById('selectedAnnotationList'),document.getElementById('annotationList')); return checkNull(document.forms[0].analysisResultName, 'false');" value="%{getText('buttons_tile.submittalButton')}" theme="simple">
+		</s:submit>
+	</s:if>
+	<s:if test="gpIntegrationForm == null">
+		<s:if test="igvIntegrationForm == null">
+			<s:submit id="submittalButton" cssClass="subButton" name="method" onclick="javascript:saveMe(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups'));return checkNull(document.forms[0].analysisResultName, 'true')" value="%{getText('buttons_tile.submittalButton')}" theme="simple">
+			</s:submit>
+		</s:if>
+	</s:if>
+</s:if>
 
-	<logic:notPresent name="gpIntegrationForm">
-		<logic:notPresent name="igvIntegrationForm">
-			<html:submit styleId="submittalButton" styleClass="subButton" property="method" onclick="javascript:saveMe(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups'));return checkNull(document.forms[0].analysisResultName, 'true')">
-		    	<bean:message key="buttons_tile.submittalButton"/>
-			</html:submit>
-		</logic:notPresent>
-	</logic:notPresent>
-</logic:notPresent>
-
-<logic:present name="hierarchicalClusteringForm">
-<html:submit styleId="submittalButton" styleClass="subButton" property="method" onclick="javascript: document.forms[0].target='_self'; return checkNull(document.forms[0].analysisResultName, 'true')">
-     <bean:message key="buttons_tile.submittalButton"/>
-</html:submit>
-</logic:present>
+<s:if test="hierarchicalClusteringForm != null">
+<s:submit id="submittalButton" cssClass="subButton" name="method" onclick="javascript: document.forms[0].target='_self'; return checkNull(document.forms[0].analysisResultName, 'true')" value="%{getText('buttons_tile.submittalButton')}" theme="simple">
+</s:submit>
+</s:if>
 
 
 

@@ -112,7 +112,7 @@ import org.apache.struts.util.LabelValueBean;
 * 
 */
 
-public class BaseForm implements Serializable{
+public class BaseForm implements Serializable, RootForm{
     
     private static Logger logger = Logger.getLogger(BaseForm.class);
 		
