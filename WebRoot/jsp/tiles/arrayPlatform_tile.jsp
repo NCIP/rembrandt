@@ -5,33 +5,32 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <%@ page import="gov.nih.nci.caintegrator.dto.critieria.Constants"%>
 
 <fieldset class="gray">
 <legend class="red">
 <label for="platSelect">
-<logic:present name="geneexpressionForm">
+<s:if test="geneexpressionForm != null">
 Array Platform
-</logic:present>
-<logic:present name="gpIntegrationForm">
+</s:if>
+<s:if test="gpIntegrationForm != null">
 Step 2: Select Array Platform
-</logic:present>
-<logic:present name="principalComponentForm">
+</s:if>
+<s:if test="principalComponentForm != null">
 Step 3: Select Array Platform
-</logic:present>
-<logic:present name="classComparisonForm">
+</s:if>
+<s:if test="classComparisonForm != null">
 Step 3: Select Array Platform
-</logic:present>
-<logic:present name="hierarchicalClusteringForm">
+</s:if>
+<s:if test="hierarchicalClusteringForm != null">
 Step 4: Select Array Platform
-</logic:present>
-<logic:present name="igvIntegrationForm">
+</s:if>
+<s:if test="igvIntegrationForm != null">
 Step 2: Select Array Platform (Select at least one)
-</logic:present>
+</s:if>
 </label>
 <%
 	String act = request.getParameter("act") + "_Array_tooltip";
@@ -42,38 +41,38 @@ Step 2: Select Array Platform (Select at least one)
 
 	
 <br/>	
-<c:choose>
-	<c:when test="${param.act eq 'igvintegration'}">
-		<html:checkbox property="snpArrayPlatform" onclick="javascript:checkArrayPlatform(this);"/>100K SNP Array &nbsp;&nbsp;&nbsp;&nbsp;
-		<html:checkbox property="arrayPlatform"/>Affymetrix HG_U133 Plus 2.0
-	</c:when>
-	<c:otherwise>
-		&nbsp;&nbsp;<html:select property="arrayPlatform"  styleId="platSelect">   
-		<logic:notPresent name="geneexpressionForm">
+
+<s:if test="param.act eq 'igvintegration'">
+	<s:checkbox name="snpArrayPlatform" onclick="javascript:checkArrayPlatform(this);"/>100K SNP Array &nbsp;&nbsp;&nbsp;&nbsp;
+	<s:checkbox name="arrayPlatform"/>Affymetrix HG_U133 Plus 2.0
+</s:if>
+<s:else>
+	&nbsp;&nbsp;<select name="arrayPlatform" id="platSelect"   
+		<s:if test="geneexpressionForm != null">
 			onchange="this.options[1].selected=true;"
-		</logic:notPresent>	
+		</s:if>	
 		>
-		<c:choose>
-		    <c:when test="${param.act eq 'gpintegration'}">
-				<option selected="true" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Affymetrix HG_U133 Plus 2.0</option>
-			</c:when>
-			<c:otherwise>
-							<option value="<%=Constants.ALL_PLATFROM%>">All</option>
-							<option selected="true" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Affymetrix HG_U133 Plus 2.0</option>
-							<option value="<%=Constants.CDNA_ARRAY_PLATFORM%>">cDNA</option>
-			</c:otherwise>
-		</c:choose>
-		</html:select>
-	</c:otherwise>
-</c:choose>
+	
+	    <s:if test="param.act eq 'gpintegration'">
+			<option selected="selected" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Affymetrix HG_U133 Plus 2.0</option>
+		</s:if>
+		<s:else>
+						<option value="<%=Constants.ALL_PLATFROM%>">All</option>
+						<option selected="selected" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Affymetrix HG_U133 Plus 2.0</option>
+						<option value="<%=Constants.CDNA_ARRAY_PLATFORM%>">cDNA</option>
+		</s:else>
+	
+	</select>
+</s:else>
+
 			
-<html:errors property="arrayPlatform"/>
+<s:actionerror name="arrayPlatform"/>
 </fieldset>
-<logic:present name="geneexpressionForm">
+<s:if test="geneexpressionForm != null">
 <script type="text/javascript">
 	document.getElementById("platSelect").selectedIndex = 0;
 </script>
-</logic:present>
+</s:if>
 
  <script language="javascript">
  function checkArrayPlatform(formElement){

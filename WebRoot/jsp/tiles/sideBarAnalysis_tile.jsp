@@ -12,19 +12,19 @@ L--%>
 <jsp:useBean id="userPreferences" class="gov.nih.nci.rembrandt.web.bean.UserPreferencesBean" scope="session"/>
 <div width="100%">
 
-	<logic:notPresent name="classComparisonForm">
+	<s:if test="classComparisonForm == null">
 	<h3>Current Filter Settings</h3>
 	<!--check which type of analysis it is, as to set the settings-->
-		<logic:present name="hierarchicalClusteringForm">
+		<s:if test="hierarchicalClusteringForm != null">
 			<b>Variance:</b> <span id="varianceSetting"><jsp:getProperty name="userPreferences" property="hcVariancePercentile"/></span><br />
-	    </logic:present>
-	    <logic:present name="principalComponentForm">
+	    </s:if>
+	    <s:if test="principalComponentForm != null">
 			<b>Variance:</b> <span id="varianceSetting"><jsp:getProperty name="userPreferences" property="pcaVariancePercentile"/></span><br />
-	    </logic:present>
+	    </s:if>
     <b>Gene Set Name:</b> <span id="geneSetSetting"><jsp:getProperty name="userPreferences" property="geneSetName"/></span><br />
     <b>Reporter Set Name:</b> <span id="reporterSetSetting"><jsp:getProperty name="userPreferences" property="reporterSetName"/></span><br />
-	</logic:notPresent>
+	</s:if>
 	
 </div>
 
-<tiles:insertAttribute page="/jsp/tiles/sideBar_tile.jsp" flush="false" />
+<tiles:insertTemplate template="/jsp/tiles/sideBar_tile.jsp" flush="false" />

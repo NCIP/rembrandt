@@ -61,10 +61,11 @@ String param = request.getParameter("s");
 	}
 %>
 <div class="setQuery">
-<html:errors property="org.apache.struts.action.GLOBAL_ERROR"/>
+<s:actionerror name="org.apache.struts.action.GLOBAL_ERROR"/>
 </div>
 
-<html:form action="<%=act%>" enctype="multipart/form-data">
+<s:set var="submitAction"><%=act%></s:set>
+<s:form action="%{#submitAction}" enctype="multipart/form-data" theme="simple">
   <%
     request.getSession().setAttribute("currentPage2", "1");
   	session.removeAttribute("currentPage");
@@ -112,7 +113,7 @@ String param = request.getParameter("s");
     <app:cshelp topic="<%=act%>" style="cursor:pointer;float:right;padding:2px;" />
 
 	<c:choose> 
-	  	<c:when test="${requestScope.selectedView == 'regionView'}">
+	  	<c:when test="#request.selectedView == 'regionView'">
 			<script type="text/javascript">
 				Event.observe(window, "load", function() {
 					document.getElementById("segmentMean").style.display = "none";
@@ -177,9 +178,9 @@ String param = request.getParameter("s");
   		System.out.println();
  	%>
  	<div class="report" style="padding:3px">
-      <tiles:insertAttribute page="<%= strIncFile %>" flush="false" />
+      <tiles:insertTemplate template="<%= strIncFile %>" flush="false"   />
 	</div>
   <%
   }
   %>
-</html:form>
+</s:form>

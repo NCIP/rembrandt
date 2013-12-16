@@ -5,7 +5,7 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%
 	String act = request.getParameter("act") + "_Statistic_tooltip";
@@ -98,15 +98,12 @@ L--%>
 <fieldset class="gray">
 <legend class="red">a)</legend>
  <label for="statMethod">Statistical Method</label>
-	<html:select styleId="statMethod" property="statisticalMethod" onchange="clearGroupBox();">
-		<html:optionsCollection property="statisticalMethodCollection"/>
-	</html:select><br /><br />
+ 	<s:select id="statMethod" name="classComparisonForm.statisticalMethod" list="classComparisonForm.statisticalMethodCollection" listKey="value" listValue="label" theme="simple" onchange="clearGroupBox();">
+ 	</s:select><br /><br />
 	
 <label for="comparisonAdjustment">Multiple Comparison Adjustment</label>
-	<html:select styleId="comparisonAdjustment" property="comparisonAdjustment">
-		
-		<html:optionsCollection property="comparisonAdjustmentCollection"/>
-	</html:select> <br /><br />
+	<s:select id="comparisonAdjustment" name="classComparisonForm.comparisonAdjustment" list="classComparisonForm.comparisonAdjustmentCollection" listKey="value" listValue="label" theme="simple" onchange="clearGroupBox();">
+ 	</s:select> <br /><br />
 	</fieldset>
 	
 	<fieldset class="gray">
@@ -114,18 +111,16 @@ L--%>
 <a href="javascript:void(0);" title="Future implementation">[?]</a>
 </legend>
 
-	<html:radio property="foldChange" value="list" styleClass="radio"/>
+	<input type="radio" name="foldChange" value="list" checked="checked" class="radio">
 	&nbsp;&nbsp;Fold Change&nbsp;&ge;
-	<html:select property="foldChangeAuto">
-		<html:option value="0">&nbsp;</html:option>		
-		<html:optionsCollection property="foldChangeAutoList" />
-	</html:select>
+	<s:select id="foldChangeAuto" name="classComparisonForm.foldChangeAuto" list="classComparisonForm.foldChangeAutoList" listKey="value" listValue="label" theme="simple">
+ 	</s:select>
 	
 	&nbsp;&nbsp;-OR-&nbsp;&nbsp;
 	
-	<html:radio property="foldChange" value="specify" styleClass="radio"/>
+	<input type="radio" name="foldChange" value="specify" class="radio">
 	&nbsp;&nbsp;Fold Change&nbsp;&ge;	
-	<html:text property="foldChangeManual" size="14" onblur="absForce(this);" onkeyup="absForce(this);" disabled="false" />
+	<s:textfield name="classComparisonForm.foldChangeManual" size="14" onblur="absForce(this);" onkeyup="absForce(this);" disabled="false" theme="simple"/>
 	<script type="text/javascript">
 		function absForce(el)	{
 			if(el.value < 0)	{
@@ -141,7 +136,7 @@ L--%>
 	
 	<span id="pfill">
 	&nbsp;p-Value&nbsp;&le;
-		<html:text property="statisticalSignificance" size="10" />
+		<s:textfield name="statisticalSignificance" size="10" theme="simple"  />
 	</span>
 	
 </fieldset> 

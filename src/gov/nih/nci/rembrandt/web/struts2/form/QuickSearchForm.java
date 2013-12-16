@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.util.LabelValueBean;
+import gov.nih.nci.rembrandt.web.bean.LabelValueBean;
 
 
 

@@ -115,4 +115,3 @@ if(queryCollection == null){
 	</td></tr>
 </table>
 
-

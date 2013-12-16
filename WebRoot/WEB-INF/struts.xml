@@ -7,6 +7,7 @@
 
     <constant name="struts.enable.DynamicMethodInvocation" value="false" />
     <constant name="struts.devMode" value="true" />
+    <constant name="struts.custom.i18n.resources" value="ApplicationResources" />
  	
     <package name="default" extends="struts-default" namespace="/">
 
@@ -298,6 +299,27 @@
 	<action name="delete_Query">       
          
 	</action>
+	
+	<action name="analysisHome"
+		class="gov.nih.nci.rembrandt.web.struts2.action.DoFirst">
+		<result name="success" type="tiles">nautilus.analysisHome</result>
+	</action>
+	
+	<action name="classcomparisonInit"    	    
+	    class="gov.nih.nci.rembrandt.web.struts2.action.ClassComparisonAction" method="setup">
+		<result name="backToClassComparison"  type="tiles">nautilus.classComparison</result>
+	</action>
+	
+	<action name="classcomparison"
+		class="gov.nih.nci.rembrandt.web.struts2.action.ClassComparisonAction"  method="setup">
+		<result name="backToClassComparison"  type="tiles">nautilus.classComparison</result>
+		<!-- result name="viewResults" type="redirectAction">
+		 	<param name="actionName">viewResults</param>
+		 </result -->
+		 <result name="failure" type="redirectAction">
+		 	<param name="actionName">login</param>
+		 </result>
+	</action>	
         
     </package>
 
