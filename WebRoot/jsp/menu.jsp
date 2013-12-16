@@ -64,7 +64,8 @@ if(queryCollection == null){
   
   <fieldset style="width:500px;">
 		<legend>Add to query:</legend>
-		<html:errors property="org.apache.struts.action.GLOBAL_ERROR"/>
+		<!-- Shan: handle later -->
+		<!--  html:errors property="org.apache.struts.action.GLOBAL_ERROR"/> -->
 		
 		  <app:cshelp topic="Advanced_overview" /><br clear="left"/>
 		
@@ -72,12 +73,12 @@ if(queryCollection == null){
 			<table border="0" cellpadding="3" cellspacing="3" summary="This table is used to format page content">
 			<tr><th></th></tr>
 			<tr><td>
-			    <html:form action="/geneexpression">
-			       <html:submit styleClass="xbutton" property="method" style="width:200px;margin-bottom: 5px;">
+			    <s:form action="geneexpression">
+			       <s:submit styleClass="xbutton" property="method" style="width:200px;margin-bottom: 5px;">
 			          <bean:message key="GeneExpressionAction.setupButton"/>
-			        </html:submit>
+			        </s:submit>
 			        &nbsp; <b class="message">- (<% out.write(geQueryString); %>) Gene Exp. Analysis Queries</b></td></tr>
-			     </html:form>
+			     </s:form>
 				
 			  <tr><td> 
 			     <html:form action="/comparitivegenomic">
@@ -105,7 +106,7 @@ if(queryCollection == null){
 	  else{%>
 		<strong> I am satisfied with my query and would like to finalize:</strong><br/>
 		<blockquote>
-			<input type="button" class="xbutton" value="Finalize Query" onclick="location.href='refinecheck.do'">
+			<input type="button" class="xbutton" value="Finalize Query" onclick="location.href='refinecheck.action'">
 		</blockquote>
 	 <%}%>
 	</td></tr>
