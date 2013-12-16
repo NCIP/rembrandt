@@ -26,11 +26,12 @@ import gov.nih.nci.rembrandt.web.bean.SelectedQueryBean;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 
-//Shan
-//import gov.nih.nci.rembrandt.web.struts.form.RefineQueryForm;
+import gov.nih.nci.rembrandt.web.struts2.form.BaseForm;
+import gov.nih.nci.rembrandt.web.struts2.form.RefineQueryForm;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -45,7 +46,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 //import org.apache.struts.action.ActionError;
 //import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionForm;
+//import org.apache.struts.action.ActionForm;
 import org.apache.struts.util.LabelValueBean;
 /**
  * This class is intended to take the selected queries from the refine query
@@ -119,214 +120,220 @@ public class UIRefineQueryValidator {
 	private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
     private SampleBasedQueriesRetriever sampleBasedQueriesRetriever = new SampleBasedQueriesRetriever();
 	
-//	public RefineQueryForm processCompoundQuery(ActionForm form,
-//                                                     HttpServletRequest request) 
-//                                                     throws Exception {
-//		List selectedQueries = null;
-//		RefineQueryForm refineQueryForm = (RefineQueryForm) form;
-//		//this should turn off the run report buttons in the refine query page
-//		refineQueryForm.setRunFlag("no");
-//		//Clean out the old stored compound query from the bag, and form
-//		CompoundQuery compoundQuery = null;
-//		refineQueryForm.setQueryText("");
-//		refineQueryForm.setCompoundViewColl(new ArrayList());
-//		String sessionId = request.getSession().getId();
-//		SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
-//		//clears out the old compound query, in case something bombs
-//		queryBag.setCompoundQuery(compoundQuery);
-//		ActionErrors errors = new ActionErrors();
-//		boolean isAllGenesQuery = refineQueryForm.isAllGenesQuery();
-//		String selectedResultSet = refineQueryForm.getSelectedResultSet();
-//		
-//		/* CASE 1:
-//		 * This is an "All Genes" query. Overwrite the selectedQueries list with
-//		 * a list that only contains the selected all gene query
-//		 */
-//		if(isAllGenesQuery) {
-//			try {
-//				//Drop any of the selected queries from the ArrayList
-//				refineQueryForm.setSelectedQueries(new ArrayList());
-//				selectedQueries = getAllGenesQuery(refineQueryForm.getAllGeneQuery(), sessionId, selectedResultSet);
-//			}catch(IllegalStateException ise) {
-//				/*
-//				 * This is thrown in the instance that the QueryBag gets hosed up.
-//				 * Not really sure what to do in this case... so for now just log it
-//				 */
-//				logger.error(ise);
-//				
-//			}catch(OperationNotSupportedException onse) {
-//				/*
-//				 * This should get thrown in the instance that there is only an 
-//				 * all genes query selected in the RefineQueryPage. There must
-//				 * also be a result set specified... 
-//				 */
-//				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.allgenequery"));
-//			}
-//		}else {
-//			//Get the selected queries from the refineQueryForm
-//			selectedQueries = refineQueryForm.getSelectedQueries();
-////			remove any incidental or incorrect selectedQueries from the List
-//			selectedQueries = scrubTheLazyList(selectedQueries);
-//		}
-//        
-//        /* CASE 1(step 2) & CASE 2:
-//         * This is called in the instance there is 1 query stored in the selectedQuery list.   
-//         * This can be either a selected "All Gene Query", or a regular query.
-//         */
-//        if(selectedQueries!=null&&selectedQueries.size()==1) {
-//           /*
-//            * Don't run if we have errors... this is important to do, because in the
-//            */
-//        	if(errors.isEmpty()) {
-//	           SelectedQueryBean queryBean = (SelectedQueryBean)selectedQueries.get(0);
-//	           if(!queryBean.getQueryName().equals("")&&!queryBean.getQueryName().equals(" ")) {
-//		           	//They have chosen a query
-//		           	String queryName = queryBean.getQueryName();
-//		           	Queriable query = queryBag.getQuery(queryName);
-//				  	compoundQuery = new CompoundQuery(query);
-//	           }
-//		   }else {
-//		     //They have not chosen a query
-//		     errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.no.query"));
-//		    }
-//        }else if(selectedQueries!=null&&selectedQueries.size()>1) {
-//        	/* CASE 3:
-//             * There is more than 1 query selected
-//        	 */
-//           	Vector vectorOfTokens = new Vector();
-//            
-//            //Tokenize the selected queries
-//            for(int i = 0;i<selectedQueries.size(); i++)
-//            {
-//            	SelectedQueryBean query = (SelectedQueryBean)selectedQueries.get(i);
-//                String leftParen = query.getLeftParen();
-//                String queryName = query.getQueryName();
-//                String rightParen = query.getRightParen();
-//                String operatorType = query.getOperand();
-//                
-//                if (leftParen != null && leftParen.length() > 0) 
-//                       vectorOfTokens.add(leftParen);
-//                if (query != null) 
-//                       vectorOfTokens.add(queryBag.getQuery(query.getQueryName()));
-//                if (rightParen != null && rightParen.length() > 0) 
-//                       vectorOfTokens.add(rightParen);
-//                if (operatorType != null && operatorType.length() > 0) 
-//                       vectorOfTokens.add(operatorType);
-//            }
-//            //Parse the selected queries
-//            try {
-//    			Parser queryParser = new Parser(vectorOfTokens);
-//    			queryParser.expression();
-//    			compoundQuery = queryParser.getCompoundQuery();
-//     			
-//    		}catch (Exception e) {
-//    			logger.debug("Error Parsing Query and/or creating Compound Query "+ e.getMessage());
-//                errors.add(ActionErrors.GLOBAL_ERROR,new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.parse.error",e.getMessage()));
-//    			refineQueryForm.setErrors(errors);
-//    			logger.error(e);
-//    		}
-//        }
-//        /*
-//         * At this point we should have a CompoundQuery that contains 1 of 3
-//         * things. 1-A Single "AllGenesQuery" in the right child, 2-A Single
-//         * Query in the Right Child. 3-A CompoundQuery full of any number of
-//         * queries selected by the user in the RefineQuery page.
-//         */   
-//		if(compoundQuery!=null) {
-//			
-//			
-//			/*
-//			 * This is where we will apply a result set of sample ids to the
-//			 * CompoundQuery that was just created. In the instance that it is
-//			 * an "AllGenes" query a result set is mandatory.  But we checked for
-//			 * that earlier in the getAllGenesQuery() method, so no need to do
-//			 * it here. But we do need to check to see if the user actually
-//			 * has a result set they want us to apply.
-//			 */
-//		    
-//			if(selectedResultSet!=null&&!"".equals(selectedResultSet)) {
-//	        	//ClinicalDataQuery resultSetClinicalDataQuery = (ClinicalDataQuery)(sampleBasedQueriesRetriever.getQuery(sessionId, selectedResultSet));
-//	        	/*
-//	    		 * At this time there is only a single query in any result set.
-//	    		 * So let me grab that single query out of the compound query 
-//	    		 * and extract it's sampleCriteria to apply to the compoundQuery
-//	    		 */
-//               // if(resultSetClinicalDataQuery!=null){
-//    	    		SampleCriteria sampleCrit = new SampleCriteria(); 
-//    	    			//resultSetClinicalDataQuery.getSampleIDCrit();
-//    	    		/*
-//    	    		 * But before we apply it, we need to make sure that we do not have
-//    	    		 * too many samples for an All Gene Query... currently that
-//    	    		 * number is a constant specified in the RembrandtConstants file
-//    	    		 * and is based on the largest disease sample group.  Later this
-//    	    		 * may be dynamically set with a count query against the
-//    	    		 * database.
-//    	    		 */
-//    	    		
-//    	    		//new custom list mgmt stuff
-//    	    		//get the name of the sample list we are using
-//    	    		UserListBeanHelper ul= new UserListBeanHelper(request.getSession());
-//    	    		UserList l = ul.getUserList(selectedResultSet);
-//    	    		List<SampleIDDE> sampleIDDEList = new ArrayList<SampleIDDE>();
-//    	    		Set<String> samples = null;
-//    	    		if(l!=null && l.getList()!=null)	{
-//    	    			//get the samples from that list
-//    	    			//create the sample crit
-//    	    			 samples = new HashSet<String>(l.getList());
-// 
-//    	    			 //get the samples associated with these specimens
-//     	   				List<String> sampleIds = LookupManager.getSampleIDs(samples);
-//     	   				//Add back any samples that were just sampleIds to start with
-//     	   				if(sampleIds != null ){
-//     	   					samples.addAll(sampleIds);
-//     	   				}
-//    	    			 
-//     	   				//if (!isAllGenesQuery) {
-//	    	    		//get the specimenNames associated with these samples
-//	    	    		List<String> specimenNames = LookupManager.getSpecimenNames(samples);
-//	    	   			if(specimenNames != null){
-//	    	   				samples.addAll(specimenNames);
-//	    	   			}
-//     	   				//}
-//    	   				
-//    	   				sampleIDDEList.addAll(ListConvertor.convertToSampleIDDEs(samples));    	    			
-//    	    		}
-//    	    					     
-//    	    		if(isAllGenesQuery){
-//    	    			//Check for specimen_names for all genes Query
-//    	    			Collection<String> specimans =  DataValidator.validateSpecimanNames(samples);
-//    	    			if(specimans!= null && specimans.size()> RembrandtConstants.ALL_GENES_MAX_SAMPLE_COUNT){
-//    	    				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("gov.nih.nci.nautilus.ui.struts.action.refinequery.samplenumber.ofsamples",Integer.toString(RembrandtConstants.ALL_GENES_MAX_SAMPLE_COUNT)));
-//    	    			}else{
-//    	    				sampleIDDEList.clear();
-//        	   				sampleIDDEList.addAll(ListConvertor.convertToSampleIDDEs(specimans));  
-//    	    			}
-//    	    		
-//    	    		}	
-//    	    			sampleCrit.setSampleIDs(sampleIDDEList);
-//    	    			//drop the sample criteria into the compound query, clone it here
-//    		    		compoundQuery = (CompoundQuery)ReportGeneratorHelper.addSampleCriteriaToCompoundQuery((CompoundQuery)compoundQuery.clone(),sampleCrit, selectedResultSet);
-//
-//	    	}
-//			if(errors.isEmpty()) {
-//				//store the sessionId that the compound query is associated with
-//				compoundQuery.setSessionId(sessionId);
-//				//Returned String representation of the final query
-//				refineQueryForm.setQueryText(compoundQuery.toString());
-//	            //We need to retrieve the list of available views
-//	            List viewCollection = setRefineQueryView(compoundQuery, request);
-//	            // Set collection of view types in Form
-//	            refineQueryForm.setCompoundViewColl(viewCollection);
-//	            //Stuff compoundquery in queryCollection
-//	            queryBag.setCompoundQuery((CompoundQuery) compoundQuery);
-//	            //This means show that Run Button as we have a query to run...
-//	            refineQueryForm.setRunFlag("yes");
-//			}
-//        }
-//		
-//        refineQueryForm.setErrors(errors);
-  //      return refineQueryForm;
- //	}
+	public RefineQueryForm processCompoundQuery(BaseForm form,
+                                                     HttpServletRequest request) 
+                                                     throws Exception {
+		
+		Map<String, String> errors = new HashMap<String, String>();
+		
+		List selectedQueries = null;
+		RefineQueryForm refineQueryForm = (RefineQueryForm) form;
+		//this should turn off the run report buttons in the refine query page
+		refineQueryForm.setRunFlag("no");
+		//Clean out the old stored compound query from the bag, and form
+		CompoundQuery compoundQuery = null;
+		refineQueryForm.setQueryText("");
+		refineQueryForm.setCompoundViewColl(new ArrayList());
+		String sessionId = request.getSession().getId();
+		SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
+		//clears out the old compound query, in case something bombs
+		queryBag.setCompoundQuery(compoundQuery);
+		
+		boolean isAllGenesQuery = refineQueryForm.isAllGenesQuery();
+		String selectedResultSet = refineQueryForm.getSelectedResultSet();
+		
+		/* CASE 1:
+		 * This is an "All Genes" query. Overwrite the selectedQueries list with
+		 * a list that only contains the selected all gene query
+		 */
+		if(isAllGenesQuery) {
+			try {
+				//Drop any of the selected queries from the ArrayList
+				refineQueryForm.setSelectedQueries(new ArrayList());
+				selectedQueries = getAllGenesQuery(refineQueryForm.getAllGeneQuery(), sessionId, selectedResultSet);
+			}catch(IllegalStateException ise) {
+				/*
+				 * This is thrown in the instance that the QueryBag gets hosed up.
+				 * Not really sure what to do in this case... so for now just log it
+				 */
+				logger.error(ise);
+				
+			}catch(OperationNotSupportedException onse) {
+				/*
+				 * This should get thrown in the instance that there is only an 
+				 * all genes query selected in the RefineQueryPage. There must
+				 * also be a result set specified... 
+				 */
+				errors.put("gov.nih.nci.nautilus.ui.struts.action.refinequery.allgenequery", null);
+			}
+		}else {
+			//Get the selected queries from the refineQueryForm
+			selectedQueries = refineQueryForm.getSelectedQueries();
+//			remove any incidental or incorrect selectedQueries from the List
+			selectedQueries = scrubTheLazyList(selectedQueries);
+		}
+        
+        /* CASE 1(step 2) & CASE 2:
+         * This is called in the instance there is 1 query stored in the selectedQuery list.   
+         * This can be either a selected "All Gene Query", or a regular query.
+         */
+        if(selectedQueries!=null&&selectedQueries.size()==1) {
+           /*
+            * Don't run if we have errors... this is important to do, because in the
+            */
+        	if(errors.isEmpty()) {
+	           SelectedQueryBean queryBean = (SelectedQueryBean)selectedQueries.get(0);
+	           if(!queryBean.getQueryName().equals("")&&!queryBean.getQueryName().equals(" ")) {
+		           	//They have chosen a query
+		           	String queryName = queryBean.getQueryName();
+		           	Queriable query = queryBag.getQuery(queryName);
+				  	compoundQuery = new CompoundQuery(query);
+	           }
+		   }else {
+		     //They have not chosen a query
+		     errors.put("gov.nih.nci.nautilus.ui.struts.action.refinequery.no.query", null);
+		    }
+        }else if(selectedQueries!=null&&selectedQueries.size()>1) {
+        	/* CASE 3:
+             * There is more than 1 query selected
+        	 */
+           	Vector vectorOfTokens = new Vector();
+            
+            //Tokenize the selected queries
+            for(int i = 0;i<selectedQueries.size(); i++)
+            {
+            	SelectedQueryBean query = (SelectedQueryBean)selectedQueries.get(i);
+                String leftParen = query.getLeftParen();
+                String queryName = query.getQueryName();
+                String rightParen = query.getRightParen();
+                String operatorType = query.getOperand();
+                
+                if (leftParen != null && leftParen.length() > 0) 
+                       vectorOfTokens.add(leftParen);
+                if (query != null) 
+                       vectorOfTokens.add(queryBag.getQuery(query.getQueryName()));
+                if (rightParen != null && rightParen.length() > 0) 
+                       vectorOfTokens.add(rightParen);
+                if (operatorType != null && operatorType.length() > 0) 
+                       vectorOfTokens.add(operatorType);
+            }
+            //Parse the selected queries
+            try {
+    			Parser queryParser = new Parser(vectorOfTokens);
+    			queryParser.expression();
+    			compoundQuery = queryParser.getCompoundQuery();
+     			
+    		}catch (Exception e) {
+    			logger.debug("Error Parsing Query and/or creating Compound Query "+ e.getMessage());
+                errors.put("gov.nih.nci.nautilus.ui.struts.action.refinequery.parse.error", e.getMessage());
+               
+    			
+                refineQueryForm.setErrors(errors);
+    			logger.error(e);
+    		}
+        }
+        /*
+         * At this point we should have a CompoundQuery that contains 1 of 3
+         * things. 1-A Single "AllGenesQuery" in the right child, 2-A Single
+         * Query in the Right Child. 3-A CompoundQuery full of any number of
+         * queries selected by the user in the RefineQuery page.
+         */   
+		if(compoundQuery!=null) {
+			
+			
+			/*
+			 * This is where we will apply a result set of sample ids to the
+			 * CompoundQuery that was just created. In the instance that it is
+			 * an "AllGenes" query a result set is mandatory.  But we checked for
+			 * that earlier in the getAllGenesQuery() method, so no need to do
+			 * it here. But we do need to check to see if the user actually
+			 * has a result set they want us to apply.
+			 */
+		    
+			if(selectedResultSet!=null&&!"".equals(selectedResultSet)) {
+	        	//ClinicalDataQuery resultSetClinicalDataQuery = (ClinicalDataQuery)(sampleBasedQueriesRetriever.getQuery(sessionId, selectedResultSet));
+	        	/*
+	    		 * At this time there is only a single query in any result set.
+	    		 * So let me grab that single query out of the compound query 
+	    		 * and extract it's sampleCriteria to apply to the compoundQuery
+	    		 */
+               // if(resultSetClinicalDataQuery!=null){
+    	    		SampleCriteria sampleCrit = new SampleCriteria(); 
+    	    			//resultSetClinicalDataQuery.getSampleIDCrit();
+    	    		/*
+    	    		 * But before we apply it, we need to make sure that we do not have
+    	    		 * too many samples for an All Gene Query... currently that
+    	    		 * number is a constant specified in the RembrandtConstants file
+    	    		 * and is based on the largest disease sample group.  Later this
+    	    		 * may be dynamically set with a count query against the
+    	    		 * database.
+    	    		 */
+    	    		
+    	    		//new custom list mgmt stuff
+    	    		//get the name of the sample list we are using
+    	    		UserListBeanHelper ul= new UserListBeanHelper(request.getSession());
+    	    		UserList l = ul.getUserList(selectedResultSet);
+    	    		List<SampleIDDE> sampleIDDEList = new ArrayList<SampleIDDE>();
+    	    		Set<String> samples = null;
+    	    		if(l!=null && l.getList()!=null)	{
+    	    			//get the samples from that list
+    	    			//create the sample crit
+    	    			 samples = new HashSet<String>(l.getList());
+ 
+    	    			 //get the samples associated with these specimens
+     	   				List<String> sampleIds = LookupManager.getSampleIDs(samples);
+     	   				//Add back any samples that were just sampleIds to start with
+     	   				if(sampleIds != null ){
+     	   					samples.addAll(sampleIds);
+     	   				}
+    	    			 
+     	   				//if (!isAllGenesQuery) {
+	    	    		//get the specimenNames associated with these samples
+	    	    		List<String> specimenNames = LookupManager.getSpecimenNames(samples);
+	    	   			if(specimenNames != null){
+	    	   				samples.addAll(specimenNames);
+	    	   			}
+     	   				//}
+    	   				
+    	   				sampleIDDEList.addAll(ListConvertor.convertToSampleIDDEs(samples));    	    			
+    	    		}
+    	    					     
+    	    		if(isAllGenesQuery){
+    	    			//Check for specimen_names for all genes Query
+    	    			Collection<String> specimans =  DataValidator.validateSpecimanNames(samples);
+    	    			if(specimans!= null && specimans.size()> RembrandtConstants.ALL_GENES_MAX_SAMPLE_COUNT){
+    	    				errors.put("gov.nih.nci.nautilus.ui.struts.action.refinequery.samplenumber.ofsamples",
+    	    						Integer.toString(RembrandtConstants.ALL_GENES_MAX_SAMPLE_COUNT));
+    	    			}else{
+    	    				sampleIDDEList.clear();
+        	   				sampleIDDEList.addAll(ListConvertor.convertToSampleIDDEs(specimans));  
+    	    			}
+    	    		
+    	    		}	
+    	    			sampleCrit.setSampleIDs(sampleIDDEList);
+    	    			//drop the sample criteria into the compound query, clone it here
+    		    		compoundQuery = (CompoundQuery)ReportGeneratorHelper.addSampleCriteriaToCompoundQuery((CompoundQuery)compoundQuery.clone(),sampleCrit, selectedResultSet);
+
+	    	}
+			if(errors.isEmpty()) {
+				//store the sessionId that the compound query is associated with
+				compoundQuery.setSessionId(sessionId);
+				//Returned String representation of the final query
+				refineQueryForm.setQueryText(compoundQuery.toString());
+	            //We need to retrieve the list of available views
+	            List viewCollection = setRefineQueryView(compoundQuery, request);
+	            // Set collection of view types in Form
+	            refineQueryForm.setCompoundViewColl(viewCollection);
+	            //Stuff compoundquery in queryCollection
+	            queryBag.setCompoundQuery((CompoundQuery) compoundQuery);
+	            //This means show that Run Button as we have a query to run...
+	            refineQueryForm.setRunFlag("yes");
+			}
+        }
+		
+        refineQueryForm.setErrors(errors);
+        return refineQueryForm;
+ 	}
 
 	public static List setRefineQueryView(CompoundQuery cQuery,
 			HttpServletRequest request) {

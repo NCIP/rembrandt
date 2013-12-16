@@ -57,8 +57,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 //import org.apache.struts.action.ActionError;
 //import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionMapping;
-import org.apache.struts.upload.FormFile;
+//import org.apache.struts.action.ActionMapping;
+//import org.apache.struts.upload.FormFile;
 import org.apache.struts.util.LabelValueBean;
 
 
@@ -482,7 +482,9 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
      * @param HttpServletRequest
      *            request
      */
-    public void reset(ActionMapping mapping, HttpServletRequest request) {
+    
+    //Shan: we need to call this from somewhere explicitly
+    public void reset(HttpServletRequest request) {
     	
     	GroupRetriever groupRetriever = new GroupRetriever();
 	    savedGeneList = groupRetriever.getGeneGroupsSubTypeCollection(request.getSession());

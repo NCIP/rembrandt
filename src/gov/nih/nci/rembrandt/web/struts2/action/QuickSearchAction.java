@@ -10,6 +10,7 @@ import java.util.Set;
 
 import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
+import gov.nih.nci.caintegrator.application.util.ApplicationContext;
 import gov.nih.nci.caintegrator.dto.critieria.InstitutionCriteria;
 import gov.nih.nci.caintegrator.dto.de.GeneIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.SNPIdentifierDE;
@@ -155,7 +156,6 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 		//need this to pass the geneSymbol to the JSP
 		
 		servletRequest.getSession().setAttribute("geneSymbol", quickSearchForm.getGeneSymbol());
-		
 		servletRequest.getSession().setAttribute("geneSymbol", MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, 
 				quickSearchForm.getGeneSymbol()));
 		

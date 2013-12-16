@@ -71,9 +71,9 @@ L--%>
 	String list = "";
 	String download="";
 	String advSecondary = "<ul id=\"secondary\">\n" +
-							"<li><a href=\"menu.do\">Advanced Search Home</a></li>\n" +
+							"<li><a href=\"menu.action\">Advanced Search Home</a></li>\n" +
 							//"<li><a href=\"menu.do\">Build Query</a></li>\n" +
-							"<li><a href=\"refinecheck.do\">Refine Query</a></li>\n" +
+							"<li><a href=\"refinecheck.action\">Refine Query</a></li>\n" +
 							"</ul>\n";
 	String resultsSecondary = "<ul id=\"secondary\">\n" +
 							"<li><a href=\"viewResults.do\">View Findings</a></li>\n" +

@@ -142,6 +142,154 @@
 		<result name="success">jsp/clinicalPlots.jsp</result>
 	</action>
 	
+	<action name="geneExpression">
+		<result type="tiles">nautilus.geneExpression</result>
+    </action>
+    
+    <!-- scope="request"
+            parameter="method"
+            validate="false" -->
+    <action name="previewcgreport"
+            class="gov.nih.nci.rembrandt.web.struts2.action.ReportGeneratorAction"
+            method="previewReport">
+         <result name="failure" type="redirectAction">
+        	 <param name="actionName">login</param>
+         </result>
+         <result name="backToCGH" type="tiles">nautilus.comparitiveGenomic</result>
+	</action>
+	
+	<!-- input="nautilus.viewResults"
+	name="viewResultsForm"
+		scope="request"
+	 -->
+	<action name="viewResults"
+	    class="gov.nih.nci.rembrandt.web.struts2.action.ViewResultsAction">
+		<result name="success" type="tiles">nautilus.viewResults</result>
+	</action>
+    		
+    		<!--  name="comparitivegenomicForm"
+            scope="request"
+            parameter="method"
+            validate="true" 
+            input="nautilus.comparitiveGenomic"-->
+    <action name="comparitivegenomic"
+      	class="gov.nih.nci.rembrandt.web.struts2.action.ComparativeGenomicAction">
+         <result name="advanceSearchMenu" type="tiles">nautilus.menu</result>
+         <result name="backToCGH" type="tiles">nautilus.comparitiveGenomic</result>
+         <result name="showAllGenes" type="tiles">nautilus.allGenesCGH</result>
+         
+         <result name="previewReport" type="redirectAction">
+        	 <param name="actionName">previewCGReport</param>
+         </result>
+         
+         <result name="viewResults" type="redirectAction">
+        	 <param name="actionName">viewResults</param>
+         </result>
+         
+         <result name="viewResults" type="redirectAction">
+        	 <param name="actionName">login</param>
+         </result>
+         
+	</action>
+	
+	
+	<!-- input="nautilus.clinical"
+            name="clinicaldataForm" 
+            scope="request"
+            parameter="method"
+            validate="true"-->
+	<action name="clinical"
+          class="gov.nih.nci.rembrandt.web.struts2.action.ClinicalDataAction">
+         <result name="advanceSearchMenu" type="tiles">nautilus.menu</result>
+         <result name="backToClinical" type="tiles">nautilus.clinical</result>
+         
+         <result name="previewReport" type="redirectAction">
+        	 <param name="actionName">previewCGReport</param>
+         </result>
+		 <result name="viewResults" type="redirectAction">
+        	 <param name="actionName">viewResults</param>
+         </result>
+         <result name="viewResults" type="redirectAction">
+        	 <param name="actionName">login</param>
+         </result> 
+	</action>
+	
+	<action name="refine">
+		<result type="tiles">nautilus.refine</result>
+    </action>
+      	   
+	 <action name="refinecheck"
+	       class="gov.nih.nci.rembrandt.web.struts2.action.RefineCheckAction">
+         <result name="success" type="redirectAction">
+         	<param name="actionName">refine</param>
+        </result>
+                  
+         <result name="failure" type="redirectAction">
+         	<param name="actionName">home</param>
+        </result>
+   </action>
+   
+   <!-- input="nautilus.refine" 
+    scope="request"
+            parameter="method"
+            validate="true"-->
+   <action name="refineQuery"
+            class="gov.nih.nci.rembrandt.web.struts2.action.RefineQueryAction">
+         
+         <result name="success" type="redirectAction">
+         	<param name="actionName">runGeneViewReport</param>
+        </result>
+         
+         <result name="displayQuery" type="tiles">nautilus.refine</result>
+         <result name="advanceSearchMenu" type="tiles">nautilus.menu</result>
+         
+          <result name="failure" type="redirectAction">
+         	<param name="actionName">refine</param>
+        </result>
+         
+        <result name="viewResults" type="redirectAction">
+         	<param name="actionName">viewResults</param>
+        </result>
+	</action>
+   
+   <!--  scope="request"
+           parameter="method"
+           validate="false" -->
+   <action name="runReport"
+	       class="gov.nih.nci.rembrandt.web.struts2.action.ReportGeneratorAction">
+         <result name="runGeneViewReport">jsp/geneViewReport.jsp</result>
+         <result name="runGeneViewReportFromCache">jsp/geneViewReport.jsp</result>
+         <result name="runCSVGeneViewReport">jsp/geneViewReportCSV.jsp</result>
+         <result name="runEmailedGeneViewReport">jsp/geneViewReport.jsp </result>
+	     <result name="runIGVReport">jsp/segmentViewIGVReport.jsp</result>
+         <result name="failure">error.jsp</result>
+         
+         <result name="forwardToGeneViewReport" type="redirectAction">
+         	<param name="actionName">runGeneViewReport</param>
+         	<param name="resultSetName">${resultSetName}</param>
+         </result>
+         
+         <result name="webGenome" type="redirect">${webGenomeRequestUrl}
+         
+         </result>
+         
+    </action>
+    
+    <action name="runGeneViewReport"
+	       class="gov.nih.nci.rembrandt.web.struts2.action.ReportGeneratorAction" method="runGeneViewReport">
+         <result name="runGeneViewReport">jsp/geneViewReport.jsp</result>
+         <result name="failure">error.jsp</result>
+    </action>
+    
+    <!-- input="nautilus.viewResults"
+    scope="request"
+     -->
+    <action name="viewResults"
+		class="gov.nih.nci.rembrandt.web.struts2.action.ViewResultsAction">
+		<result name="success" type="tiles">nautilus.viewResults</result>
+	</action>
+    
+	
 	<!-- 
 	type="gov.nih.nci.rembrandt.web.struts2.action.DeleteQueryAction"
             scope="request"

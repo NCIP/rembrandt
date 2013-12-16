@@ -42,7 +42,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 //import org.apache.struts.action.ActionError;
 //import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionMapping;
+//import org.apache.struts.action.ActionMapping;
 import org.apache.struts.util.LabelValueBean;
 
 
@@ -438,7 +438,8 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	 *            request The servlet request we are processing.
 	 */
 
-	public void reset(ActionMapping mapping, HttpServletRequest request) {
+	//Shan: need to call explicitly from somewhere
+	public void reset(HttpServletRequest request) {
 		//geneOption = "";
 		//pathwayName = new String[0];
 		GroupRetriever groupRetriever = new GroupRetriever();
@@ -1742,7 +1743,7 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 		this.excludeResections = excludeResections;
 	}
 
-	public void setUpGeneAndCloneList(ActionMapping mapping, HttpServletRequest request) {
+	public void setUpGeneAndCloneList(HttpServletRequest request) {
 		GroupRetriever groupRetriever = new GroupRetriever();
 	    savedGeneList = groupRetriever.getGeneGroupsCollection(request.getSession());
 	    savedCloneList = groupRetriever.getCloneGroupsCollection(request.getSession());
