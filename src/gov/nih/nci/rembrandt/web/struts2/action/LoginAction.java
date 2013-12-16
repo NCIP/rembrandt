@@ -1,10 +1,3 @@
-/*L
- * Copyright (c) 2006 SAIC, SAIC-F.
- *
- * Distributed under the OSI-approved BSD 3-Clause License.
- * See http://ncip.github.com/rembrandt/LICENSE.txt for details.
- */
-
 package gov.nih.nci.rembrandt.web.struts2.action;
 
 import gov.nih.nci.caintegrator.application.cache.CacheConstants;
