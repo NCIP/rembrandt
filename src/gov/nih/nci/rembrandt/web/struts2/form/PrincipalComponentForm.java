@@ -1,18 +1,30 @@
 package gov.nih.nci.rembrandt.web.struts2.form;
 
-import gov.nih.nci.caintegrator.enumeration.MultiGroupComparisonAdjustmentType;
-import gov.nih.nci.caintegrator.enumeration.StatisticalMethodType;
+
+
+
+import gov.nih.nci.caintegrator.enumeration.*;
 import gov.nih.nci.rembrandt.util.MoreStringUtils;
-import gov.nih.nci.rembrandt.util.RembrandtConstants;
+import gov.nih.nci.rembrandt.web.bean.UserPreferencesBean;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
-import gov.nih.nci.rembrandt.web.bean.LabelValueBean;
+import org.apache.struts.action.ActionMessages;
+import org.apache.struts.util.LabelValueBean;
+
+
 
 
 
@@ -74,84 +86,36 @@ import gov.nih.nci.rembrandt.web.bean.LabelValueBean;
 * 
 */
 
-public class ClassComparisonForm implements RootForm {
+public class PrincipalComponentForm implements RootForm {
     
  // -------------INSTANCE VARIABLES-----------------------------//
-    private static Logger logger = Logger.getLogger(ClassComparisonForm.class);
+    private static Logger logger = Logger.getLogger(BaseForm.class);
 	
+    private String groupsOption = "allSamples";
+    
     private String [] existingGroups;
     
     private List existingGroupsList;
     
     private String [] selectedGroups;
     
-    private String baselineGroup;
+    private String selectedGroupName = "";
     
-    private String analysisResultName = "";
+    private String analysisResultName = "";    
+        
+    private int variancePercentile = 70;
     
-    private String statistic = "default";
+    private String filterType = "default";
     
-    private String statisticalMethod = "TTest";
+    private String geneSetName;
     
-    private ArrayList statisticalMethodCollection = new ArrayList();
-    
-    private String comparisonAdjustment = "NONE";
-    
-    private ArrayList comparisonAdjustmentCollection = new ArrayList();
-    
-    private String foldChange = "list";
-    
-    private String foldChangeAuto = "2";
-    
-    private List foldChangeAutoList = new ArrayList();
-    
-    private Double foldChangeManual;
-    
-    private Double statisticalSignificance = .05;
+    private String reporterSetName;
     
     private String arrayPlatform = "";
     
-   
-
-	public ClassComparisonForm(){
-			
-		// Create Lookups for ClassComparisonForm screens 
-        for (MultiGroupComparisonAdjustmentType multiGroupComparisonAdjustmentType : MultiGroupComparisonAdjustmentType.values()){
-            comparisonAdjustmentCollection.add(new LabelValueBean(multiGroupComparisonAdjustmentType.toString(),multiGroupComparisonAdjustmentType.name()));
-        }
-        
-        
-        for (StatisticalMethodType statisticalMethodType : StatisticalMethodType.values()){
-            if(!(statisticalMethodType.equals(StatisticalMethodType.GLM)) && !(statisticalMethodType.equals(StatisticalMethodType.ANOVA))){
-                statisticalMethodCollection.add(new LabelValueBean(statisticalMethodType.toString(),statisticalMethodType.name())); 
-             }
-        }
-        
-        for (int i=0; i<RembrandtConstants.FOLD_CHANGE_DEFAULTS.length;i++){
-            foldChangeAutoList.add(new LabelValueBean(RembrandtConstants.FOLD_CHANGE_DEFAULTS[i],RembrandtConstants.FOLD_CHANGE_DEFAULTS[i]));
-        }
-        
+    public PrincipalComponentForm(){
+		
     }
-
-
-
-    /**
-     * @return Returns the existingGroups.
-     */
-    public String[] getExistingGroups() {
-        return existingGroups;
-    }
-
-
-
-    /**
-     * @param existingGroups The existingGroups to set.
-     */
-    public void setExistingGroups(String [] existingGroups) {
-        this.existingGroups = existingGroups;
-    }
-
-
 
     /**
      * @return Returns the existingGroupsList.
@@ -160,8 +124,6 @@ public class ClassComparisonForm implements RootForm {
         return this.existingGroupsList;
     }
 
-
-
     /**
      * @param existingGroupsList The existingGroupsList to set.
      */
@@ -169,42 +131,12 @@ public class ClassComparisonForm implements RootForm {
         this.existingGroupsList = existingGroupsList;
     }
 
-
-
-    /**
-     * @return Returns the selectedGroups.
-     */
-    public String [] getSelectedGroups() {
-        return selectedGroups;
-    }
-
-
-
-    /**
-     * @param selectedGroups The selectedGroups to set.
-     */
-    public void setSelectedGroups(String [] selectedGroups) {
-        this.selectedGroups = selectedGroups;
-    }
-
-	public String getBaselineGroup() {
-		return baselineGroup;
-	}
-
-
-
-	public void setBaselineGroup(String baselineGroup) {
-		this.baselineGroup = baselineGroup;
-	}
-
     /**
      * @return Returns the analysisResultName.
      */
     public String getAnalysisResultName() {
         return analysisResultName;
     }
-
-
 
     /**
      * @param analysisResultName The analysisResultName to set.
@@ -216,16 +148,12 @@ public class ClassComparisonForm implements RootForm {
         this.analysisResultName = analysisResultName;
     }
 
-
-
     /**
      * @return Returns the arrayPlatform.
      */
     public String getArrayPlatform() {
         return arrayPlatform;
     }
-
-
 
     /**
      * @param arrayPlatform The arrayPlatform to set.
@@ -234,178 +162,136 @@ public class ClassComparisonForm implements RootForm {
         this.arrayPlatform = arrayPlatform;
     }
 
-
-
-    /**
-     * @return Returns the comparisonAdjustment.
+    
+       /**
+     * @return Returns the variancePercentile.
      */
-    public String getComparisonAdjustment() {
-        return comparisonAdjustment;
+    public int getVariancePercentile() {
+        return variancePercentile;
     }
 
-
-
     /**
-     * @param comparisonAdjustment The comparisonAdjustment to set.
+     * @param variancePercentile The variancePercentile to set.
      */
-    public void setComparisonAdjustment(String comparisonAdjustment) {
-        this.comparisonAdjustment = comparisonAdjustment;
-    }
-
-
-
-    /**
-     * @return Returns the foldChange.
-     */
-    public String getFoldChange() {
-        return foldChange;
-    }
-
-
-
-    /**
-     * @param foldChange The foldChange to set.
-     */
-    public void setFoldChange(String foldChange) {
-        this.foldChange = foldChange;
-    }
-
-
-    /**
-     * @return Returns the statistic.
-     */
-    public String getStatistic() {
-        return statistic;
-    }
-
-
-
-    /**
-     * @param statistic The statistic to set.
-     */
-    public void setStatistic(String statistic) {
-        this.statistic = statistic;
-    }
-
-
-
-    /**
-     * @return Returns the statisticalMethod.
-     */
-    public String getStatisticalMethod() {
-        return statisticalMethod;
-    }
-
-
-
-    /**
-     * @param statisticalMethod The statisticalMethod to set.
-     */
-    public void setStatisticalMethod(String statisticalMethod) {
-        this.statisticalMethod = statisticalMethod;
+    public void setVariancePercentile(int variancePercentile) {
+        this.variancePercentile = variancePercentile;
     }
     
     /**
-     * @return Returns the comparisonAdjustmentCollection.
+     * @param variancePercentile The variancePercentile to set.
      */
-    public ArrayList getComparisonAdjustmentCollection() {
-        return comparisonAdjustmentCollection;
-    }
-
+    public void setVariancePercentile(String variancePercentile) {
+    	try {
+    		this.variancePercentile = Integer.valueOf(variancePercentile);
+    	}
+    	catch (NumberFormatException e) {}
+    }    
 
 
     /**
-     * @param comparisonAdjustmentCollection The comparisonAdjustmentCollection to set.
+     * @return Returns the filterType.
      */
-    public void setComparisonAdjustmentCollection(
-            ArrayList comparisonAdjustmentCollection) {
-        this.comparisonAdjustmentCollection = comparisonAdjustmentCollection;
+    public String getFilterType() {
+        return filterType;
     }
 
 
-
     /**
-     * @return Returns the statisticalMethodCollection.
+     * @param filterType The filterType to set.
      */
-    public ArrayList getStatisticalMethodCollection() {
-        return statisticalMethodCollection;
+    public void setFilterType(String filterType) {
+        this.filterType = filterType;
     }
 
 
+    /**
+     * @return Returns the geneSetName.
+     */
+    public String getGeneSetName() {
+        return geneSetName;
+    }
+
 
     /**
-     * @param statisticalMethodCollection The statisticalMethodCollection to set.
+     * @param geneSetName The geneSetName to set.
      */
-    public void setStatisticalMethodCollection(ArrayList statisticalMethodCollection) {
-        this.statisticalMethodCollection = statisticalMethodCollection;
+    public void setGeneSetName(String geneSetName) {
+        this.geneSetName = geneSetName;
+    }
+
+
+    /**
+     * @return Returns the reporterSetName.
+     */
+    public String getReporterSetName() {
+        return reporterSetName;
+    }
+
+
+    /**
+     * @param reporterSetName The reporterSetName to set.
+     */
+    public void setReporterSetName(String reporterSetName) {
+        this.reporterSetName = reporterSetName;
+    }
+
+
+    /**
+     * @return Returns the selectedGroupName.
+     */
+    public String getSelectedGroupName() {
+        return selectedGroupName;
+    }
+
+
+    /**
+     * @param selectedGroupName The selectedGroupName to set.
+     */
+    public void setSelectedGroupName(String selectedGroupName) {
+        this.selectedGroupName = selectedGroupName;
+    }
+    /**
+     * @return Returns the existingGroups.
+     */
+    public String[] getExistingGroups() {
+        return existingGroups;
+    }
+
+    /**
+     * @param existingGroups The existingGroups to set.
+     */
+    public void setExistingGroups(String[] existingGroups) {
+        this.existingGroups = existingGroups;
+    }
+
+    /**
+     * @return Returns the selectedGroups.
+     */
+    public String[] getSelectedGroups() {
+        return selectedGroups;
+    }
+
+    /**
+     * @param selectedGroups The selectedGroups to set.
+     */
+    public void setSelectedGroups(String[] selectedGroups) {
+        this.selectedGroups = selectedGroups;
     }
     
-    /**
-     * @return Returns the foldChangeAuto.
-     */
-    public String getFoldChangeAuto() {
-        return foldChangeAuto;
-    }
-
-
 
     /**
-     * @param foldChangeAuto The foldChangeAuto to set.
+     * @return Returns the groupsOption.
      */
-    public void setFoldChangeAuto(String foldChangeAuto) {
-        this.foldChangeAuto = foldChangeAuto;
+    public String getGroupsOption() {
+        return groupsOption;
     }
-
-
 
     /**
-     * @return Returns the foldChangeManual.
+     * @param groupsOption The groupsOption to set.
      */
-    public Double getFoldChangeManual() {
-        return foldChangeManual;
+    public void setGroupsOption(String groupsOption) {
+        this.groupsOption = groupsOption;
     }
-
-
-
-    /**
-     * @param foldChangeManual The foldChangeManual to set.
-     */
-    public void setFoldChangeManual(Double foldChangeManual) {
-        this.foldChangeManual = foldChangeManual;
-    }
-    
-    /**
-     * @return Returns the statisticalSignificance.
-     */
-    public Double getStatisticalSignificance() {
-        return statisticalSignificance;
-    }
-
-
-
-    /**
-     * @param statisticalSignificance The statisticalSignificance to set.
-     */
-    public void setStatisticalSignificance(Double statisticalSignificance) {
-        this.statisticalSignificance = statisticalSignificance;
-    }
-    
-    /**
-     * @return Returns the foldChangeAutoList.
-     */
-    public List getFoldChangeAutoList() {
-        return foldChangeAutoList;
-    }
-
-
-
-    /**
-     * @param foldChangeAutoList The foldChangeAutoList to set.
-     */
-    public void setFoldChangeAutoList(List foldChangeAutoList) {
-        this.foldChangeAutoList = foldChangeAutoList;
-    }
-        
 
     /**
      * Method validate
@@ -416,34 +302,22 @@ public class ClassComparisonForm implements RootForm {
      *            request
      * @return ActionErrors
      */
-    public List<String> validate(ActionMapping mapping,
+/*    public ActionErrors validate(ActionMapping mapping,
             HttpServletRequest request) {
 
-        List<String> errors = new ArrayList<String>();
+        ActionErrors errors = new ActionErrors();
         
-        
-        //Analysis Query Name cannot be blank
-        errors = UIFormValidator.validateAnalysisName(analysisResultName, errors);
-        
-        //User must select exactly 2 comparison Groups if not for FTest
-        if (!"FTest".equals(statisticalMethod))
-        	errors = UIFormValidator.validateSelectedGroups(selectedGroups, errors);
-        //otherwise, it must be at least two.
-        else
-        	errors = UIFormValidator.validateSelectedGroups(selectedGroups, 2, errors);
-        
-        //look at the manual FC to check for neg value
-        //this is validated in the UI, so its put here only as a failsafe
-        if(foldChangeManual < 0){
-        	foldChangeManual = Math.abs(foldChangeManual);
-        }
-        
-        
-        
+       // Analysis name cannot be blank
+        errors = UIFormValidator.validateQueryName(analysisResultName, errors);
+       
+       // Validate group field
+        errors = UIFormValidator.validateSelectedGroup(groupsOption, selectedGroups, errors);
+       
         return errors;
     }
+    */
     
-   
+  
     /**
      * Method reset
      * 
@@ -453,16 +327,14 @@ public class ClassComparisonForm implements RootForm {
      *            request
      */
     public void reset(ActionMapping mapping, HttpServletRequest request) {
-        analysisResultName = "";        
-        statistic = "default";        
-        comparisonAdjustment = "NONE";        
-        foldChange = "list";      
-        foldChangeAuto = "2"; 
-        foldChangeManual = 2.0;
-        statisticalSignificance = .05;        
-        arrayPlatform = "";             
-        statisticalMethod = "TTest";
+        analysisResultName = "";           
+        arrayPlatform = ""; 
+        filterType = "default";
+      
     }
+
+    
+
 
     
 }

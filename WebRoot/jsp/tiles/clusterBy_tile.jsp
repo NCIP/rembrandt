@@ -5,9 +5,8 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ page import="gov.nih.nci.caintegrator.dto.critieria.Constants"%>
 <%
 	String act = request.getParameter("act") + "_Clusterby_tooltip";
@@ -21,10 +20,9 @@ Step 3: Cluster By
 </legend>
 	
 <br>
-
-			<html:radio styleId="SamplesCluster" styleClass="radio" property="clusterBy" value="Samples"/>
+			<input type="radio" name="form.clusterBy" value="Samples" checked="checked" id="SamplesCluster" class="radio">
 			&nbsp;<label for="SamplesCluster">Samples</label><br />
-			<html:radio styleId="GenesCluster" styleClass="radio" property="clusterBy" value="Genes"/>
+			<input type="radio" name="form.clusterBy" value="Genes" id="GenesCluster" class="radio">
 			&nbsp;<label for="GenesCluster">Genes</label><br />			
 			
 </fieldset>

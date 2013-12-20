@@ -42,7 +42,7 @@ L--%>
 </legend>
 <br>
 	<s:actionerror name="analysisResultName"/>
-<s:textfield id="analysisResultName" name="analysisResultName" size="50" theme="simple" /> (should be unique)
+<s:textfield id="analysisResultName" name="form.analysisResultName" size="50" theme="simple" /> (should be unique)
 <br />
 <s:actionerror name="queryName"/><br />
 </fieldset>
