@@ -64,38 +64,39 @@ if(queryCollection == null){
   
   <fieldset style="width:500px;">
 		<legend>Add to query:</legend>
-		<!-- Shan: handle later -->
-		<!--  html:errors property="org.apache.struts.action.GLOBAL_ERROR"/> -->
+		<s:actionerror />
 		
 		  <app:cshelp topic="Advanced_overview" /><br clear="left"/>
 		
-		
+		 
 			<table border="0" cellpadding="3" cellspacing="3" summary="This table is used to format page content">
 			<tr><th></th></tr>
+			 
 			<tr><td>
-			    <s:form action="geneexpression">
-			       <s:submit styleClass="xbutton" property="method" style="width:200px;margin-bottom: 5px;">
-			          <bean:message key="GeneExpressionAction.setupButton"/>
-			        </s:submit>
-			        &nbsp; <b class="message">- (<% out.write(geQueryString); %>) Gene Exp. Analysis Queries</b></td></tr>
+			<s:form action="geneexpression" namespace="/" theme="simple">
+			 <s:submit value="Gene Expression Analysis" style="width:200px;margin-bottom: 5px;"/>
+			  &nbsp; <b class="message">- (<% out.write(geQueryString); %>) Gene Exp. Analysis Queries</b>
+			</s:form>
+			</td></tr>
+			    
+			 <tr><td> 
+			     <s:form action="comparitivegenomic" method="post" namespace="/" theme="simple">
+			     <s:submit value="Copy Number Data Analysis" style="width:200px;margin-bottom: 5px;"/>
+			  		&nbsp; <b class="message">- (<% out.write(cpQueryString); %>) Copy Number Data Queries</b>
+			       
 			     </s:form>
-				
-			  <tr><td> 
-			     <html:form action="/comparitivegenomic">
-			       <html:submit styleClass="xbutton" property="method" style="width:200px;margin-bottom: 5px;">
-			          <bean:message key="ComparativeGenomicAction.setupButton"/>
-			       </html:submit>
-			        &nbsp; <b class="message">- (<% out.write(cpQueryString); %>) Copy Number Data Queries</b></td></tr>
-			     </html:form>
-					
+			</td></tr>		
 			<tr><td>
-				<html:form action="/clinical">
-			       <html:submit styleClass="xbutton" property="method" style="width:200px;margin-bottom: 5px;">
-			          <bean:message key="ClinicalDataAction.setupButton"/>
-			       </html:submit>
-				&nbsp;<b class="message">- (<% out.write(cghQueryString); %>) Clinical Study Analysis Queries</b></td></tr>
-				</html:form>
+			<s:form action="clinical" method="post" namespace="/" theme="simple">
+			     <s:submit value="Clinical Study Analysis" style="width:200px;margin-bottom: 5px;"/>
+			  		&nbsp; <b class="message">- (<% out.write(cghQueryString); %>) Clinical Study Analysis Queries</b>
+			       
+			     </s:form>
+			</td></tr>
+					
+			 
 			</table>
+			
 	</fieldset>
 	</td></tr>
 	<tr><td>

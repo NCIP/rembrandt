@@ -41,6 +41,10 @@
     <result name="error">/error.jsp</result>
     </action> -->
     
+    <action name="login">
+		<result>login.jsp</result>
+    </action>
+    
     <action name="alogin"
            class="gov.nih.nci.rembrandt.web.struts2.action.LoginAction">
            <interceptor-ref name="tokenSession"/>  
@@ -143,7 +147,7 @@
 		<result name="success">jsp/clinicalPlots.jsp</result>
 	</action>
 	
-	<action name="geneExpression">
+	<action name="geneexpression">
 		<result type="tiles">nautilus.geneExpression</result>
     </action>
     

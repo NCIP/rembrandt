@@ -17,17 +17,32 @@ L--%>
 <%@ page import="org.apache.log4j.Logger;" %>
 
 <% 
-String dest = "menu.do";
-UserCredentials credent = (UserCredentials)session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
-if (credent == null || (credent.getUserName() != null && credent.getUserName().equalsIgnoreCase("RBTuser"))) {
-	dest = "login.do";
-} 
+//String dest = "menu";
+//UserCredentials credent = (UserCredentials)session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
+//if (credent == null || (credent.getUserName() != null && credent.getUserName().equalsIgnoreCase("RBTuser"))) {
+//	dest = "login";
+//} 
+
+//out.println("Url: " + dest);
  %>
  
 <div class="crumb">
 <span style="float:left">
 <a href="#main_content"><img src="../../images/skipnav.gif" alt="Skip Navigation Link" name="skipnav" width="1" height="1" border="0" id="skipnav"></a>
-<a style="font-size:.8em" href="<%= dest%>">Home-Need fix</a>&nbsp;&nbsp;&nbsp;
+
+
+<%
+UserCredentials credent = (UserCredentials)session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
+if (credent == null || (credent.getUserName() != null && credent.getUserName().equalsIgnoreCase("RBTuser"))) {
+%>
+<!-- Shan: login action is not configured now -->
+<s:url action="login" namespace="/" id="aURL"></s:url>
+<%} else { %>
+	<s:url action="menu" namespace="/" id="aURL"></s:url>
+<%} %>
+<s:a style="font-size:.8em" href="%{aURL}">Home-Need fix</s:a>&nbsp;&nbsp;&nbsp;
+
+
 <app:cshelp topic="Welcome" style="font-size:.8em" text="Help"/>&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="http://ncicb.nci.nih.gov/NCICB/support" target="_blank">Support</a>&nbsp;&nbsp;&nbsp;
 <a style="font-size:.8em" href="tutorials.jsp">Tutorials</a>&nbsp;&nbsp;&nbsp;
