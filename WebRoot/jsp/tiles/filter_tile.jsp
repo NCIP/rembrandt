@@ -5,9 +5,7 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ page import="java.util.*"%>
 <%
@@ -88,12 +86,12 @@ L--%>
 	
 <fieldset class="gray">
 <legend class="red">
-	<logic:present name="hierarchicalClusteringForm">
+	<s:if test="hierarchicalClusteringForm != null">
 	Step 1: 
-	</logic:present>
-	<logic:present name="principalComponentForm">
+	</s:if>	
+	<s:if test="principalComponentForm != null">
 	Step 2: 
-	</logic:present>
+	</s:if>
 	Filter Genes/Reporters
 	<app:cshelp topic="<%=act%>" text="[?]"/>   
 	
@@ -108,35 +106,35 @@ L--%>
 
 	<div id="advFilter" class="divHide">
 		<br>
-			<logic:present name="principalComponentForm"> 
+			<s:if test="principalComponentForm != null">
 			Constrain reporters by variance (Gene Vector) percentile:&nbsp;&nbsp;&ge;			
-				<input type="text" name="variancePercentile" id="variancePercentile" size="4" value="<jsp:getProperty name="userPreferences" property="pcaVariancePercentile"/>" />&nbsp;&nbsp;%
-			</logic:present>
-			<logic:present name="hierarchicalClusteringForm"> 
+				<input type="text" name="form.variancePercentile" id="variancePercentile" size="4" value="<jsp:getProperty name="userPreferences" property="pcaVariancePercentile"/>" />&nbsp;&nbsp;%
+			</s:if>
+			<s:if test="hierarchicalClusteringForm != null"> 
 			Constrain reporters by selecting top variance percentile:&nbsp;&nbsp;&le;
-				<input type="text" name="variancePercentile" id="variancePercentile" size="4" value="<jsp:getProperty name="userPreferences" property="hcVariancePercentile"/>" />&nbsp;&nbsp;%
-			</logic:present>
+				<input type="text" name="form.variancePercentile" id="variancePercentile" size="4" value="<jsp:getProperty name="userPreferences" property="hcVariancePercentile"/>" />&nbsp;&nbsp;%
+			</s:if>
 			
 		<br><br>	
 		  Use differentially expressed genes &nbsp;&nbsp;
-		      <html:select property="geneSetName" styleId="geneList" disabled="false" onfocus="javascript:updateG()">
+		      <select name="form.geneSetName" id="geneList" onfocus="javascript:updateG()">
 				 <option value="<jsp:getProperty name="userPreferences" property="geneSetName"/>"><jsp:getProperty name="userPreferences" property="geneSetName"/></option>
-			  </html:select>
+			  </select>
 			 <!--or <a href="#" onclick="javascript:spawnx('uploadGeneSet.do', 'upload', 'screenX=0,screenY=0,status=yes,toolbar=no,menubar=no,location=no,width=380,height=230,scrollbars=yes,resizable=no');return false;">Upload</a>-->
 						
 		<br><br>	  
 		  Use differentially expressed reporters &nbsp;&nbsp;
-		      <html:select property="reporterSetName" styleId="reporterList" disabled="false" onfocus="javascript:updateR()">
+		      <select name="form.reporterSetName" id="reporterList" onfocus="javascript:updateR()">
 					 <option value="<jsp:getProperty name="userPreferences" property="reporterSetName"/>"><jsp:getProperty name="userPreferences" property="reporterSetName"/></option>
-			  </html:select>
+			  </select>
 			  <!--or <a href="#" onclick="javascript:spawnx('uploadReporterSet.do', 'upload2', 'screenX=0,screenY=0,status=yes,toolbar=no,menubar=no,location=no,width=380,height=230,scrollbars=yes,resizable=no');return false;">Upload</a>-->
 		<br><br>	
-			<logic:present name="principalComponentForm"> 
-			<center><html:button property="method" value="SET THESE FILTERS AS DEFAULT" onmousedown="setUserDefaults('pca')" /></center>
-			</logic:present>
-			<logic:present name="hierarchicalClusteringForm"> 
-			<center><html:button property="method" value="SET THESE FILTERS AS DEFAULT" onmousedown="setUserDefaults('hc')" /></center>
-			</logic:present>
+			<s:if test="principalComponentForm != null">
+			<center><input type="button" name="method" value="SET THESE FILTERS AS DEFAULT" onmousedown="setUserDefaults('pca')"></center>
+			</s:if>
+			<s:if test="hierarchicalClusteringForm != null"> 
+			<center><s:submit type="input" name="method" value="SET THESE FILTERS AS DEFAULT" onmousedown="setUserDefaults('hc')" theme="simple"/></center>
+			</s:if>
 						
 		</div>	  
 	  

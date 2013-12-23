@@ -15,9 +15,9 @@ L--%>
 <app:cshelp topic="<%=act%>" text="[?]"/> 
 <!--  <app:help help="Leave as Default, or select Advanced and click + for more options." />-->
 </legend>
-<input type="radio" id="DefaultStat" class="radio" name="statistic" value="default" onclick="tdiv(this,'advStatistic','cc');" checked /><label for="DefaultStat">Default</label><br /><br />
+<input type="radio" id="DefaultStat" class="radio" name="form.statistic" value="default" onclick="tdiv(this,'advStatistic','cc');" checked /><label for="DefaultStat">Default</label><br /><br />
 
-<input type="radio" id="AdvancedStat" class="radio" name="statistic" value="advanced" /><label for="AdvancedStat">Advanced</label>
+<input type="radio" id="AdvancedStat" class="radio" name="form.statistic" value="advanced" /><label for="AdvancedStat">Advanced</label>
 &nbsp;&nbsp;<a href='#' id="pm" class="exp" onclick="javascript:toggleSDiv('advStatistic','pm');return false;">&nbsp;+&nbsp;</a>
 
   <script language="javascript">
@@ -98,11 +98,11 @@ L--%>
 <fieldset class="gray">
 <legend class="red">a)</legend>
  <label for="statMethod">Statistical Method</label>
- 	<s:select id="statMethod" name="classComparisonForm.statisticalMethod" list="classComparisonForm.statisticalMethodCollection" listKey="value" listValue="label" theme="simple" onchange="clearGroupBox();">
+ 	<s:select id="statMethod" name="form.statisticalMethod" list="classComparisonForm.statisticalMethodCollection" listKey="value" listValue="label" theme="simple" onchange="clearGroupBox();">
  	</s:select><br /><br />
 	
 <label for="comparisonAdjustment">Multiple Comparison Adjustment</label>
-	<s:select id="comparisonAdjustment" name="classComparisonForm.comparisonAdjustment" list="classComparisonForm.comparisonAdjustmentCollection" listKey="value" listValue="label" theme="simple" onchange="clearGroupBox();">
+	<s:select id="comparisonAdjustment" name="form.comparisonAdjustment" list="classComparisonForm.comparisonAdjustmentCollection" listKey="value" listValue="label" theme="simple" onchange="clearGroupBox();">
  	</s:select> <br /><br />
 	</fieldset>
 	
@@ -111,16 +111,16 @@ L--%>
 <a href="javascript:void(0);" title="Future implementation">[?]</a>
 </legend>
 
-	<input type="radio" name="foldChange" value="list" checked="checked" class="radio">
+	<input type="radio" name="form.foldChange" value="list" checked="checked" class="radio">
 	&nbsp;&nbsp;Fold Change&nbsp;&ge;
-	<s:select id="foldChangeAuto" name="classComparisonForm.foldChangeAuto" list="classComparisonForm.foldChangeAutoList" listKey="value" listValue="label" theme="simple">
+	<s:select id="foldChangeAuto" name="form.foldChangeAuto" list="classComparisonForm.foldChangeAutoList" listKey="value" listValue="label" theme="simple">
  	</s:select>
 	
 	&nbsp;&nbsp;-OR-&nbsp;&nbsp;
 	
-	<input type="radio" name="foldChange" value="specify" class="radio">
+	<input type="radio" name="form.foldChange" value="specify" class="radio">
 	&nbsp;&nbsp;Fold Change&nbsp;&ge;	
-	<s:textfield name="classComparisonForm.foldChangeManual" size="14" onblur="absForce(this);" onkeyup="absForce(this);" disabled="false" theme="simple"/>
+	<s:textfield name="form.foldChangeManual" size="14" onblur="absForce(this);" onkeyup="absForce(this);" disabled="false" theme="simple"/>
 	<script type="text/javascript">
 		function absForce(el)	{
 			if(el.value < 0)	{
@@ -136,7 +136,7 @@ L--%>
 	
 	<span id="pfill">
 	&nbsp;p-Value&nbsp;&le;
-		<s:textfield name="statisticalSignificance" size="10" theme="simple"  />
+		<s:textfield name="form.statisticalSignificance" size="10" theme="simple"  />
 	</span>
 	
 </fieldset> 

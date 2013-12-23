@@ -178,7 +178,7 @@ public class ClassComparisonAction extends ActionSupport implements ServletReque
 			for (String error : errors)
 				addActionError(error);
 			
-			return "failure";
+			return "backToClassComparison";
 		}
 		
         String sessionId = servletRequest.getSession().getId();
@@ -446,14 +446,14 @@ public class ClassComparisonAction extends ActionSupport implements ServletReque
 		List<String> errors = new ArrayList<String>();
                 
         //Analysis Query Name cannot be blank
-        errors = UIFormValidator.validateAnalysisName(getClassComparisonForm().getAnalysisResultName(), errors);
+        errors.addAll(UIFormValidator.validateAnalysisName(getClassComparisonForm().getAnalysisResultName(), errors));
         
         //User must select exactly 2 comparison Groups if not for FTest
         if (!"FTest".equals(getClassComparisonForm().getStatisticalMethod()))
-        	errors = UIFormValidator.validateSelectedGroups(getClassComparisonForm().getSelectedGroups(), errors);
+        	errors.addAll(UIFormValidator.validateSelectedGroups(getClassComparisonForm().getSelectedGroups(), errors));
         //otherwise, it must be at least two.
         else
-        	errors = UIFormValidator.validateSelectedGroups(getClassComparisonForm().getSelectedGroups(), 2, errors);
+        	errors.addAll(UIFormValidator.validateSelectedGroups(getClassComparisonForm().getSelectedGroups(), 2, errors));
         
         //look at the manual FC to check for neg value
         //this is validated in the UI, so its put here only as a failsafe
@@ -476,7 +476,12 @@ public class ClassComparisonAction extends ActionSupport implements ServletReque
 		this.classComparisonForm = classComparisonForm;
 	}
 	
+	public ClassComparisonForm getForm() {
+		return getClassComparisonForm();
+	}
+	/*
 	public void setAnalysisResultName(String name) {
 		getClassComparisonForm().setAnalysisResultName(name);
 	}
+	*/
 }

@@ -34,6 +34,7 @@ Step 2: Select Array Platform (Select at least one)
 </label>
 <%
 	String act = request.getParameter("act") + "_Array_tooltip";
+	String act1 = request.getParameter("act");
 %>
 <app:cshelp topic="<%=act%>" text="[?]"/> 
 <!-- <app:help help="Select an array platform"/>-->
@@ -42,28 +43,34 @@ Step 2: Select Array Platform (Select at least one)
 	
 <br/>	
 
-<s:if test="param.act eq 'igvintegration'">
-	<s:checkbox name="snpArrayPlatform" onclick="javascript:checkArrayPlatform(this);"/>100K SNP Array &nbsp;&nbsp;&nbsp;&nbsp;
-	<s:checkbox name="arrayPlatform"/>Affymetrix HG_U133 Plus 2.0
-</s:if>
-<s:else>
-	&nbsp;&nbsp;<select name="arrayPlatform" id="platSelect"   
+<!-- s:if test="param.act eq 'igvintegration'" -->
+<% if (act1.equals("igvintegration")) { %>
+	<s:checkbox name="form.snpArrayPlatform" onclick="javascript:checkArrayPlatform(this);"/>100K SNP Array &nbsp;&nbsp;&nbsp;&nbsp;
+	<s:checkbox name="form.arrayPlatform"/>Affymetrix HG_U133 Plus 2.0
+<% } else {%>	
+<!-- /s:if -->
+<!-- s:else -->
+	&nbsp;&nbsp;<select name="form.arrayPlatform" id="platSelect"   
 		<s:if test="geneexpressionForm != null">
 			onchange="this.options[1].selected=true;"
 		</s:if>	
 		>
 	
-	    <s:if test="param.act eq 'gpintegration'">
+	    <!-- s:if test="param.act eq 'gpintegration'" -->
+	    <% if (act1.equals("gpintegration")) { %>
 			<option selected="selected" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Affymetrix HG_U133 Plus 2.0</option>
-		</s:if>
-		<s:else>
+		<% } else {%>	
+		<!-- /s:if -->
+		<!-- s:else -->
 						<option value="<%=Constants.ALL_PLATFROM%>">All</option>
 						<option selected="selected" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Affymetrix HG_U133 Plus 2.0</option>
 						<option value="<%=Constants.CDNA_ARRAY_PLATFORM%>">cDNA</option>
-		</s:else>
+		<% } %>
+		<!-- /s:else -->
 	
 	</select>
-</s:else>
+<% } %>
+<!-- /s:else -->
 
 			
 <s:actionerror name="arrayPlatform"/>

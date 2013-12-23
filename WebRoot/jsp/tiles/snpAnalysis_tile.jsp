@@ -5,9 +5,8 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 
 <%
@@ -22,12 +21,12 @@ Step 3: Select SNP Analysis Method
 <app:cshelp topic="<%=act%>" text="[?]"/> 
 </legend>
 <br/>
-<html:select property="snpAnalysis" styleId="snpAnalysisSelect" disabled="true">
-		<option selected="true" value="none"> </option>
+<select name="form.snpAnalysis" id="snpAnalysisSelect" disabled="disabled">
+		<option selected="selected" value="none"> </option>
 		<option value="paired">Paired Tissue Samples</option>
 		<option value="unpaired">Unpaired Tissue Samples</option>
 		<option value="blood">Blood Samples</option>
-</html:select>&nbsp;&nbsp;  
+</select>&nbsp;&nbsp;  
 	
 </fieldset>
 
