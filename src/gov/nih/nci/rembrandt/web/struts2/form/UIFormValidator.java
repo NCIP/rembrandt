@@ -10,6 +10,7 @@ package gov.nih.nci.rembrandt.web.struts2.form;
 import java.util.ArrayList;
 import java.util.List;
 
+import gov.nih.nci.caintegrator.application.util.ApplicationContext;
 import gov.nih.nci.rembrandt.util.MoreStringUtils;
 import gov.nih.nci.rembrandt.dto.lookup.AllGeneAliasLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
@@ -91,7 +92,6 @@ public class UIFormValidator {
     
     public static String FIELD_SEPARATOR = "|";
     
-    //Shan TODO temp change
     public static List<String> validateLDAP(String username, String password,
             List<String> errors) {
     	
@@ -118,8 +118,7 @@ public class UIFormValidator {
             logger.debug("loginSuccess");
         } else {
             logger.debug("loginFail"); 
-            //errors.add("invalidLogin", new ActionError(
-            errors.add("gov.nih.nci.nautilus.ui.struts.form.invalidLogin.error");
+            errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.invalidLogin.error"));
         }
         return errors;
     }
@@ -131,8 +130,7 @@ public class UIFormValidator {
 	            || cloneId.equalsIgnoreCase("Upload") && cloneListFile != null
 	               || sampleGroup.equalsIgnoreCase("Upload") && sampleFile != null){
 	       
-	    	//errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(
-			errors.add("gov.nih.nci.nautilus.ui.struts.form.region.uploadFormFiles");
+	    	errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.region.uploadFormFiles"));
 	    }	    
 	    return errors;
 	}
@@ -140,28 +138,19 @@ public class UIFormValidator {
             List<String> errors) {
 	    
     	if (geneSymbol == null || geneSymbol.equals("") ) {
-			//errors
-			//		.add(
-			//				ActionErrors.GLOBAL_ERROR,
-			//				new ActionError(
-			errors.add("gov.nih.nci.nautilus.ui.struts.form.quicksearch.emptyGene");
+			errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.quicksearch.emptyGene"));
 		}
 		return errors;
-		/*
-		 * else { try { Collection results = LookupManager.getGeneSymbols();
-		 * }catch(Exception e){ e.printStackTrace(); } }
-		 */
+		
 	}
 
 	public static List<String> validateQueryName(String queryName,
             List<String> errors) {
 		if ((queryName == null || queryName.length() < 1)) {
-			//errors.add("queryName", new ActionError(
-					errors.add("gov.nih.nci.nautilus.ui.struts.form.queryname.no.error");
+			errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.queryname.no.error"));
 		}
 		else if (!MoreStringUtils.isURLSafe(queryName))
-			//errors.add("queryName", new ActionError(
-			errors.add("gov.nih.nci.nautilus.ui.struts.form.queryname.illegal.characters");
+			errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.queryname.illegal.characters"));
 		return errors;
 	}
     
@@ -170,8 +159,7 @@ public class UIFormValidator {
     	
     	
         if (analysisResultName == null || analysisResultName.equals("")){
-            //errors.add("analysisResultName", new ActionError(
-        	errors.add("gov.nih.nci.nautilus.ui.struts.form.analysisResultName.no.error");
+            errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.analysisResultName.no.error"));
     
         }
         return errors;
@@ -183,8 +171,7 @@ public class UIFormValidator {
     	
     	
         if (selectedGroups == null || selectedGroups.length != 2){
-            //errors.add("selectedGroups", new ActionError(
-        	errors.add("gov.nih.nci.nautilus.ui.struts.form.groups.more.error");
+            errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.groups.more.error"));
         }
        
 
@@ -197,10 +184,7 @@ public class UIFormValidator {
 	 
 	  
         if (selectedGroups == null || selectedGroups.length < 2){
-        	
-        	
-            //errors.add("selectedGroups", new ActionError(
-            		errors.add("gov.nih.nci.nautilus.ui.struts.form.groups.more.error");
+        	errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.groups.more.error"));
         }
        
 
@@ -212,8 +196,7 @@ public class UIFormValidator {
     	
     	
         if (groupsOption.equalsIgnoreCase("variousSamples") && selectedGroups == null){
-            //errors.add("selectedGroups", new ActionError(
-        	errors.add("gov.nih.nci.nautilus.ui.struts.form.group.no.error");
+            errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.group.no.error"));
         }
        
 
@@ -224,8 +207,7 @@ public class UIFormValidator {
             List<String> errors){
     	
         if (selectedGroups == null || (selectedGroups != null && selectedGroups.length<2)){
-            //errors.add("selectedGroups", new ActionError(
-        	errors.add("gov.nih.nci.nautilus.ui.struts.form.group.no.error");
+            errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.group.no.error"));
         }
        
 
@@ -235,8 +217,7 @@ public class UIFormValidator {
     public static List<String> validateSelectedOneGroup(String[] selectedGroups,
             List<String> errors){
     	if (selectedGroups == null || (selectedGroups != null && selectedGroups.length == 0)){
-            //errors.add("selectedGroups", new ActionError(
-        	errors.add("gov.nih.nci.nautilus.ui.struts.form.group.no.error");
+            errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.group.no.error"));
         }
        
 
@@ -249,8 +230,7 @@ public class UIFormValidator {
     	if( arrayPlatform == null ) arrayPlatform = "";
     	if( snpArrayPlatform == null ) snpArrayPlatform = "";
         if (arrayPlatform.equals("") &&  snpArrayPlatform.equals("")){
-            //errors.add("arrayPlatform", new ActionError(
-        	errors.add("gov.nih.nci.nautilus.ui.struts.form.platform.no.error");
+            errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.platform.no.error"));
         }
        
 
@@ -261,8 +241,7 @@ public class UIFormValidator {
             List<String> errors){
     	
         if (selectedAnnotations == null || (selectedAnnotations != null && selectedAnnotations.length == 0)){
-            //errors.add("selectedAnnotations", new ActionError(
-        	errors.add("gov.nih.nci.nautilus.ui.struts.form.annotation.no.error");
+            errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.annotation.no.error"));
         }
        
 
@@ -276,32 +255,19 @@ public class UIFormValidator {
       	
 		if (chrosomeNumber.trim().length() > 0) {
 			if (region.trim().length() < 1)
-				//errors.add("chromosomeNumber", new ActionError(
-				errors.add("gov.nih.nci.nautilus.ui.struts.form.region.no.error");
+				errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.region.no.error"));
 			else {
 				if (region.trim().equalsIgnoreCase("cytoband")) {
 					if (cytobandRegionStart.trim().length() < 1)
-						//errors
-								//.add(
-										//"cytobandRegion",
-										//new ActionError(
-						errors.add("gov.nih.nci.nautilus.ui.struts.form.cytobandregion.no.error");
+						errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.cytobandregion.no.error"));
 				}
 				if (region.trim().equalsIgnoreCase("basePairPosition")) {
 					if ((basePairStart.trim().length() < 1)
 							|| (basePairEnd.trim().length() < 1)) {
-						//errors
-								//.add(
-										//"basePairEnd",
-										//new ActionError(
-						errors.add("gov.nih.nci.nautilus.ui.struts.form.basePair.no.error");
+						errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.basePair.no.error"));
 					} else {
 						if (!isBasePairValid(basePairStart, basePairEnd)) {
-							//errors
-									//.add(
-											//"basePairEnd",
-											//new ActionError(
-							errors.add("gov.nih.nci.nautilus.ui.struts.form.basePair.incorrect.error");
+							errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.basePair.incorrect.error"));
 						}
 					}
 
@@ -325,25 +291,13 @@ public class UIFormValidator {
                     try {
                         int n = Integer.parseInt(numberValue);
                     } catch (NumberFormatException ne){
-                        //errors
-                                //.add(
-                                     //   "goClassification",
-                                       // new ActionError(
-                    	errors.add("gov.nih.nci.nautilus.ui.struts.form.go.numeric.error");
+                        errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.go.numeric.error"));
                     }
                 }else {
-                    //errors
-                            //.add(
-                                  //  "goClassification",
-                                   // new ActionError(
-                	errors.add("gov.nih.nci.nautilus.ui.struts.form.go.length.error");
+                    errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.go.length.error"));
                 }
             }else {
-                //errors
-                     //   .add(
-                             //   "goClassification",
-                              //  new ActionError(
-            	errors.add("gov.nih.nci.nautilus.ui.struts.form.go.startswith.error");
+               errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.go.startswith.error"));
             }
         }
     	return errors;
@@ -360,9 +314,7 @@ public class UIFormValidator {
         		float n = Float.parseFloat(copyNo);
         	}
         	catch (NumberFormatException ne){
-        		    
-        		 //errors.add(copyNoType,new ActionError("gov.nih.nci.nautilus.ui.struts.form.copyno.numeric.error"));
-        		 errors.add("gov.nih.nci.nautilus.ui.struts.form.copyno.numeric.error");
+        		 errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.copyno.numeric.error"));
         	 
         	}
         }
@@ -381,7 +333,7 @@ public class UIFormValidator {
         	}
         	catch (NumberFormatException ne){
         		    
-        		 errors.add("gov.nih.nci.nautilus.ui.struts.form.segmentMean.numeric.error");
+        		 errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.segmentMean.numeric.error"));
         	 
         	}
         }
@@ -399,7 +351,7 @@ public class UIFormValidator {
         	}
         	catch (NumberFormatException ne){
         		    
-        		 errors.add("gov.nih.nci.nautilus.ui.struts.form.foldChangeno.numeric.error");
+        		 errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.foldChangeno.numeric.error"));
         	 
         	}
         }
@@ -411,7 +363,7 @@ public class UIFormValidator {
     	
         if (geneGroup!= null && geneGroup.trim().length() >= 1){
             if (geneList.trim().length() < 1 && geneFile == null){
-                errors.add("gov.nih.nci.nautilus.ui.struts.form.geneGroup.no.error");
+                errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.geneGroup.no.error"));
             }
             
         }
@@ -426,7 +378,7 @@ public class UIFormValidator {
         if(formFile != null  &&
           (!(formFile.getFileName().endsWith(".txt"))) &&
           (!(formFile.getContentType().equals("text/plain")))){
-            errors.add("gov.nih.nci.nautilus.ui.struts.form.uploadFile.no.error");
+            errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.uploadFile.no.error"));
         }   
         
         return errors;
@@ -439,7 +391,7 @@ public class UIFormValidator {
             if(formFile != null  &&
               (!(formFile.getFileName().toLowerCase().endsWith(".xml"))) &&
               (!(formFile.getContentType().equals("text/xml")))){
-                errors.add("gov.nih.nci.nautilus.ui.struts.form.importFile.no.error");
+                errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.importFile.no.error"));
             }   
             
             return errors;
@@ -450,7 +402,7 @@ public class UIFormValidator {
     	
          if (cloneId!= null && cloneId.trim().length() >= 1){
             if (cloneListSpecify.trim().length() < 1 && cloneListFile == null){
-                errors.add("gov.nih.nci.nautilus.ui.struts.form.cloneid.no.error");
+                errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.cloneid.no.error"));
             }
             
         }
@@ -464,7 +416,7 @@ public class UIFormValidator {
           if (snpId != null && snpId.trim().length() >= 1) {
             if (snpList.trim().length() < 1
                     && snpListFile == null) {
-                errors.add("gov.nih.nci.nautilus.ui.struts.form.snpid.no.error");
+                errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.snpid.no.error"));
             }
         }
   
@@ -524,13 +476,8 @@ public class UIFormValidator {
 					AllGeneAliasLookup alias = allGeneAlias[i];
 					logger.debug(alias.getAlias()+"\t"+alias.getApprovedSymbol()+"\t"+alias.getApprovedName()+"\n");
 					if(errors.isEmpty()){//add only one error message
-						//errors
-						  // .add(
-							//	ActionErrors.GLOBAL_ERROR,
-								//new ActionError(
-										errors.add("gov.nih.nci.nautilus.ui.struts.form.quicksearch.showAlias");
-										//,
-										//gene));
+						errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.quicksearch.showAlias"));
+									
 					}
 				}
 			}
@@ -538,23 +485,11 @@ public class UIFormValidator {
 			else{
 			    logger.debug("no aliases found \n");
                 if(gene.indexOf("*")< 0){ //no wild cards
-    			    //errors
-    				   //.add(
-    						//ActionErrors.GLOBAL_ERROR,
-    						//new ActionError(
-    								errors.add("gov.nih.nci.nautilus.ui.struts.form.quicksearch.improveSearch");
-    								//,
-    								//"Gene Symbol/Keyword");
-    								//, gene));
+    			    errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.quicksearch.improveSearch"));
+    							
                 }
                 else{
-                   // errors
-                   //.add(
-                    //    ActionErrors.GLOBAL_ERROR,
-                       // new ActionError(
-                                errors.add("gov.nih.nci.nautilus.ui.struts.form.quicksearch.noRecord");
-                                //,
-                                //"Gene Symbol/Keyword", gene));
+                  errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.quicksearch.noRecord"));
 
                 }
 			}
