@@ -45,10 +45,10 @@ String param = request.getParameter("s");
   else
     act = param.toLowerCase();
     
-  System.out.println("\n\n=============================");
-  System.out.println("\nThe act value is " + act);
-  System.out.println("\nThe s param value is " + param);
-  System.out.println("\n\n=============================");
+  //out.println("\n\n=============================");
+  //out.println("\nThe act value is " + act);
+  //out.println("\nThe s param value is " + param);
+  //out.println("\n\n=============================");
 %>
 <br/>
 <span id="popup" name="popup"></span>

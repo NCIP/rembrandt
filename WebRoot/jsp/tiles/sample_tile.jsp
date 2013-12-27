@@ -5,9 +5,9 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+
 <script type='text/javascript' src='dwr/interface/UserListHelper.js'></script>
 <script type='text/javascript' src='dwr/engine.js'></script>
 <script type='text/javascript' src='dwr/util.js'></script>
@@ -43,19 +43,25 @@ L--%>
 <br/>	
 &nbsp;&nbsp;
 
-<html:radio styleId="sampleGroup1" property="sampleGroup" value="Specify" styleClass="radio" onfocus="javascript:onRadio(this,0);"/>
-<html:text styleId="sampleList" property="sampleList" disabled="false" onfocus="javascript:radioFold(this);" onblur="javascript:cRadio(this, document.forms[0].sampleGroup[0]);" />
+<input type="radio" name="sampleGroup" class="radio" id="sampleGroup1" value="Specify" onfocus="javascript:onRadio(this,0);" />
+<s:textfield id="sampleList" name="sampleList" disabled="false" onfocus="javascript:radioFold(this);" 
+	onblur="javascript:cRadio(this, document.forms[0].sampleGroup[0]);" />
+
+
 <label for="sampleGroup2">&nbsp;-or-&nbsp;</label>
-<html:radio styleId="sampleGroup2" property="sampleGroup" value="Upload" styleClass="radio" onfocus="javascript:onRadio(this,1);"/>
-<html:select property="sampleFile" styleId="sampleFile" disabled="false"  onblur="javascript:cRadio(this, document.forms[0].sampleGroup[1]);" onfocus="javascript:document.forms[0].sampleGroup[1].checked = true; updateG()">
- 	<html:optionsCollection property="savedSampleList" />
-</html:select><label for="sampleList">&nbsp;</label><label for="sampleFile">&nbsp;</label>
+<input type="radio" name="sampleGroup" class="radio" id="sampleGroup2" value="Upload" onfocus="javascript:onRadio(this,1);" />
+
+<s:if test="geneExpressionForm.savedSampleList != null">
+<s:select name="geneExpressionForm.sampleFile" id="sampleFile" disabled="false" list="geneExpressionForm.savedSampleList"
+	onblur="javascript:cRadio(this, document.forms[0].sampleGroup[1]);" onfocus="javascript:document.forms[0].sampleGroup[1].checked = true; updateG()" />
+<label for="sampleList">&nbsp;</label><label for="sampleFile">&nbsp;</label>
+</s:if>
+<s:else>geneExpressionForm.savedSampleList is null
+</s:else>
 <script language="javascript">
 		updateG();
 </script>
 <br/>
-<html:errors property="sampleFile"/>
-<html:errors property="sampleGroup"/>
-<html:errors property="sampleList"/>
 
+<s:actionerror />
 </fieldset>

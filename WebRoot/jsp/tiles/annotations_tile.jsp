@@ -5,9 +5,9 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 
 <fieldset class="gray">

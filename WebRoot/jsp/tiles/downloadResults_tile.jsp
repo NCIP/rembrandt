@@ -6,11 +6,8 @@
 L--%>
 
 <%@ page language="java" %>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
-<%@ taglib uri="/WEB-INF/struts-nested.tld" prefix="nested" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ page import="gov.nih.nci.caintegrator.dto.critieria.Constants"%>
 <%@ page import="gov.nih.nci.rembrandt.download.caarray.RembrandtCaArrayFileDownloadManager"%>

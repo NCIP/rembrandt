@@ -38,7 +38,6 @@ else	{
 cgh = true;
 strIncFile2 = "/jsp/tiles/copyNumber_tile.jsp?act="+act;
 strIncFile3 = "/jsp/tiles/assayPlatform_tile.jsp?act="+act;
-//strIncFile5 = "/jsp/tiles/tissueType_tile.jsp?act="+act;
 strIncFile5 = "/jsp/tiles/analysisType_tile.jsp?act="+act;
 strIncFile6 = "/jsp/tiles/segmentMean_tile.jsp?act="+act;
 }
@@ -47,33 +46,35 @@ strIncFile6 = "/jsp/tiles/segmentMean_tile.jsp?act="+act;
 <fieldset style="padding:5px;">
 <legend class="right" align="right">AND</legend><br clear="both"/><br clear="both"/>
 
-<tiles:insertAttribute page="<%= strIncFile %>" flush="false" />
-<tiles:insertAttribute page="<%= strIncFile4 %>" flush="false" />
-<tiles:insertAttribute page="<%= strIncFile5 %>" flush="false" />
+<tiles:insertTemplate template="<%= strIncFile %>" flush="false" />
+<tiles:insertTemplate template="<%= strIncFile4 %>" flush="false" />
+<tiles:insertTemplate template="<%= strIncFile5 %>" flush="false" />
 <%
 if(act.equalsIgnoreCase("comparitivegenomic"))	{
 %>
 
-<html:radio property="copyNumberView" value="calculatedCN" styleClass="radio" onclick="javascript:toggleCopyNumberView('calculatedCN');" /> Calculated Copy Number &nbsp;&nbsp;&nbsp;
-<html:radio property="copyNumberView" value="segmentMean" styleClass="radio" onclick="javascript:toggleCopyNumberView('segmentMean');" /> Segment Mean 
+<input type="radio" name="copyNumberView" class="radio" value="calculatedCN" onclick="javascript:toggleCopyNumberView('calculatedCN');"/>
+ Calculated Copy Number &nbsp;&nbsp;&nbsp;
+<input type="radio" name="copyNumberView" class="radio" value="segmentMean" onclick="javascript:toggleCopyNumberView('segmentMean');"/>Segment Mean
+
 <br/>
 <br/>
 
 <div id="calculatedCN">
-	<tiles:insertAttribute page="<%= strIncFile2 %>" flush="false" />
+	<tiles:insertTemplate template="<%= strIncFile2 %>" flush="false" />
  </div>
 
 <div id="segmentMean"> 
-	<tiles:insertAttribute page="<%= strIncFile6 %>" flush="false" /> 
+	<tiles:insertTemplate template="<%= strIncFile6 %>" flush="false" /> 
 </div>  
 <%
 } else{%>
-<tiles:insertAttribute page="<%= strIncFile2 %>" flush="false" />
+<tiles:insertTemplate template="<%= strIncFile2 %>" flush="false" />
 <%
 }
 %>
 
-<tiles:insertAttribute page="<%= strIncFile3 %>" flush="false" />
+<tiles:insertTemplate template="<%= strIncFile3 %>" flush="false" />
 
 
 

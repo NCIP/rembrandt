@@ -6,8 +6,7 @@
 L--%>
 
 <%@ page import="java.util.*, java.text.*" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ page import="gov.nih.nci.rembrandt.web.bean.SessionQueryBag,
 				 gov.nih.nci.rembrandt.util.RembrandtConstants,
@@ -17,7 +16,7 @@ L--%>
 
 <fieldset class="gray">
 <legend class="red">
-<label for="queryName"><bean:message key="queryName.label"/></label>
+<label for="queryName">Query Name</label>
 <b class="req">*</b>
 <%
  String act = request.getParameter("act") + "_Query_tooltip";
@@ -34,9 +33,9 @@ L--%>
 
 <br>
 	
-<html:text styleId="queryName" property="queryName" size="50" /> (should be unique)
-<!-- <input type="text" name="queryName" size="50" >  -->
-<br /><html:errors property="queryName"/>
+<s:textfield id="queryName" name="geneExpressionForm.queryName" size="50" theme="simple"/> (should be unique)
+<br />
+<s:actionerror/>
 	
 </fieldset>
 

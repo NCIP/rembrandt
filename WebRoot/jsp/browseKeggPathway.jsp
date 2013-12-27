@@ -5,10 +5,9 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+
 <%@ page import="java.util.*, java.lang.*, java.io.*,java.net.*,javax.xml.parsers.*" %> 
  <%@ page import="
 gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper,
@@ -74,15 +73,17 @@ response.setHeader("Cache-Control","no-store"); //HTTP 1.1
  
  <div><b>Browse Pathway - Name</b></div>
 
-<html:form method="post" action="geneexpression.do">
+<s:form method="post" action="geneexpression">
 
  <p>
-  <input type="button" name="pathwayNames" value="Done"  onclick="javascript:closeData();" / >&nbsp;
+  <input type="button" name="pathwayNames" value="Done"  onclick="javascript:closeData();" />&nbsp;
   
  </p>
  
   <div >
-  Your search returned <b><bean:write name="pathwaySize"/> </b> pathways.   
+  Your search returned <b>
+  <s:property value="pathwaySize" />
+  </b> pathways.   
 
  </div>	
 	
@@ -100,10 +101,19 @@ response.setHeader("Cache-Control","no-store"); //HTTP 1.1
 	  <td><b>Number of Genes</b></td>	  
 	  </tr>
 	<% int i = 1; %>
-	<logic:iterate name="keggPathway" id="lookup">
+	
+	<s:iterator value="keggPathway" var="item"> 
+						<s:checkbox name="redrawInputForm.selectedItems" fieldValue="%{item}" theme = "simple">
+							<s:property value="#item" />
+						</s:checkbox>
+					</s:iterator>
+	
+	<!--  logic:iterate name="keggPathway" id="lookup"> -->
+	<s:iterator value="keggPathway" var="pathwayName">
 		<tr>
 			<TD><%= i %></TD>
-			<TD><input type="checkbox" name="pathwayName" value="<bean:write name="lookup" property="pathwayName" />">
+			<TD>
+			<input type="checkbox" name="pathwayName" value="<bean:write name="lookup" property="pathwayName" />">
 				<bean:write name="lookup" property="pathwayName" />
 			</TD>
 			<TD>
@@ -134,5 +144,5 @@ response.setHeader("Cache-Control","no-store"); //HTTP 1.1
  </p>
  
 
- </html:form>
+ </s:form>
  

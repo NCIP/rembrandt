@@ -4,13 +4,15 @@
   Distributed under the OSI-approved BSD 3-Clause License.
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
-<%@ page import="java.util.*, gov.nih.nci.rembrandt.web.struts.form.*" %> 
-<%@ taglib uri="/WEB-INF/struts-nested.tld" prefix="nested" %>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+
+<%@ page import="java.util.*, 
+	gov.nih.nci.rembrandt.web.struts2.form.*" %> 
+
 <%
 	String act = request.getParameter("act") + "_Copynum_tooltip";
 

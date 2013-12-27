@@ -5,9 +5,10 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<br><%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<br>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <% 
 /*
@@ -16,160 +17,25 @@ L--%>
 
 String act = request.getParameter("act") + "_Gene_tooltip";
 %>
-<!--  
-<script type="text/javascript">
-
-	var geneArray = new Array();
-
-	var GeneAlias = {
-		'checkAlias' : function(g)	{
-			$("indicator").show();
-			g = g.gsub(" ", "");
-			
-			if(g == "")	{
-				alert("Please enter a gene");
-				$("indicator").hide();
-				return;
-			}
-			//DynamicListHelper.getGeneAliases(g, GeneAlias.checkAlias_cb);
-			geneArray = g.split(",");
-			geneArray = geneArray.compact();
-			geneArray = geneArray.uniq();
-			
-			//console.log(geneArray);
-			$('geneList').value = geneArray.join(",");
-			DynamicListHelper.getGeneAliasesList(geneArray.join(","), GeneAlias.checkAlias_cb);
-		},
-		'checkAlias_cb' : function(r)	{
-			//console.log(r);
-			
-			$('gAliases').update("");
-			$('gAliases').hide();
-			var gArray = eval('(' + r + ')');
-			try	{
-				var clearEntriesFlag = false;
-				var galhtm = "";
-				galhtm += "<div style=\"float:right;color:#fff;\"><a href=\"#\" style=\"color:#fff;\" onclick=\"$('gAliases').style.display='none';return false;\">[x]</a></div>";
-				galhtm += "<p style='padding:5px;margin:0px;background-color:#AB0303;color:#fff;' id='fal'>";
-       			galhtm += "Please click a symbol below to add it to your query.";
-       			galhtm += "<br clear='all'/></p>";
-				var gas = "";
-				var orightm = "You Entered: ";
-				gArray.each( function(g, indx)	{
-					orightm += "<a href='#' onclick=\"GeneAlias.handleSymbol('"+g.original+"');return false;\">"+g.original + "</a>  ";
-       				gas += "<br/><div style='background-color:silver'>"+(indx+1) + ".) " + g.original + " " + (g.status == "hasAliases" ? "Aliases" : "") + " </div>";
-       				if(g.status == "hasAliases")	{
-       					clearEntriesFlag = true;
-       					
-       					geneArray = geneArray.without(g.original);
-       					
-	       				g.aliases.each( function(aa) {
-	        				gas+= "<a href='#' onclick=\"GeneAlias.handleSymbol('"+aa.symbol+"');return false;\">"+aa.symbol + "</a> - " +  aa.name.replace(/'/g,"&apos;") + "<br/>";
-	     					
-	       				});
-					}
-					else if(g.status == "valid")	{
-	        			gas+= "<a href='#' onclick=\"GeneAlias.handleSymbol('"+g.original+"');return false;\">"+g.original + "</a> - Valid Symbol.<br/>";
-					}
-					else if(g.status == "invalid")	{
-						geneArray = geneArray.without(g.original);
-	        			//gas+= "<a href='#' onclick=\"GeneAlias.handleSymbol('"+g.original+"');return false;\">"+g.original + "</a> - Invalid symbol or not in the database.<br/>";
-	        			gas+= g.original + " - Invalid symbol or not in the database.<br/>";
-	        			
-					}
-				});
-				
-				$('gAliases').innerHTML = galhtm + orightm + "<br/>" +  gas + "<br/>";
-        		if(clearEntriesFlag)	{
-        			//$('geneList').value = "";
-        			//geneArray.clear();
-        			GeneAlias.handleSymbol("");
-        			$('geneList').style.border= "1px solid #AB0303";
-        		}
-        		$('gAliases').show();
-        		$("indicator").hide();
-				
-				//start legacy
-	/*			
-       			if(gArray.length>0)	{
-        			if(gArray[0]=="valid")	{
-        				alert("No aliases found");
-        				return;
-        				//throw("valid");
-        			}
-       				var galhtm = ""; 
-       				galhtm += "<div style=\"float:right;color:#fff;\"><a href=\"#\" style=\"color:#fff;\" onclick=\"$('gAliases').style.display='none';return false;\">[x]</a></div>";
-       				if(gArray[0]!="invalid")	{
-	        			var gas = "";
-	        			for(var i=0; i<gArray.length; i++)	{
-	        				gas+= "<a href='#' onclick=\"$('geneList').value='"+gArray[i].symbol+"';return false;\">"+gArray[i].symbol + "</a> - " +  gArray[i].name.replace(/'/g,"&apos;") + "<br/>";
-	        			}
-	        			galhtm += "<p style='padding:5px;margin:0px;background-color:#AB0303;color:#fff;' id='fal'>";
-	        			galhtm += "One or more genes or their aliases have been found for the gene keyword:  ";
-	        			galhtm += $('geneList').value + ".  Please select an approved alias from below.";
-	        			galhtm += "<br clear='all'/></p>";
-	        			galhtm += gas;
-	        		}
-	        		else if(gArray[0]=="invalid")	{
-	        			galhtm += "<p style='_display:block;_height:50px;padding:5px;margin:0px;background-color:#AB0303;color:#fff;' id='fal'>";
-	        			galhtm += "<br/>The element you entered is either invalid, or not in the database.  Please select another.<br/>";
-	        			galhtm += "<br clear='all'/></p>";
-	        		}
-        			$('gAliases').innerHTML = galhtm + "<br/>";
-        			$('geneList').value = "";
-        			$('geneList').style.border= "1px solid red";
-        			$('gAliases').show();
-      			}
-      	*/
-      		}
-      		catch(err){
-      			alert(err);
-      		}
-			//end legacy
-		},
-		'handleSymbol' : function(g)	{
-			//add g to the global
-			if(g!="")	{
-				geneArray.push(g.strip());
-			}
-			geneArray = geneArray.compact();
-			geneArray = geneArray.uniq();
-			
-			//console.log(geneArray);
-			$('geneList').value = geneArray.join(",");
-		},
-		'armAliasLink' : function()	{
-			if($F('geneType')!="genesymbol")	{
-				$("aliasLink").hide();
-			}
-			else	{
-				$('aliasLink').show();
-			}
-		}
-	}
-
-</script>
--->
 
 <A NAME="geneTile">
 <fieldset class="gray">
 <legend class="red"><label for="geneOption1">Gene</label>
     <app:cshelp topic="<%=act%>" text="[?]"/>
-	<!-- <app:help help="Search on a gene identifier, a gene list, or All Genes. " />-->
 </legend>
 
 <br/>
-<html:radio styleId="geneOption1" property="geneOption" styleClass="radio" value="standard" onclick="submitStandardQuery();"/>
+	
+	<!-- html:radio styleId="geneOption1" property="geneOption" styleClass="radio" value="standard" onclick="submitStandardQuery();"/>  -->
+	<input type="radio" name="geneExpressionForm.geneOption" id="geneOption1" class="radio" value="standard" onclick="submitStandardQuery();">
 	<label for="geneType">Type Genes:&nbsp;&nbsp;</label>
-	<html:select property="geneType" styleId="geneType" disabled="false" onchange="checkStandardOption();GeneAlias.armAliasLink();">
-		<html:optionsCollection property="geneTypeColl" />
-	</html:select>
+	<s:select name="geneExpressionForm.geneType" id="geneType" disabled="false" 
+	list="geneExpressionForm.geneTypeColl" listKey="value" listValue="label" theme="simple" onchange="checkStandardOption();GeneAlias.armAliasLink();">
+		
+	</s:select>
 	
 	<br/><br/>
- 	<html:textarea property="geneList" styleId="geneList" cols="65" rows="5" disabled="false" onclick="checkStandardOption();"/>
-	<!-- 
-	<html:text property="geneList" styleId="geneList" disabled="false" onfocus="" onblur="" />
-	-->
+ 	<s:textarea name="geneExpressionForm.geneList" id="geneList" cols="65" rows="5" disabled="false" onclick="checkStandardOption();" theme="simple"/>
 	
 	<span valign="middle">
 		<a href="#" id="aliasLink" onclick="GeneAlias.checkAlias($('geneList').value);return false;">check aliases</a><label for="geneList">&nbsp;</label>
@@ -179,39 +45,22 @@ String act = request.getParameter("act") + "_Gene_tooltip";
 	<div id="gAliases" style="display:none; margin-left:20px;border:1px solid #AB0303;"></div>
 	<br/><br/>
 			
-	<html:radio property="geneOption" styleClass="radio" value="geneList" disabled="false" onclick="submitStandardQuery();" styleId="geneOptionGeneList"/><label for="geneOptionGeneList">&nbsp;</label>
+	<input type="radio" name="geneExpressionForm.geneOption" class="radio" value="geneExpressionForm.geneList" disabled="false" id="geneOptionGeneList"   onclick="submitStandardQuery();">
+	<label for="geneOptionGeneList">&nbsp;</label>
 		
-		<label for="geneFileDD">Choose a saved Gene List:&nbsp;&nbsp;</label>
-	<html:select property="geneFile" disabled="false" styleId="geneFileDD">
-		<html:optionsCollection property="savedGeneList" />
-	</html:select>
+	<label for="geneFileDD">Choose a saved Gene List:&nbsp;&nbsp;</label>
+	<s:select name="geneExpressionForm.geneFile" disabled="false" id="geneFileDD" list="geneExpressionForm.savedGeneList" theme="simple" />
+	
 	<br/>
 		   		
-	<html:errors property="geneFile"/>
-	<html:errors property="geneGroup"/>
-	<html:errors property="geneList"/>
-	<html:errors property="geneType"/>
+	<!-- html:errors property="geneFile"/> -->
+	<!--  html:errors property="geneGroup"/>-->
+	<!--  html:errors property="geneList"/>-->
+	<!--  html:errors property="geneType"/>-->
+	<s:actionerror/>
 	
-	<!-- 	
-	<logic:present name="comparitivegenomicForm">
-		<logic:equal name="comparitivegenomicForm" property="geneOption" scope="request" value="standard">
-			<p style="margin-left:30px">
-			<html:radio property="geneGroup" value="Specify" styleClass="radio" onfocus="javascript:onRadio(this,0);"/>
-			<html:text property="geneList" disabled="false" onfocus="javascript:radioFold(this);" onblur="javascript:cRadio(this, document.forms[0].geneGroup[0]);" />
-			&nbsp;-or-&nbsp;
-			<html:radio property="geneGroup" value="Upload" styleClass="radio" onfocus="javascript:onRadio(this,1);"/>
-			<html:file property="geneFile" disabled="true"  onblur="javascript:cRadio(this, document.forms[0].geneGroup[1]);" onfocus="javascript:document.forms[0].geneGroup[1].checked = true;" />
-			<br/>
-			</p>		
-			<html:errors property="geneFile"/>
-			<html:errors property="geneGroup"/>
-			<html:errors property="geneList"/>
-			<html:errors property="geneType"/>
-		</logic:equal>
-	</logic:present>
--->
+	
 <br/>
-<!--  html:radio styleId="geneOption2" property="geneOption" styleClass="radio" value="allGenes" onclick="submitAllGenesQuery();" /><label for="geneOption2">All Genes Query</label -->
 		
 </fieldset>	
 </A>

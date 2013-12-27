@@ -5,7 +5,7 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%
 	String act = request.getParameter("act") + "_Go_tooltip";
@@ -23,8 +23,8 @@ L--%>
 </script>
 <br>
 <b class="message"><label for="goClassification">(Type GO format as 'GO:XXXXXXX' where number is XXXXXXX)</label></b><br>
-<html:textarea styleId="goClassification" property="goClassification" rows="5" cols="40"></html:textarea>
-<html:errors property="goClassification"/>
+<s:textarea id="goClassification" name="geneExrpessionForm.goClassification" rows="5" cols="40"></s:textarea>
+<s:actionerror/>
 <!-- 
 <input type="button" class="sbutton" value="GO Browser..." onclick="javascript:spawn('GOTreeServlet/?go', 580, 500);">
 -->
@@ -34,9 +34,9 @@ L--%>
 <!--<html:checkbox property="goMolecularFunction" styleClass="radio" /> Molecular Function
 			<html:checkbox property="goBiologicalProcess" styleClass="radio" /> Biological Process
 			<html:checkbox property="goCellularComp" styleClass="radio" /> Cellular Component</br>-->
-			<html:errors property="goCellularComp"/>&nbsp;&nbsp;
-			<html:errors property="goBiologicalProcess"/>&nbsp;&nbsp;
-			<html:errors property="goMolecularFunction"/>
+			
+
+<s:actionerror/>
 
 </fieldset>
 

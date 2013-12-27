@@ -5,12 +5,10 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
-<%@ taglib uri="/WEB-INF/struts-nested.tld" prefix="nested" %>
 
 <%@ page import="java.util.*, java.lang.*, java.io.*, java.net.URLEncoder " %>
 <%@ page import="gov.nih.nci.rembrandt.web.factory.ApplicationFactory" %>

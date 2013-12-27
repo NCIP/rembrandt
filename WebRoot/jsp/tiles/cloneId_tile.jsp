@@ -5,7 +5,7 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 
 <%
@@ -25,27 +25,31 @@ L--%>
 <!-- <b class="message">(Paste comma separated Clone Id list, or upload file using Browse button)</b> -->
 <br />
 
-
-<html:radio styleId="cloneId" property="cloneId" value="list" styleClass="radio" onfocus="javascript:onRadio(this,0);" />
+<input type="radio" name="geneExpressionForm.cloneId" class="radio" id="cloneId" value="list" onfocus="javascript:onRadio(this,0);">
 <label for="cloneId">Type Reporters:&nbsp;&nbsp;</label>
-<html:select styleId="cloneList" property="cloneList" disabled="false">
-	<html:optionsCollection property="cloneTypeColl" />
-</html:select>
+
+
+<s:select id="cloneList" name="cloneList" list="geneExpressionForm.cloneTypeColl" listKey="value" listValue="label" disabled="false" theme="simple" />
 <label for="cloneList">&nbsp;</label>
-<html:text styleId="cloneListSpecify" property="cloneListSpecify" disabled="false" onfocus="javascript:radioFold(this);"  onblur="javascript:cRadio(this, document.forms[0].cloneId[0]);" /><label for="cloneListSpecify">&nbsp;</label>
+
+
+<s:textfield id="cloneListSpecify" name="geneExpressionForm.cloneListSpecify" disabled="false" 
+onfocus="javascript:radioFold(this);"  onblur="javascript:cRadio(this, document.forms[0].cloneId[0]);"  theme="simple"/>
+<label for="cloneListSpecify">&nbsp;</label>
 	
 <br/>
 
-<html:radio property="cloneId" value="cloneList" styleId="cloneIdCloneList" styleClass="radio" onfocus="javascript:onRadio(this,1);" />
+<input type="radio" name="geneExpressionForm.cloneId" class="radio" id="cloneIdCloneList" value="geneExpressionForm.cloneList" 
+onfocus="javascript:onRadio(this,1);">
 <label for="cloneIdCloneList">Choose a saved Reporter List:&nbsp;&nbsp;</label>
-<html:select property="cloneListFile" disabled="false" styleId="cloneListFileDD">
-	<html:optionsCollection property="savedCloneList" />
-</html:select><label for="cloneListFileDD">&nbsp;</label>
+
+<s:select name="geneExpressionForm.cloneListFile" disabled="false" list="geneExpressionForm.savedCloneList" 
+	id="cloneListFileDD" theme="simple" />
+	<label for="cloneListFileDD">&nbsp;</label>
 <br/>
 
-<!--  <html:file property="cloneListFile" disabled="true"  onblur="javascript:cRadio(this, document.forms[0].cloneId[1]);" onfocus="javascript:document.forms[0].cloneId[1].checked = true;" /> -->
-<!--<app:help help="Only files of type \"*.txt\" with each entry in a new line are accepted. Upper limit for this option is 500 entries in the txt file." /></br>-->
-<html:errors property="cloneId"/><br/>
+<s:actionerror/>
+<br/>
 </fieldset>
 
 <script type='text/javascript'>

@@ -5,7 +5,7 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%
 	String act = request.getParameter("act") + "_Pathway_tooltip";
@@ -20,9 +20,10 @@ L--%>
 
 	
 <Br>
-<html:textarea styleId="pathways" property="pathways" rows="5" cols="40" readonly="true">
-			</html:textarea><label for="pathways">&nbsp;</label>
-			<html:errors property="pathways"/>
+<s:textarea id="pathways" name="geneExpressionForm.pathways" rows="5" cols="40" readonly="true">
+			</s:textarea>
+			<label for="pathways">&nbsp;</label>
+<s:actionerror/>
 
 &nbsp;&nbsp;
 

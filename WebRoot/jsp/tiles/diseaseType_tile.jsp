@@ -5,7 +5,7 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%
 	String act = request.getParameter("act") + "_Disease_tooltip";
@@ -16,28 +16,26 @@ L--%>
 <app:cshelp topic="<%=act%>" text="[?]"/>
 </legend>
 <br/>
+&nbsp;&nbsp;&nbsp;
 
-	
-	 &nbsp;&nbsp;&nbsp;
-<html:select multiple="true" styleId="dSelect" property="tumorType" onchange="javascript:onRadio(this, this.value);">
-   <html:optionsCollection property="diseaseType" />
-</html:select><html:errors property="tumorType"/>
+
+<s:select name="geneExpressionForm.tumorType" multiple="true" id="dSelect" disabled="false" 
+	list="geneExpressionForm.diseaseType" listKey="value" listValue="label" theme="simple" onchange="javascript:onRadio(this, this.value);">
+	</s:select>
+<s:actionerror/>
 
 &nbsp;
+<s:if test="geneExpresstionForm.tumorGradeList != null">
 <label for="tumorGrade">Grade:&nbsp;</label>
-
-<html:select styleId="tumorGrade" property="tumorGrade" disabled="true">
-				<html:option value="all">All</html:option>
-				<html:option value="one">I</html:option>
-				<html:option value="two">II</html:option>
-				<html:option value="three">III</html:option>
-				<html:option value="four">IV</html:option>
-				
-</html:select>
+<s:select id="tumorGrade" name="geneExpresstionForm.tumorGrade" list="geneExpresstionForm.tumorGradeList" disabled="true" theme="simple" />
+</s:if>
+<s:else>
+That is null
+</s:else>
 <b>   </b>
 
 <!-- <b><app:help help="This criteria will be implemented in the upcoming release "/></b>-->
-<html:errors property="tumorGrade"/>
+<s:actionerror/>
 
 <script type="text/javascript">
 var ops = $('dSelect').options;

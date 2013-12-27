@@ -5,7 +5,7 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <fieldset class="gray">
 <legend class="red">Result View <b class="req">*</b>
 <a href="javascript:void(0);" title="Description of Gene View, Description of Sample View">[?]</a>

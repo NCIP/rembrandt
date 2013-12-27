@@ -6,10 +6,8 @@
 L--%>
 
 <%@page contentType="text/html"%>
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 
 <%
 long randomness = System.currentTimeMillis(); //prevent image caching
@@ -24,31 +22,40 @@ function refresh()	{
 }
 </script>
 
+<!--  
 <logic:notPresent name="deleteQueryForm">
 <input type="button" id="clearButton" class="xbutton" value="Clear" onclick="refresh();"/>
 </logic:notPresent>
-
-&nbsp;&nbsp;
-<html:button styleClass="xbutton" property="method" value="Cancel" onclick="javascript:alertUser('menu');" />
+-->
 &nbsp;&nbsp;
 
-<logic:present name="geneexpressionForm">
-	<logic:empty name="geneexpressionForm" property="geneOption" scope="request"> 
-		<html:submit styleId="previewButton" styleClass="xbutton" property="method" onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');">
-			<bean:message key="buttons_tile.previewButton" />
-		</html:submit>&nbsp;&nbsp;
- 	</logic:empty>
-	<logic:equal name="geneexpressionForm" property="geneOption" scope="request" value="standard"> 
-		<html:submit styleId="previewButton" styleClass="xbutton" property="method" onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');">
-			<bean:message key="buttons_tile.previewButton" />
-		</html:submit>&nbsp;&nbsp;
- 	</logic:equal>
-	<logic:equal name="geneexpressionForm" property="geneOption" scope="request" value="geneList">
-		<html:submit styleId="previewButton" styleClass="xbutton" property="method" onclick="return GeneAlias.validateAliases($('geneList').value 'Preview');">
-			<bean:message key="buttons_tile.previewButton" />
-		</html:submit>&nbsp;&nbsp;
- 	</logic:equal>
-</logic:present>
+<!--  html:button styleClass="xbutton" property="method" value="Cancel" onclick="javascript:alertUser('menu');" /> -->
+ <input type="submit" id="submitButton" onclick="" class="xbutton" value="Cancel" onclick="javascript:alertUser('menu');"/>
+&nbsp;&nbsp;
+
+<!--  logic:present name="geneexpressionForm">-->
+<s:if test="geneExpressionForm != null">
+	<!--  logic:empty name="geneexpressionForm" property="geneOption" scope="request">-->
+	<s:if test="geneExpressionForm.geneOption == null || geneExpressionForm.geneOption.length() == 0" >
+			
+		<input type="submit" id="previewButton" class="xbutton" value="Preview" 
+			onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');"/>
+		&nbsp;&nbsp;
+ 	</s:if>
+	
+	<s:if test="geneExpressionForm.geneOption.equals('standard')"> 
+		<input type="submit" id="previewButton" class="xbutton" value="PreviewShan" 
+			onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');"/>
+	&nbsp;&nbsp;
+ 	</s:if>
+ 	
+	<s:if test="geneExpressionForm.geneOption.equals('geneList')">
+	<input type="submit" id="previewButton" class="xbutton" value="PreviewYang" 
+		onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');"/>
+		&nbsp;&nbsp;
+ 	</s:if>
+</s:if>
+<!--  
 <logic:present name="comparitivegenomicForm">
 	<logic:empty name="comparitivegenomicForm" property="geneOption" scope="request">
 		<html:submit styleId="previewButton" styleClass="xbutton" property="method" onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');">
@@ -71,11 +78,8 @@ function refresh()	{
 		<bean:message key="buttons_tile.previewButton" />
 	</html:submit>&nbsp;&nbsp;
 </logic:present>
+-->
 
-<html:submit styleId="submittalButton" styleClass="subButton" property="method" onclick="return gecnSubmit();">
-	<bean:message key="buttons_tile.submittalButton" />
-</html:submit>
+<input type="submit" id="submittalButton" class="subButton" value="SubmitShan" onclick="return gecnSubmit();"/>
 
-<html:submit styleId="multiUseButton" styleClass="subButtonInv" property="method">
-	<bean:message key="buttons_tile.multiUseButton" />
-</html:submit>
+<input type="submit" id="multiUseButton" class="subButtonInv" value="MultiUse"/>

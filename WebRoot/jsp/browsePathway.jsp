@@ -5,8 +5,9 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%@ page import="java.util.*, java.lang.*, java.io.*,java.net.*,javax.xml.parsers.*" %> 
  <%@ page import="
@@ -86,10 +87,10 @@ response.setHeader("Cache-Control","no-store"); //HTTP 1.1
  	<img align="right" onclick="javascript:openHelp()" name="helpIcon" id="helpIcon" alt="help" title="help" src="/rembrandt/images/help.png" style="cursor:pointer;border:0px;padding:2px;">
  </div>
 
-<html:form method="post" action="geneexpression.do">
+<s:form method="post" action="geneexpression">
 
  <p>
-  <input type="button" name="pathwayNames" value="Done"  onclick="javascript:closeData();" / >&nbsp;
+  <input type="button" name="pathwayNames" value="Done"  onclick="javascript:closeData();" />&nbsp;
   
  </p>
  
@@ -127,10 +128,10 @@ response.setHeader("Cache-Control","no-store"); //HTTP 1.1
  </div>	
 
  <p>
-  <input type="button" name="pathwayNames" value="Done"  onclick="javascript:closeData();" / >&nbsp;  
+  <input type="button" name="pathwayNames" value="Done"  onclick="javascript:closeData();" />&nbsp;  
  </p>
  
 
- </html:form>
+ </s:form>
  </body>
  </html>

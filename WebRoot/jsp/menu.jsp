@@ -73,8 +73,8 @@ if(queryCollection == null){
 			<tr><th></th></tr>
 			 
 			<tr><td>
-			<s:form action="geneexpression" namespace="/" theme="simple">
-			 <s:submit value="Gene Expression Analysis" style="width:200px;margin-bottom: 5px;"/>
+			<s:form action="geSetup" namespace="/" theme="simple"> 
+			 <s:submit value="Gene Expression Analysis" style="width:200px;margin-bottom: 5px;" />
 			  &nbsp; <b class="message">- (<% out.write(geQueryString); %>) Gene Exp. Analysis Queries</b>
 			</s:form>
 			</td></tr>

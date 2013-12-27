@@ -13,7 +13,7 @@ L--%>
 <fieldset class="gray">
 <legend class="red">
 <label for="platSelect">
-<s:if test="geneexpressionForm != null">
+<s:if test="geneExpressionForm != null">
 Array Platform
 </s:if>
 <s:if test="gpIntegrationForm != null">
@@ -51,10 +51,10 @@ Step 2: Select Array Platform (Select at least one)
 <!-- /s:if -->
 <!-- s:else -->
 	&nbsp;&nbsp;<select name="form.arrayPlatform" id="platSelect"   
-		<s:if test="geneexpressionForm != null">
+		<s:if test="geneExpressionForm != null">
 			onchange="this.options[1].selected=true;"
 		</s:if>	
-		>
+		
 	
 	    <!-- s:if test="param.act eq 'gpintegration'" -->
 	    <% if (act1.equals("gpintegration")) { %>
