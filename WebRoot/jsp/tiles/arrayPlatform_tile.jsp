@@ -54,7 +54,7 @@ Step 2: Select Array Platform (Select at least one)
 		<s:if test="geneExpressionForm != null">
 			onchange="this.options[1].selected=true;"
 		</s:if>	
-		
+		>
 	
 	    <!-- s:if test="param.act eq 'gpintegration'" -->
 	    <% if (act1.equals("gpintegration")) { %>
