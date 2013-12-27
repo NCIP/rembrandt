@@ -123,14 +123,7 @@ public class QuickSearchForm extends BaseForm implements GeneValidator{
 		sampleGroupsList = convertToHashMap(al);
 	}
 	
-	protected HashMap<String, String> convertToHashMap(List<LabelValueBean> al) {
-		HashMap<String, String> aMap = new HashMap<String, String>();
-		for (LabelValueBean bean : al) {
-			aMap.put(bean.getLabel(), bean.getValue());
-		}
-		
-		return aMap;
-	}
+	
 	
 	public String getPlot() {
 		return plot;
@@ -266,5 +259,19 @@ public class QuickSearchForm extends BaseForm implements GeneValidator{
 			this.quickSearchTypes.add("Gene Keyword");
 		
 		return quickSearchTypes;
+	}
+	
+	/**
+	 * Helper method for struts 2
+	 * @param al
+	 * @return
+	 */
+	protected HashMap<String, String> convertToHashMap(List<LabelValueBean> al) {
+		HashMap<String, String> aMap = new HashMap<String, String>();
+		for (LabelValueBean bean : al) {
+			aMap.put(bean.getLabel(), bean.getValue());
+		}
+		
+		return aMap;
 	}
 }

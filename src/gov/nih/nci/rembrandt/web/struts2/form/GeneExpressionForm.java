@@ -256,6 +256,8 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	
 	private boolean isAllGenes = false;
     protected transient HttpServletRequest thisRequest; 
+    
+    
 
 
 	// --------------------------------------------------------- Methods
@@ -426,6 +428,13 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 		arrayPlatformTypeColl.add(new LabelValueBean("Oligo (Affymetrix)",
 				"Oligo (Affymetrix)"));
 		arrayPlatformTypeColl.add(new LabelValueBean("cDNA", "cDNA"));
+		
+		tumorGradeList = new ArrayList<String>();
+		tumorGradeList.add("All");
+		tumorGradeList.add("I");
+		tumorGradeList.add("II");
+		tumorGradeList.add("III");
+		tumorGradeList.add("IV");
 
 	}
 
@@ -1748,5 +1757,8 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	    savedGeneList = groupRetriever.getGeneGroupsCollection(request.getSession());
 	    savedCloneList = groupRetriever.getCloneGroupsCollection(request.getSession());
 	}
+
+
+	
 	
 }

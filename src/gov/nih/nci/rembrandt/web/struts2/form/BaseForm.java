@@ -38,7 +38,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.util.LabelValueBean;
 
@@ -130,6 +129,8 @@ public class BaseForm implements Serializable, RootForm{
     protected static Collection savedSampleList;
     protected String sampleGroup;
     protected UserCredentials credentials ;
+    
+    protected List<String> tumorGradeList;
 
 
 	public BaseForm(){
@@ -474,6 +475,13 @@ public class BaseForm implements Serializable, RootForm{
 			return sampleGroup;
 		}
 		
+		public List<String> getTumorGradeList() {
+			return tumorGradeList;
+		}
 
+
+		public void setTumorGradeList(List<String> tumorGradeList) {
+			this.tumorGradeList = tumorGradeList;
+		}
        
 }
