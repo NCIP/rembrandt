@@ -147,9 +147,45 @@
 		<result name="success">jsp/clinicalPlots.jsp</result>
 	</action>
 	
-	<action name="geneexpression">
+	<action name="geneExpression">
 		<result type="tiles">nautilus.geneExpression</result>
     </action>
+    
+    <action name="geneexpression"
+            class="gov.nih.nci.rembrandt.web.struts2.action.GeneExpressionAction">
+         <result name="advanceSearchMenu" type="tiles">nautilus.menu</result>
+         <result name="backToGeneExp" type="tiles">nautilus.geneExpression</result>
+         <result name="showAllGenes" type="tiles">nautilus.allGenesGE</result>
+         <result name="previewReport" type="redirectAction">
+         	<param name="actionName">previewGeneReport</param>
+         	</result>
+         
+        <result name="viewResults" type="redirectAction">
+         	<param name="actionName">viewResults</param>
+         	</result>
+         
+         <result name="failure" type="redirectAction">
+         	<param name="actionName">login</param>
+         	</result>
+	</action>
+	
+	<action name="geSetup"
+            class="gov.nih.nci.rembrandt.web.struts2.action.GeneExpressionAction" method="setup">
+         <result name="advanceSearchMenu" type="tiles">nautilus.menu</result>
+         <result name="backToGeneExp" type="tiles">nautilus.geneExpression</result>
+         <result name="showAllGenes" type="tiles">nautilus.allGenesGE</result>
+         <result name="previewReport" type="redirectAction">
+         	<param name="actionName">previewGeneReport</param>
+         	</result>
+         
+        <result name="viewResults" type="redirectAction">
+         	<param name="actionName">viewResults</param>
+         	</result>
+         
+         <result name="failure" type="redirectAction">
+         	<param name="actionName">login</param>
+         	</result>
+	</action>
     
     <!-- scope="request"
             parameter="method"
@@ -292,6 +328,31 @@
     <action name="viewResults"
 		class="gov.nih.nci.rembrandt.web.struts2.action.ViewResultsAction">
 		<result name="success" type="tiles">nautilus.viewResults</result>
+	</action>
+	
+	<!-- name="emailQueryForm"
+	scope="request"
+           parameter="method"
+           input="/jsp/emailReport.jsp"
+	 -->
+	<action name="emailReport"
+           class="gov.nih.nci.rembrandt.web.struts2.action.EmailQueryAction">
+    	<result name="success">jsp/emailReport.jsp</result>
+        <result name="close">jsp/close.jsp</result>
+        <result name="viewResults" type="tiles">nautilus.viewResults</result>
+        
+        
+        <!-- don't know what method=submitReport is -->
+        <!--  result name="submitReport" path="/emailReport.do?method=submitReport"/>-->
+        <result name="submitReport" type="redirectAction">
+         	<param name="actionName">emailReport</param>
+         	
+         </result>
+    </action>
+    
+    <action name="browseKeggPathway"
+            class="gov.nih.nci.rembrandt.web.struts2.action.BrowseKeggPathwayAction">
+         <result name="success">jsp/browseKeggPathway.jsp</result>
 	</action>
     
 	
