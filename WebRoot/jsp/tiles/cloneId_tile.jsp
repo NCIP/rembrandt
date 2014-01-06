@@ -29,7 +29,7 @@ L--%>
 <label for="cloneId">Type Reporters:&nbsp;&nbsp;</label>
 
 
-<s:select id="cloneList" name="cloneList" list="geneExpressionForm.cloneTypeColl" listKey="value" listValue="label" disabled="false" theme="simple" />
+<s:select id="cloneList" name="geneExpressionForm.cloneList" list="geneExpressionForm.cloneTypeColl" listKey="value" listValue="label" disabled="false" theme="simple" />
 <label for="cloneList">&nbsp;</label>
 
 

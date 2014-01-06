@@ -35,7 +35,7 @@ L--%>
    }
    
  function browseKegg(){ 	
-     window.open( 'browseKeggPathway.do', 'page2', 'status,resizable,scrollbars,width=1000px,height=500px,screenX=50,screenY=100');
+     window.open( 'browseKeggPathway.action', 'page2', 'status,resizable,scrollbars,width=1000px,height=500px,screenX=50,screenY=100');
    }
 </script>
 

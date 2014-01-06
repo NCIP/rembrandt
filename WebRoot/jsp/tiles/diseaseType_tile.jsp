@@ -12,12 +12,10 @@ L--%>
 %>
 <fieldset class="gray">
 <legend class="red"><label for="dSelect">Disease Type</label> 
-<!-- <app:help help="Select the type(s) of disease. Mouse over a name to display tumor sub-types. "/>-->
 <app:cshelp topic="<%=act%>" text="[?]"/>
 </legend>
 <br/>
 &nbsp;&nbsp;&nbsp;
-
 
 <s:select name="geneExpressionForm.tumorType" multiple="true" id="dSelect" disabled="false" 
 	list="geneExpressionForm.diseaseType" listKey="value" listValue="label" theme="simple" onchange="javascript:onRadio(this, this.value);">
@@ -25,13 +23,10 @@ L--%>
 <s:actionerror/>
 
 &nbsp;
-<s:if test="geneExpresstionForm.tumorGradeList != null">
+
 <label for="tumorGrade">Grade:&nbsp;</label>
-<s:select id="tumorGrade" name="geneExpresstionForm.tumorGrade" list="geneExpresstionForm.tumorGradeList" disabled="true" theme="simple" />
-</s:if>
-<s:else>
-That is null
-</s:else>
+<s:select id="tumorGrade" name="geneExpressionForm.tumorGrade" list="geneExpressionForm.tumorGrades" disabled="true" theme="simple" />
+
 <b>   </b>
 
 <!-- <b><app:help help="This criteria will be implemented in the upcoming release "/></b>-->

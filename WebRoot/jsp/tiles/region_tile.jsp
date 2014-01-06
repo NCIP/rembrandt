@@ -22,8 +22,8 @@ L--%>
 
 <br />	
 <label for="chromosomeNumber">&nbsp;&nbsp;Chromosome Number&nbsp;</label>
-	<s:select id="chromosomeNumber" name="chromosomeNumber" list="geneExpressionForm.chromosomes" listKey="value" listValue="label"> 
-			</s:select>
+	<s:select id="chromosomeNumber" name="geneExpressionForm.chromosomeNumber" list="geneExpressionForm.chromosomes" listKey="value" listValue="label"
+	onchange="javascript:cytobandChange()" />  
 		<br />
 <s:actionerror/>
 
@@ -34,12 +34,12 @@ L--%>
 	    <label for="cytoband">Cytoband&nbsp;</label>
 			 
 	<s:select id="cytobandRegionStart" name="geneExpressionForm.cytobandRegionStart" onclick="javascript:radioFold(this);"
-		list="geneExpressionForm.cytobands"> 
+		list="geneExpressionForm.cytobands" listKey="cytoband" listValue="cytoband"> 
 	</s:select>	 
 		<label for="cytobandRegionStart">&nbsp;-to-&nbsp;</label>
              
     <s:select id="cytobandRegionEnd" name="geneExpressionForm.cytobandRegionEnd" onclick="javascript:radioFold(this);"
-		list="geneExpressionForm.cytobands"> 
+		list="geneExpressionForm.cytobands" listKey="cytoband" listValue="cytoband"> 
 	</s:select>	         
     <label for="cytobandRegionEnd">&nbsp;</label>
 			
@@ -68,8 +68,13 @@ L--%>
 				
 <SCRIPT language="Javascript">
 function cytobandChange(){
-  document.forms[0].multiUseButton.value="GetCytobands";
-  document.forms[0].multiUseButton.click();
+  //document.forms[0].multiUseButton.value="GetCytobands";
+  //.forms[0].multiUseButton.click();
+  
+  //javascript:cytobandChange()
+  
+  document.forms[0].action="getCytobands.action";
+  document.forms[0].submit();
 }
 </SCRIPT>
 

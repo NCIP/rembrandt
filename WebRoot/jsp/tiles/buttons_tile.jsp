@@ -22,35 +22,34 @@ function refresh()	{
 }
 </script>
 
-<!--  
-<logic:notPresent name="deleteQueryForm">
+
+<s:if test="deleteQueryForm == null">
 <input type="button" id="clearButton" class="xbutton" value="Clear" onclick="refresh();"/>
-</logic:notPresent>
--->
+</s:if>
+
 &nbsp;&nbsp;
 
 <!--  html:button styleClass="xbutton" property="method" value="Cancel" onclick="javascript:alertUser('menu');" /> -->
- <input type="submit" id="submitButton" onclick="" class="xbutton" value="Cancel" onclick="javascript:alertUser('menu');"/>
+ <input type="button" id="submitButton" onclick="" class="xbutton" value="Cancel" onclick="javascript:alertUser('menu');"/>
 &nbsp;&nbsp;
 
-<!--  logic:present name="geneexpressionForm">-->
 <s:if test="geneExpressionForm != null">
 	<!--  logic:empty name="geneexpressionForm" property="geneOption" scope="request">-->
 	<s:if test="geneExpressionForm.geneOption == null || geneExpressionForm.geneOption.length() == 0" >
 			
-		<input type="submit" id="previewButton" class="xbutton" value="Preview" 
+		<input type="button" id="previewButton" class="xbutton" value="Preview" 
 			onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');"/>
 		&nbsp;&nbsp;
  	</s:if>
 	
 	<s:if test="geneExpressionForm.geneOption.equals('standard')"> 
-		<input type="submit" id="previewButton" class="xbutton" value="PreviewShan" 
+		<input type="button" id="previewButton" class="xbutton" value="PreviewShan" 
 			onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');"/>
 	&nbsp;&nbsp;
  	</s:if>
  	
 	<s:if test="geneExpressionForm.geneOption.equals('geneList')">
-	<input type="submit" id="previewButton" class="xbutton" value="PreviewYang" 
+	<input type="button" id="previewButton" class="xbutton" value="PreviewYang" 
 		onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');"/>
 		&nbsp;&nbsp;
  	</s:if>
@@ -80,6 +79,7 @@ function refresh()	{
 </logic:present>
 -->
 
-<input type="submit" id="submittalButton" class="subButton" value="SubmitShan" onclick="return gecnSubmit();"/>
+<input type="button" id="submittalButton" class="subButton" value="Submit" onclick="return gecnSubmit();"/>
 
-<input type="submit" id="multiUseButton" class="subButtonInv" value="MultiUse"/>
+<!--  input type="submit" id="multiUseButton" class="subButtonInv" value="MultiUse"/> -->
+<!--  s:submit type="submit" action="getCytobands" id="multiUseButton" class="subButtonInv" value="MultiUse" theme="simple"/>-->

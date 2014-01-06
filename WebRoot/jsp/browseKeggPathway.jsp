@@ -30,11 +30,12 @@ org.dom4j.Document,org.dom4j.io.SAXReader,org.dom4j.io.XMLWriter,org.dom4j.io.Ou
 		//reference the textarea field in the opener/parent and fill it in
 		
 		
-		for(i = 0; i < document.geneexpressionForm.pathwayName.length; i++)
+		for(i = 0; i < document.geneexpression.pathwayName.length; i++)
 		{
-			if(document.geneexpressionForm.pathwayName[i].checked)
+			if(document.geneexpression.pathwayName[i].checked)
 			{
-				window.opener.document.geneexpressionForm.pathways.value += document.geneexpressionForm.pathwayName[i].value + "\n";
+				window.opener.document.getElementById("pathways").value += document.geneexpression.pathwayName[i].value + "\n";
+				
 			}	
 		}	
 		// close the child
@@ -56,12 +57,14 @@ org.dom4j.Document,org.dom4j.io.SAXReader,org.dom4j.io.XMLWriter,org.dom4j.io.Ou
 </table>
 <!--header REMBRANDT image map-->
 <div align="center" width="765px">
+
 <div style="width:765px; border-bottom: 1px solid #000000; margin:0px;">
 <map name="headerMap">
 <area alt="REMBRANDT website" coords="7,8,272,50" href="http://rembrandt.nci.nih.gov">
 </map>
 <img src="images/header.jpg" width="765" height="65" alt="REMBRANDT application logo" border="0" usemap="#headerMap">
 </div>
+
 <!--end all headers-->
 <%response.setHeader("Cache-Control","no-cache"); //HTTP 1.1 
 response.setHeader("Pragma","no-cache"); //HTTP 1.0 
@@ -73,21 +76,21 @@ response.setHeader("Cache-Control","no-store"); //HTTP 1.1
  
  <div><b>Browse Pathway - Name</b></div>
 
-<s:form method="post" action="geneexpression">
+<s:form action="geneexpression" method="post" theme="simple">
 
  <p>
   <input type="button" name="pathwayNames" value="Done"  onclick="javascript:closeData();" />&nbsp;
   
  </p>
  
-  <div >
+  <div>
   Your search returned <b>
   <s:property value="pathwaySize" />
   </b> pathways.   
 
  </div>	
 	
- <div >
+ 
  
   <div style="width:700px;height:400px;overflow:auto">
     
@@ -102,47 +105,37 @@ response.setHeader("Cache-Control","no-store"); //HTTP 1.1
 	  </tr>
 	<% int i = 1; %>
 	
-	<s:iterator value="keggPathway" var="item"> 
-						<s:checkbox name="redrawInputForm.selectedItems" fieldValue="%{item}" theme = "simple">
-							<s:property value="#item" />
-						</s:checkbox>
-					</s:iterator>
-	
-	<!--  logic:iterate name="keggPathway" id="lookup"> -->
-	<s:iterator value="keggPathway" var="pathwayName">
+	<s:iterator value="keggPathways">
 		<tr>
 			<TD><%= i %></TD>
 			<TD>
-			<input type="checkbox" name="pathwayName" value="<bean:write name="lookup" property="pathwayName" />">
-				<bean:write name="lookup" property="pathwayName" />
+			<input name="pathwayName" value="<s:property value='pathwayName'/>" type="checkbox"></input>
+			<s:property value='pathwayName'/>
 			</TD>
 			<TD>
-				<a href="http://cgap.nci.nih.gov/Pathways/Kegg/<bean:write name="lookup" property="pathwayName" />" target="_blank">
-					<bean:write name="lookup" property="pathwayDesc"/>
+				<a href="http://cgap.nci.nih.gov/Pathways/Kegg/<s:property value='pathwayName'/>" target="_blank">
+					<s:property value='pathwayDesc'/>
 				</a>
 			</TD>
 			<TD>
-				<div id="<bean:write name="lookup" property="pathwayName"/>">
-					<%--
-					<a href="javascript:void(0);" onmouseover="return overlib('<bean:write name="lookup" property="pathwayName"/>', CAPTION, 'Help');" 
-						onmouseout="return nd();"><bean:write name="lookup" property="listSize"/></a>
-					--%>
+			<div id="<s:property value='pathwayName'/>">
 					<a href="javascript:void(0);" 
-						onmouseover="return KeggPathwayHelper.getPathwayGeneSymbols('<bean:write name="lookup" property="pathwayName"/>');"
-						onmouseout="return nd();"><bean:write name="lookup" property="listSize"/></a>
-				</div>
-			</TD>				
+						onmouseover="return KeggPathwayHelper.getPathwayGeneSymbols('<s:property value='pathwayName'/>');"
+						onmouseout="return nd();"><s:property value='listSize'/></a>
+				</div>				
+			</TD>
+						
 		</tr>		
 		<% i++;%>
-	</logic:iterate>
+	</s:iterator>
 	</table>
- 
- </div>	
-
- <p>
-  <input type="button" name="pathwayNames" value="Done"  onclick="javascript:closeData();" / >&nbsp;  
+	
+	<p>
+  <input type="button" name="pathwayNames" value="Done"  onclick="javascript:closeData();" />&nbsp;
+  
  </p>
  
-
+ </div>
  </s:form>
+ 
  

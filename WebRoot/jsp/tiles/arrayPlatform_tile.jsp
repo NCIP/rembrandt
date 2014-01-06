@@ -50,7 +50,7 @@ Step 2: Select Array Platform (Select at least one)
 <% } else {%>	
 <!-- /s:if -->
 <!-- s:else -->
-	&nbsp;&nbsp;<select name="form.arrayPlatform" id="platSelect"   
+	&nbsp;&nbsp;<select name="geneExpressionForm.arrayPlatform" id="platSelect"   
 		<s:if test="geneExpressionForm != null">
 			onchange="this.options[1].selected=true;"
 		</s:if>	

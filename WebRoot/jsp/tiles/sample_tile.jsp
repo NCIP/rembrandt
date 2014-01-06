@@ -42,22 +42,19 @@ L--%>
 </legend>
 <br/>	
 &nbsp;&nbsp;
-
-<input type="radio" name="sampleGroup" class="radio" id="sampleGroup1" value="Specify" onfocus="javascript:onRadio(this,0);" />
-<s:textfield id="sampleList" name="sampleList" disabled="false" onfocus="javascript:radioFold(this);" 
+  
+<input type="radio" name="geneExpressionForm.sampleGroup" class="radio" id="sampleGroup1" value="Specify" onfocus="javascript:onRadio(this,0);" />
+<s:textfield id="sampleList" name="geneExpressionForm.sampleList" disabled="false" onfocus="javascript:radioFold(this);" 
 	onblur="javascript:cRadio(this, document.forms[0].sampleGroup[0]);" />
 
 
 <label for="sampleGroup2">&nbsp;-or-&nbsp;</label>
-<input type="radio" name="sampleGroup" class="radio" id="sampleGroup2" value="Upload" onfocus="javascript:onRadio(this,1);" />
+<input type="radio" name="geneExpressionForm.sampleGroup" class="radio" id="sampleGroup2" value="Upload" onfocus="javascript:onRadio(this,1);" />
 
-<s:if test="geneExpressionForm.savedSampleList != null">
 <s:select name="geneExpressionForm.sampleFile" id="sampleFile" disabled="false" list="geneExpressionForm.savedSampleList"
 	onblur="javascript:cRadio(this, document.forms[0].sampleGroup[1]);" onfocus="javascript:document.forms[0].sampleGroup[1].checked = true; updateG()" />
 <label for="sampleList">&nbsp;</label><label for="sampleFile">&nbsp;</label>
-</s:if>
-<s:else>geneExpressionForm.savedSampleList is null
-</s:else>
+
 <script language="javascript">
 		updateG();
 </script>

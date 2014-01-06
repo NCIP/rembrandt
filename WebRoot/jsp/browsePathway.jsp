@@ -29,14 +29,13 @@ org.dom4j.Document,org.dom4j.io.SAXReader,org.dom4j.io.XMLWriter,org.dom4j.io.Ou
  function closeData(){
     if (window.opener && !window.opener.closed)
 	{
-		//reference the textarea field in the opener/parent and fill it in
-		
 		try	{
-		for(i = 0; i < document.geneexpressionForm.pathwayName.length; i++)
+		for(i = 0; i < document.geneexpression.pathwayName.length; i++)
 		{
-			if(document.geneexpressionForm.pathwayName[i].checked)
+			if(document.geneexpression.pathwayName[i].checked)
 			{
-				window.opener.document.geneexpressionForm.pathways.value += document.geneexpressionForm.pathwayName[i].value + "\n";
+				//alert(document.geneexpression.pathwayName[i].value);
+				window.opener.document.getElementById("pathways").value += document.geneexpression.pathwayName[i].value + "\n";
 			}	
 		}	
 		}
@@ -87,7 +86,7 @@ response.setHeader("Cache-Control","no-store"); //HTTP 1.1
  	<img align="right" onclick="javascript:openHelp()" name="helpIcon" id="helpIcon" alt="help" title="help" src="/rembrandt/images/help.png" style="cursor:pointer;border:0px;padding:2px;">
  </div>
 
-<s:form method="post" action="geneexpression">
+<s:form action="geneexpression" method="post" theme="simple">
 
  <p>
   <input type="button" name="pathwayNames" value="Done"  onclick="javascript:closeData();" />&nbsp;

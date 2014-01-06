@@ -27,14 +27,19 @@ String act = request.getParameter("act") + "_Gene_tooltip";
 <br/>
 	
 	<!-- html:radio styleId="geneOption1" property="geneOption" styleClass="radio" value="standard" onclick="submitStandardQuery();"/>  -->
-	<input type="radio" name="geneExpressionForm.geneOption" id="geneOption1" class="radio" value="standard" onclick="submitStandardQuery();">
+	
+	<input type="radio" name="geneExpressionForm.geneOption" id="geneOption1" class="radio" value="standard" 
+		onclick="submitStandardQuery();"/>
+	
 	<label for="geneType">Type Genes:&nbsp;&nbsp;</label>
+	
 	<s:select name="geneExpressionForm.geneType" id="geneType" disabled="false" 
 	list="geneExpressionForm.geneTypeColl" listKey="value" listValue="label" theme="simple" onchange="checkStandardOption();GeneAlias.armAliasLink();">
 		
 	</s:select>
 	
 	<br/><br/>
+	
  	<s:textarea name="geneExpressionForm.geneList" id="geneList" cols="65" rows="5" disabled="false" onclick="checkStandardOption();" theme="simple"/>
 	
 	<span valign="middle">
@@ -88,9 +93,13 @@ function submitAllGenesQuery(){
 function submitStandardQuery(){
 	//if(document.forms[0].multiUseButton.value!="Standard")	{
 	//document.forms[0].geneList.disabled = true;
-	//document.forms[0].geneType.disabled = false;
-		document.forms[0].multiUseButton.value="Standard";
-		document.forms[0].multiUseButton.click();
+	document.forms[0].geneOption1.disabled = false;
+	//document.forms[0].multiUseButton.value="Standard";
+	//document.forms[0].multiUseButton.click();
+
+	document.forms[0].action="submitStandard.action";
+	document.forms[0].submit();
+		
 	//}
 }
 function checkStandardOption()	{
