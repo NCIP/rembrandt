@@ -130,7 +130,7 @@ public class BaseForm implements Serializable, RootForm{
     protected String sampleGroup;
     protected UserCredentials credentials ;
     
-    protected List<String> tumorGradeList;
+    protected List<String> tumorGrades;
 
 
 	public BaseForm(){
@@ -141,6 +141,12 @@ public class BaseForm implements Serializable, RootForm{
 	}
     
     public void reset(ActionMapping mapping, HttpServletRequest request) {
+        GroupRetriever groupRetriever = new GroupRetriever();
+        savedSampleList = groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession());
+        credentials = (UserCredentials)request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
+    }
+    
+    public void reset(HttpServletRequest request) {
         GroupRetriever groupRetriever = new GroupRetriever();
         savedSampleList = groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession());
         credentials = (UserCredentials)request.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS);
@@ -197,6 +203,14 @@ public class BaseForm implements Serializable, RootForm{
 		geneTypeColl.add( new LabelValueBean( "Name/Symbol", "genesymbol" ) );
 		//geneTypeColl.add( new LabelValueBean( "Locus Link Id", "genelocus" ) );
 		//geneTypeColl.add( new LabelValueBean( "GenBank AccNo.", "genbankno" ) );
+		
+		tumorGrades = new ArrayList<String>();
+		tumorGrades.add("All");
+		tumorGrades.add("I");
+		tumorGrades.add("II");
+		tumorGrades.add("III");
+		tumorGrades.add("IV");
+
 
 	}
 
@@ -475,13 +489,13 @@ public class BaseForm implements Serializable, RootForm{
 			return sampleGroup;
 		}
 		
-		public List<String> getTumorGradeList() {
-			return tumorGradeList;
+		public List<String> getTumorGrades() {
+			return tumorGrades;
 		}
 
 
-		public void setTumorGradeList(List<String> tumorGradeList) {
-			this.tumorGradeList = tumorGradeList;
+		public void setTumorGrades(List<String> tumorGradeList) {
+			this.tumorGrades = tumorGradeList;
 		}
        
 }

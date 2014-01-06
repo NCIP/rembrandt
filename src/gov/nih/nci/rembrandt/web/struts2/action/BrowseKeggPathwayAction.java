@@ -7,9 +7,12 @@
 
 package gov.nih.nci.rembrandt.web.struts2.action;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Collection;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
+import gov.nih.nci.rembrandt.dbbean.Pathway;
 import gov.nih.nci.rembrandt.dto.lookup.PathwayLookup;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
@@ -102,7 +105,9 @@ public class BrowseKeggPathwayAction extends ActionSupport implements ServletReq
 	HttpServletRequest servletRequest;
 	
 	int pathwaySize;
-	Map<String, PathwayLookup> keggPathway;
+	Map<String, PathwayLookup> keggPathwayMap;
+	
+	Collection keggPathways;
 	
 	/**
 	 * Method execute
@@ -115,13 +120,20 @@ public class BrowseKeggPathwayAction extends ActionSupport implements ServletReq
 	 */
 	public String execute()
 		throws Exception {
-		keggPathway = LookupManager.getPathwayMap();
-		pathwaySize = keggPathway.size();
+		keggPathwayMap = LookupManager.getPathwayMap();
+		pathwaySize = keggPathwayMap.size();
 		
-		//Collection lookup = pathwayMap.values(); //.toArray();
-		//keggPathway =  pathwayMap.values();
+		Collection lookup = keggPathwayMap.values(); //.toArray();
+		keggPathways = lookup;
+		
 		//servletRequest.setAttribute("keggPathway", lookup);
 		//servletRequest.setAttribute("pathwaySize", lookup.size());
+		//request.setAttribute("keggPathway", lookup);
+		//request.setAttribute("pathwaySize", lookup.size());
+		
+		//Collection lookup = keggPathwayMap.values(); //.toArray();
+		//keggPathway =  pathwayMap.values();
+		
 	
 	return "success";
  }
@@ -140,16 +152,22 @@ public class BrowseKeggPathwayAction extends ActionSupport implements ServletReq
 		this.pathwaySize = pathwaySize;
 	}
 
-	public Map<String, PathwayLookup> getKeggPathway() {
-		return keggPathway;
+	public Map<String, PathwayLookup> getKeggPathwayMap() {
+		return keggPathwayMap;
 	}
 
-	public void setKeggPathway(Map<String, PathwayLookup> keggPathway) {
-		this.keggPathway = keggPathway;
+	public void setKeggPathwayMap(Map<String, PathwayLookup> keggPathwayMap) {
+		this.keggPathwayMap = keggPathwayMap;
 	}
+
+	public Collection getKeggPathways() {
+		return keggPathways;
+	}
+
+	public void setKeggPathways(Collection keggPathways) {
+		this.keggPathways = keggPathways;
+	}
+
 	
-	
-	
-	
-      
+
 }

@@ -7,7 +7,6 @@
 
 package gov.nih.nci.rembrandt.web.struts2.action;
 
-import gov.nih.nci.caintegrator.application.lists.ListSubType;
 import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.application.util.ApplicationContext;
@@ -137,14 +136,24 @@ public class GeneExpressionAction extends ActionSupport implements SessionAware,
     Map<String, Object> sessionMap;
     
     GeneExpressionForm geneExpressionForm;
+    GeneExpressionForm geneExpressionFormInSession;
     
+    
+    String chromosomeNumber;
     
     
 	@Override
 	public void prepare() throws Exception {
-		geneExpressionForm = new GeneExpressionForm();
-		geneExpressionForm.reset(this.servletRequest);
 		
+		geneExpressionFormInSession = (GeneExpressionForm)sessionMap.get("geneExpressionForm");
+		if (geneExpressionFormInSession == null) {
+			geneExpressionFormInSession = new GeneExpressionForm();
+			sessionMap.put("geneExpressionForm", geneExpressionFormInSession);
+		}
+		
+		//Do we reset everytime
+		geneExpressionFormInSession.reset(this.servletRequest);
+		//geneExpressionForm = form;
 	}
 
 	/**
@@ -172,6 +181,8 @@ public class GeneExpressionAction extends ActionSupport implements SessionAware,
     	if ( sID != null && sID != "" && !sID.contains("rembrandt")) {
     		return "failure";
     	}
+    	
+    	geneExpressionForm = geneExpressionFormInSession;
 
 		//GeneExpressionForm geneExpressionForm = (GeneExpressionForm) form;
 		//Since Chromosomes is a static variable there is no need to set it twice.
@@ -186,6 +197,7 @@ public class GeneExpressionAction extends ActionSupport implements SessionAware,
         
 		//saveToken(request);
        
+		sessionMap.put("geneExpressionForm", geneExpressionForm);
         return "backToGeneExp";
     }
     
@@ -245,7 +257,8 @@ public class GeneExpressionAction extends ActionSupport implements SessionAware,
         sessionMap.put("currentPage", "0");
 		//request.getSession().removeAttribute("currentPage2");
         sessionMap.remove("currentPage2");
-		//GeneExpressionForm geneExpressionForm = (GeneExpressionForm) form;
+		
+        GeneExpressionForm geneExpressionForm = geneExpressionFormInSession;
          
 		geneExpressionForm.setGeneGroup("");
 		geneExpressionForm.setRegulationStatus("up");
@@ -257,7 +270,7 @@ public class GeneExpressionAction extends ActionSupport implements SessionAware,
 		logger.debug("This is an All Genes Gene Expression Submital");
         
 		//resetToken(request);
-
+		sessionMap.put("geneExpressionForm", geneExpressionForm);
 		return "showAllGenes";
     }
     
@@ -284,14 +297,16 @@ public class GeneExpressionAction extends ActionSupport implements SessionAware,
 		
 		//GeneExpressionForm geneExpressionForm = (GeneExpressionForm) form;
 		// set form back to standard state and clear default value
-		geneExpressionForm.setRegulationStatus("");
-		geneExpressionForm.setFoldChangeValueUp(RembrandtConstants.STANDARD_GENE_EXP_REGULATION);
-		geneExpressionForm.setFoldChangeValueUDUp(RembrandtConstants.STANDARD_GENE_EXP_REGULATION);
-		geneExpressionForm.setFoldChangeValueDown(RembrandtConstants.STANDARD_GENE_EXP_REGULATION);
-		geneExpressionForm.setFoldChangeValueUDDown(RembrandtConstants.STANDARD_GENE_EXP_REGULATION);
+		geneExpressionFormInSession.setRegulationStatus("");
+		geneExpressionFormInSession.setFoldChangeValueUp(RembrandtConstants.STANDARD_GENE_EXP_REGULATION);
+		geneExpressionFormInSession.setFoldChangeValueUDUp(RembrandtConstants.STANDARD_GENE_EXP_REGULATION);
+		geneExpressionFormInSession.setFoldChangeValueDown(RembrandtConstants.STANDARD_GENE_EXP_REGULATION);
+		geneExpressionFormInSession.setFoldChangeValueUDDown(RembrandtConstants.STANDARD_GENE_EXP_REGULATION);
 		
 		logger.debug("This is an Standard Gene Expression Submital");
-
+		
+		geneExpressionForm = geneExpressionFormInSession;
+		//sessionMap.put("geneExpressionForm", geneExpressionForm);
 		return "backToGeneExp";
     }
     
@@ -444,17 +459,29 @@ public class GeneExpressionAction extends ActionSupport implements SessionAware,
 	
 	public String getCytobands()
 			throws Exception {
-			GeneExpressionForm geForm = geneExpressionForm;
-			//This is the static list of chromosomes that is fetched the first time it is needed
-			List chromosomes = geForm.getChromosomes();
-			//IMPORTANT! geForm.chromosomeNumber is NOT the chromosome number.  It is the index
-			//into the static chromosomes list where the chromosome can be found.
-			if(!"".equals(geForm.getChromosomeNumber())) {
-				ChromosomeBean bean = (ChromosomeBean)chromosomes.get(Integer.parseInt(geForm.getChromosomeNumber()));
-				geForm.setCytobands(bean.getCytobands());
-			}
-			
-			return "backToGeneExp";
+
+		GeneExpressionForm geForm = geneExpressionForm;
+		//validateGetCytobands()
+		
+		//This is the static list of chromosomes that is fetched the first time it is needed
+		List chromosomes = geneExpressionFormInSession.getChromosomes();
+		
+		//IMPORTANT! geForm.chromosomeNumber is NOT the chromosome number.  It is the index
+		//into the static chromosomes list where the chromosome can be found.
+		String chromosomeIndex = geForm.getChromosomeNumber();
+		if(!"".equals(chromosomeIndex)) {
+			ChromosomeBean bean = (ChromosomeBean)chromosomes.get(Integer.parseInt(chromosomeIndex));
+			//geForm.setCytobands(bean.getCytobands());
+			List cyto = bean.getCytobands();
+			geneExpressionFormInSession.setChromosomeNumber(chromosomeIndex);
+			geneExpressionFormInSession.setChromosomeRegionCriteria(chromosomeIndex);
+			geneExpressionFormInSession.setCytobands(bean.getCytobands());
+	
+		}
+
+		geneExpressionForm = geneExpressionFormInSession;
+		//sessionMap.put("geneExpressionForm", geneExpressionForm);
+		return "backToGeneExp";
 	}
 			
 			
@@ -639,34 +666,52 @@ public class GeneExpressionAction extends ActionSupport implements SessionAware,
        
        }
 	
-	public void validateXX() {
+	public void validateGetCytobandsxx() {
+		// if method is "getCytobands" AND they have upload formFiles, do necessary validation for uploaded files
+		if ((this.geneExpressionForm.getMethod().equalsIgnoreCase("GetCytobands") && this.geneExpressionForm.getGeneGroup().equalsIgnoreCase("Upload"))
+				|| (this.geneExpressionForm.getMethod().equalsIgnoreCase("GetCytobands") && this.geneExpressionForm.getCloneId().equalsIgnoreCase("Upload"))
+				|| (this.geneExpressionForm.getMethod().equalsIgnoreCase("GetCytobands") && this.geneExpressionForm.getSampleGroup().equalsIgnoreCase("Upload"))){
+
+			if(this.geneExpressionForm.getGeneGroup().equalsIgnoreCase("Upload")){
+				this.geneExpressionForm.setGeneGroup("");
+			}
+			if(this.geneExpressionForm.getCloneId().equalsIgnoreCase("Upload")){
+				this.geneExpressionForm.setCloneId("");
+			}
+			if(this.geneExpressionForm.getSampleGroup().equalsIgnoreCase("Upload")){
+				this.geneExpressionForm.setSampleGroup("");
+			}
+		}
+	}
+	
+	public void validatex() {
 
 		List<String> errors = new ArrayList<String>();
 		
-		if (this.geneExpressionForm == null)
-			this.geneExpressionForm = new GeneExpressionForm();
+		//if (this.geneExpressionForm == null)
+		//	this.geneExpressionForm = new GeneExpressionForm();
 
 		// if method is "getCytobands" AND they have upload formFiles, do necessary validation for uploaded files
-		try{
-			if ((this.geneExpressionForm.getMethod().equalsIgnoreCase("GetCytobands") && this.geneExpressionForm.getGeneGroup().equalsIgnoreCase("Upload"))
-					|| (this.geneExpressionForm.getMethod().equalsIgnoreCase("GetCytobands") && this.geneExpressionForm.getCloneId().equalsIgnoreCase("Upload"))
-					|| (this.geneExpressionForm.getMethod().equalsIgnoreCase("GetCytobands") && this.geneExpressionForm.getSampleGroup().equalsIgnoreCase("Upload"))){
-
-				//errors = UIFormValidator.validateFormFieldsWithRegion(geneFile, geneGroup, cloneListFile, cloneId, sampleFile, sampleGroup, errors);
-
-				if(this.geneExpressionForm.getGeneGroup().equalsIgnoreCase("Upload")){
-					this.geneExpressionForm.setGeneGroup("");
-				}
-				if(this.geneExpressionForm.getCloneId().equalsIgnoreCase("Upload")){
-					this.geneExpressionForm.setCloneId("");
-				}
-				if(this.geneExpressionForm.getSampleGroup().equalsIgnoreCase("Upload")){
-					this.geneExpressionForm.setSampleGroup("");
-				}
-			}
-		}catch(NullPointerException e){
-			logger.debug("something was set to null");
-		}
+//		try{
+//			if ((this.geneExpressionForm.getMethod().equalsIgnoreCase("GetCytobands") && this.geneExpressionForm.getGeneGroup().equalsIgnoreCase("Upload"))
+//					|| (this.geneExpressionForm.getMethod().equalsIgnoreCase("GetCytobands") && this.geneExpressionForm.getCloneId().equalsIgnoreCase("Upload"))
+//					|| (this.geneExpressionForm.getMethod().equalsIgnoreCase("GetCytobands") && this.geneExpressionForm.getSampleGroup().equalsIgnoreCase("Upload"))){
+//
+//				//errors = UIFormValidator.validateFormFieldsWithRegion(geneFile, geneGroup, cloneListFile, cloneId, sampleFile, sampleGroup, errors);
+//
+//				if(this.geneExpressionForm.getGeneGroup().equalsIgnoreCase("Upload")){
+//					this.geneExpressionForm.setGeneGroup("");
+//				}
+//				if(this.geneExpressionForm.getCloneId().equalsIgnoreCase("Upload")){
+//					this.geneExpressionForm.setCloneId("");
+//				}
+//				if(this.geneExpressionForm.getSampleGroup().equalsIgnoreCase("Upload")){
+//					this.geneExpressionForm.setSampleGroup("");
+//				}
+//			}
+//		}catch(NullPointerException e){
+//			logger.debug("something was set to null");
+//		}
 
 		// if the method of the button is "submit" or "run report", validate
 		if (this.geneExpressionForm.getMethod()!=null && (this.geneExpressionForm.getMethod().equalsIgnoreCase("submit")
@@ -745,6 +790,14 @@ public class GeneExpressionAction extends ActionSupport implements SessionAware,
 	public void setSession(Map<String, Object> arg0) {
 		// TODO Auto-generated method stub
 		this.sessionMap = arg0;
+	}
+
+	public String getChromosomeNumber() {
+		return chromosomeNumber;
+	}
+
+	public void setChromosomeNumber(String chromosomeNumber) {
+		this.chromosomeNumber = chromosomeNumber;
 	}
 
 	

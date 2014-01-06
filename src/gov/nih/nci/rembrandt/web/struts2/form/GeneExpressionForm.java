@@ -110,6 +110,7 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	// --------------------------------------------------------- Instance
 	// Variables
 	/** selected chromosomes cytobands **/
+	
 	private List cytobands = new ArrayList();
 		
 	/** chromosomes property */
@@ -117,9 +118,6 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 
 	/** geneOption property */
 	private String geneOption = "standard";
-	//private String geneOption;
-    
-    //private Collection savedSampleList;
     
     private static Collection savedGeneList;
     
@@ -227,13 +225,9 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 
 	private ArrayList arrayPlatformTypeColl = new ArrayList();
 
-	
-
 	private GeneIDCriteria geneCriteria;
 
 	private AllGenesCriteria allGenesCriteria;
-
-	
 
 	private FoldChangeCriteria foldChangeCriteria;
 
@@ -267,121 +261,7 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 		super();
 		setGeneExpressionLookup();        
 	}
-    
-     
-	/**
-	 * Method validate
-	 * 
-	 * @param ActionMapping
-	 *            mapping
-	 * @param HttpServletRequest
-	 *            request
-	 * @return ActionErrors
-	 */
-	
-	//Shan: temp comment out
-	/*
-	public ActionErrors validate(ActionMapping mapping,
-			HttpServletRequest request) {
 
-		ActionErrors errors = new ActionErrors();
-
-		// if method is "getCytobands" AND they have upload formFiles, do necessary validation for uploaded files
-		try{
-		    if ((this.getMethod().equalsIgnoreCase("GetCytobands") && this.getGeneGroup().equalsIgnoreCase("Upload"))
-		        || (this.getMethod().equalsIgnoreCase("GetCytobands") && this.getCloneId().equalsIgnoreCase("Upload"))
-		          || (this.getMethod().equalsIgnoreCase("GetCytobands") && this.getSampleGroup().equalsIgnoreCase("Upload"))){
-
-		    //errors = UIFormValidator.validateFormFieldsWithRegion(geneFile, geneGroup, cloneListFile, cloneId, sampleFile, sampleGroup, errors);
-		    	
-		    if(this.getGeneGroup().equalsIgnoreCase("Upload")){
-		        this.setGeneGroup("");
-		    }
-		    if(this.getCloneId().equalsIgnoreCase("Upload")){
-		        this.setCloneId("");
-		    }
-		    if(this.getSampleGroup().equalsIgnoreCase("Upload")){
-		        this.setSampleGroup("");
-		    }
-		  }
-		}catch(NullPointerException e){
-		    logger.debug("something was set to null");
-		}
-		
-		// if the method of the button is "submit" or "run report", validate
-		if (this.getMethod()!=null && (this.getMethod().equalsIgnoreCase("submit")
-				|| this.getMethod().equalsIgnoreCase("preview"))) {
-            		    
-			// Query Name cannot be blank
-			errors = UIFormValidator.validateQueryName(queryName, errors);
-			// Chromosomal region validations
-			errors = UIFormValidator.validateChromosomalRegion(chromosomeNumber,
-					region, cytobandRegionStart, basePairStart, basePairEnd, errors);
-			// Validate Go Classification
-			errors = UIFormValidator.validateGOClassification(goClassification,
-					errors);
-			//why is this commented out ?
-			/* Validate Gene List, Gene File and Gene Group
-			errors = UIFormValidator.validateTextFileType(sampleFile, 
-			        "sampleGroup", errors);
-            */
-			
-			
-			// Make sure the cloneListFile uploaded is of type txt and MIME type
-			// is text/plain
-			//errors = UIFormValidator.validateTextFileType(cloneListFile,"cloneId", errors);
-			
-			// Make sure the geneGroup uploaded file is of type txt and MIME
-			/* type is text/plain
-			errors = UIFormValidator.validateTextFileType(geneFile,"geneGroup", errors);
-             */
-			// Validate CloneId
-			//errors = UIFormValidator.validateCloneId(cloneId, cloneListSpecify,cloneListFile, errors);
-			
-			
-			  // validate fold change,it has to be numeric
-/*	        errors = UIFormValidator.validateFoldChange(regulationStatus,"up",foldChangeValueUp,"foldChangeValueUp",errors);
-	        errors = UIFormValidator.validateFoldChange(regulationStatus,"updown",foldChangeValueUDUp,"foldChangeValueUDUp",errors);
-	        errors = UIFormValidator.validateFoldChange(regulationStatus,"down",foldChangeValueDown,"foldChangeValueDown",errors);
-	        errors = UIFormValidator.validateFoldChange(regulationStatus,"updown",foldChangeValueUDDown,"foldChangeValueUDDown",errors);
-	        errors = UIFormValidator.validateFoldChange(regulationStatus,"unchange",foldChangeValueUnchangeFrom,"foldChangeValueUnchangeFrom",errors);
-	        errors = UIFormValidator.validateFoldChange(regulationStatus,"unchange",foldChangeValueUnchangeTo,"foldChangeValueUnchangeTo",errors);
-	    
-	        
-	        
-
-			// Validate minimum criteria's for GE Query
-			if (this.getQueryName() != null
-					&& this.getQueryName().length() >= 1
-					&& (this.getGeneOption() != null && this.getGeneOption().equalsIgnoreCase("standard"))) {
-				if (
-						(this.getGeneList() == null || this.getGeneList().trim().length() < 1)
-						&& (this.getCloneId() == null || this.getCloneId()
-								.trim().length() < 1)
-						&& (this.getChromosomeNumber() == null || this
-								.getChromosomeNumber().trim().length() < 1)
-						&& (this.getGoClassification() == null || this
-								.getGoClassification().trim().length() < 1)
-						&& (this.getPathways() == null || this.getPathways()
-								.trim().length() < 1)) {
-
-					errors
-							.add(
-									ActionErrors.GLOBAL_ERROR,
-									new ActionError(
-											"gov.nih.nci.nautilus.ui.struts.form.ge.minimum.error"));
-				}
-			}
-		}else {
-			logger.debug("This isn't submit or preview report");
-		}
-
-	
-	 return errors;
-
-	}	
-
-*/
 	public void setGeneExpressionLookup() {
 
 		// diseaseType = new ArrayList();// moved to the upper class:
@@ -391,33 +271,6 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 		cloneTypeColl = new ArrayList();
 		arrayPlatformTypeColl = new ArrayList();
 
-		// These are hardcoded but will come from DB
-		/*
-		 * *moved to the upperclass:: BaseForm.java
-		 * 
-		 * diseaseType.add( new LabelValueBean( "Astrocytic", "astro" ) );
-		 * diseaseType.add( new LabelValueBean( "Oligodendroglial", "oligo" ) );
-		 * diseaseType.add( new LabelValueBean( "Ependymal cell", "Ependymal
-		 * cell" ) ); diseaseType.add( new LabelValueBean( "Mixed gliomas",
-		 * "Mixed gliomas" ) ); diseaseType.add( new LabelValueBean(
-		 * "Neuroepithelial", "Neuroepithelial" ) ); diseaseType.add( new
-		 * LabelValueBean( "Choroid Plexus", "Choroid Plexus" ) );
-		 * diseaseType.add( new LabelValueBean( "Neuronal and mixed
-		 * neuronal-glial", "neuronal-glial" ) ); diseaseType.add( new
-		 * LabelValueBean( "Pineal Parenchyma", "Pineal Parenchyma" ));
-		 * diseaseType.add( new LabelValueBean( "Embryonal", "Embryonal" ));
-		 * diseaseType.add( new LabelValueBean( "Glioblastoma", "Glioblastoma"
-		 * ));
-		 */
-
-		// geneTypeColl.add( new LabelValueBean( "All Genes", "allgenes" )
-		// );//moved to the upperclass:: BaseForm.java
-		// geneTypeColl.add( new LabelValueBean( "Name/Symbol", "genesymbol" )
-		// );//moved to the upperclass:: BaseForm.java
-		// geneTypeColl.add( new LabelValueBean( "Locus Link Id", "genelocus" )
-		// );//moved to the upperclass:: BaseForm.java
-		// geneTypeColl.add( new LabelValueBean( "GenBank AccNo.", "genbankno" )
-		// );//moved to the upperclass:: BaseForm.java
 		geneTypeColl.add( new LabelValueBean( "Locus Link Id", "genelocus" ) );
 		geneTypeColl.add( new LabelValueBean( "GenBank AccNo.", "genbankno" ) );
 		cloneTypeColl.add(new LabelValueBean("IMAGE Id", "imageId"));
@@ -428,14 +281,6 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 		arrayPlatformTypeColl.add(new LabelValueBean("Oligo (Affymetrix)",
 				"Oligo (Affymetrix)"));
 		arrayPlatformTypeColl.add(new LabelValueBean("cDNA", "cDNA"));
-		
-		tumorGradeList = new ArrayList<String>();
-		tumorGradeList.add("All");
-		tumorGradeList.add("I");
-		tumorGradeList.add("II");
-		tumorGradeList.add("III");
-		tumorGradeList.add("IV");
-
 	}
 
 	/**
@@ -451,6 +296,9 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	public void reset(HttpServletRequest request) {
 		//geneOption = "";
 		//pathwayName = new String[0];
+		
+		super.reset(request);
+		
 		GroupRetriever groupRetriever = new GroupRetriever();
 	    savedGeneList = groupRetriever.getGeneGroupsCollection(request.getSession());
 	    savedCloneList = groupRetriever.getCloneGroupsCollection(request.getSession());
@@ -537,68 +385,71 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 		return GeneExpressionForm.chromosomes;
 	}
 
-	public void setGeneList(Collection<GeneIdentifierDE> geneIdentifiers) {
-		StringBuffer geneBuffer = new StringBuffer();
-		
-		for( GeneIdentifierDE ge :  geneIdentifiers ) {
-			geneBuffer.append( ge.getValueObject() + "," );
-		}
-			
-			this.geneList = geneBuffer.toString().substring(0,geneBuffer.toString().length()-1);
-	}
+//	public void setGeneList(Collection<GeneIdentifierDE> geneIdentifiers) {
+//		StringBuffer geneBuffer = new StringBuffer();
+//		
+//		for( GeneIdentifierDE ge :  geneIdentifiers ) {
+//			geneBuffer.append( ge.getValueObject() + "," );
+//		}
+//			
+//			this.geneList = geneBuffer.toString().substring(0,geneBuffer.toString().length()-1);
+//	}
 	/**
 	 * Set the geneList.
 	 * 
 	 * @param geneList
 	 *            The geneList to set
 	 */
-	public void setGeneList(String geneList) {
-		if (geneList != null )
-			geneList = MoreStringUtils.cleanJavascript(geneList);
-
-		this.geneList = geneList;
-		
-		if (thisRequest != null) {
-
-			String thisGeneType = this.thisRequest.getParameter("geneType");
-			//String thisGeneGroup = this.thisRequest.getParameter("geneGroup");
-            geneCriteria = new GeneIDCriteria();
-            GeneIdentifierDE geneIdentifierDE = null;
-			if ((geneList != null)
-					//&& thisGeneGroup.equalsIgnoreCase("Specify")
-					&& (thisGeneType.length() > 0)
-					&& (this.geneList.length() > 0)) {
-
-				String[] splitValue = this.geneList.split("\\x2C");
-
-				for (int i = 0; i < splitValue.length; i++) {
-
-					if (thisGeneType.equalsIgnoreCase("genesymbol")) {
-                        geneIdentifierDE = new GeneIdentifierDE.GeneSymbol(splitValue[i].trim());
-					} else if (thisGeneType.equalsIgnoreCase("genelocus")) {
-                        geneIdentifierDE = new GeneIdentifierDE.LocusLink(splitValue[i].trim());
-					} else if (thisGeneType.equalsIgnoreCase("genbankno")) {
-                        geneIdentifierDE = new GeneIdentifierDE.GenBankAccessionNumber(splitValue[i].trim());
-                        
-					} //else if (thisGeneType.equalsIgnoreCase("allgenes")) {
-						//geneDomainMap.put(splitValue[i].trim(),
-						//		GeneIdentifierDE.GeneSymbol.class.getName());
-                        
-					//}
-                    geneCriteria.setGeneIdentifier(geneIdentifierDE);
-				}
-			}
-
-			// Set for all genes
-			/*
-			 * if (thisGeneGroup != null &&
-			 * thisGeneGroup.equalsIgnoreCase("Specify") &&
-			 * (thisGeneType.equalsIgnoreCase("allgenes"))){
-			 * geneDomainMap.put("allgenes",
-			 * GeneIdentifierDE.GeneSymbol.class.getName()); }
-			 */
-		}
-	}
+	
+	
+	//public void setGeneList(String geneList) {
+	//	this.geneList = geneList;
+//		if (geneList != null )
+//			geneList = MoreStringUtils.cleanJavascript(geneList);
+//
+//		this.geneList = geneList;
+//		
+//		if (thisRequest != null) {
+//
+//			String thisGeneType = this.thisRequest.getParameter("geneType");
+//			//String thisGeneGroup = this.thisRequest.getParameter("geneGroup");
+//            geneCriteria = new GeneIDCriteria();
+//            GeneIdentifierDE geneIdentifierDE = null;
+//			if ((geneList != null)
+//					//&& thisGeneGroup.equalsIgnoreCase("Specify")
+//					&& (thisGeneType.length() > 0)
+//					&& (this.geneList.length() > 0)) {
+//
+//				String[] splitValue = this.geneList.split("\\x2C");
+//
+//				for (int i = 0; i < splitValue.length; i++) {
+//
+//					if (thisGeneType.equalsIgnoreCase("genesymbol")) {
+//                        geneIdentifierDE = new GeneIdentifierDE.GeneSymbol(splitValue[i].trim());
+//					} else if (thisGeneType.equalsIgnoreCase("genelocus")) {
+//                        geneIdentifierDE = new GeneIdentifierDE.LocusLink(splitValue[i].trim());
+//					} else if (thisGeneType.equalsIgnoreCase("genbankno")) {
+//                        geneIdentifierDE = new GeneIdentifierDE.GenBankAccessionNumber(splitValue[i].trim());
+//                        
+//					} //else if (thisGeneType.equalsIgnoreCase("allgenes")) {
+//						//geneDomainMap.put(splitValue[i].trim(),
+//						//		GeneIdentifierDE.GeneSymbol.class.getName());
+//                        
+//					//}
+//                    geneCriteria.setGeneIdentifier(geneIdentifierDE);
+//				}
+//			}
+//
+//			// Set for all genes
+//			/*
+//			 * if (thisGeneGroup != null &&
+//			 * thisGeneGroup.equalsIgnoreCase("Specify") &&
+//			 * (thisGeneType.equalsIgnoreCase("allgenes"))){
+//			 * geneDomainMap.put("allgenes",
+//			 * GeneIdentifierDE.GeneSymbol.class.getName()); }
+//			 */
+//		}
+//	}
 
 	/**
 	 * Sets the geneOption
@@ -607,14 +458,20 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	 */
 	public void setGeneOption(String geneOption) {
 		this.geneOption = geneOption;
-		if (thisRequest != null) {
-			String thisGeneOption = this.thisRequest.getParameter("geneOption");
-			if (thisGeneOption != null
-					&& thisGeneOption.equalsIgnoreCase("allgenes")) {
-				isAllGenes = true;
-				allGenesCriteria = new AllGenesCriteria(isAllGenes);
-			}
-		}
+		
+		//Shan: Need to change this somewhere else
+//		if (thisRequest != null) {
+//			String thisGeneOption = this.thisRequest.getParameter("geneOption");
+//			if (thisGeneOption != null
+//					&& thisGeneOption.equalsIgnoreCase("allgenes")) {
+//				isAllGenes = true;
+//				allGenesCriteria = new AllGenesCriteria(isAllGenes);
+//			}
+//		}
+	}
+
+	public void setGeneList(String geneList) {
+		this.geneList = geneList;
 	}
 
 	/**
@@ -791,30 +648,34 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	 */
 	public void setFoldChangeValueDown(String foldChangeValueDown) {
 		this.foldChangeValueDown = foldChangeValueDown;
-		if (thisRequest != null) {
-			String thisRegulationStatus = this.thisRequest
-					.getParameter("regulationStatus");
-			
-			if (thisRegulationStatus != null
-					&& thisRegulationStatus.equalsIgnoreCase("down")
-					&& (this.foldChangeValueDown.length() > 0)){
-				
-				try {
-				    ExprFoldChangeDE foldChangeDEObj = new ExprFoldChangeDE.DownRegulation(Float.valueOf(this.foldChangeValueDown));
-				    foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);
-			        }
-			    catch(NumberFormatException e){}
-				
-			}
-		}
+		
+		//Shan: need to move somewhere else
+		
+//		if (thisRequest != null) {
+//			String thisRegulationStatus = this.thisRequest
+//					.getParameter("regulationStatus");
+//			
+//			if (thisRegulationStatus != null
+//					&& thisRegulationStatus.equalsIgnoreCase("down")
+//					&& (this.foldChangeValueDown.length() > 0)){
+//				
+//				try {
+//				    ExprFoldChangeDE foldChangeDEObj = new ExprFoldChangeDE.DownRegulation(Float.valueOf(this.foldChangeValueDown));
+//				    foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);
+//			        }
+//			    catch(NumberFormatException e){}
+//				
+//			}
+//		}
 
 	}
 
-	public void setFoldChangeValueDown(ExprFoldChangeDE exprFoldChangeDE) {
-		if ( exprFoldChangeDE != null ) {
-			this.foldChangeValueDown = exprFoldChangeDE.getValueObject().toString();
-		}
-	}	
+	//Shan: Need to do this later
+//	public void setFoldChangeValueDown(ExprFoldChangeDE exprFoldChangeDE) {
+//		if ( exprFoldChangeDE != null ) {
+//			this.foldChangeValueDown = exprFoldChangeDE.getValueObject().toString();
+//		}
+//	}	
 
 	/**
 	 * Returns the cytobandRegion.
@@ -833,37 +694,39 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	 */
 	public void setCytobandRegionStart(String cytobandRegionStart) {
 		this.cytobandRegionStart = cytobandRegionStart;
-		if (thisRequest != null) {
-			String thisRegion = this.thisRequest.getParameter("region");
-			String thisChrNumber = this.thisRequest
-					.getParameter("chromosomeNumber");
-
-			if (thisChrNumber != null && thisChrNumber.trim().length() > 0) {
-
-				if (thisRegion != null
-						&& thisRegion.equalsIgnoreCase("cytoband")
-						&& this.cytobandRegionStart.trim().length() > 0) {
-					if(regionCriteria == null){
-						regionCriteria = new RegionCriteria();
-					}
-					CytobandDE cytobandDE = new CytobandDE(this.cytobandRegionStart);
-					regionCriteria.setStartCytoband(cytobandDE);
-					
-				}
-			}
-		}
+		
+		//Shan: Need to change this somewhere else
+//		if (thisRequest != null) {
+//			String thisRegion = this.thisRequest.getParameter("region");
+//			String thisChrNumber = this.thisRequest
+//					.getParameter("chromosomeNumber");
+//
+//			if (thisChrNumber != null && thisChrNumber.trim().length() > 0) {
+//
+//				if (thisRegion != null
+//						&& thisRegion.equalsIgnoreCase("cytoband")
+//						&& this.cytobandRegionStart.trim().length() > 0) {
+//					if(regionCriteria == null){
+//						regionCriteria = new RegionCriteria();
+//					}
+//					CytobandDE cytobandDE = new CytobandDE(this.cytobandRegionStart);
+//					regionCriteria.setStartCytoband(cytobandDE);
+//					
+//				}
+//			}
+//		}
 
 	}
 
-	public void setCytobandRegionStart(CytobandDE cytobandDE) {
-		if ( cytobandDE != null )
-			this.cytobandRegionStart = cytobandDE.getValueObject();
-	}
+//	public void setCytobandRegionStart(CytobandDE cytobandDE) {
+//		if ( cytobandDE != null )
+//			this.cytobandRegionStart = cytobandDE.getValueObject();
+//	}
 	
-	public void setCytobandRegionEnd(CytobandDE cytobandDE) {
-		if ( cytobandDE != null )
-			this.cytobandRegionEnd = cytobandDE.getValueObject();
-	}
+//	public void setCytobandRegionEnd(CytobandDE cytobandDE) {
+//		if ( cytobandDE != null )
+//			this.cytobandRegionEnd = cytobandDE.getValueObject();
+//	}
 
 	/**
 	 * Returns the cloneId.
@@ -999,39 +862,40 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 
 		this.cloneListSpecify = cloneListSpecify;
 		
-		if (thisRequest != null) {
-			// this is to check if the radio button is selected for the clone
-			// category
-			String thisCloneId = (String) thisRequest.getParameter("cloneId");
-
-			// this is to check the type of the clone
-			String thisCloneList = (String) thisRequest.getParameter("cloneList");
-
-			if (thisCloneId != null && thisCloneList != null
-					&& !thisCloneList.equals("")) {
-				if (this.cloneListSpecify != null
-						&& !cloneListSpecify.equals("")) {
-					cloneOrProbeIDCriteria = new CloneOrProbeIDCriteria();
-					CloneIdentifierDE cloneIdentfierDEObj = null;
-					String[] cloneStr = cloneListSpecify.split("\\x2C");
-					for (int i = 0; i < cloneStr.length; i++) {
-						if (thisCloneList.equalsIgnoreCase("imageId")) {
-							cloneIdentfierDEObj = new CloneIdentifierDE.IMAGEClone(cloneStr[i].trim());							
-						} 
-						else if (thisCloneList.equalsIgnoreCase("BACId")) {
-							cloneIdentfierDEObj = new CloneIdentifierDE.BACClone(cloneStr[i].trim());
-						} 
-						else if (thisCloneList.equalsIgnoreCase("probeSetId")) {
-							cloneIdentfierDEObj = new CloneIdentifierDE.ProbesetID(cloneStr[i].trim());
-						}
-						
-					cloneOrProbeIDCriteria.setCloneIdentifier(cloneIdentfierDEObj);
-					} // end of for loop
-				}// end of if(this.cloneListSpecify != null &&
-				// !cloneListSpecify.equals("")){
-
-			}
-		}
+		//Shan: Need to change this somewhere else
+//		if (thisRequest != null) {
+//			// this is to check if the radio button is selected for the clone
+//			// category
+//			String thisCloneId = (String) thisRequest.getParameter("cloneId");
+//
+//			// this is to check the type of the clone
+//			String thisCloneList = (String) thisRequest.getParameter("cloneList");
+//
+//			if (thisCloneId != null && thisCloneList != null
+//					&& !thisCloneList.equals("")) {
+//				if (this.cloneListSpecify != null
+//						&& !cloneListSpecify.equals("")) {
+//					cloneOrProbeIDCriteria = new CloneOrProbeIDCriteria();
+//					CloneIdentifierDE cloneIdentfierDEObj = null;
+//					String[] cloneStr = cloneListSpecify.split("\\x2C");
+//					for (int i = 0; i < cloneStr.length; i++) {
+//						if (thisCloneList.equalsIgnoreCase("imageId")) {
+//							cloneIdentfierDEObj = new CloneIdentifierDE.IMAGEClone(cloneStr[i].trim());							
+//						} 
+//						else if (thisCloneList.equalsIgnoreCase("BACId")) {
+//							cloneIdentfierDEObj = new CloneIdentifierDE.BACClone(cloneStr[i].trim());
+//						} 
+//						else if (thisCloneList.equalsIgnoreCase("probeSetId")) {
+//							cloneIdentfierDEObj = new CloneIdentifierDE.ProbesetID(cloneStr[i].trim());
+//						}
+//						
+//					cloneOrProbeIDCriteria.setCloneIdentifier(cloneIdentfierDEObj);
+//					} // end of for loop
+//				}// end of if(this.cloneListSpecify != null &&
+//				// !cloneListSpecify.equals("")){
+//
+//			}
+//		}
 	}
 
 	/**
@@ -1071,14 +935,15 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	public void setGoClassification(String goClassification) {
 		this.goClassification = goClassification;
 		String goSelect = null;
-		if (thisRequest != null) {
-			goSelect = (String) thisRequest.getParameter("goClassification");
-		}
-		if (goSelect != null && !goSelect.equals("")) {
-			geneOntologyCriteria = new GeneOntologyCriteria();
-			GeneOntologyDE geneOntologyDEObj = new GeneOntologyDE(this.goClassification);
-			geneOntologyCriteria.setGOIdentifier(geneOntologyDEObj);		
-		}
+		//Shan: Need to change this somewhere else
+//		if (thisRequest != null) {
+//			goSelect = (String) thisRequest.getParameter("goClassification");
+//		}
+//		if (goSelect != null && !goSelect.equals("")) {
+//			geneOntologyCriteria = new GeneOntologyCriteria();
+//			GeneOntologyDE geneOntologyDEObj = new GeneOntologyDE(this.goClassification);
+//			geneOntologyCriteria.setGOIdentifier(geneOntologyDEObj);		
+//		}
 
 	}
 
@@ -1100,34 +965,35 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	public void setBasePairEnd(String basePairEnd) {
 		this.basePairEnd = basePairEnd.trim();
 
-		if (thisRequest != null) {
-			String thisRegion = this.thisRequest.getParameter("region");
-			String thisChrNumber = this.thisRequest
-					.getParameter("chromosomeNumber");
-			String thisBasePairStart = this.thisRequest
-					.getParameter("basePairStart");
-
-			if (thisChrNumber != null && thisChrNumber.trim().length() > 0) {
-				if (thisRegion != null && thisBasePairStart != null
-						&& this.basePairEnd != null) {
-					if ((thisRegion.equalsIgnoreCase("basePairPosition"))
-							&& (thisBasePairStart.trim().length() > 0)
-							&& (this.basePairEnd.trim().length() > 0)) {
-						if(regionCriteria == null){
-							regionCriteria = new RegionCriteria();
-						}
-						BasePairPositionDE.EndPosition basePairEndDE = new BasePairPositionDE.EndPosition(new Long(this.basePairEnd));
-						regionCriteria.setEnd(basePairEndDE);
-					}
-				}
-			}
-		}
+		//Shan: Need to change this somewhere else
+//		if (thisRequest != null) {
+//			String thisRegion = this.thisRequest.getParameter("region");
+//			String thisChrNumber = this.thisRequest
+//					.getParameter("chromosomeNumber");
+//			String thisBasePairStart = this.thisRequest
+//					.getParameter("basePairStart");
+//
+//			if (thisChrNumber != null && thisChrNumber.trim().length() > 0) {
+//				if (thisRegion != null && thisBasePairStart != null
+//						&& this.basePairEnd != null) {
+//					if ((thisRegion.equalsIgnoreCase("basePairPosition"))
+//							&& (thisBasePairStart.trim().length() > 0)
+//							&& (this.basePairEnd.trim().length() > 0)) {
+//						if(regionCriteria == null){
+//							regionCriteria = new RegionCriteria();
+//						}
+//						BasePairPositionDE.EndPosition basePairEndDE = new BasePairPositionDE.EndPosition(new Long(this.basePairEnd));
+//						regionCriteria.setEnd(basePairEndDE);
+//					}
+//				}
+//			}
+//		}
 	}
 
-	public void setBasePairEnd(BasePairPositionDE basePairPositionDE ) {
-		if ( basePairPositionDE != null )
-			this.basePairEnd = basePairPositionDE.getValueObject().toString();
-	}
+//	public void setBasePairEnd(BasePairPositionDE basePairPositionDE ) {
+//		if ( basePairPositionDE != null )
+//			this.basePairEnd = basePairPositionDE.getValueObject().toString();
+//	}
 	
 	/**
 	 * Returns the chromosomeNumber.
@@ -1137,6 +1003,8 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	public String getChromosomeNumber() {
 		return chromosomeNumber;
 	}
+	
+	
 
 	/**
 	 * Set the chromosomeNumber.
@@ -1144,7 +1012,8 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	 * @param chromosomeNumber
 	 *            The chromosomeNumber to set
 	 */
-	public void setChromosomeNumber(String chromosomeIndex) {
+	
+	public void setChromosomeRegionCriteria(String chromosomeIndex) {
 		//IMPORTANT! The chromosomeNumber is actually the
 		//index into the chromosome List where the selected
 		//chromosome can be found.  It is NOT the actual chromosome
@@ -1171,17 +1040,17 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 
 	}
 
-	public void setChromosomeNumber(ChromosomeNumberDE chromosomeNumberDE) {
-		if ( chromosomeNumberDE != null )
-		{
-			for ( ChromosomeBean chromosome : chromosomes){
-				if ( chromosome.getLabel().equals( chromosomeNumberDE.getValueObject() )) {
-					this.chromosomeNumber = chromosome.getValue();
-					break;
-				}
-			}
-		}
-	}	
+//	public void setChromosomeNumber(ChromosomeNumberDE chromosomeNumberDE) {
+//		if ( chromosomeNumberDE != null )
+//		{
+//			for ( ChromosomeBean chromosome : chromosomes){
+//				if ( chromosome.getLabel().equals( chromosomeNumberDE.getValueObject() )) {
+//					this.chromosomeNumber = chromosome.getValue();
+//					break;
+//				}
+//			}
+//		}
+//	}	
 	
 	/**
 	 * Returns the regulationStatus.
@@ -1190,6 +1059,10 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	 */
 	public String getRegulationStatus() {
 		return regulationStatus;
+	}
+
+	public void setChromosomeNumber(String chromosomeNumber) {
+		this.chromosomeNumber = chromosomeNumber;
 	}
 
 	/**
@@ -1220,29 +1093,31 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	public void setFoldChangeValueUnchangeFrom(
 			String foldChangeValueUnchangeFrom) {
 		this.foldChangeValueUnchangeFrom = foldChangeValueUnchangeFrom;
-		if (thisRequest != null) {
-			String thisRegulationStatus = this.thisRequest
-					.getParameter("regulationStatus");
-			
-			if (thisRegulationStatus != null
-					&& thisRegulationStatus.equalsIgnoreCase("unchange")
-					&& (this.foldChangeValueUnchangeFrom.length() > 0)){
-			try {	
-			   ExprFoldChangeDE foldChangeDEObj = new ExprFoldChangeDE.UnChangedRegulationDownLimit(Float.valueOf(this.foldChangeValueUnchangeFrom));
-			   foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);		
-				
-			  }
-			 catch(NumberFormatException e){}
-			
-			}
-		}
+		
+		//Shan: Need to change this somewhere else
+//		if (thisRequest != null) {
+//			String thisRegulationStatus = this.thisRequest
+//					.getParameter("regulationStatus");
+//			
+//			if (thisRegulationStatus != null
+//					&& thisRegulationStatus.equalsIgnoreCase("unchange")
+//					&& (this.foldChangeValueUnchangeFrom.length() > 0)){
+//			try {	
+//			   ExprFoldChangeDE foldChangeDEObj = new ExprFoldChangeDE.UnChangedRegulationDownLimit(Float.valueOf(this.foldChangeValueUnchangeFrom));
+//			   foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);		
+//				
+//			  }
+//			 catch(NumberFormatException e){}
+//			
+//			}
+//		}
 	}
 	
-	public void setFoldChangeValueUnchangeFrom(ExprFoldChangeDE exprFoldChangeDE) {
-		if ( exprFoldChangeDE != null ) {
-			this.foldChangeValueUnchangeFrom = exprFoldChangeDE.getValueObject().toString();
-		}
-	}	
+//	public void setFoldChangeValueUnchangeFrom(ExprFoldChangeDE exprFoldChangeDE) {
+//		if ( exprFoldChangeDE != null ) {
+//			this.foldChangeValueUnchangeFrom = exprFoldChangeDE.getValueObject().toString();
+//		}
+//	}	
 	
 
 	/**
@@ -1267,27 +1142,29 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	 */
 	public void setFoldChangeValueUnchangeTo(String foldChangeValueUnchangeTo) {
 		this.foldChangeValueUnchangeTo = foldChangeValueUnchangeTo;
-		if (thisRequest != null) {
-			String thisRegulationStatus = this.thisRequest
-					.getParameter("regulationStatus");
-			
-			if (thisRegulationStatus != null
-					&& thisRegulationStatus.equalsIgnoreCase("unchange")
-					&& (this.foldChangeValueUnchangeTo.length() > 0)) {
-				try {
-				    ExprFoldChangeDE foldChangeDEObj = new ExprFoldChangeDE.UnChangedRegulationUpperLimit(Float.valueOf(this.foldChangeValueUnchangeTo));
-				    foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);
-				}
-				 catch(NumberFormatException e){}
-			}
-		}
+		
+		//Shan: Need to change this somewhere else
+//		if (thisRequest != null) {
+//			String thisRegulationStatus = this.thisRequest
+//					.getParameter("regulationStatus");
+//			
+//			if (thisRegulationStatus != null
+//					&& thisRegulationStatus.equalsIgnoreCase("unchange")
+//					&& (this.foldChangeValueUnchangeTo.length() > 0)) {
+//				try {
+//				    ExprFoldChangeDE foldChangeDEObj = new ExprFoldChangeDE.UnChangedRegulationUpperLimit(Float.valueOf(this.foldChangeValueUnchangeTo));
+//				    foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);
+//				}
+//				 catch(NumberFormatException e){}
+//			}
+//		}
 	}
 	
-	public void setFoldChangeValueUnchangeTo(ExprFoldChangeDE exprFoldChangeDE) {
-		if ( exprFoldChangeDE != null ) {
-			this.foldChangeValueUnchangeTo = exprFoldChangeDE.getValueObject().toString();
-		}
-	}	
+//	public void setFoldChangeValueUnchangeTo(ExprFoldChangeDE exprFoldChangeDE) {
+//		if ( exprFoldChangeDE != null ) {
+//			this.foldChangeValueUnchangeTo = exprFoldChangeDE.getValueObject().toString();
+//		}
+//	}	
 	
 
 	/**
@@ -1308,32 +1185,35 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	public void setFoldChangeValueUp(String foldChangeValueUp) {
 		this.foldChangeValueUp = foldChangeValueUp;
 		logger.debug("I am in the setFoldChangeValueUp() method");
-		if (thisRequest != null) {
-			String thisRegulationStatus = this.thisRequest
-					.getParameter("regulationStatus");
-			
-
-			if (thisRegulationStatus != null
-					&& thisRegulationStatus.equalsIgnoreCase("up")
-					&& (this.foldChangeValueUp.length() > 0)){
-				
-				try {
-			
-				   ExprFoldChangeDE foldChangeDEObj = new ExprFoldChangeDE.UpRegulation(Float.valueOf(this.foldChangeValueUp));
-				   foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);		
-				
-			     }
-    
-				 catch(NumberFormatException e){}
-		   }
-		}
+		
+		//Shan: Need to change this somewhere else
+//		if (thisRequest != null) {
+//			String thisRegulationStatus = this.thisRequest
+//					.getParameter("regulationStatus");
+//			
+//
+//			if (thisRegulationStatus != null
+//					&& thisRegulationStatus.equalsIgnoreCase("up")
+//					&& (this.foldChangeValueUp.length() > 0)){
+//				
+//				try {
+//			
+//				   ExprFoldChangeDE foldChangeDEObj = new ExprFoldChangeDE.UpRegulation(Float.valueOf(this.foldChangeValueUp));
+//				   foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);		
+//				
+//			     }
+//    
+//				 catch(NumberFormatException e){}
+//		   }
+//		}
 	}
 
-	public void setFoldChangeValueUp(ExprFoldChangeDE exprFoldChangeDE) {
-		if ( exprFoldChangeDE != null ) {
-			this.foldChangeValueUp = exprFoldChangeDE.getValueObject().toString();
-		}
-	}	
+	//Shan: Need to change this somewhere else
+//	public void setFoldChangeValueUp(ExprFoldChangeDE exprFoldChangeDE) {
+//		if ( exprFoldChangeDE != null ) {
+//			this.foldChangeValueUp = exprFoldChangeDE.getValueObject().toString();
+//		}
+//	}	
 	
 	/**
 	 * Returns the geneType.
@@ -1372,31 +1252,33 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	 */
 	public void setFoldChangeValueUDUp(String foldChangeValueUDUp) {
 		this.foldChangeValueUDUp = foldChangeValueUDUp;
-		if (thisRequest != null) {
-			String thisRegulationStatus = this.thisRequest
-					.getParameter("regulationStatus");
-			logger
-					.debug("I am in the setFoldChangeValueUDUp()  thisRegulationStatus:"
-							+ thisRegulationStatus);
-			
-			if (thisRegulationStatus != null
-					&& thisRegulationStatus.equalsIgnoreCase("updown")
-					&& (this.foldChangeValueUDUp.length() > 0)) {
-				try {
-				   ExprFoldChangeDE foldChangeDEObj = new ExprFoldChangeDE.UpRegulation(Float.valueOf(this.foldChangeValueUDUp));
-				   foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);	
-			
-			       }
-			   catch(NumberFormatException e){}
-			}
-		}
+		
+		//Shan: Need to change this somewhere else
+//		if (thisRequest != null) {
+//			String thisRegulationStatus = this.thisRequest
+//					.getParameter("regulationStatus");
+//			logger
+//					.debug("I am in the setFoldChangeValueUDUp()  thisRegulationStatus:"
+//							+ thisRegulationStatus);
+//			
+//			if (thisRegulationStatus != null
+//					&& thisRegulationStatus.equalsIgnoreCase("updown")
+//					&& (this.foldChangeValueUDUp.length() > 0)) {
+//				try {
+//				   ExprFoldChangeDE foldChangeDEObj = new ExprFoldChangeDE.UpRegulation(Float.valueOf(this.foldChangeValueUDUp));
+//				   foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);	
+//			
+//			       }
+//			   catch(NumberFormatException e){}
+//			}
+//		}
 	}
 	
-	public void setFoldChangeValueUDUp(ExprFoldChangeDE exprFoldChangeDE) {
-		if ( exprFoldChangeDE != null ) {
-			this.foldChangeValueUDUp = exprFoldChangeDE.getValueObject().toString();
-		}
-	}	
+//	public void setFoldChangeValueUDUp(ExprFoldChangeDE exprFoldChangeDE) {
+//		if ( exprFoldChangeDE != null ) {
+//			this.foldChangeValueUDUp = exprFoldChangeDE.getValueObject().toString();
+//		}
+//	}	
 	
 
 	/**
@@ -1416,33 +1298,35 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	 */
 	public void setFoldChangeValueUDDown(String foldChangeValueUDDown) {
 		this.foldChangeValueUDDown = foldChangeValueUDDown;
-		if (thisRequest != null) {
-			String thisRegulationStatus = this.thisRequest
-					.getParameter("regulationStatus");
-			logger.debug("I am in the setFoldChangeValueUDDown() methid: "
-					+ thisRegulationStatus);
-			
-			if (thisRegulationStatus != null
-					&& thisRegulationStatus.equalsIgnoreCase("updown")
-					&& (this.foldChangeValueUDDown.length() > 0)){
-				
-				try {
-				    ExprFoldChangeDE foldChangeDEObj = new ExprFoldChangeDE.DownRegulation(Float.valueOf(this.foldChangeValueUDDown));
-				    foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);
-				    
-			     }
-			    catch(NumberFormatException e){}
-			}
-				
-		}
+		
+		//Shan: Need to change this somewhere else
+//		if (thisRequest != null) {
+//			String thisRegulationStatus = this.thisRequest
+//					.getParameter("regulationStatus");
+//			logger.debug("I am in the setFoldChangeValueUDDown() methid: "
+//					+ thisRegulationStatus);
+//			
+//			if (thisRegulationStatus != null
+//					&& thisRegulationStatus.equalsIgnoreCase("updown")
+//					&& (this.foldChangeValueUDDown.length() > 0)){
+//				
+//				try {
+//				    ExprFoldChangeDE foldChangeDEObj = new ExprFoldChangeDE.DownRegulation(Float.valueOf(this.foldChangeValueUDDown));
+//				    foldChangeCriteria.setFoldChangeObject(foldChangeDEObj);
+//				    
+//			     }
+//			    catch(NumberFormatException e){}
+//			}
+//				
+//		}
 
 	}
 	
-	public void setFoldChangeValueUDDown(ExprFoldChangeDE exprFoldChangeDE) {
-		if ( exprFoldChangeDE != null ) {
-			this.foldChangeValueUDDown = exprFoldChangeDE.getValueObject().toString();
-		}
-	}	
+//	public void setFoldChangeValueUDDown(ExprFoldChangeDE exprFoldChangeDE) {
+//		if ( exprFoldChangeDE != null ) {
+//			this.foldChangeValueUDDown = exprFoldChangeDE.getValueObject().toString();
+//		}
+//	}	
 	
 
 	/**
@@ -1545,35 +1429,37 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	 */
 	public void setBasePairStart(String basePairStart) {
 		this.basePairStart = basePairStart.trim();
-		if (thisRequest != null) {
-			String thisRegion = this.thisRequest.getParameter("region");
-			String thisChrNumber = this.thisRequest
-					.getParameter("chromosomeNumber");
-			String thisBasePairEnd = this.thisRequest
-					.getParameter("basePairEnd");
-
-			if (thisChrNumber != null && thisChrNumber.trim().length() > 0) {
-				if (thisRegion != null && this.basePairStart != null
-						&& thisBasePairEnd != null) {
-					if ((thisRegion.equalsIgnoreCase("basePairPosition"))
-							&& (thisBasePairEnd.trim().length() > 0)
-							&& (this.basePairStart.trim().length() > 0)) {
-						if(regionCriteria == null){
-							regionCriteria = new RegionCriteria();
-						}
-						BasePairPositionDE.StartPosition basePairStartDE = new BasePairPositionDE.StartPosition(new Long(this.basePairStart));
-						regionCriteria.setStart(basePairStartDE);
-					}
-				}
-			}
-		}
+		
+		//Shan: Need to change this somewhere else
+//		if (thisRequest != null) {
+//			String thisRegion = this.thisRequest.getParameter("region");
+//			String thisChrNumber = this.thisRequest
+//					.getParameter("chromosomeNumber");
+//			String thisBasePairEnd = this.thisRequest
+//					.getParameter("basePairEnd");
+//
+//			if (thisChrNumber != null && thisChrNumber.trim().length() > 0) {
+//				if (thisRegion != null && this.basePairStart != null
+//						&& thisBasePairEnd != null) {
+//					if ((thisRegion.equalsIgnoreCase("basePairPosition"))
+//							&& (thisBasePairEnd.trim().length() > 0)
+//							&& (this.basePairStart.trim().length() > 0)) {
+//						if(regionCriteria == null){
+//							regionCriteria = new RegionCriteria();
+//						}
+//						BasePairPositionDE.StartPosition basePairStartDE = new BasePairPositionDE.StartPosition(new Long(this.basePairStart));
+//						regionCriteria.setStart(basePairStartDE);
+//					}
+//				}
+//			}
+//		}
 
 	}
 
-	public void setBasePairStart(BasePairPositionDE basePairPositionDE) {
-		if ( basePairPositionDE != null )
-			this.basePairStart = basePairPositionDE.getValueObject().toString();
-	}
+//	public void setBasePairStart(BasePairPositionDE basePairPositionDE) {
+//		if ( basePairPositionDE != null )
+//			this.basePairStart = basePairPositionDE.getValueObject().toString();
+//	}
 	
 	public ArrayList getCloneTypeColl() {
 		return cloneTypeColl;
@@ -1640,28 +1526,7 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 		form.setBasePairStart(basePairStart);
 		form.setQueryCollection(queryCollection);
 		form.setExcludeResections(excludeResections);
-		/*
-		 * form.setCloneTypeColl(cloneTypeColl);
-		 * form.setArrayPlatformTypeColl(arrayPlatformTypeColl);
-		 * form.setDiseaseOrGradeCriteria(diseaseOrGradeCriteria);
-		 * form.setGeneCriteria(geneCriteria);
-		 * form.setFoldChangeCriteria(foldChangeCriteria);
-		 * form.setRegionCriteria(regionCriteria);
-		 * form.setCloneOrProbeIDCriteria(cloneOrProbeIDCriteria);
-		 * form.setGeneOntologyCriteria(geneOntologyCriteria);
-		 * form.setPathwayCriteria(pathwayCriteria);
-		 * form.setArrayPlatform(arrayPlatformCriteria);
-		 * form.setUntranslatedRegionCriteria(untranslatedRegionCriteria);
-		 * form.setDiseaseDomainMap(diseaseDomainMap);
-		 * form.setGeneDomainMap(geneDomainMap);
-		 * form.setFoldUpDomainMap(foldUpDomainMap);
-		 * form.setFoldDownDomainMap(foldDownDomainMap);
-		 * form.setRegionDomainMap(regionDomainMap);
-		 * form.setCloneDomainMap(cloneDomainMap);
-		 * form.setGeneOntologyDomainMap(geneOntologyDomainMap);
-		 * form.setPathwayDomainMap(pathwayDomainMap);
-		 * form.setArrayPlatformDomainMap(arrayPlatformDomainMap);
-		 */
+		
 
 		return form;
 	}
@@ -1694,24 +1559,26 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
      */
     public void setCytobandRegionEnd(String cytobandRegionEnd) {
         this.cytobandRegionEnd = cytobandRegionEnd;
-		if (thisRequest != null) {
-			String thisRegion2 = this.thisRequest.getParameter("region");
-			String thisChrNumber2 = this.thisRequest
-					.getParameter("chromosomeNumber");
-
-			if (thisChrNumber2 != null && thisChrNumber2.trim().length() > 0) {
-
-				if (thisRegion2 != null
-						&& thisRegion2.equalsIgnoreCase("cytoband")
-						&& this.cytobandRegionEnd.trim().length() > 0) {
-					if(regionCriteria == null){
-						regionCriteria = new RegionCriteria();
-					}
-					CytobandDE cytobandDE = new CytobandDE(this.cytobandRegionEnd);
-					regionCriteria.setEndCytoband(cytobandDE);
-				}
-			}
-		}
+		
+      //Shan: Need to change this somewhere else
+//        if (thisRequest != null) {
+//			String thisRegion2 = this.thisRequest.getParameter("region");
+//			String thisChrNumber2 = this.thisRequest
+//					.getParameter("chromosomeNumber");
+//
+//			if (thisChrNumber2 != null && thisChrNumber2.trim().length() > 0) {
+//
+//				if (thisRegion2 != null
+//						&& thisRegion2.equalsIgnoreCase("cytoband")
+//						&& this.cytobandRegionEnd.trim().length() > 0) {
+//					if(regionCriteria == null){
+//						regionCriteria = new RegionCriteria();
+//					}
+//					CytobandDE cytobandDE = new CytobandDE(this.cytobandRegionEnd);
+//					regionCriteria.setEndCytoband(cytobandDE);
+//				}
+//			}
+//		}
 		
 
     }
@@ -1758,7 +1625,7 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	    savedCloneList = groupRetriever.getCloneGroupsCollection(request.getSession());
 	}
 
-
+	
 	
 	
 }
