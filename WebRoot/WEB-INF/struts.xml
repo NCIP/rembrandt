@@ -186,6 +186,42 @@
          	<param name="actionName">login</param>
          	</result>
 	</action>
+	
+	<action name="submitStandard"
+            class="gov.nih.nci.rembrandt.web.struts2.action.GeneExpressionAction" method="submitStandard">
+         <result name="advanceSearchMenu" type="tiles">nautilus.menu</result>
+         <result name="backToGeneExp" type="tiles">nautilus.geneExpression</result>
+         <result name="showAllGenes" type="tiles">nautilus.allGenesGE</result>
+         <result name="previewReport" type="redirectAction">
+         	<param name="actionName">previewGeneReport</param>
+         	</result>
+         
+        <result name="viewResults" type="redirectAction">
+         	<param name="actionName">viewResults</param>
+         	</result>
+         
+         <result name="failure" type="redirectAction">
+         	<param name="actionName">login</param>
+         	</result>
+	</action>
+	
+	<action name="getCytobands"
+            class="gov.nih.nci.rembrandt.web.struts2.action.GeneExpressionAction" method="getCytobands">
+         <result name="advanceSearchMenu" type="tiles">nautilus.menu</result>
+         <result name="backToGeneExp" type="tiles">nautilus.geneExpression</result>
+         <result name="showAllGenes" type="tiles">nautilus.allGenesGE</result>
+         <result name="previewReport" type="redirectAction">
+         	<param name="actionName">previewGeneReport</param>
+         	</result>
+         
+        <result name="viewResults" type="redirectAction">
+         	<param name="actionName">viewResults</param>
+         	</result>
+         
+         <result name="failure" type="redirectAction">
+         	<param name="actionName">login</param>
+         	</result>
+	</action>
     
     <!-- scope="request"
             parameter="method"
