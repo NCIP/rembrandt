@@ -50,6 +50,7 @@ import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.helper.ListConvertor;
 import gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper;
 import gov.nih.nci.rembrandt.web.struts2.form.ClinicalDataForm;
+import gov.nih.nci.rembrandt.web.struts2.form.ComparativeGenomicForm;
 import gov.nih.nci.rembrandt.web.struts2.form.GeneExpressionForm;
 
 
@@ -68,8 +69,10 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.ServletRequestAware;
+import org.apache.struts2.interceptor.SessionAware;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.Preparable;
 
 
 
@@ -130,17 +133,34 @@ import com.opensymphony.xwork2.ActionSupport;
 * 
 */
 
-public class ClinicalDataAction extends ActionSupport implements ServletRequestAware {
+public class ClinicalDataAction extends GeneExpressionAction /*ActionActionSupport implements SessionAware, ServletRequestAware, Preparable */{
 //extends LookupDispatchAction {
     private static Logger logger = Logger.getLogger(ClinicalDataAction.class);
     private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
    //if multiUse button clicked (with styles de-activated) forward back to page
     
-    HttpServletRequest servletRequest;
+    //HttpServletRequest servletRequest;
+    //Map<String, Object> sessionMap;
+    
     ClinicalDataForm clinicalDataForm;
+    ClinicalDataForm clinicalDataFormInSession;
     
-    
-    public String multiUse()
+    @Override
+	public void prepare() throws Exception {
+    	super.prepare();
+    	
+    	clinicalDataFormInSession = (ClinicalDataForm)sessionMap.get("clinicalDataForm");
+		if (clinicalDataFormInSession == null) {
+			clinicalDataFormInSession = new ClinicalDataForm();
+			sessionMap.put("comparativeGenomicForm", clinicalDataFormInSession);
+		}
+		
+		//Do we reset everytime
+		clinicalDataFormInSession.reset(this.servletRequest);
+		
+	}
+
+	public String multiUse()
 	throws Exception {
 		
 		return "backToClinical";
@@ -161,19 +181,24 @@ public class ClinicalDataAction extends ActionSupport implements ServletRequestA
      * @throws Exception
      */
     
-    public String setup(HttpServletRequest request)
-    throws Exception {
+    public String setup() {
+    //throws Exception {
     	
-    	String sID = request.getHeader("Referer");
+    	super.setup();
+    	
+    	String sID = this.servletRequest.getHeader("Referer");
     	// prevents Referer Header injection
     	if ( sID != null && sID != "" && !sID.contains("rembrandt")) {
     		return "failure";
     	}
-
+    	
+    	clinicalDataForm = clinicalDataFormInSession;
         //ClinicalDataForm clinicalDataForm = (ClinicalDataForm) this.;
         GroupRetriever groupRetriever = new GroupRetriever();
-        clinicalDataForm.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession()));
+        clinicalDataForm.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(servletRequest.getSession()));
         //saveToken(request);
+        
+        sessionMap.put("clinicalDataForm", clinicalDataForm);
         return "backToClinical";
     }
     
@@ -191,7 +216,7 @@ public class ClinicalDataAction extends ActionSupport implements ServletRequestA
     public String unspecified(HttpServletRequest request)
     throws Exception {
         
-    	this.setup(request);
+    	this.setup();
         //saveToken(request);
         return "backToClinical";
     }
@@ -515,6 +540,12 @@ public class ClinicalDataAction extends ActionSupport implements ServletRequestA
 
 	public void setClinicalDataForm(ClinicalDataForm clinicalDataForm) {
 		this.clinicalDataForm = clinicalDataForm;
+	}
+
+	@Override
+	public void setSession(Map<String, Object> arg0) {
+		this.sessionMap = arg0;
+		
 	}
 
 

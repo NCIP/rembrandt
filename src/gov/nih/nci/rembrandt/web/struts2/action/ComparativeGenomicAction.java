@@ -49,6 +49,7 @@ import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.helper.ListConvertor;
 import gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper;
 import gov.nih.nci.rembrandt.web.struts2.form.ComparativeGenomicForm;
+import gov.nih.nci.rembrandt.web.struts2.form.GeneExpressionForm;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -70,8 +71,10 @@ import org.apache.log4j.Logger;
 //import org.apache.struts.action.ActionMapping;
 //import org.apache.struts.actions.LookupDispatchAction;
 import org.apache.struts2.interceptor.ServletRequestAware;
+import org.apache.struts2.interceptor.SessionAware;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.Preparable;
 
 
 
@@ -132,17 +135,43 @@ import com.opensymphony.xwork2.ActionSupport;
 * 
 */
 
-public class ComparativeGenomicAction extends ActionSupport implements ServletRequestAware { 
+public class ComparativeGenomicAction extends GeneExpressionAction /*ActionSupport implements SessionAware, ServletRequestAware, Preparable*/ { 
 //Shan
 // extends LookupDispatchAction {
     private static Logger logger = Logger.getLogger(ComparativeGenomicAction.class);
     private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
     
-    HttpServletRequest servletRequest;
+    //HttpServletRequest servletRequest;
     ComparativeGenomicForm comparativeGenomicForm;
+    ComparativeGenomicForm comparativeGenomicFormInSession;
+    
+    //Map<String, Object> sessionMap;
+    
+    //GeneExpressionForm geneExpressionForm;
+    //GeneExpressionForm geneExpressionFormInSession;
+    
+    
+    @Override
+	public void prepare() throws Exception {
+		
+    	super.prepare();
+    	
+    	comparativeGenomicFormInSession = (ComparativeGenomicForm)sessionMap.get("comparativeGenomicForm");
+		if (comparativeGenomicFormInSession == null) {
+			comparativeGenomicFormInSession = new ComparativeGenomicForm();
+			sessionMap.put("comparativeGenomicForm", comparativeGenomicFormInSession);
+		}
+		
+		//Do we reset everytime
+		comparativeGenomicFormInSession.reset(this.servletRequest);
+		//geneExpressionForm = form;
+		
+	}
     
    
-    //if multiUse button clicked (with styles de-activated) forward back to page
+    
+
+	//if multiUse button clicked (with styles de-activated) forward back to page
     public String multiUse()
 	throws Exception {
         //saveToken(request);
@@ -166,8 +195,10 @@ public class ComparativeGenomicAction extends ActionSupport implements ServletRe
      */
     
     //Setup the comparativeGenomicForm from menu page
-    public String setup()
-	throws Exception {
+    public String setup() {
+	//throws Exception {
+    	
+    	super.setup();
     	
     	String sID = servletRequest.getHeader("Referer");
     	
@@ -176,7 +207,8 @@ public class ComparativeGenomicAction extends ActionSupport implements ServletRe
     		return "failure";
     	}
 
-		//ComparativeGenomicForm comparativeGenomicForm = (ComparativeGenomicForm) form;
+		comparativeGenomicForm = comparativeGenomicFormInSession;
+		//this.geneExpressionForm = geneExpressionFormInSession;
 		
     	//Since Chromosomes is a static variable there is no need to set it twice.
 		//It is only a lookup option collection
@@ -189,7 +221,7 @@ public class ComparativeGenomicAction extends ActionSupport implements ServletRe
         comparativeGenomicForm.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(servletRequest.getSession()));
         
         //saveToken(request);
-
+        sessionMap.put("comparativeGenomicForm", comparativeGenomicForm);
 		return "backToCGH";
     }
     
@@ -706,6 +738,7 @@ public class ComparativeGenomicAction extends ActionSupport implements ServletRe
 	@Override
 	public void setServletRequest(HttpServletRequest arg0) {
 		// TODO Auto-generated method stub
+		servletRequest = arg0;
 		
 	}
 
@@ -721,6 +754,27 @@ public class ComparativeGenomicAction extends ActionSupport implements ServletRe
 	public HttpServletRequest getServletRequest() {
 		return servletRequest;
 	}
+
+
+	@Override
+	public void setSession(Map<String, Object> arg0) {
+		// TODO Auto-generated method stub
+		sessionMap = arg0;
+	}
+
+
+
+//
+//	public GeneExpressionForm getGeneExpressionForm() {
+//		return geneExpressionForm;
+//	}
+//
+//
+//
+//
+//	public void setGeneExpressionForm(GeneExpressionForm geneExpressionForm) {
+//		this.geneExpressionForm = geneExpressionForm;
+//	}
     
     
 }
