@@ -49,7 +49,9 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
@@ -148,6 +150,8 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 
     /** assayPlatform property */
     private String assayPlatform;
+    
+    private Map<String, String> assayPlatforms;
 
     /** region property */
     private String region;
@@ -368,6 +372,9 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
          analysisTypeColl.add(new LabelValueBean(AnalysisType.PAIRED.toString(),AnalysisType.PAIRED.name()));
         analysisTypeColl.add(new LabelValueBean(AnalysisType.UNPAIRED.toString(),AnalysisType.UNPAIRED.name()));
         analysisTypeColl.add(new LabelValueBean(AnalysisType.NORMAL.toString(),AnalysisType.NORMAL.name()));
+        
+        this.assayPlatforms = new HashMap<String, String>();
+        assayPlatforms.put("Affymetrix 100K SNP Arrays", "100K SNP Array");
     }
 
     /**
@@ -593,98 +600,50 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 			geneList = MoreStringUtils.cleanJavascript(geneList);
 
         this.geneList = geneList;
-        if (thisRequest != null) {
-        	
-        	String thisGeneType = this.thisRequest.getParameter("geneType");
-			//String thisGeneGroup = this.thisRequest.getParameter("geneGroup");
-            geneCriteria = new GeneIDCriteria();
-            GeneIdentifierDE geneIdentifierDE = null;
-			if ((geneList != null)
-					//&& thisGeneGroup.equalsIgnoreCase("Specify")
-					&& (thisGeneType.length() > 0)
-					&& (this.geneList.length() > 0)) {
-
-				String[] splitValue = this.geneList.split("\\x2C");
-
-				for (int i = 0; i < splitValue.length; i++) {
-
-					if (thisGeneType.equalsIgnoreCase("genesymbol")) {
-                        geneIdentifierDE = new GeneIdentifierDE.GeneSymbol(splitValue[i].trim());
-					} else if (thisGeneType.equalsIgnoreCase("genelocus")) {
-                        geneIdentifierDE = new GeneIdentifierDE.LocusLink(splitValue[i].trim());
-					} else if (thisGeneType.equalsIgnoreCase("genbankno")) {
-                        geneIdentifierDE = new GeneIdentifierDE.GenBankAccessionNumber(splitValue[i].trim());
-                        
-					} //else if (thisGeneType.equalsIgnoreCase("allgenes")) {
-						//geneDomainMap.put(splitValue[i].trim(),
-						//		GeneIdentifierDE.GeneSymbol.class.getName());
-                        
-					//}
-                    geneCriteria.setGeneIdentifier(geneIdentifierDE);
-				}
-			}
-			
-			/*
-            // this is the ratio button indicating gene choice has been seleted.
-            String thisGeneGroup = (String) this.thisRequest
-                    .getParameter("geneGroup");
-
-            // this indicates the type of gene choices: either it is gene
-            // name/symbo,
-            // locus link id or genBank accNo
-            String thisGeneType = (String) this.thisRequest
-                    .getParameter("geneType");
-
-            if (thisGeneGroup != null
-                    && thisGeneGroup.equalsIgnoreCase("Specify")
-                    && thisGeneType != null) {
-            	geneCriteria = new GeneIDCriteria();
-
-                if (!thisGeneType.equals("allgenes") && this.geneList != null
-                        && !this.geneList.equals("")) {
-                    String[] geneStr = this.geneList.split("\\x2C");
-                    for (int i = 0; i < geneStr.length; i++) {
-                        if (thisGeneType.equalsIgnoreCase("genesymbol")) {                        	
-                        	
-                        	 GeneIdentifierDE geneIdentifierDE = new GeneIdentifierDE.GeneSymbol(geneStr[i].trim());                          	
-                        	 geneCriteria.setGeneIdentifier(geneIdentifierDE);
-                        
-                        } else if (thisGeneType.equalsIgnoreCase("genelocus")) {
-                       	     GeneIdentifierDE geneIdentifierDE = new GeneIdentifierDE.LocusLink(geneStr[i].trim());                          	
-                    	     geneCriteria.setGeneIdentifier(geneIdentifierDE);                    
-                          
-                        } else if (thisGeneType
-                                .equalsIgnoreCase("genbankno")) {
-                        	 GeneIdentifierDE geneIdentifierDE = new GeneIdentifierDE.GenBankAccessionNumber(geneStr[i].trim());                          	
-                     	     geneCriteria.setGeneIdentifier(geneIdentifierDE);                            	 
-                          
-                        }
-                    } // end of for loop
-                }// end of if(this.geneList != null &&
-                 // !this.geneList.equals(""))
-                else if (thisGeneType.equals("allgenes")
-                        && this.geneList == null) {
-                	 GeneIdentifierDE geneIdentifierDE = new GeneIdentifierDE.GeneSymbol("allgenes");                          	
-                	 geneCriteria.setGeneIdentifier(geneIdentifierDE);
-                   
-                }
-                
-                
-            }
-            
-          */  
-        }
+//        if (thisRequest != null) {
+//        	
+//        	String thisGeneType = this.thisRequest.getParameter("geneType");
+//			//String thisGeneGroup = this.thisRequest.getParameter("geneGroup");
+//            geneCriteria = new GeneIDCriteria();
+//            GeneIdentifierDE geneIdentifierDE = null;
+//			if ((geneList != null)
+//					//&& thisGeneGroup.equalsIgnoreCase("Specify")
+//					&& (thisGeneType.length() > 0)
+//					&& (this.geneList.length() > 0)) {
+//
+//				String[] splitValue = this.geneList.split("\\x2C");
+//
+//				for (int i = 0; i < splitValue.length; i++) {
+//
+//					if (thisGeneType.equalsIgnoreCase("genesymbol")) {
+//                        geneIdentifierDE = new GeneIdentifierDE.GeneSymbol(splitValue[i].trim());
+//					} else if (thisGeneType.equalsIgnoreCase("genelocus")) {
+//                        geneIdentifierDE = new GeneIdentifierDE.LocusLink(splitValue[i].trim());
+//					} else if (thisGeneType.equalsIgnoreCase("genbankno")) {
+//                        geneIdentifierDE = new GeneIdentifierDE.GenBankAccessionNumber(splitValue[i].trim());
+//                        
+//					} //else if (thisGeneType.equalsIgnoreCase("allgenes")) {
+//						//geneDomainMap.put(splitValue[i].trim(),
+//						//		GeneIdentifierDE.GeneSymbol.class.getName());
+//                        
+//					//}
+//                    geneCriteria.setGeneIdentifier(geneIdentifierDE);
+//				}
+//			}
+//			
+//			
+//        }
     }
     
-	public void setGeneList(Collection<GeneIdentifierDE> geneIdentifiers) {
-		StringBuffer geneBuffer = new StringBuffer();
-		
-		for( GeneIdentifierDE ge :  geneIdentifiers ) {
-			geneBuffer.append( ge.getValueObject() );
-		}
-			
-			this.geneList = geneBuffer.toString();
-	}
+//	public void setGeneList(Collection<GeneIdentifierDE> geneIdentifiers) {
+//		StringBuffer geneBuffer = new StringBuffer();
+//		
+//		for( GeneIdentifierDE ge :  geneIdentifiers ) {
+//			geneBuffer.append( ge.getValueObject() );
+//		}
+//			
+//			this.geneList = geneBuffer.toString();
+//	}
 
 	public void setGeneIDCriteria( GeneIDCriteria geneCriteria ) {
 		this.geneCriteria = geneCriteria;
@@ -698,16 +657,16 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 	 */
 	public void setGeneOption(String geneOption){
 	    this.geneOption = geneOption;
-	    if (thisRequest != null){
-	        String thisGeneOption = this.thisRequest.getParameter("geneOption");
-	        if (thisGeneOption != null
-	                && thisGeneOption.equalsIgnoreCase("allgenes")){
-	            //set all Genes query and give copyNumber default value
-	            isAllGenes = true;	           
-	            allGenesCriteria = new AllGenesCriteria(isAllGenes);	            
-	            
-	            }
-	    }
+//	    if (thisRequest != null){
+//	        String thisGeneOption = this.thisRequest.getParameter("geneOption");
+//	        if (thisGeneOption != null
+//	                && thisGeneOption.equalsIgnoreCase("allgenes")){
+//	            //set all Genes query and give copyNumber default value
+//	            isAllGenes = true;	           
+//	            allGenesCriteria = new AllGenesCriteria(isAllGenes);	            
+//	            
+//	            }
+//	    }
 	}
 	
 	/**
@@ -890,25 +849,25 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
      */
     public void setCytobandRegionStart(String cytobandRegionStart) {
         this.cytobandRegionStart = cytobandRegionStart;
-		if (thisRequest != null) {
-			String thisRegion = this.thisRequest.getParameter("region");
-			String thisChrNumber = this.thisRequest
-					.getParameter("chromosomeNumber");
-
-			if (thisChrNumber != null && thisChrNumber.trim().length() > 0) {
-
-				if (thisRegion != null
-						&& thisRegion.equalsIgnoreCase("cytoband")
-						&& this.cytobandRegionStart.trim().length() > 0) {
-					if(regionCriteria == null){
-						regionCriteria = new RegionCriteria();
-					}
-					CytobandDE cytobandDE = new CytobandDE(this.cytobandRegionStart);
-					regionCriteria.setStartCytoband(cytobandDE);
-					
-				}
-			}
-		}
+//		if (thisRequest != null) {
+//			String thisRegion = this.thisRequest.getParameter("region");
+//			String thisChrNumber = this.thisRequest
+//					.getParameter("chromosomeNumber");
+//
+//			if (thisChrNumber != null && thisChrNumber.trim().length() > 0) {
+//
+//				if (thisRegion != null
+//						&& thisRegion.equalsIgnoreCase("cytoband")
+//						&& this.cytobandRegionStart.trim().length() > 0) {
+//					if(regionCriteria == null){
+//						regionCriteria = new RegionCriteria();
+//					}
+//					CytobandDE cytobandDE = new CytobandDE(this.cytobandRegionStart);
+//					regionCriteria.setStartCytoband(cytobandDE);
+//					
+//				}
+//			}
+//		}
 
 
     }
@@ -924,38 +883,38 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
      */
     public void setCytobandRegionEnd(String cytobandRegionEnd) {
         this.cytobandRegionEnd = cytobandRegionEnd;
-		if (thisRequest != null) {
-			String thisRegion2 = this.thisRequest.getParameter("region");
-			String thisChrNumber2 = this.thisRequest
-					.getParameter("chromosomeNumber");
-
-			if (thisChrNumber2 != null && thisChrNumber2.trim().length() > 0) {
-
-				if (thisRegion2 != null
-						&& thisRegion2.equalsIgnoreCase("cytoband")
-						&& this.cytobandRegionEnd.trim().length() > 0) {
-					if(regionCriteria == null){
-						regionCriteria = new RegionCriteria();
-					}
-					CytobandDE cytobandDE = new CytobandDE(this.cytobandRegionEnd);
-					regionCriteria.setEndCytoband(cytobandDE);
-				}
-			}
-		}
+//		if (thisRequest != null) {
+//			String thisRegion2 = this.thisRequest.getParameter("region");
+//			String thisChrNumber2 = this.thisRequest
+//					.getParameter("chromosomeNumber");
+//
+//			if (thisChrNumber2 != null && thisChrNumber2.trim().length() > 0) {
+//
+//				if (thisRegion2 != null
+//						&& thisRegion2.equalsIgnoreCase("cytoband")
+//						&& this.cytobandRegionEnd.trim().length() > 0) {
+//					if(regionCriteria == null){
+//						regionCriteria = new RegionCriteria();
+//					}
+//					CytobandDE cytobandDE = new CytobandDE(this.cytobandRegionEnd);
+//					regionCriteria.setEndCytoband(cytobandDE);
+//				}
+//			}
+//		}
 		
 
 
     }
     
-	public void setCytobandRegionStart(CytobandDE cytobandDE) {
-		if ( cytobandDE != null )
-			this.cytobandRegionStart = cytobandDE.getValueObject();
-	}
-	
-	public void setCytobandRegionEnd(CytobandDE cytobandDE) {
-		if ( cytobandDE != null )
-			this.cytobandRegionEnd = cytobandDE.getValueObject();
-	}
+//	public void setCytobandRegionStart(CytobandDE cytobandDE) {
+//		if ( cytobandDE != null )
+//			this.cytobandRegionStart = cytobandDE.getValueObject();
+//	}
+//	
+//	public void setCytobandRegionEnd(CytobandDE cytobandDE) {
+//		if ( cytobandDE != null )
+//			this.cytobandRegionEnd = cytobandDE.getValueObject();
+//	}
     
 
     /**
@@ -1022,30 +981,30 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
      */
     public void setCnAmplified(String cnAmplified) {
         this.cnAmplified = cnAmplified;
-        if (thisRequest != null) {
-            // need to make sure the parameters such as copyNumberAmplified and
-            // regulationStatus
-            // match the ones declared on the copyNumber_tile.jsp
-            String thisCopyNumber = this.thisRequest.getParameter("copyNumber");
-            if (thisCopyNumber != null
-                    && thisCopyNumber.equalsIgnoreCase("amplified")
-                    && (this.cnAmplified != null && this.cnAmplified.trim().length() > 0)) {
-              try{
-           	         	
-              	 copyNumberCriteria = new CopyNumberCriteria();
-     			if(this.cnAmplified != null){
-    				Double calculatedCopyNumber = new Double(Float.valueOf(this.cnAmplified)/2) ;
-    				calculatedCopyNumber = MathUtil.getLog2(calculatedCopyNumber);
-               	 	SNPableDE copyNumberDE = new CopyNumberDE.Amplification(calculatedCopyNumber.floatValue());
-               	 	copyNumberCriteria.setCopyNumber(copyNumberDE);   
-    			}
-         	                                            
-           	    }
-             catch(NumberFormatException e){}
-            	
-              }
-               
-            }
+//        if (thisRequest != null) {
+//            // need to make sure the parameters such as copyNumberAmplified and
+//            // regulationStatus
+//            // match the ones declared on the copyNumber_tile.jsp
+//            String thisCopyNumber = this.thisRequest.getParameter("copyNumber");
+//            if (thisCopyNumber != null
+//                    && thisCopyNumber.equalsIgnoreCase("amplified")
+//                    && (this.cnAmplified != null && this.cnAmplified.trim().length() > 0)) {
+//              try{
+//           	         	
+//              	 copyNumberCriteria = new CopyNumberCriteria();
+//     			if(this.cnAmplified != null){
+//    				Double calculatedCopyNumber = new Double(Float.valueOf(this.cnAmplified)/2) ;
+//    				calculatedCopyNumber = MathUtil.getLog2(calculatedCopyNumber);
+//               	 	SNPableDE copyNumberDE = new CopyNumberDE.Amplification(calculatedCopyNumber.floatValue());
+//               	 	copyNumberCriteria.setCopyNumber(copyNumberDE);   
+//    			}
+//         	                                            
+//           	    }
+//             catch(NumberFormatException e){}
+//            	
+//              }
+//               
+//            }
          }
 
     /**
@@ -1056,32 +1015,32 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
      */
     public void setSmAmplified(String smAmplified) {
         this.smAmplified = smAmplified;
-        if (thisRequest != null) {
-            // need to make sure the parameters such as segmentMeanAmplified and
-            // regulationStatus
-            // match the ones declared on the segmentMean_tile.jsp
-            String thisSegmentMean = this.thisRequest.getParameter("segmentMean");
-            if (thisSegmentMean != null
-                    && thisSegmentMean.equalsIgnoreCase("amplified")
-                    && (this.smAmplified != null && this.smAmplified.trim().length() > 0)) {
-              try {
-           	         	
-              	 segmentMeanCriteria = new SegmentMeanCriteria();
-              	 SegmentMeanDE segmentMeanDE = new SegmentMeanDE.Amplification(Float.valueOf(this.smAmplified));
-              	 segmentMeanCriteria.setSegmentMean(segmentMeanDE);            	                                            
-           	  } catch(NumberFormatException e){
-           	  }
-           }        
-        }
+//        if (thisRequest != null) {
+//            // need to make sure the parameters such as segmentMeanAmplified and
+//            // regulationStatus
+//            // match the ones declared on the segmentMean_tile.jsp
+//            String thisSegmentMean = this.thisRequest.getParameter("segmentMean");
+//            if (thisSegmentMean != null
+//                    && thisSegmentMean.equalsIgnoreCase("amplified")
+//                    && (this.smAmplified != null && this.smAmplified.trim().length() > 0)) {
+//              try {
+//           	         	
+//              	 segmentMeanCriteria = new SegmentMeanCriteria();
+//              	 SegmentMeanDE segmentMeanDE = new SegmentMeanDE.Amplification(Float.valueOf(this.smAmplified));
+//              	 segmentMeanCriteria.setSegmentMean(segmentMeanDE);            	                                            
+//           	  } catch(NumberFormatException e){
+//           	  }
+//           }        
+//        }
     }
     
-    public void setCnAmplified(SNPableDE copyNumberDE) {
-    	this.cnAmplified = copyNumberDE.getValueObject().toString();
-    }
-    
-    public void setSmAmplified(SegmentMeanDE segmentMeanDE) {
-    	this.smAmplified = segmentMeanDE.getValueObject().toString();
-    }
+//    public void setCnAmplified(SNPableDE copyNumberDE) {
+//    	this.cnAmplified = copyNumberDE.getValueObject().toString();
+//    }
+//    
+//    public void setSmAmplified(SegmentMeanDE segmentMeanDE) {
+//    	this.smAmplified = segmentMeanDE.getValueObject().toString();
+//    }
     
     /**
      * Returns the cloneListFile.
@@ -1100,50 +1059,50 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
      */
     public void setCloneListFile(String cloneListFile) {
         this.cloneListFile = cloneListFile;
-        if (thisRequest != null) {
-            // this is to check if the radio button is selected for the clone
-            // category
-            String thisCloneId = (String) thisRequest.getParameter("cloneId");
-            // this is to check the type of the clone
-            String thisCloneList = (String) thisRequest
-                    .getParameter("cloneList");
-            if ((thisCloneId != null) && thisCloneId.equalsIgnoreCase("Upload")
-                    && (thisCloneList.length() > 0)
-                    && (this.cloneListFile.length() > 0)) {
-
-                File cloneFile = new File(this.cloneListFile);
-                String line = null;
-                cloneOrProbeIDCriteria = new CloneOrProbeIDCriteria();
-                try {
-                    FileReader editfr = new FileReader(cloneFile);
-                    BufferedReader inFile = new BufferedReader(editfr);
-                    line = inFile.readLine();
-                    int i = 0;
-
-                    while (line != null && line.length() > 0) {
-                        StringTokenizer st = new StringTokenizer(line);
-                        while (st.hasMoreTokens()) {
-                            String token = st.nextToken();
-                            if (thisCloneList.equalsIgnoreCase("imageId")) {
-                              	 CloneIdentifierDE cloneIdentifierDE = new CloneIdentifierDE.IMAGEClone(token);                                                                            
-                                 cloneOrProbeIDCriteria.setCloneIdentifier(cloneIdentifierDE);
-                               
-                            } else if (thisCloneList.equalsIgnoreCase("BACId")) {
-	                           	 CloneIdentifierDE cloneIdentifierDE = new CloneIdentifierDE.IMAGEClone(token);                                                                            
-	                             cloneOrProbeIDCriteria.setCloneIdentifier(cloneIdentifierDE);
-                            }
-
-                        }
-                        line = inFile.readLine();
-                    }// end of while
-
-                    inFile.close();
-                } catch (IOException ex) {
-                    logger.error("Errors when uploading gene file:"
-                            + ex.getMessage());
-                }
-            }
-        }
+//        if (thisRequest != null) {
+//            // this is to check if the radio button is selected for the clone
+//            // category
+//            String thisCloneId = (String) thisRequest.getParameter("cloneId");
+//            // this is to check the type of the clone
+//            String thisCloneList = (String) thisRequest
+//                    .getParameter("cloneList");
+//            if ((thisCloneId != null) && thisCloneId.equalsIgnoreCase("Upload")
+//                    && (thisCloneList.length() > 0)
+//                    && (this.cloneListFile.length() > 0)) {
+//
+//                File cloneFile = new File(this.cloneListFile);
+//                String line = null;
+//                cloneOrProbeIDCriteria = new CloneOrProbeIDCriteria();
+//                try {
+//                    FileReader editfr = new FileReader(cloneFile);
+//                    BufferedReader inFile = new BufferedReader(editfr);
+//                    line = inFile.readLine();
+//                    int i = 0;
+//
+//                    while (line != null && line.length() > 0) {
+//                        StringTokenizer st = new StringTokenizer(line);
+//                        while (st.hasMoreTokens()) {
+//                            String token = st.nextToken();
+//                            if (thisCloneList.equalsIgnoreCase("imageId")) {
+//                              	 CloneIdentifierDE cloneIdentifierDE = new CloneIdentifierDE.IMAGEClone(token);                                                                            
+//                                 cloneOrProbeIDCriteria.setCloneIdentifier(cloneIdentifierDE);
+//                               
+//                            } else if (thisCloneList.equalsIgnoreCase("BACId")) {
+//	                           	 CloneIdentifierDE cloneIdentifierDE = new CloneIdentifierDE.IMAGEClone(token);                                                                            
+//	                             cloneOrProbeIDCriteria.setCloneIdentifier(cloneIdentifierDE);
+//                            }
+//
+//                        }
+//                        line = inFile.readLine();
+//                    }// end of while
+//
+//                    inFile.close();
+//                } catch (IOException ex) {
+//                    logger.error("Errors when uploading gene file:"
+//                            + ex.getMessage());
+//                }
+//            }
+       // }
 
     }
 
@@ -1164,36 +1123,36 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
      */
     public void setCloneListSpecify(String cloneListSpecify) {
         this.cloneListSpecify = cloneListSpecify;
-        if (thisRequest != null) {
-            // this is to check if the radio button is selected for the clone
-            // category
-            String thisCloneId = (String) thisRequest.getParameter("cloneId");
-            // this is to check the type of the clone
-            String thisCloneList = (String) thisRequest
-                    .getParameter("cloneList");
-            if (thisCloneId != null && thisCloneList != null
-                    && !thisCloneList.equals("")) {
-            	cloneOrProbeIDCriteria = new CloneOrProbeIDCriteria();
-                if (this.cloneListSpecify != null
-                        && !this.cloneListSpecify.equals("")) {
-                    String[] cloneStr = this.cloneListSpecify.split("\\x2C");
-                    for (int i = 0; i < cloneStr.length; i++) {
-                        if (thisCloneList.equalsIgnoreCase("imageId")) {
-                        	 CloneIdentifierDE cloneIdentifierDE = new CloneIdentifierDE.IMAGEClone(cloneStr[i].trim());                                                                            
-                             cloneOrProbeIDCriteria.setCloneIdentifier(cloneIdentifierDE);                           
-                        } else if (thisCloneList.equalsIgnoreCase("BACId")) {
-	                       	 CloneIdentifierDE cloneIdentifierDE = new CloneIdentifierDE.BACClone(cloneStr[i].trim());                                                                            
-	                         cloneOrProbeIDCriteria.setCloneIdentifier(cloneIdentifierDE);        
-	                
-                          
-                        }
-
-                    } // end of for loop
-                }// end of if(this.cloneListSpecify != null &&
-                 // !cloneListSpecify.equals("")){
-
-            }
-        }
+//        if (thisRequest != null) {
+//            // this is to check if the radio button is selected for the clone
+//            // category
+//            String thisCloneId = (String) thisRequest.getParameter("cloneId");
+//            // this is to check the type of the clone
+//            String thisCloneList = (String) thisRequest
+//                    .getParameter("cloneList");
+//            if (thisCloneId != null && thisCloneList != null
+//                    && !thisCloneList.equals("")) {
+//            	cloneOrProbeIDCriteria = new CloneOrProbeIDCriteria();
+//                if (this.cloneListSpecify != null
+//                        && !this.cloneListSpecify.equals("")) {
+//                    String[] cloneStr = this.cloneListSpecify.split("\\x2C");
+//                    for (int i = 0; i < cloneStr.length; i++) {
+//                        if (thisCloneList.equalsIgnoreCase("imageId")) {
+//                        	 CloneIdentifierDE cloneIdentifierDE = new CloneIdentifierDE.IMAGEClone(cloneStr[i].trim());                                                                            
+//                             cloneOrProbeIDCriteria.setCloneIdentifier(cloneIdentifierDE);                           
+//                        } else if (thisCloneList.equalsIgnoreCase("BACId")) {
+//	                       	 CloneIdentifierDE cloneIdentifierDE = new CloneIdentifierDE.BACClone(cloneStr[i].trim());                                                                            
+//	                         cloneOrProbeIDCriteria.setCloneIdentifier(cloneIdentifierDE);        
+//	                
+//                          
+//                        }
+//
+//                    } // end of for loop
+//                }// end of if(this.cloneListSpecify != null &&
+//                 // !cloneListSpecify.equals("")){
+//
+//            }
+//        }
     }
 
     /**
@@ -1213,41 +1172,41 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
      */
     public void setSnpListSpecify(String snpListSpecify) {
         this.snpListSpecify = snpListSpecify;
-        if (thisRequest != null) {
-            // this is to check if the radio button is selected for the SNP
-            // category
-            String thisSNPId = thisRequest.getParameter("snpId");
-
-            // this is to check the type of the SNP
-            String thisSNPList = thisRequest.getParameter("snpList");
-            
-
-            if (thisSNPId != null && thisSNPId.equalsIgnoreCase("specify")
-                    && thisSNPList != null && !thisSNPList.equals("")) {
-                if (this.snpListSpecify != null
-                        && !this.snpListSpecify.equals("")) {
-                    String[] snpStr = this.snpListSpecify.split("\\x2C");
-                    snpCriteria = new SNPCriteria();
-                    for (int i = 0; i < snpStr.length; i++) {
-                        if (thisSNPList.equalsIgnoreCase("TSCId")) {
-                        	  SNPIdentifierDE snpIdentifierDE =   new SNPIdentifierDE.TSC(snpStr[i].trim());
-                        	  snpCriteria.setSNPIdentifier(snpIdentifierDE);
-                         
-                        } else if (thisSNPList.equalsIgnoreCase("dBSNPId")) {
-	                      	  SNPIdentifierDE snpIdentifierDE =   new SNPIdentifierDE.DBSNP(snpStr[i].trim());
-	                    	  snpCriteria.setSNPIdentifier(snpIdentifierDE);	                     
-                         
-                        } else if (thisSNPList.equalsIgnoreCase("probeSetId")) {
-                        	  SNPIdentifierDE snpIdentifierDE =   new SNPIdentifierDE.SNPProbeSet(snpStr[i].trim());
-	                    	  snpCriteria.setSNPIdentifier(snpIdentifierDE);                       
-                        
-                        }
-                    } // end of for loop
-                }// end of if(thisSNPId != null && thisSNPList != null &&
-                 // !thisSNPList.equals("")){
-
-            }
-        }
+//        if (thisRequest != null) {
+//            // this is to check if the radio button is selected for the SNP
+//            // category
+//            String thisSNPId = thisRequest.getParameter("snpId");
+//
+//            // this is to check the type of the SNP
+//            String thisSNPList = thisRequest.getParameter("snpList");
+//            
+//
+//            if (thisSNPId != null && thisSNPId.equalsIgnoreCase("specify")
+//                    && thisSNPList != null && !thisSNPList.equals("")) {
+//                if (this.snpListSpecify != null
+//                        && !this.snpListSpecify.equals("")) {
+//                    String[] snpStr = this.snpListSpecify.split("\\x2C");
+//                    snpCriteria = new SNPCriteria();
+//                    for (int i = 0; i < snpStr.length; i++) {
+//                        if (thisSNPList.equalsIgnoreCase("TSCId")) {
+//                        	  SNPIdentifierDE snpIdentifierDE =   new SNPIdentifierDE.TSC(snpStr[i].trim());
+//                        	  snpCriteria.setSNPIdentifier(snpIdentifierDE);
+//                         
+//                        } else if (thisSNPList.equalsIgnoreCase("dBSNPId")) {
+//	                      	  SNPIdentifierDE snpIdentifierDE =   new SNPIdentifierDE.DBSNP(snpStr[i].trim());
+//	                    	  snpCriteria.setSNPIdentifier(snpIdentifierDE);	                     
+//                         
+//                        } else if (thisSNPList.equalsIgnoreCase("probeSetId")) {
+//                        	  SNPIdentifierDE snpIdentifierDE =   new SNPIdentifierDE.SNPProbeSet(snpStr[i].trim());
+//	                    	  snpCriteria.setSNPIdentifier(snpIdentifierDE);                       
+//                        
+//                        }
+//                    } // end of for loop
+//                }// end of if(thisSNPId != null && thisSNPList != null &&
+//                 // !thisSNPList.equals("")){
+//
+//            }
+//        }
     }
 
     /**
@@ -1289,22 +1248,22 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         // need to make sure the parameters such as copyNumberADAmplified and
         // regulationStatus
         // match the ones declared on the copyNumber_tile.jsp
-        if (thisRequest != null) {
-            String thisCopyNumber = this.thisRequest.getParameter("copyNumber");
-
-            if (thisCopyNumber != null
-                    && thisCopyNumber.equalsIgnoreCase("ampdel")
-                    && (this.cnADAmplified != null && this.cnADAmplified.trim().length() >=1)) {
-            	try{       		
-        				Double calculatedCopyNumber = new Double(Float.valueOf(this.cnADAmplified)/2) ;
-        				calculatedCopyNumber = MathUtil.getLog2(calculatedCopyNumber);
-        				SNPableDE copyNumberDE = new CopyNumberDE.Amplification(calculatedCopyNumber.floatValue());
-        				copyNumberCriteria.setCopyNumber(copyNumberDE);            	                                            
-	           	   
-            	 }
-               catch(NumberFormatException e){}
-            }
-        }
+//        if (thisRequest != null) {
+//            String thisCopyNumber = this.thisRequest.getParameter("copyNumber");
+//
+//            if (thisCopyNumber != null
+//                    && thisCopyNumber.equalsIgnoreCase("ampdel")
+//                    && (this.cnADAmplified != null && this.cnADAmplified.trim().length() >=1)) {
+//            	try{       		
+//        				Double calculatedCopyNumber = new Double(Float.valueOf(this.cnADAmplified)/2) ;
+//        				calculatedCopyNumber = MathUtil.getLog2(calculatedCopyNumber);
+//        				SNPableDE copyNumberDE = new CopyNumberDE.Amplification(calculatedCopyNumber.floatValue());
+//        				copyNumberCriteria.setCopyNumber(copyNumberDE);            	                                            
+//	           	   
+//            	 }
+//               catch(NumberFormatException e){}
+//            }
+//        }
 
     }
     
@@ -1350,34 +1309,34 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
     public void setBasePairEnd(String basePairEnd) {
         this.basePairEnd = basePairEnd.trim();
 
-		if (thisRequest != null) {
-			String thisRegion = this.thisRequest.getParameter("region");
-			String thisChrNumber = this.thisRequest
-					.getParameter("chromosomeNumber");
-			String thisBasePairStart = this.thisRequest
-					.getParameter("basePairStart");
-
-			if (thisChrNumber != null && thisChrNumber.trim().length() > 0) {
-				if (thisRegion != null && thisBasePairStart != null
-						&& this.basePairEnd != null) {
-					if ((thisRegion.equalsIgnoreCase("basePairPosition"))
-							&& (thisBasePairStart.trim().length() > 0)
-							&& (this.basePairEnd.trim().length() > 0)) {
-						if(regionCriteria == null){
-							regionCriteria = new RegionCriteria();
-						}
-						BasePairPositionDE.EndPosition basePairEndDE = new BasePairPositionDE.EndPosition(new Long(this.basePairEnd));
-						regionCriteria.setEnd(basePairEndDE);
-					}
-				}
-			}
-		}
+//		if (thisRequest != null) {
+//			String thisRegion = this.thisRequest.getParameter("region");
+//			String thisChrNumber = this.thisRequest
+//					.getParameter("chromosomeNumber");
+//			String thisBasePairStart = this.thisRequest
+//					.getParameter("basePairStart");
+//
+//			if (thisChrNumber != null && thisChrNumber.trim().length() > 0) {
+//				if (thisRegion != null && thisBasePairStart != null
+//						&& this.basePairEnd != null) {
+//					if ((thisRegion.equalsIgnoreCase("basePairPosition"))
+//							&& (thisBasePairStart.trim().length() > 0)
+//							&& (this.basePairEnd.trim().length() > 0)) {
+//						if(regionCriteria == null){
+//							regionCriteria = new RegionCriteria();
+//						}
+//						BasePairPositionDE.EndPosition basePairEndDE = new BasePairPositionDE.EndPosition(new Long(this.basePairEnd));
+//						regionCriteria.setEnd(basePairEndDE);
+//					}
+//				}
+//			}
+//		}
     }
     
-	public void setBasePairEnd(BasePairPositionDE basePairPositionDE ) {
-		if ( basePairPositionDE != null )
-			this.basePairEnd = basePairPositionDE.getValueObject().toString();
-	}
+//	public void setBasePairEnd(BasePairPositionDE basePairPositionDE ) {
+//		if ( basePairPositionDE != null )
+//			this.basePairEnd = basePairPositionDE.getValueObject().toString();
+//	}
     
 
     /**
@@ -1402,37 +1361,37 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 		//number.  Chromosome numbers can actually be characters, like
 		// X and Y so we 
 		this.chromosomeNumber = chromosomeIndex;
-		if(!"".equals(chromosomeIndex)) {
-			//Get the chromosome from the Chromosome List
-			try {
-				ChromosomeBean bean = (ChromosomeBean)chromosomes.get(Integer.parseInt(chromosomeIndex));
-				String chromosomeName = bean.getChromosome();
-				if(regionCriteria == null){
-					regionCriteria = new RegionCriteria();
-				}
-				ChromosomeNumberDE chromosomeDE = new  ChromosomeNumberDE(chromosomeName);
-				regionCriteria.setChromNumber(chromosomeDE);
-				logger.debug("Test Chromosome Criteria "+ regionCriteria.getChromNumber().getValue());
-
-			}catch(NumberFormatException nfe) {
-				logger.error("Expected an Integer index for chromosome, got a char or string");
-				logger.error(nfe);
-			}
-		}
+//		if(!"".equals(chromosomeIndex)) {
+//			//Get the chromosome from the Chromosome List
+//			try {
+//				ChromosomeBean bean = (ChromosomeBean)chromosomes.get(Integer.parseInt(chromosomeIndex));
+//				String chromosomeName = bean.getChromosome();
+//				if(regionCriteria == null){
+//					regionCriteria = new RegionCriteria();
+//				}
+//				ChromosomeNumberDE chromosomeDE = new  ChromosomeNumberDE(chromosomeName);
+//				regionCriteria.setChromNumber(chromosomeDE);
+//				logger.debug("Test Chromosome Criteria "+ regionCriteria.getChromNumber().getValue());
+//
+//			}catch(NumberFormatException nfe) {
+//				logger.error("Expected an Integer index for chromosome, got a char or string");
+//				logger.error(nfe);
+//			}
+//		}
 
 	}
     
-	public void setChromosomeNumber(ChromosomeNumberDE chromosomeNumberDE) {
-		if ( chromosomeNumberDE != null )
-		{
-			for ( ChromosomeBean chromosome : chromosomes){
-				if ( chromosome.getLabel().equals( chromosomeNumberDE.getValueObject() )) {
-					this.chromosomeNumber = chromosome.getValue();
-					break;
-				}
-			}
-		}
-	}	
+//	public void setChromosomeNumber(ChromosomeNumberDE chromosomeNumberDE) {
+//		if ( chromosomeNumberDE != null )
+//		{
+//			for ( ChromosomeBean chromosome : chromosomes){
+//				if ( chromosome.getLabel().equals( chromosomeNumberDE.getValueObject() )) {
+//					this.chromosomeNumber = chromosome.getValue();
+//					break;
+//				}
+//			}
+//		}
+//	}	
     
 
 
@@ -1456,28 +1415,28 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         // need to make sure the parameters such as copyNumberADDeleted and
         // regulationStatus
         // match the ones declared on the copyNumber_tile.jsp
-        if (thisRequest != null) {
-            String thisCopyNumber = this.thisRequest.getParameter("copyNumber");
-
-            if (thisCopyNumber != null
-                    && thisCopyNumber.equalsIgnoreCase("ampdel")
-                    && (this.cnADDeleted != null && this.cnADDeleted.trim().length() >=1)) {
-            	try{ 
-            	
-    				Double calculatedCopyNumber = new Double(Float.valueOf(this.cnADDeleted)/2) ;
-    				calculatedCopyNumber = MathUtil.getLog2(calculatedCopyNumber);
-    				SNPableDE copyNumberDE = new CopyNumberDE.Deletion(calculatedCopyNumber.floatValue());
-    				copyNumberCriteria.setCopyNumber(copyNumberDE);    
-            	     
-            	  }
-            	 catch(NumberFormatException e){}
-            }
-        }
+//        if (thisRequest != null) {
+//            String thisCopyNumber = this.thisRequest.getParameter("copyNumber");
+//
+//            if (thisCopyNumber != null
+//                    && thisCopyNumber.equalsIgnoreCase("ampdel")
+//                    && (this.cnADDeleted != null && this.cnADDeleted.trim().length() >=1)) {
+//            	try{ 
+//            	
+//    				Double calculatedCopyNumber = new Double(Float.valueOf(this.cnADDeleted)/2) ;
+//    				calculatedCopyNumber = MathUtil.getLog2(calculatedCopyNumber);
+//    				SNPableDE copyNumberDE = new CopyNumberDE.Deletion(calculatedCopyNumber.floatValue());
+//    				copyNumberCriteria.setCopyNumber(copyNumberDE);    
+//            	     
+//            	  }
+//            	 catch(NumberFormatException e){}
+//            }
+//        }
     }
     
-    public void setCnADDeleted(SNPableDE copyNumberDE) {
-    	this.cnADDeleted = copyNumberDE.getValueObject().toString();
-    }
+//    public void setCnADDeleted(SNPableDE copyNumberDE) {
+//    	this.cnADDeleted = copyNumberDE.getValueObject().toString();
+//    }
     
 
 
@@ -1508,21 +1467,21 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
      */
     public void setCnUnchangeTo(String cnUnchangeTo) {
         this.cnUnchangeTo = cnUnchangeTo;
-        if (thisRequest != null) {
-            String thisCopyNumber = this.thisRequest.getParameter("copyNumber");
-            if (thisCopyNumber != null
-                    && thisCopyNumber.equalsIgnoreCase("unchange")
-                    && (this.cnUnchangeTo != null && this.cnUnchangeTo.trim().length() > 0)) {
-            	 try{
-	     				Double calculatedCopyNumber = new Double(Float.valueOf(this.cnUnchangeTo)/2) ;
-	    				calculatedCopyNumber = MathUtil.getLog2(calculatedCopyNumber);
-	    				SNPableDE copyNumberDE = new CopyNumberDE.UnChangedCopyNumberUpperLimit(calculatedCopyNumber.floatValue());
-	    				copyNumberCriteria.setCopyNumber(copyNumberDE); 
-	            	 }
-
-            	 catch(NumberFormatException e){}
-            }
-        }
+//        if (thisRequest != null) {
+//            String thisCopyNumber = this.thisRequest.getParameter("copyNumber");
+//            if (thisCopyNumber != null
+//                    && thisCopyNumber.equalsIgnoreCase("unchange")
+//                    && (this.cnUnchangeTo != null && this.cnUnchangeTo.trim().length() > 0)) {
+//            	 try{
+//	     				Double calculatedCopyNumber = new Double(Float.valueOf(this.cnUnchangeTo)/2) ;
+//	    				calculatedCopyNumber = MathUtil.getLog2(calculatedCopyNumber);
+//	    				SNPableDE copyNumberDE = new CopyNumberDE.UnChangedCopyNumberUpperLimit(calculatedCopyNumber.floatValue());
+//	    				copyNumberCriteria.setCopyNumber(copyNumberDE); 
+//	            	 }
+//
+//            	 catch(NumberFormatException e){}
+//            }
+//        }
 
     }
 
@@ -1534,30 +1493,30 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
      */
     public void setSmUnchangeTo(String smUnchangeTo) {
         this.smUnchangeTo = smUnchangeTo;
-        if (thisRequest != null) {
-            String thisSegmentMean = this.thisRequest.getParameter("segmentMean");
-            if (thisSegmentMean != null
-                    && thisSegmentMean.equalsIgnoreCase("unchange")
-                    && (this.smUnchangeTo != null && this.smUnchangeTo.trim().length() > 0)) {
-            	 try{
-            		 
-            		 SegmentMeanDE segmentMeanDE = new SegmentMeanDE.UnChangedSegmentMeanUpperLimit(Float.valueOf(this.smUnchangeTo));
-		        	 segmentMeanCriteria.setSegmentMean(segmentMeanDE);  
-	            	 }
-
-            	 catch(NumberFormatException e){}
-            }
-        }
+//        if (thisRequest != null) {
+//            String thisSegmentMean = this.thisRequest.getParameter("segmentMean");
+//            if (thisSegmentMean != null
+//                    && thisSegmentMean.equalsIgnoreCase("unchange")
+//                    && (this.smUnchangeTo != null && this.smUnchangeTo.trim().length() > 0)) {
+//            	 try{
+//            		 
+//            		 SegmentMeanDE segmentMeanDE = new SegmentMeanDE.UnChangedSegmentMeanUpperLimit(Float.valueOf(this.smUnchangeTo));
+//		        	 segmentMeanCriteria.setSegmentMean(segmentMeanDE);  
+//	            	 }
+//
+//            	 catch(NumberFormatException e){}
+//            }
+//        }
 
     }
 
-    public void setCnUnchangeTo(SNPableDE copyNumberDE) {
-    	this.cnUnchangeTo = copyNumberDE.getValueObject().toString();
-    }
-
-    public void setSmUnchangeTo(SegmentMeanDE segmentMeanDE) {
-    	this.smUnchangeTo = segmentMeanDE.getValueObject().toString();
-    }
+//    public void setCnUnchangeTo(SNPableDE copyNumberDE) {
+//    	this.cnUnchangeTo = copyNumberDE.getValueObject().toString();
+//    }
+//
+//    public void setSmUnchangeTo(SegmentMeanDE segmentMeanDE) {
+//    	this.smUnchangeTo = segmentMeanDE.getValueObject().toString();
+//    }
 
     /**
      * Returns the alleleFrequency.
@@ -1699,26 +1658,26 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
      */
     public void setCnDeleted(String cnDeleted) {
         this.cnDeleted = cnDeleted;
-        if (thisRequest != null) {
-            // need to make sure the parameters such as copyNumberDeleted and
-            // regulationStatus
-            // match the ones declared on the copyNumber_tile.jsp
-            String thisCopyNumber = this.thisRequest.getParameter("copyNumber");
-            if (thisCopyNumber != null
-                    && thisCopyNumber.equalsIgnoreCase("deleted")
-                    && (this.cnDeleted != null && this.cnDeleted.trim().length() > 0)) {
-           	try{
-                 		
-       			copyNumberCriteria = new CopyNumberCriteria();
- 				Double calculatedCopyNumber = new Double(Float.valueOf(this.cnDeleted)/2) ;
-				calculatedCopyNumber = MathUtil.getLog2(calculatedCopyNumber);
-				SNPableDE copyNumberDE = new CopyNumberDE.Deletion(calculatedCopyNumber.floatValue());
-				copyNumberCriteria.setCopyNumber(copyNumberDE); 
-           	 
-             }
-            catch(NumberFormatException e){}
-            }
-        }
+//        if (thisRequest != null) {
+//            // need to make sure the parameters such as copyNumberDeleted and
+//            // regulationStatus
+//            // match the ones declared on the copyNumber_tile.jsp
+//            String thisCopyNumber = this.thisRequest.getParameter("copyNumber");
+//            if (thisCopyNumber != null
+//                    && thisCopyNumber.equalsIgnoreCase("deleted")
+//                    && (this.cnDeleted != null && this.cnDeleted.trim().length() > 0)) {
+//           	try{
+//                 		
+//       			copyNumberCriteria = new CopyNumberCriteria();
+// 				Double calculatedCopyNumber = new Double(Float.valueOf(this.cnDeleted)/2) ;
+//				calculatedCopyNumber = MathUtil.getLog2(calculatedCopyNumber);
+//				SNPableDE copyNumberDE = new CopyNumberDE.Deletion(calculatedCopyNumber.floatValue());
+//				copyNumberCriteria.setCopyNumber(copyNumberDE); 
+//           	 
+//             }
+//            catch(NumberFormatException e){}
+//            }
+//        }
     }
 
     /**
@@ -1729,33 +1688,33 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
      */
     public void setSmDeleted(String smDeleted) {
         this.smDeleted = smDeleted;
-        if (thisRequest != null) {
-            // need to make sure the parameters such as segmentMeanDeleted and
-            // regulationStatus
-            // match the ones declared on the segmentMean_tile.jsp
-            String thisSegmentMean = this.thisRequest.getParameter("segmentMean");
-            if (thisSegmentMean != null
-                    && thisSegmentMean.equalsIgnoreCase("deleted")
-                    && (this.smDeleted != null && this.smDeleted.trim().length() > 0)) {
-           	try{
-                 		
-            	 segmentMeanCriteria = new SegmentMeanCriteria();
-            	 SegmentMeanDE segmentMeanDE = new SegmentMeanDE.Deletion(Float.valueOf(this.smDeleted));
-            	 segmentMeanCriteria.setSegmentMean(segmentMeanDE); 
-           	 
-             }
-            catch(NumberFormatException e){}
-            }
-        }
+//        if (thisRequest != null) {
+//            // need to make sure the parameters such as segmentMeanDeleted and
+//            // regulationStatus
+//            // match the ones declared on the segmentMean_tile.jsp
+//            String thisSegmentMean = this.thisRequest.getParameter("segmentMean");
+//            if (thisSegmentMean != null
+//                    && thisSegmentMean.equalsIgnoreCase("deleted")
+//                    && (this.smDeleted != null && this.smDeleted.trim().length() > 0)) {
+//           	try{
+//                 		
+//            	 segmentMeanCriteria = new SegmentMeanCriteria();
+//            	 SegmentMeanDE segmentMeanDE = new SegmentMeanDE.Deletion(Float.valueOf(this.smDeleted));
+//            	 segmentMeanCriteria.setSegmentMean(segmentMeanDE); 
+//           	 
+//             }
+//            catch(NumberFormatException e){}
+//            }
+//        }
     }
     
-    public void setCnDeleted(SNPableDE copyNumberDE) {
-    	this.cnDeleted = copyNumberDE.getValueObject().toString();
-    }
-    
-    public void setSmDeleted(SegmentMeanDE segmentMeanDE) {
-    	this.smDeleted = segmentMeanDE.getValueObject().toString();
-    }
+//    public void setCnDeleted(SNPableDE copyNumberDE) {
+//    	this.cnDeleted = copyNumberDE.getValueObject().toString();
+//    }
+//    
+//    public void setSmDeleted(SegmentMeanDE segmentMeanDE) {
+//    	this.smDeleted = segmentMeanDE.getValueObject().toString();
+//    }
     
 
     /**
@@ -1809,22 +1768,22 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
      */
     public void setCnUnchangeFrom(String cnUnchangeFrom) {
         this.cnUnchangeFrom = cnUnchangeFrom;
-        if (thisRequest != null) {
-            String thisCopyNumber = this.thisRequest.getParameter("copyNumber");
-            if (thisCopyNumber != null
-                    && thisCopyNumber.equalsIgnoreCase("unchange")
-                    && (this.cnUnchangeFrom != null && this.cnUnchangeFrom.trim().length() > 0)) {
-            	try{
-	            	
-		 				Double calculatedCopyNumber = new Double(Float.valueOf(this.cnUnchangeFrom)/2) ;
-						calculatedCopyNumber = MathUtil.getLog2(calculatedCopyNumber);
-						SNPableDE copyNumberDE = new CopyNumberDE.UnChangedCopyNumberDownLimit(calculatedCopyNumber.floatValue());
-						copyNumberCriteria.setCopyNumber(copyNumberDE); 
-		           }
-            	    
-            	 catch(NumberFormatException e){}
-              }
-        }
+//        if (thisRequest != null) {
+//            String thisCopyNumber = this.thisRequest.getParameter("copyNumber");
+//            if (thisCopyNumber != null
+//                    && thisCopyNumber.equalsIgnoreCase("unchange")
+//                    && (this.cnUnchangeFrom != null && this.cnUnchangeFrom.trim().length() > 0)) {
+//            	try{
+//	            	
+//		 				Double calculatedCopyNumber = new Double(Float.valueOf(this.cnUnchangeFrom)/2) ;
+//						calculatedCopyNumber = MathUtil.getLog2(calculatedCopyNumber);
+//						SNPableDE copyNumberDE = new CopyNumberDE.UnChangedCopyNumberDownLimit(calculatedCopyNumber.floatValue());
+//						copyNumberCriteria.setCopyNumber(copyNumberDE); 
+//		           }
+//            	    
+//            	 catch(NumberFormatException e){}
+//              }
+//        }
     }
 
     /**
@@ -1835,29 +1794,29 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
      */
     public void setSmUnchangeFrom(String smUnchangeFrom) {
         this.smUnchangeFrom = smUnchangeFrom;
-        if (thisRequest != null) {
-            String thisSegmentMean = this.thisRequest.getParameter("segmentMean");
-            if (thisSegmentMean != null
-                    && thisSegmentMean.equalsIgnoreCase("unchange")
-                    && (this.smUnchangeFrom != null && this.smUnchangeFrom.trim().length() > 0)) {
-            	try{
-	            	
-			        	 SegmentMeanDE segmentMeanDE = new SegmentMeanDE.UnChangedSegmentMeanDownLimit(Float.valueOf(this.smUnchangeFrom));
-			        	 segmentMeanCriteria.setSegmentMean(segmentMeanDE);           	                                            
-		           }
-            	    
-            	 catch(NumberFormatException e){}
-              }
-        }
+//        if (thisRequest != null) {
+//            String thisSegmentMean = this.thisRequest.getParameter("segmentMean");
+//            if (thisSegmentMean != null
+//                    && thisSegmentMean.equalsIgnoreCase("unchange")
+//                    && (this.smUnchangeFrom != null && this.smUnchangeFrom.trim().length() > 0)) {
+//            	try{
+//	            	
+//			        	 SegmentMeanDE segmentMeanDE = new SegmentMeanDE.UnChangedSegmentMeanDownLimit(Float.valueOf(this.smUnchangeFrom));
+//			        	 segmentMeanCriteria.setSegmentMean(segmentMeanDE);           	                                            
+//		           }
+//            	    
+//            	 catch(NumberFormatException e){}
+//              }
+//        }
     }
     
-    public void setCnUnchangeFrom(SNPableDE copyNumberDE) {
-    	this.cnUnchangeFrom = copyNumberDE.getValueObject().toString();
-    }
-    
-    public void setSmUnchangeFrom(SegmentMeanDE segmentMeanDE) {
-    	this.smUnchangeFrom = segmentMeanDE.getValueObject().toString();
-    }
+//    public void setCnUnchangeFrom(SNPableDE copyNumberDE) {
+//    	this.cnUnchangeFrom = copyNumberDE.getValueObject().toString();
+//    }
+//    
+//    public void setSmUnchangeFrom(SegmentMeanDE segmentMeanDE) {
+//    	this.smUnchangeFrom = segmentMeanDE.getValueObject().toString();
+//    }
     
 
     /**
@@ -1994,35 +1953,35 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
      */
     public void setBasePairStart(String basePairStart) {
         this.basePairStart = basePairStart.trim();
-		if (thisRequest != null) {
-			String thisRegion = this.thisRequest.getParameter("region");
-			String thisChrNumber = this.thisRequest
-					.getParameter("chromosomeNumber");
-			String thisBasePairEnd = this.thisRequest
-					.getParameter("basePairEnd");
-
-			if (thisChrNumber != null && thisChrNumber.trim().length() > 0) {
-				if (thisRegion != null && this.basePairStart != null
-						&& thisBasePairEnd != null) {
-					if ((thisRegion.equalsIgnoreCase("basePairPosition"))
-							&& (thisBasePairEnd.trim().length() > 0)
-							&& (this.basePairStart.trim().length() > 0)) {
-						if(regionCriteria == null){
-							regionCriteria = new RegionCriteria();
-						}
-						BasePairPositionDE.StartPosition basePairStartDE = new BasePairPositionDE.StartPosition(new Long(this.basePairStart));
-						regionCriteria.setStart(basePairStartDE);
-					}
-				}
-			}
-		}
+//		if (thisRequest != null) {
+//			String thisRegion = this.thisRequest.getParameter("region");
+//			String thisChrNumber = this.thisRequest
+//					.getParameter("chromosomeNumber");
+//			String thisBasePairEnd = this.thisRequest
+//					.getParameter("basePairEnd");
+//
+//			if (thisChrNumber != null && thisChrNumber.trim().length() > 0) {
+//				if (thisRegion != null && this.basePairStart != null
+//						&& thisBasePairEnd != null) {
+//					if ((thisRegion.equalsIgnoreCase("basePairPosition"))
+//							&& (thisBasePairEnd.trim().length() > 0)
+//							&& (this.basePairStart.trim().length() > 0)) {
+//						if(regionCriteria == null){
+//							regionCriteria = new RegionCriteria();
+//						}
+//						BasePairPositionDE.StartPosition basePairStartDE = new BasePairPositionDE.StartPosition(new Long(this.basePairStart));
+//						regionCriteria.setStart(basePairStartDE);
+//					}
+//				}
+//			}
+		//}
 
     }
     
-	public void setBasePairStart(BasePairPositionDE basePairPositionDE) {
-		if ( basePairPositionDE != null )
-			this.basePairStart = basePairPositionDE.getValueObject().toString();
-	}
+//	public void setBasePairStart(BasePairPositionDE basePairPositionDE) {
+//		if ( basePairPositionDE != null )
+//			this.basePairStart = basePairPositionDE.getValueObject().toString();
+//	}
     
 
     public ArrayList getCloneTypeColl() {
@@ -2166,6 +2125,16 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 	public void setAnalysisTypeCriteria(AnalysisTypeCriteria analysisTypeCriteria) {
 		this.analysisTypeCriteria = analysisTypeCriteria;
 	}
+
+	public Map<String, String> getAssayPlatforms() {
+		return assayPlatforms;
+	}
+
+	public void setAssayPlatforms(Map<String, String> assayPlatforms) {
+		this.assayPlatforms = assayPlatforms;
+	}
+
+	
 	
 	
 }
