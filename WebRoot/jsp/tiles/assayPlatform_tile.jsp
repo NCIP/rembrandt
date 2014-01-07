@@ -5,7 +5,7 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 <%
 	String act = request.getParameter("act") + "_Array_tooltip";
@@ -18,12 +18,11 @@ L--%>
 <app:cshelp topic="<%=act%>" text="[?]"/>
 <!-- <app:help help="Indicate the platform that was used for the comparative genomic study."/>-->
 </legend><br />
-&nbsp;&nbsp;<html:select styleId="assayPlatform" property="assayPlatform" onchange="">
-<!--	<option>&nbsp;</option> -->
-    <option value="Affymetrix 100K SNP Arrays">100K SNP Array</option>
-	<!--<option>Array CGH </option> -->
-	<!--  <option>All</option> -->
-</html:select>
-<html:errors property="assayPlatform"/>
+&nbsp;&nbsp;
+<s:select id="assayPlatform" name="comparativeGenomicForm.assayPlatform" list="comparativeGenomicForm.assayPlatforms" 
+  listKey="key" listValue="value" onchange="">
+</s:select>
+
+<s:actionerror name="assayPlatform"/>
 </fieldset>
 

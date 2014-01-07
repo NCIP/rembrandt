@@ -12,25 +12,21 @@ L--%>
 %>
 <fieldset class="gray">
 <legend class="red">Occurrence
-<!--  <app:help help="Future implementation"/>-->
 <app:cshelp topic="<%=act%>" text="[?]"/>
 </legend>
 
 	
-<input type="checkbox" id="firstPresentation" name="firstPresentation" class="radio" disabled="true" ><label for="firstPresentation">First Presentation</label>
+<input type="checkbox" id="firstPresentation" name="clinicalDataForm.firstPresentation" class="radio" disabled="true" />
+<label for="firstPresentation">First Presentation</label>
 &nbsp;&nbsp;
-<input id="recur" type="checkbox" name="recur" class="radio"  disabled="true"
-onclick="javascript:document.forms[0].rec.disabled=(!(document.forms[0].rec.disabled));"><label for="recur">Recurrence&nbsp;&nbsp;</label>
-	<!--- <select property="recurrence" name="rec" disabled="true">
-		<option>any</option>
-		<option>1</option>
-		<option>2</option>
-		<option>3</option>
-	</select>	  --->
+<input id="recur" type="checkbox" name="clinicalDataForm.recur" class="radio"  disabled="true"
+onclick="javascript:document.forms[0].rec.disabled=(!(document.forms[0].rec.disabled));" />
+<label for="recur">Recurrence&nbsp;&nbsp;</label>
 	
-	<html:select styleId="recurrence" property="recurrence" disabled="true">
-	<html:optionsCollection property="recurrenceTypeColl" />
-    </html:select><label for="recurrence">&nbsp;</label><html:errors property="recurrence"/> 
+	<s:select id="recurrence" name="clinicalDataForm.recurrence" 
+	list="clinicalDataForm.recurrenceTypeColl" listKey="value" listValue="label" disabled="true" />
+	<label for="recurrence">&nbsp;</label>
+	<s:actionerror name="recurrence"/> 
 	
 
-</ fieldset>
+</fieldset>

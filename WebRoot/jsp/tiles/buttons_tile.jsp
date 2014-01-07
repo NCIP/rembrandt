@@ -33,45 +33,51 @@ function refresh()	{
  <input type="button" id="submitButton" onclick="" class="xbutton" value="Cancel" onclick="javascript:alertUser('menu');"/>
 &nbsp;&nbsp;
 
-<s:if test="geneExpressionForm != null">
+<s:if test="comparativeGenomicForm != null">
+	<s:if test="comparativeGenomicForm.geneOption == null || geneExpressionForm.geneOption.length() == 0" >
+			
+		<input type="button" id="previewButton" class="xbutton" value="Preview-CG" 
+			onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');"/>
+		&nbsp;&nbsp;
+ 	</s:if>	
+	
+	<s:if test="comparativeGenomicForm.geneOption.equals('standard')"> 
+		<input type="button" id="previewButton" class="xbutton" value="Preview-CG2" 
+			onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');"/>
+	&nbsp;&nbsp;
+ 	</s:if>
+	
+	<s:if test="comparativeGenomicForm.geneOption.equals('geneList')">
+	<input type="button" id="previewButton" class="xbutton" value="Preview-CG3" 
+		onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');"/>
+		&nbsp;&nbsp;
+ 	</s:if>
+</s:if>
+
+<s:elseif test="geneExpressionForm != null">
 	<!--  logic:empty name="geneexpressionForm" property="geneOption" scope="request">-->
 	<s:if test="geneExpressionForm.geneOption == null || geneExpressionForm.geneOption.length() == 0" >
 			
-		<input type="button" id="previewButton" class="xbutton" value="Preview" 
+		<input type="button" id="previewButton" class="xbutton" value="Preview-GE" 
 			onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');"/>
 		&nbsp;&nbsp;
  	</s:if>
 	
 	<s:if test="geneExpressionForm.geneOption.equals('standard')"> 
-		<input type="button" id="previewButton" class="xbutton" value="PreviewShan" 
+		<input type="button" id="previewButton" class="xbutton" value="Preview-GE2" 
 			onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');"/>
 	&nbsp;&nbsp;
  	</s:if>
  	
 	<s:if test="geneExpressionForm.geneOption.equals('geneList')">
-	<input type="button" id="previewButton" class="xbutton" value="PreviewYang" 
+	<input type="button" id="previewButton" class="xbutton" value="Preview-GE3" 
 		onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');"/>
 		&nbsp;&nbsp;
  	</s:if>
-</s:if>
+</s:elseif>
+<s:else></s:else>
+
 <!--  
-<logic:present name="comparitivegenomicForm">
-	<logic:empty name="comparitivegenomicForm" property="geneOption" scope="request">
-		<html:submit styleId="previewButton" styleClass="xbutton" property="method" onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');">
-			<bean:message key="buttons_tile.previewButton" />
-		</html:submit>&nbsp;&nbsp;
-	</logic:empty>
-	<logic:equal name="comparitivegenomicForm" property="geneOption" scope="request" value="standard">
-		<html:submit styleId="previewButton" styleClass="xbutton" property="method" onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');">
-			<bean:message key="buttons_tile.previewButton" />
-		</html:submit>&nbsp;&nbsp;
-	</logic:equal>
-	<logic:equal name="comparitivegenomicForm" property="geneOption" scope="request" value="geneList">
-		<html:submit styleId="previewButton" styleClass="xbutton" property="method" onclick="return GeneAlias.validateAliases($('geneList').value 'Preview');">
-			<bean:message key="buttons_tile.previewButton" />
-		</html:submit>&nbsp;&nbsp;
- 	</logic:equal>
-</logic:present>
 <logic:present name="clinicaldataForm">
 	<html:submit styleId="previewButton" styleClass="xbutton" property="method">
 		<bean:message key="buttons_tile.previewButton" />

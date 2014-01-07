@@ -19,10 +19,9 @@ L--%>
 <app:cshelp topic="<%=act%>" text="[?]"/>   
 </legend><br />
 &nbsp;&nbsp;
-<html:select property="analysisType" disabled="false">
-	<html:optionsCollection property="analysisTypeColl" />
-</html:select>
+<s:select name="comparativeGenomicForm.analysisType" disabled="false" list="comparativeGenomicForm.analysisTypeColl">
+</s:select>
 <br/><br/>
-<html:errors property="analysisType"/>
+<s:actionerror name="analysisType"/>
 </fieldset>
 

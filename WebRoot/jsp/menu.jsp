@@ -80,14 +80,14 @@ if(queryCollection == null){
 			</td></tr>
 			    
 			 <tr><td> 
-			     <s:form action="comparitivegenomic" method="post" namespace="/" theme="simple">
+			     <s:form action="comparitivegenomicSetup" method="post" namespace="/" theme="simple">
 			     <s:submit value="Copy Number Data Analysis" style="width:200px;margin-bottom: 5px;"/>
 			  		&nbsp; <b class="message">- (<% out.write(cpQueryString); %>) Copy Number Data Queries</b>
 			       
 			     </s:form>
 			</td></tr>		
 			<tr><td>
-			<s:form action="clinical" method="post" namespace="/" theme="simple">
+			<s:form action="clinicalSetup" method="post" namespace="/" theme="simple">
 			     <s:submit value="Clinical Study Analysis" style="width:200px;margin-bottom: 5px;"/>
 			  		&nbsp; <b class="message">- (<% out.write(cghQueryString); %>) Clinical Study Analysis Queries</b>
 			       

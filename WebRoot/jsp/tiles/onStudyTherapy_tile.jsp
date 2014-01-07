@@ -16,36 +16,41 @@ L--%>
 <!-- <app:help help="Specify the therapy received after enrollment the current study"/>-->
 <app:cshelp topic="clinical_Onstudy_tooltip" text="[?]"/>   
 </legend><br />	
-<html:checkbox styleId="onStudyRadiation" styleClass="radio" property="onStudyRadiation"  value="Specify"/><label for="onStudyRadiation">Radiation&nbsp;&nbsp;</label>
+<s:checkbox id="onStudyRadiation" class="radio" name="clinicalDataForm.onStudyRadiation" value="Specify"/>
+<label for="onStudyRadiation">Radiation&nbsp;&nbsp;</label>
 <label for="onStudyRadiationType">&nbsp;&nbsp;&nbsp;&nbsp;- radiation type:&nbsp;</label>
-<html:select styleId="onStudyRadiationType" property="onStudyRadiationType" >
-<html:optionsCollection property="onStudyRadiationTypeColl" />
-</html:select><html:errors property="onStudyRadiationType"/>
+
+<s:select id="onStudyRadiationType" name="clinicalDataForm.onStudyRadiationType" 
+list="clinicalDataForm.onStudyRadiationTypeColl" listKey="value" listValue="label" />
+<s:actionerror name="onStudyRadiationType"/>
 
 <br>
-<html:checkbox styleId="onStudyChemo" styleClass="radio" property="onStudyChemo" value="Specify"/><label for="onStudyChemo">Chemo&nbsp;&nbsp;</label>
+<s:checkbox id="onStudyChemo" class="radio" name="clinicalDataForm.onStudyChemo" value="Specify"/>
+<label for="onStudyChemo">Chemo&nbsp;&nbsp;</label>
 <label for="onStudyChemoType">- agent:&nbsp;</label>
 <!--- <select property="chemoType" name="chemo" disabled="true">
 	<option>any</option>
 	<option></option>
 </select> --->
 
-<html:select styleId="onStudyChemoType" property="onStudyChemoType" >
-<html:optionsCollection property="onStudyChemoAgentTypeColl" />
-</html:select><html:errors property="onStudyChemoType"/>
+<s:select id="onStudyChemoType" name="clinicalDataForm.onStudyChemoType" 
+list="clinicalDataForm.onStudyChemoAgentTypeColl" listKey="value" listValue="label" />
+<s:actionerror name="onStudyChemoType"/>
 
 <Br>
-<html:checkbox styleId="onStudySurgery" styleClass="radio" property="onStudySurgery"  value="Specify"/><label for="onStudySurgery">Surgery&nbsp;&nbsp;</label>
+<s:checkbox id="onStudySurgery" class="radio" name="clinicalDataForm.onStudySurgery"  value="Specify"/>
+<label for="onStudySurgery">Surgery&nbsp;&nbsp;</label>
 <label for="onStudySurgeryTitle">&nbsp;&nbsp;&nbsp;&nbsp;- title:&nbsp;</label>
-<html:select styleId="onStudySurgeryTitle" property="onStudySurgeryTitle" >
-<html:optionsCollection property="onStudySurgeryTitleColl" />
-</html:select><html:errors property="onStudySurgeryTitle"/>
+
+<s:select sid="onStudySurgeryTitle" name="clinicalDataForm.onStudySurgeryTitle" 
+list="clinicalDataForm.onStudySurgeryTitleColl" listKey="value" listValue="label" />
+<s:actionerror name="onStudySurgeryTitle"/>
 
 <Br>
 <label for="onStudySurgeryOutcome">&nbsp;&nbsp;&nbsp;&nbsp;- Outcome:&nbsp;</label>
-<html:select styleId="onStudySurgeryOutcome" property="onStudySurgeryOutcome" >
-<html:optionsCollection property="onStudySurgeryOutcomeColl" />
-</html:select><html:errors property="onStudySurgeryOutcome"/>
+<s:select id="onStudySurgeryOutcome" name="clinicalDataForm.onStudySurgeryOutcome" 
+list="clinicalDataForm.onStudySurgeryOutcomeColl" listKey="value" listValue="label" />
+<s:actionerror name="onStudySurgeryOutcome"/>
 
 
 </fieldset>

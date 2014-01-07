@@ -17,18 +17,18 @@ L--%>
 
 </legend>
 
-<html:checkbox styleId="caucasion" styleClass="radio" property="caucasion" value="Specify" />
+<s:checkbox id="caucasion" class="radio" name="clinicalDataForm.caucasion" value="Specify" />
 <label for="caucasion"><%= RaceType.WHITE.toString()%></label><!-- Caucasion -->
-<html:checkbox styleId="africanAmerican" styleClass="radio" property="africanAmerican" value="Specify" />
+<s:checkbox id="africanAmerican" class="radio" name="clinicalDataForm.africanAmerican" value="Specify" />
 <label for="africanAmerican"><%= RaceType.BLACK_OR_AFRICAN_AMERICAN.toString()%></label> <!-- African American -->
-<html:checkbox styleId="nativeHawaiian" styleClass="radio" property="nativeHawaiian"  value="Specify" />
+<s:checkbox id="nativeHawaiian" class="radio" name="clinicalDataForm.nativeHawaiian"  value="Specify" />
 <label for="nativeHawaiian"><%=RaceType.NATIVE_HAWAIIAN_OR_PACIFIC_ISLANDER.toString()%></label> <!--  Native Hawaiian -->
 <br/>
-<html:checkbox styleId="asian" styleClass="radio" property="asian" value="Specify" />
+<s:checkbox id="asian" class="radio" name="clinicalDataForm.asian" value="Specify" />
 <label for="asian"><%=RaceType.ASIAN.toString()%></label> <!--  Asian -->
-<html:checkbox styleId="other" styleClass="radio" property="other" value="Specify" />
+<s:checkbox id="other" class="radio" name="clinicalDataForm.other" value="Specify" />
 <label for="other"><%=RaceType.OTHER.toString()%></label> <!--  Other -->
-<html:checkbox styleId="unknown" styleClass="radio" property="unknown" value="Specify"  />
+<s:checkbox id="unknown" class="radio" name="clinicalDataForm.unknown" value="Specify"  />
 <label for="unknown"><%=RaceType.UNKNOWN.toString()%></label> <!--  Unknown -->
 &nbsp;&nbsp;
 	
