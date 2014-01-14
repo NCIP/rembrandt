@@ -5,12 +5,22 @@
  * See http://ncip.github.com/rembrandt/LICENSE.txt for details.
  */
 
-package gov.nih.nci.rembrandt.web.bean;
+// Created by Xslt generator for Eclipse.
+// XSL :  not found (java.io.FileNotFoundException:  (Bad file descriptor))
+// Default XSL used : easystruts.jar$org.easystruts.xslgen.JavaClass.xsl
 
-/**
- * @author BauerD
- * Jan 27, 2005
+package gov.nih.nci.rembrandt.web.struts2.form;
+
+import org.apache.log4j.Logger;
+
+
+/** 
+ * DeleteQueryForm.java created by EasyStruts - XsltGen.
+ * http://easystruts.sf.net
+ * created on 09-12-2004
  * 
+ * XDoclet definition:
+ * @struts:form name="DeleteQueryForm"
  */
 
 
@@ -71,71 +81,26 @@ package gov.nih.nci.rembrandt.web.bean;
 * 
 */
 
-public class SelectedQueryBean {
-	private String leftParen = "";
-    private String rightParen = "";
-    private String queryName = "";
-    private String operand = "";
-    private boolean allGeneQuery = false;
-
-	/**
-	 * @return Returns the leftParen.
-	 */
-	public String getLeftParen() {
-		return leftParen;
-	}
-	/**
-	 * @return Returns the operand.
-	 */
-	public String getOperand() {
-		return operand;
-	}
-	/**
-	 * @return Returns the queryName.
-	 */
-	public String getQueryName() {
-		return queryName;
-	}
-	/**
-	 * @return Returns the rightParen.
-	 */
-	public String getRightParen() {
-		return rightParen;
-	}
-	/**
-	 * @param leftParen The leftParen to set.
-	 */
-	public void setLeftParen(String leftParen) {
-		this.leftParen = leftParen;
-	}
-	/**
-	 * @param operand The operand to set.
-	 */
-	public void setOperand(String operand) {
-		this.operand = operand;
-	}
-	/**
-	 * @param queryName The queryName to set.
-	 */
-	public void setQueryName(String queryName) {
-		this.queryName = queryName;
-	}
-	/**
-	 * @param rightParen The rightParen to set.
-	 */
-	public void setRightParen(String rightParen) {
-		this.rightParen = rightParen;
-	}
-	/**
-	 * @return Returns the allGeneQuery.
-	 */
-	public boolean isAllGeneQuery() {
-		return allGeneQuery;
-	}
-	/**
-	 * @param allGeneQuery The allGeneQuery to set.
-	 */
-	public void setAllGeneQuery(boolean allGeneQuery) {
-		this.allGeneQuery = allGeneQuery;
-	}
+public class DeleteQueryForm extends BaseForm {
+   private static Logger logger = Logger.getLogger(DeleteQueryForm.class);
+   private String method = null;
+   private String queryKey = null;
+   
+   public String getQueryKey()
+   {
+   		return queryKey;
+   }
+   
+   public void setQueryKey(String str)
+   {
+   		queryKey = str;
+   }
+   
+   public void setMethod(String method){   
+    logger.debug("the method is :*************"+method);
+    this.method = method;
+	}	
+  public String getMethod(){
+    return this.method;
+   }		
 }
