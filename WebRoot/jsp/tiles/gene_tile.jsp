@@ -28,33 +28,31 @@ String act = request.getParameter("act") + "_Gene_tooltip";
 	
 	<!-- html:radio styleId="geneOption1" property="geneOption" styleClass="radio" value="standard" onclick="submitStandardQuery();"/>  -->
 	
-	<input type="radio" name="geneExpressionForm.geneOption" id="geneOption1" class="radio" value="standard" 
-		onclick="submitStandardQuery();"/>
-	
+	<input type="radio" name="form.geneOption" id="geneOption1" class="radio" value="standard" />
 	<label for="geneType">Type Genes:&nbsp;&nbsp;</label>
-	
-	<s:select name="geneExpressionForm.geneType" id="geneType" disabled="false" 
-	list="geneExpressionForm.geneTypeColl" listKey="value" listValue="label" theme="simple" onchange="checkStandardOption();GeneAlias.armAliasLink();">
-		
-	</s:select>
-	
+	<s:select name="form.geneType" id="geneType" disabled="false" 
+		list="form.geneTypeColl" listKey="value" listValue="label" theme="simple" 
+		onchange="checkStandardOption();GeneAlias.armAliasLink();" />
 	<br/><br/>
 	
- 	<s:textarea name="geneExpressionForm.geneList" id="geneList" cols="65" rows="5" disabled="false" onclick="checkStandardOption();" theme="simple"/>
-	
+ 	<s:textarea name="form.geneList" id="geneList" cols="65" rows="5" disabled="false" 
+ 		onclick="checkStandardOption();" theme="simple"/>
 	<span valign="middle">
 		<a href="#" id="aliasLink" onclick="GeneAlias.checkAlias($('geneList').value);return false;">check aliases</a><label for="geneList">&nbsp;</label>
-	</span>			
+	</span>	
+			
 	<img alt="indicator" src="images/indicator.gif" id="indicator" style="display:none;"/>
 	<br/><br/>
 	<div id="gAliases" style="display:none; margin-left:20px;border:1px solid #AB0303;"></div>
 	<br/><br/>
 			
-	<input type="radio" name="geneExpressionForm.geneOption" class="radio" value="geneExpressionForm.geneList" disabled="false" id="geneOptionGeneList"   onclick="submitStandardQuery();">
+	<input type="radio" name="form.geneOption" class="radio" value="form.geneList" disabled="false" id="geneOptionGeneList"   
+		onclick="submitStandardQuery();">
 	<label for="geneOptionGeneList">&nbsp;</label>
 		
 	<label for="geneFileDD">Choose a saved Gene List:&nbsp;&nbsp;</label>
-	<s:select name="geneExpressionForm.geneFile" disabled="false" id="geneFileDD" list="geneExpressionForm.savedGeneList" theme="simple" />
+	
+	<s:select name="form.geneFile" disabled="false" id="geneFileDD" list="form.savedGeneList" theme="simple" />
 	
 	<br/>
 		   		
@@ -62,7 +60,10 @@ String act = request.getParameter("act") + "_Gene_tooltip";
 	<!--  html:errors property="geneGroup"/>-->
 	<!--  html:errors property="geneList"/>-->
 	<!--  html:errors property="geneType"/>-->
-	<s:actionerror/>
+	<s:actionerror name="geneFile"/>
+	<s:actionerror name="geneGroup"/>
+	<s:actionerror name="geneList"/>
+	<s:actionerror name="geneType"/>
 	
 	
 <br/>
@@ -103,8 +104,7 @@ function submitStandardQuery(){
 	//}
 }
 function checkStandardOption()	{
-	//$("geneOption").value = "standard";
-	document.forms[0].geneOption[0].checked = true;
+	document.forms[0].geneOption1.checked = true;
 }
 
 </script>	

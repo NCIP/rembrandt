@@ -25,25 +25,25 @@ L--%>
 <!-- <b class="message">(Paste comma separated Clone Id list, or upload file using Browse button)</b> -->
 <br />
 
-<input type="radio" name="geneExpressionForm.cloneId" class="radio" id="cloneId" value="list" onfocus="javascript:onRadio(this,0);">
+<input type="radio" name="form.cloneId" class="radio" id="cloneId" value="list" onfocus="javascript:onRadio(this,0);">
 <label for="cloneId">Type Reporters:&nbsp;&nbsp;</label>
 
 
-<s:select id="cloneList" name="geneExpressionForm.cloneList" list="geneExpressionForm.cloneTypeColl" listKey="value" listValue="label" disabled="false" theme="simple" />
+<s:select id="cloneList" name="form.cloneList" list="form.cloneTypeColl" listKey="value" listValue="label" disabled="false" theme="simple" />
 <label for="cloneList">&nbsp;</label>
 
 
-<s:textfield id="cloneListSpecify" name="geneExpressionForm.cloneListSpecify" disabled="false" 
+<s:textfield id="cloneListSpecify" name="form.cloneListSpecify" disabled="false" 
 onfocus="javascript:radioFold(this);"  onblur="javascript:cRadio(this, document.forms[0].cloneId[0]);"  theme="simple"/>
 <label for="cloneListSpecify">&nbsp;</label>
 	
 <br/>
 
-<input type="radio" name="geneExpressionForm.cloneId" class="radio" id="cloneIdCloneList" value="geneExpressionForm.cloneList" 
+<input type="radio" name="form.cloneId" class="radio" id="cloneIdCloneList" value="form.cloneList" 
 onfocus="javascript:onRadio(this,1);">
 <label for="cloneIdCloneList">Choose a saved Reporter List:&nbsp;&nbsp;</label>
 
-<s:select name="geneExpressionForm.cloneListFile" disabled="false" list="geneExpressionForm.savedCloneList" 
+<s:select name="form.cloneListFile" disabled="false" list="form.savedCloneList" 
 	id="cloneListFileDD" theme="simple" />
 	<label for="cloneListFileDD">&nbsp;</label>
 <br/>

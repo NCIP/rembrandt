@@ -16,16 +16,16 @@ L--%>
 </legend>
 <br/>
 &nbsp;&nbsp;&nbsp;
-
-<s:select name="geneExpressionForm.tumorType" multiple="true" id="dSelect" disabled="false" 
-	list="geneExpressionForm.diseaseType" listKey="value" listValue="label" theme="simple" onchange="javascript:onRadio(this, this.value);">
+ 
+<s:select name="form.tumorType" multiple="true" id="dSelect" disabled="false" 
+	list="form.diseaseType" listKey="value" listValue="label" theme="simple" onchange="javascript:onRadio(this, this.value);">
 	</s:select>
 <s:actionerror/>
 
 &nbsp;
 
 <label for="tumorGrade">Grade:&nbsp;</label>
-<s:select id="tumorGrade" name="geneExpressionForm.tumorGrade" list="geneExpressionForm.tumorGrades" disabled="true" theme="simple" />
+<s:select id="tumorGrade" name="form.tumorGrade" list="form.tumorGrades" disabled="true" theme="simple" />
 
 <b>   </b>
 

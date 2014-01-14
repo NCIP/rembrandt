@@ -21,7 +21,7 @@ L--%>
 </legend><br />
 
 &nbsp;&nbsp;
-<input id="excludeResections" type="checkbox" name="geneExpressionForm.excludeResections" class="radio" >
+<input id="excludeResections" type="checkbox" name="form.excludeResections" class="radio" >
 <label for="excludeResections">Exclude Re-Resection Tumor Samples</label>
 &nbsp;&nbsp;
 <s:actionerror />

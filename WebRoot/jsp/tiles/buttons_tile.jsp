@@ -22,7 +22,6 @@ function refresh()	{
 }
 </script>
 
-
 <s:if test="deleteQueryForm == null">
 <input type="button" id="clearButton" class="xbutton" value="Clear" onclick="refresh();"/>
 </s:if>
@@ -33,59 +32,85 @@ function refresh()	{
  <input type="button" id="submitButton" onclick="" class="xbutton" value="Cancel" onclick="javascript:alertUser('menu');"/>
 &nbsp;&nbsp;
 
-<s:if test="comparativeGenomicForm != null">
-	<s:if test="comparativeGenomicForm.geneOption == null || geneExpressionForm.geneOption.length() == 0" >
-			
-		<input type="button" id="previewButton" class="xbutton" value="Preview-CG" 
-			onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');"/>
-		&nbsp;&nbsp;
- 	</s:if>	
-	
-	<s:if test="comparativeGenomicForm.geneOption.equals('standard')"> 
-		<input type="button" id="previewButton" class="xbutton" value="Preview-CG2" 
-			onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');"/>
-	&nbsp;&nbsp;
- 	</s:if>
-	
-	<s:if test="comparativeGenomicForm.geneOption.equals('geneList')">
-	<input type="button" id="previewButton" class="xbutton" value="Preview-CG3" 
-		onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');"/>
-		&nbsp;&nbsp;
- 	</s:if>
-</s:if>
+<!-- used in  cytobandChange script -->
+<s:set var="submitAction" value="form.getSubmitActionName()" />
+<s:hidden id="submitAction" value="%{submitAction}"  />
 
-<s:elseif test="geneExpressionForm != null">
-	<!--  logic:empty name="geneexpressionForm" property="geneOption" scope="request">-->
-	<s:if test="geneExpressionForm.geneOption == null || geneExpressionForm.geneOption.length() == 0" >
+<s:set var="previewAction" value="form.getPreviewActionName()" />
+<s:hidden id="previewAction" value="%{previewAction}"  />
+
+
+	<s:if test="form.geneOption == null || form.geneOption.length() == 0" >
 			
-		<input type="button" id="previewButton" class="xbutton" value="Preview-GE" 
-			onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');"/>
+		<input type="button" id="previewButton" name="previewButton" class="xbutton" value="Preview-GE" 
+			onclick="handlePreviewButton();"/>
+			
 		&nbsp;&nbsp;
  	</s:if>
 	
-	<s:if test="geneExpressionForm.geneOption.equals('standard')"> 
-		<input type="button" id="previewButton" class="xbutton" value="Preview-GE2" 
-			onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');"/>
+	<s:if test="form.geneOption.equals('standard')"> 
+			<s:submit type="button" id="previewButton" action="gePreview" class="xbutton" theme="simple"
+				onclick="handlePreviewButton();">Preview-GE2</s:submit>
 	&nbsp;&nbsp;
  	</s:if>
  	
-	<s:if test="geneExpressionForm.geneOption.equals('geneList')">
-	<input type="button" id="previewButton" class="xbutton" value="Preview-GE3" 
-		onclick="return GeneAlias.validateAliases($('geneList').value, 'Preview');"/>
+	<s:if test="form.geneOption.equals('geneList')">
+	<input type="button" id="previewButton" name="previewButton" class="xbutton" value="Preview-GE3" 
+		onclick="handlePreviewButton();"/>
 		&nbsp;&nbsp;
  	</s:if>
-</s:elseif>
-<s:else></s:else>
 
-<!--  
-<logic:present name="clinicaldataForm">
-	<html:submit styleId="previewButton" styleClass="xbutton" property="method">
-		<bean:message key="buttons_tile.previewButton" />
-	</html:submit>&nbsp;&nbsp;
-</logic:present>
--->
 
-<input type="button" id="submittalButton" class="subButton" value="Submit" onclick="return gecnSubmit();"/>
+<input type="button" id="submittalButton" class="subButton" value="Submit" onclick="handleSubmitButton();"/>
 
 <!--  input type="submit" id="multiUseButton" class="subButtonInv" value="MultiUse"/> -->
 <!--  s:submit type="submit" action="getCytobands" id="multiUseButton" class="subButtonInv" value="MultiUse" theme="simple"/>-->
+
+<script language="javascript">
+function handlePreviewButton()	{
+	var ret = GeneAlias.validateAliases($('geneList').value, 'Preview');
+	
+	var actionName = document.getElementById("previewAction").value;
+	document.forms[0].action = actionName + '.action';
+	document.forms[0].submit();
+	
+}
+
+function handleSubmitButton()	{
+	var ret = gecnSubmitX();
+	var actionName = document.getElementById("submitAction").value;
+	document.forms[0].action = actionName + '.action';
+	document.forms[0].submit();
+	
+}
+
+function gecnSubmitX() {
+	
+	var geneOptionVal = document.forms[0].geneOption1.value;
+	
+	if (document.forms[0].geneOption1.checked) {
+		var geneOptionVal = document.forms[0].geneOption1.value;
+		alert(geneOptionVal);
+		if ( geneOptionVal == "standard" ) {
+			alert("Checking geneList...");
+		    var ret = GeneAlias.validateAliases($('geneList').value, 'Submit');
+		    if (ret == false)
+		    	alert("Not valid");
+		    else 
+		    	alert ("Valid");
+		  }
+	}
+	
+	//document.forms[0].target='_self';	
+	//for (var i=0; i < document.forms[0].geneOption.length; i++) {
+	//	var geneOptionVal = document.forms[0].geneOption[i].value;
+	//	  if (document.forms[0].geneOption[i].checked) {
+	//		  if ( geneOptionVal == "standard" ) {
+	//		      return GeneAlias.validateAliases($('geneList').value, 'Submit');
+	//		  }
+	//	      break;
+	//  	}
+	//}
+	//return;
+}
+</script>

@@ -23,7 +23,7 @@ L--%>
 </script>
 <br>
 <b class="message"><label for="goClassification">(Type GO format as 'GO:XXXXXXX' where number is XXXXXXX)</label></b><br>
-<s:textarea id="goClassification" name="geneExpressionForm.goClassification" rows="5" cols="40"></s:textarea>
+<s:textarea id="goClassification" name="form.goClassification" rows="5" cols="40"></s:textarea>
 <s:actionerror/>
 <!-- 
 <input type="button" class="sbutton" value="GO Browser..." onclick="javascript:spawn('GOTreeServlet/?go', 580, 500);">

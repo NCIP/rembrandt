@@ -19,10 +19,11 @@ L--%>
 <!-- <app:help help="Indicate the platform that was used for the comparative genomic study."/>-->
 </legend><br />
 &nbsp;&nbsp;
+<!--  
 <s:select id="assayPlatform" name="comparativeGenomicForm.assayPlatform" list="comparativeGenomicForm.assayPlatforms" 
   listKey="key" listValue="value" onchange="">
 </s:select>
-
+-->
 <s:actionerror name="assayPlatform"/>
 </fieldset>
 

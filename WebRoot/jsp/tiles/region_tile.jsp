@@ -20,42 +20,51 @@ L--%>
 <!--<app:help help="Specify the chromosomal region of interest.  " />-->
 </legend>
 
-<br />	
-<label for="chromosomeNumber">&nbsp;&nbsp;Chromosome Number&nbsp;</label>
-	<s:select id="chromosomeNumber" name="geneExpressionForm.chromosomeNumber" list="geneExpressionForm.chromosomes" listKey="value" listValue="label"
-	onchange="javascript:cytobandChange()" />  
+<br/>	
+
+<!-- used in  cytobandChange script -->
+<s:set var="cytobandsAction" value="form.getCytobandsActionName()" />
+<s:hidden id="cytobandsAction" value="%{cytobandsAction}"  />
+
+<label for="chromosomeNumber">&nbsp;&nbsp;Chromosome Number&nbsp;<s:property value='cytobandsAction'/></label>
+	<s:select id="chromosomeNumber" name="form.chromosomeNumber" headerKey="-1" headerValue=" "
+		list="form.chromosomes" listKey="value" listValue="label"
+			onchange="javascript:cytobandChange()" /> 
 		<br />
+		
 <s:actionerror/>
 
 	&nbsp;<br>
 	<blockquote>
 	
-	<input type="radio" name="geneExpressionForm.region" class="radio" id="cytoband" value="cytoband" >
+	<input type="radio" name="form.region" class="radio" id="cytoband" value="cytoband" >
 	    <label for="cytoband">Cytoband&nbsp;</label>
-			 
-	<s:select id="cytobandRegionStart" name="geneExpressionForm.cytobandRegionStart" onclick="javascript:radioFold(this);"
-		list="geneExpressionForm.cytobands" listKey="cytoband" listValue="cytoband"> 
+			
+	   
+	<s:select id="cytobandRegionStart" name="form.cytobandRegionStart" onclick="javascript:radioFold(this);"
+		list="form.cytobands" listKey="cytoband" listValue="cytoband"> 
 	</s:select>	 
+	
 		<label for="cytobandRegionStart">&nbsp;-to-&nbsp;</label>
-             
-    <s:select id="cytobandRegionEnd" name="geneExpressionForm.cytobandRegionEnd" onclick="javascript:radioFold(this);"
-		list="geneExpressionForm.cytobands" listKey="cytoband" listValue="cytoband"> 
-	</s:select>	         
+            
+    <s:select id="cytobandRegionEnd" name="form.cytobandRegionEnd" onclick="javascript:radioFold(this);"
+		list="form.cytobands" listKey="cytoband" listValue="cytoband"> 
+	</s:select>	      
     <label for="cytobandRegionEnd">&nbsp;</label>
 			
 	<s:actionerror/>
 			
 			<br />
 	
-	<input type="radio" name="geneExpressionForm.region" class="radio" id="basePairPosition" value="basePairPosition" >
+	<input type="radio" name="form.region" class="radio" id="basePairPosition" value="basePairPosition" >
 	    <label for="basePairPosition">Base Pair Position (kb)&nbsp; </label>
 	    
 	<p style="margin-left:30px">
 	        
-	<s:textfield id="basePairStart" name="geneExpressionForm.basePairStart" onclick="javascript:radioFold(this);" />
+	<s:textfield id="basePairStart" name="form.basePairStart" onclick="javascript:radioFold(this);" />
  		<label for="basePairStart">&nbsp;-to-&nbsp;</label>
  			
- 	<s:textfield id="basePairEnd" name="geneExpressionForm.basePairEnd" onclick="javascript:radioFold(this);"/>
+ 	<s:textfield id="basePairEnd" name="form.basePairEnd" onclick="javascript:radioFold(this);"/>
  		<label for="basePairEnd">&nbsp;</label>
  			</p>
 	<s:actionerror/>
@@ -72,8 +81,9 @@ function cytobandChange(){
   //.forms[0].multiUseButton.click();
   
   //javascript:cytobandChange()
-  
-  document.forms[0].action="getCytobands.action";
+  var actionName = document.getElementById("cytobandsAction").value;
+  alert(actionName);
+  document.forms[0].action=actionName + ".action";
   document.forms[0].submit();
 }
 </SCRIPT>

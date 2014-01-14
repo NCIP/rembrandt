@@ -20,7 +20,7 @@ L--%>
 
 	
 <Br>
-<s:textarea id="pathways" name="geneExpressionForm.pathways" rows="5" cols="40" readonly="true">
+<s:textarea id="pathways" name="form.pathways" rows="5" cols="40" readonly="true">
 			</s:textarea>
 			<label for="pathways">&nbsp;</label>
 <s:actionerror/>

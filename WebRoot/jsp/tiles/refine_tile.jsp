@@ -9,15 +9,18 @@ L--%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 
-<html:form action="refineQuery.do">
+<s:form action="refineQuery" theme="simple">
 
 <app:cshelp topic="Refine_query" /><br clear="all"/>
 
-<html:errors/>
+<s:actionerror/>
 <fieldset class="grayRefine">
 <legend class="red">Step 1: Refine your result set</legend>
 	
-    <input type="radio" id="isAllGenesQuery1" name="isAllGenesQuery" class="radio" value="false" checked="true" onclick="javascript:onRadio(this, 0);"/><label for="isAllGenesQuery1">Please refine your results by grouping the queries</label><br />
+    <input type="radio" id="isAllGenesQuery1" name="refineQueryForm.isAllGenesQuery" class="radio" value="false" checked="true" 
+    		onclick="javascript:onRadio(this, 0);"/>
+    <label for="isAllGenesQuery1">Please refine your results by grouping the queries</label><br />
+    
     <div id="qrows">
 	<table align="center" border="0" width="95%" cellpadding="2" cellspacing="1" id="rosso" summary="This table is used to format page content">
 		<tr><th></th></tr>
@@ -33,25 +36,31 @@ L--%>
 			<td class="message" width="10%"><label for="operand">and/or</label></td>
 		</tr>
 		<!-- BEGIN  Selected Queries -->
-		<nested:nest>
-				<!-- Begin looping over SelectedQueries -->
-				<nested:iterate name="refineQueryForm" 
-								property="selectedQueries" 
-								id="selectedQuery"  
-								indexId="index" 
-								type="gov.nih.nci.rembrandt.web.bean.SelectedQueryBean">
-				  <%@ include file="/jsp/selectQueryRow.jsp" %>
-				</nested:iterate>
-				<!-- END looping over SelectedQueries -->
-		</nested:nest>
+			
+		
+		<s:iterator value="refineQueryForm.selectedQueries" var="aBean">
+		<tr>
+			<td>
+				<s:select id="leftParen" name="queryBean.leftParen" list="refineQueryForm.leftParenOptions" />
+			</td>
+			<td>
+				<s:select id="queryName"name="queryBean.queryName" 
+					list="refineQueryForm.nonAllGenesQueries" listKey="queryName" listValue="queryName" />
+			</td>
+			<td>
+				<s:select id="rightParen" name="queryBean.rightParen" list="refineQueryForm.rightParenOptions" />
+			</td>
+			<Td>
+				<s:select id="operand" name="queryBean.operand" list="refineQueryForm.operands" onchange="operandChange()" />
+			
+				<s:actionerror name="operand"/>
+			</td>
+		</tr>
+		</s:iterator>
+				
 		<!-- End  Selected Queries -->
 	</table><br />
 	</div>
-	<!-- input id="isAllGenesQuery2" type="radio" name="isAllGenesQuery" class="radio" value="true"  onclick="javascript:onRadio(this, 1);" /><label for="isAllGenesQuery2">Please select an "All Genes" query</label>
-    <html:select styleId="allGeneQuery" property="allGeneQuery" disabled="true">
-     		<option/>
-		    <html:optionsCollection property="allGenesQueries" label="queryName" value="queryName" />
-	 </html:select><label for="allGeneQuery">&nbsp;</label -->
 
 </fieldset>
 <br clear="all"/>
@@ -75,19 +84,9 @@ L--%>
 	
 
 </script>
-
-    <html:select styleId="srs" name="refineQueryForm" property="selectedResultSet" onfocus="updateG();" style="width:150px;">
-    	<option value=""></option>  
-    		<html:options name="refineQueryForm" property="resultSets"/>
-  	</html:select>
-  	<!--
-  	<html:submit styleId="validateButton" styleClass="xbutton"  property="method" onclick="javascript:document.forms[0].target = '_self';">
-				<bean:message key="RefineQueryAction.validateButton"/>
-	</html:submit>
-	-->
-	<!-- 
-	<input type="button" value="refresh" onclick="javascript:location.href='refinecheck.do'">
-	-->
+    	<select name="refineQueryForm.selectedResultSet" onfocus="updateG();" id="srs" style="width:150px;"><option value=""></option></select>
+    	
+  	
 </fieldset>
 <br clear="all"/>
 <!--Step 3-->
@@ -98,13 +97,12 @@ L--%>
 		<tr>
 			<td align="center">&nbsp;&nbsp;&nbsp;
 			<!--JavaScript added here to reset the response target back to the submitting window-->
-			<html:submit styleId="validateButton" styleClass="xbutton"  property="method" onclick="javascript:document.forms[0].target = '_self';">
-				<bean:message key="RefineQueryAction.validateButton"/>
-			</html:submit>
+			<s:submit id="validateButton" value="Validate Query" class="xbutton" onclick="validateQuery()">
+			</s:submit>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			</td>
 			<td align="right">
-				<html:textarea styleId="queryText" property="queryText"  style="width:300px; height:40px;"></html:textarea>
+				<s:textarea id="queryText" name="refineQueryForm.queryText"  style="width:300px; height:40px;"></s:textarea>
 			</td>
 			
 		</tr>
@@ -118,9 +116,12 @@ L--%>
 	<table width="100%" border="0" summary="This table is used to format page content">
 		<tr><th></th></tr>
 		<tr><td>
-				<html:select styleId="compoundView" property="compoundView" onchange="" style="width:300px">
-				    <html:optionsCollection property="compoundViewColl" />
-				</html:select><html:errors property="compoundView"/>
+				<!--  select name="refineQueryForm.compoundView" onchange="" id="compoundView" style="width:300px"><option value=" "> </option></select>
+				-->
+				<s:select name="refineQueryForm.compoundView" onchange="" id="compoundView" style="width:300px"
+					list="refineQueryForm.compoundViewColl" listKey="value" listValue="label">
+				</s:select>
+				<s:actionerror name="compoundView"/>
 			</td>
 		</tr>
 	</table>
@@ -134,10 +135,12 @@ L--%>
 	<table width="100%" border="0" summary="This table is used to format page content">
 		<tr><th></th></tr>
 		<tr><td>
-				<html:select styleId="instituteView" property="instituteView" multiple="true" onchange="">
-					 <!--  <option value ="ALL" selected="selected">ALL</option>  -->
-				    <html:optionsCollection property="institueViewColl" label="displayName" value="displayName"/>
-				</html:select><html:errors property="instituteView"/>
+				
+				
+				<s:select name="refineQueryForm.instituteView" onchange="" id="instituteView" style="width:300px" 
+					list="refineQueryForm.institueViewColl" listKey="displayName" listValue="displayName" />
+					 
+				<s:actionerror name="instituteView"/>
 			</td>
 		</tr>
 	</table>
@@ -148,27 +151,42 @@ L--%>
 <!--Step 6-->
 <fieldset class="grayRefine">
 <legend class="red">Step 6: Run report or return to previous screen</legend>
-			<br />
-			    <input type="button" id="clearButton" class="xbutton" value="Clear" onclick="javascript:location.href='refinecheck.do'"/>
+			<br>
+			    <input type="button" id="clearButton" class="xbutton" value="Clear" onclick="javascript:location.href='refinecheck'"/>
+				
+				<!--  
 				<html:button property="backbutton" styleClass="xbutton" value="<< Back" 
-					onclick="javascript:history.back();"/>&nbsp;&nbsp
+					onclick="javascript:history.back();"/>
+				-->
+				<s:submit type="button" action="gePreview" class="xbutton" theme="simple"
+					onclick="javascript:history.back();"><< Back</s:submit>	
+
+					&nbsp;&nbsp
 				<!--check to see if query has been validated and the runFlag has been set on the form-->
-				<logic:equal name="refineQueryForm" property="runFlag" value="yes" >
+				<s:if test="refineQueryForm.runFlag.equals('yes')">
 					<!-- JavaScript here is to create a popup for the ReportResults -->
-					<% //<html:submit styleClass="xbutton" styleId="runReportButton" property="method" onclick="javascript:return formNewTargetSimple('_report', 770, 550);"> %>
-					<html:submit styleClass="xbutton" styleId="runReportButton" property="method">
-						<bean:message key="RefineQueryAction.runReportButton"/>
-					</html:submit>
-				</logic:equal> 
+					<s:submit class="xbutton" id="runReportButton" property="method">
+						Anoth button
+					</s:submit>
+				</s:if>
 				
 </fieldset>
-</html:form>
+</s:form>
 	
 
 <script language="JavaScript">
 function operandChange(){
-  document.forms[0].validateButton.value="ChangedOperand";
-  document.forms[0].validateButton.click();
+  //document.forms[0].validateButton.value="ChangedOperand";
+  //document.forms[0].validateButton.click();
+  document.forms[0].action="refineQueryOperandChange.action";
+  document.forms[0].submit();
 }
+
+function validateQuery(){
+	  //document.forms[0].validateButton.value="ChangedOperand";
+	  //document.forms[0].validateButton.click();
+	  document.forms[0].action="refineQueryValidateQery.action";
+	  document.forms[0].submit();
+	}
 </script>	
 		

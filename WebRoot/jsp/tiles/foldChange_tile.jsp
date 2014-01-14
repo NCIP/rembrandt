@@ -23,45 +23,45 @@ L--%>
 <s:actionerror />
 <br />
 
-<input type="radio" name="geneExpressionForm.regulationStatus" class="radio" id="regulationStatus1" value="up" />
+<input type="radio" name="form.regulationStatus" class="radio" id="regulationStatus1" value="up" />
 <label for="regulationStatus1">Up-regulation</label> &ge;
 				
-<s:textfield id="foldChangeValueUp" name="geneExpressionForm.foldChangeValueUp" size="3" 
+<s:textfield id="foldChangeValueUp" name="form.foldChangeValueUp" size="3" 
 	onfocus="javascript:radioFold(this);"  onblur="javascript:cRadio(this, document.forms[0].regulationStatus[0]);" />
 <label for="foldChangeValueUp">&nbsp;fold(s)</label></br>				
 
 <label for="regulationStatus2">Down Regulation</label> &ge;
-<input type="radio" name="geneExpressionForm.regulationStatus" class="radio" id="regulationStatus2" value="down" />
+<input type="radio" name="form.regulationStatus" class="radio" id="regulationStatus2" value="down" />
 
-<s:textfield id="foldChangeValueDown" name="geneExpressionForm.foldChangeValueDown" size="3" 
+<s:textfield id="foldChangeValueDown" name="form.foldChangeValueDown" size="3" 
 	onfocus="javascript:radioFold(this);"  onblur="javascript:cRadio(this, document.forms[0].regulationStatus[1]);" />
 	<label for="foldChangeValueDown">&nbsp;fold(s)</label></br>
 
-<input type="radio" name="geneExpressionForm.regulationStatus" class="radio" id="regulationStatus3" value="updown" />
+<input type="radio" name="form.regulationStatus" class="radio" id="regulationStatus3" value="updown" />
 <label for="regulationStatus3">Up or Down&nbsp;</label>
 
 <blockquote>
 Up-regulation &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &ge;
- <s:textfield id="foldChangeValueUDUp" name="geneExpressionForm.foldChangeValueUDUp" size="3" 
+ <s:textfield id="foldChangeValueUDUp" name="form.foldChangeValueUDUp" size="3" 
  	onfocus="javascript:radioFold(this);" />
  	<label for="foldChangeValueUDUp">&nbsp;fold(s)</label>
 &nbsp;
 <Br>
 Down-regulation &nbsp;&nbsp; &ge;
-<s:textfield id="foldChangeValueUDDown" name="geneExpressionForm.foldChangeValueUDDown" size="3" 
+<s:textfield id="foldChangeValueUDDown" name="form.foldChangeValueUDDown" size="3" 
 	onfocus="javascript:radioFold(this);" />
 	<label for="foldChangeValueUDDown">&nbsp;fold(s)</label>
 &nbsp;
 </blockquote>
 
-<input type="radio" name="geneExpressionForm.regulationStatus" class="radio" id="regulationStatus4" value="unchange" />
+<input type="radio" name="form.regulationStatus" class="radio" id="regulationStatus4" value="unchange" />
 <label for="regulationStatus4">Unchanged&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 				
-<s:textfield id="foldChangeValueUnchangeFrom" name="geneExpressionForm.foldChangeValueUnchangeFrom" size="3" 
+<s:textfield id="foldChangeValueUnchangeFrom" name="form.foldChangeValueUnchangeFrom" size="3" 
 	onfocus="javascript:radioFold(this);" />
 	<label for="foldChangeValueUnchangeFrom">-to-</label>
 				
-<s:textfield id="foldChangeValueUnchangeTo" name="geneExpressionForm.foldChangeValueUnchangeTo" size="3" onfocus="javascript:radioFold(this);" />
+<s:textfield id="foldChangeValueUnchangeTo" name="form.foldChangeValueUnchangeTo" size="3" onfocus="javascript:radioFold(this);" />
 <label for="foldChangeValueUnchangeTo">&nbsp;fold(s)</label>
 <s:actionerror/>
 </fieldset>

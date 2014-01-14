@@ -43,15 +43,15 @@ L--%>
 <br/>	
 &nbsp;&nbsp;
   
-<input type="radio" name="geneExpressionForm.sampleGroup" class="radio" id="sampleGroup1" value="Specify" onfocus="javascript:onRadio(this,0);" />
-<s:textfield id="sampleList" name="geneExpressionForm.sampleList" disabled="false" onfocus="javascript:radioFold(this);" 
+<input type="radio" name="form.sampleGroup" class="radio" id="sampleGroup1" value="Specify" onfocus="javascript:onRadio(this,0);" />
+<s:textfield id="sampleList" name="form.sampleList" disabled="false" onfocus="javascript:radioFold(this);" 
 	onblur="javascript:cRadio(this, document.forms[0].sampleGroup[0]);" />
 
 
 <label for="sampleGroup2">&nbsp;-or-&nbsp;</label>
-<input type="radio" name="geneExpressionForm.sampleGroup" class="radio" id="sampleGroup2" value="Upload" onfocus="javascript:onRadio(this,1);" />
+<input type="radio" name="form.sampleGroup" class="radio" id="sampleGroup2" value="Upload" onfocus="javascript:onRadio(this,1);" />
 
-<s:select name="geneExpressionForm.sampleFile" id="sampleFile" disabled="false" list="geneExpressionForm.savedSampleList"
+<s:select name="form.sampleFile" id="sampleFile" disabled="false" list="form.savedSampleList"
 	onblur="javascript:cRadio(this, document.forms[0].sampleGroup[1]);" onfocus="javascript:document.forms[0].sampleGroup[1].checked = true; updateG()" />
 <label for="sampleList">&nbsp;</label><label for="sampleFile">&nbsp;</label>
 

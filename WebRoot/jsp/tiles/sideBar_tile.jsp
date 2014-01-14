@@ -44,7 +44,7 @@ L--%>
 </div>
 
 <h3>Queries</h3>
-<s:form action ="delete_Query">
+<s:form action ="delete_Query" theme="simple">
 <script type="text/javascript">
 	var method;
 	var queryKey; 
