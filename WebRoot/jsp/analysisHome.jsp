@@ -31,12 +31,12 @@ gpHomeURL = gpHomeURL + "&target=new";
 		<app:cshelp topic="HOA_overview" />
 		
 			<table border="0" cellpadding="10" cellspacing="3">
-				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Class Comparison Analysis" onclick="javascript:location.href='classcomparisonInit.action?method=setup';"></td></tr>				
-				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Principal Component Analysis (PCA)" onclick="javascript:location.href='principalcomponentInit.action?method=setup';"></td></tr>				
-				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Hierarchical Clustering Analysis" onclick="javascript:location.href='hierarchicalclusteringInit.action?method=setup';"></td></tr>			
-				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Send Data to IGV Viewer" onclick="javascript:location.href='igvintegrationInit.action?method=setup';"></td></tr>
-			    <tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Launch IGV Viewer" onclick="javascript:location.href='gpProcess.action?method=blankIgvViewer';"></td></tr>
-				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Send Data to GenePattern" onclick="javascript:location.href='gpintegrationInit.action?method=setup';"></td></tr>			
+				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Class Comparison Analysis" onclick="javascript:location.href='classcomparisonInit.action';"></td></tr>				
+				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Principal Component Analysis (PCA)" onclick="javascript:location.href='principalcomponentInit.action';"></td></tr>				
+				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Hierarchical Clustering Analysis" onclick="javascript:location.href='hierarchicalclusteringInit.action';"></td></tr>			
+				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Send Data to IGV Viewer" onclick="javascript:location.href='igvintegrationInit.action';"></td></tr>
+			    <tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Launch IGV Viewer" onclick="javascript:location.href='igvProcess.action';"></td></tr>
+				<tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Send Data to GenePattern" onclick="javascript:location.href='gpintegrationInit.action';"></td></tr>			
 			    <tr><td><input type="button" class="xbutton" style="width:200px;margin-bottom: 5px;" value="Launch GenePattern Application" onclick="window.open( '<%= gpHomeURL %>');"></td></tr>	
 		</table>
 	</fieldset>

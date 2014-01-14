@@ -22,8 +22,10 @@ document.forms[0].target = "_self";
 
 <s:if test="hierarchicalClusteringForm == null">
 	<s:if test="gpIntegrationForm != null">
-		<s:submit id="submittalButton" cssClass="subButton" name="method" onclick="javascript: saveMe(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups')); return checkNull(document.forms[0].analysisResultName, 'false');" value="%{getText('buttons_tile.submittalButton')}" theme="simple">
-		</s:submit>
+		<s:if test="igvIntegrationForm == null">
+			<s:submit id="submittalButton" cssClass="subButton" name="method" onclick="javascript: saveMe(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups')); return checkNull(document.forms[0].analysisResultName, 'false');" value="%{getText('buttons_tile.submittalButton')}" theme="simple">
+			</s:submit>
+		</s:if>
 	</s:if>
 	<s:if test="igvIntegrationForm != null">
 		<s:submit id="submittalButton" cssClass="subButton" name="method" onclick="javascript: saveMe(document.getElementById('selectedGroups'),document.getElementById('nonselectedGroups')); javascript: saveMe(document.getElementById('selectedAnnotationList'),document.getElementById('annotationList')); return checkNull(document.forms[0].analysisResultName, 'false');" value="%{getText('buttons_tile.submittalButton')}" theme="simple">

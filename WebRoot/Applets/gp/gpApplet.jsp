@@ -5,7 +5,7 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%
 
 	String supportFileURL = (String)request.getAttribute("supportFileURL");
@@ -36,9 +36,7 @@ L--%>
 	String GenePatternURL = (String)request.getAttribute("GenePatternURL");
  %>
 
-<logic:present name="goApplet" >
-
-
+<s:if test="goApplet != null">
 
 <script type="text/javascript">
 document.writeln('<applet code="gov.nih.nci.caintegrator.application.gpvisualizer.CaIntegratorRunVisualizerApplet" archive="SignedGPApplet.jar,GenePattern.jar,commons-httpclient-3.1.jar,commons-logging-1.0.4.jar,commons-codec-1.3.jar" codebase="Applets/gp" width="100" height="100" alt="Your browser refuses to run applets" name="<%= appletName %>" >');
@@ -85,7 +83,8 @@ document.writeln("<PARAM name=\"browserCookie\" value=\"" + document.cookie + "\
 document.writeln('</applet>');	
 </script>
 
-</logic:present>
+</s:if>
+
 
 
 
