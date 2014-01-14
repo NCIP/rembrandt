@@ -9,8 +9,10 @@ package gov.nih.nci.rembrandt.web.struts2.form;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
-import gov.nih.nci.caintegrator.application.util.ApplicationContext;
+//import gov.nih.nci.caintegrator.application.util.ApplicationContext;
+import gov.nih.nci.rembrandt.util.ApplicationContext;
 import gov.nih.nci.rembrandt.util.MoreStringUtils;
 import gov.nih.nci.rembrandt.dto.lookup.AllGeneAliasLookup;
 import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
@@ -253,9 +255,14 @@ public class UIFormValidator {
 			String basePairEnd,
             List<String> errors) {
       	
-		if (chrosomeNumber.trim().length() > 0) {
-			if (region.trim().length() < 1)
+    	
+		if (!chrosomeNumber.trim().equals("-1")) {
+			if (region.trim().length() < 1) {
+				Properties props = ApplicationContext.getLabelProperties();
+				String v = props.getProperty("gov.nih.nci.nautilus.ui.struts.form.region.no.error");
+				
 				errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.region.no.error"));
+			}
 			else {
 				if (region.trim().equalsIgnoreCase("cytoband")) {
 					if (cytobandRegionStart.trim().length() < 1)

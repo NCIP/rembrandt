@@ -7,8 +7,10 @@
 
 package gov.nih.nci.rembrandt.web.struts2.form;
 
+import gov.nih.nci.caintegrator.application.lists.ListItem;
 import gov.nih.nci.caintegrator.application.lists.ListSubType;
 import gov.nih.nci.caintegrator.application.lists.ListType;
+import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
 import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
@@ -130,11 +132,31 @@ public class RefineQueryForm extends BaseForm implements Factory {
     
     private String queryDetails = "";
     
+    List<String> leftParenOptions;
+    List<String> rightParenOptions;
+    List<String> operands;
+    
+    String leftParen;
+    String rightParen;
+    
     //Shan: new for struts 2
     private Map<String, String> errors;
  
 	public RefineQueryForm() {
 		super();
+		
+		leftParenOptions = new ArrayList<String>();
+		leftParenOptions.add("");
+		leftParenOptions.add("(");
+		
+		rightParenOptions = new ArrayList<String>();
+		rightParenOptions.add("");
+		rightParenOptions.add(")");
+		
+		operands = new ArrayList<String>();
+		operands.add("");
+		operands.add("and");
+		operands.add("or");
 	}
 	
 	public List getAllGenesQueries() {
@@ -285,6 +307,14 @@ public class RefineQueryForm extends BaseForm implements Factory {
 		SelectedQueryBean newQuery = new SelectedQueryBean();
 		newQuery.setQueryName("");
 		selectedQueries.add(newQuery);
+	}
+	
+	public void addSelectedQuery(SelectedQueryBean newBean) {
+		List selectedQueries = this.getSelectedQueries();
+		//SelectedQueryBean newQuery = new SelectedQueryBean();
+		//newQuery.setQueryName("");
+		newBean.setQueryName(""); //why?
+		selectedQueries.add(newBean);
 	}
 
 	/*
@@ -488,7 +518,45 @@ public class RefineQueryForm extends BaseForm implements Factory {
 		this.errors = errors;
 	}
 
-	
-	
+	public List<String> getLeftParenOptions() {
+		return leftParenOptions;
+	}
+
+	public void setLeftParenOptions(List<String> leftParenOptions) {
+		this.leftParenOptions = leftParenOptions;
+	}
+
+	public List<String> getRightParenOptions() {
+		return rightParenOptions;
+	}
+
+	public void setRightParenOptions(List<String> rightParenOptions) {
+		this.rightParenOptions = rightParenOptions;
+	}
+
+	public List<String> getOperands() {
+		return operands;
+	}
+
+	public void setOperands(List<String> operands) {
+		this.operands = operands;
+	}
+
+	public String getLeftParen() {
+		return leftParen;
+	}
+
+	public void setLeftParen(String leftParen) {
+		this.leftParen = leftParen;
+	}
+
+	public String getRightParen() {
+		return rightParen;
+	}
+
+	public void setRightParen(String rightParen) {
+		this.rightParen = rightParen;
+	}
+
 	
 }

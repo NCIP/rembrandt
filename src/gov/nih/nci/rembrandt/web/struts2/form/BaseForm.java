@@ -218,8 +218,14 @@ public class BaseForm implements Serializable, RootForm{
 	public ArrayList getDiseaseType() 
 	{ return diseaseType; }
 
-	public ArrayList getGeneTypeColl() 
+	public ArrayList<LabelValueBean> getGeneTypeColl() 
 	{ return geneTypeColl; }
+	
+	
+
+	public void setGeneTypeColl(ArrayList<LabelValueBean> geneTypeColl) {
+		this.geneTypeColl = geneTypeColl;
+	}
 
 	/**
 	 * @return Returns the method.
@@ -496,6 +502,19 @@ public class BaseForm implements Serializable, RootForm{
 
 		public void setTumorGrades(List<String> tumorGradeList) {
 			this.tumorGrades = tumorGradeList;
+		}
+		
+		public String getCytobandsActionName() {
+			return "Subclass need to define this";
+		}
+			
+		
+		public String getSubmitActionName() {
+			return "Subclass need to define this";
+		}
+		
+		public String getPreviewActionName() {
+			return "Subclass need to define this";
 		}
        
 }
