@@ -699,6 +699,26 @@
 		 	<param name="actionName">gpProcess</param>
 		</result -->
 	</action>
+	
+	<action name="gpProcess"
+		class="gov.nih.nci.rembrandt.web.struts2.action.GPProcessAction" method="setup">
+		<result name="success" type="tiles">rembrandt.gpJobView</result>
+		
+		<result name="appletViewer" type="tiles">rembrandt.gpJobView</result>
+		
+		 <result name="failure" type="redirectAction">
+		 	<param name="actionName">login</param>
+		 </result>
+		
+		<result name="viewJob" type="redirectAction">
+		 	<param name="actionName">gpProcess</param>
+		</result>
+	</action>
+	
+	<action name="igvProcess"
+		class="gov.nih.nci.rembrandt.web.struts2.action.GPProcessAction" method="blankIgvViewer">
+		<result name="runIGVReport">jsp/segmentViewIGVReport.jsp</result>
+	</action>
         
     </package>
 
