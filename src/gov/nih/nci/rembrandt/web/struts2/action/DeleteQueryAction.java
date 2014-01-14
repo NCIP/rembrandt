@@ -215,7 +215,7 @@ public class DeleteQueryAction extends ActionSupport implements SessionAware, Se
 			       editForward = "editGE";
                }
 			   this.servletRequest.setAttribute("copy", "true");
-			   
+			   //Remove this comment later
 			   return editForward;		
 		     }
 	
