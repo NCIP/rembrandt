@@ -50,6 +50,7 @@ import gov.nih.nci.rembrandt.web.helper.ListConvertor;
 import gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper;
 import gov.nih.nci.rembrandt.web.struts2.form.ComparativeGenomicForm;
 import gov.nih.nci.rembrandt.web.struts2.form.GeneExpressionForm;
+import gov.nih.nci.rembrandt.web.struts2.form.UIFormValidator;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -135,36 +136,42 @@ import com.opensymphony.xwork2.Preparable;
 * 
 */
 
-public class ComparativeGenomicAction extends GeneExpressionAction /*ActionSupport implements SessionAware, ServletRequestAware, Preparable*/ { 
+public class ComparativeGenomicAction extends ActionSupport implements SessionAware, ServletRequestAware, Preparable { 
 //Shan
 // extends LookupDispatchAction {
     private static Logger logger = Logger.getLogger(ComparativeGenomicAction.class);
     private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
     
-    //HttpServletRequest servletRequest;
+    HttpServletRequest servletRequest;
     ComparativeGenomicForm comparativeGenomicForm;
-    ComparativeGenomicForm comparativeGenomicFormInSession;
+    //ComparativeGenomicForm comparativeGenomicFormInSession;
     
-    //Map<String, Object> sessionMap;
+    Map<String, Object> sessionMap;
     
-    //GeneExpressionForm geneExpressionForm;
+    GeneExpressionForm geneExpressionForm;
     //GeneExpressionForm geneExpressionFormInSession;
     
     
     @Override
 	public void prepare() throws Exception {
 		
-    	super.prepare();
+    	//super.prepare();
     	
-    	comparativeGenomicFormInSession = (ComparativeGenomicForm)sessionMap.get("comparativeGenomicForm");
-		if (comparativeGenomicFormInSession == null) {
-			comparativeGenomicFormInSession = new ComparativeGenomicForm();
-			sessionMap.put("comparativeGenomicForm", comparativeGenomicFormInSession);
+    	//comparativeGenomicFormInSession = (ComparativeGenomicForm)sessionMap.get("comparativeGenomicForm");
+		if (comparativeGenomicForm == null) {
+			comparativeGenomicForm = new ComparativeGenomicForm();
+			comparativeGenomicForm.reset(this.servletRequest);
+			//sessionMap.put("comparativeGenomicForm", comparativeGenomicFormInSession);
 		}
 		
 		//Do we reset everytime
-		comparativeGenomicFormInSession.reset(this.servletRequest);
+		//comparativeGenomicFormInSession.reset(this.servletRequest);
 		//geneExpressionForm = form;
+		
+		if (geneExpressionForm == null) {
+			geneExpressionForm = new GeneExpressionForm();
+			geneExpressionForm.reset(this.servletRequest);
+		}
 		
 	}
     
@@ -196,9 +203,7 @@ public class ComparativeGenomicAction extends GeneExpressionAction /*ActionSuppo
     
     //Setup the comparativeGenomicForm from menu page
     public String setup() {
-	//throws Exception {
-    	
-    	super.setup();
+	
     	
     	String sID = servletRequest.getHeader("Referer");
     	
@@ -207,7 +212,7 @@ public class ComparativeGenomicAction extends GeneExpressionAction /*ActionSuppo
     		return "failure";
     	}
 
-		comparativeGenomicForm = comparativeGenomicFormInSession;
+		//comparativeGenomicForm = comparativeGenomicFormInSession;
 		//this.geneExpressionForm = geneExpressionFormInSession;
 		
     	//Since Chromosomes is a static variable there is no need to set it twice.
@@ -216,12 +221,13 @@ public class ComparativeGenomicAction extends GeneExpressionAction /*ActionSuppo
 			//set the chromsomes list in the form 
 			logger.debug("Setup the chromosome values for the form");
 			comparativeGenomicForm.setChromosomes(ChromosomeHelper.getInstance().getChromosomes());
+			this.geneExpressionForm.setChromosomes(comparativeGenomicForm.getChromosomes());
 		}
         GroupRetriever groupRetriever = new GroupRetriever();
         comparativeGenomicForm.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(servletRequest.getSession()));
         
         //saveToken(request);
-        sessionMap.put("comparativeGenomicForm", comparativeGenomicForm);
+        //sessionMap.put("comparativeGenomicForm", comparativeGenomicForm);
 		return "backToCGH";
     }
     
@@ -247,20 +253,22 @@ public class ComparativeGenomicAction extends GeneExpressionAction /*ActionSuppo
     }
     
     public String getCytobands()
-			throws Exception {
-			ComparativeGenomicForm cgForm = (ComparativeGenomicForm)comparativeGenomicForm;
-			//This is the static list of chromosomes that is fetched the first time it is needed
-			List chromosomes = cgForm.getChromosomes();
-			//IMPORTANT! geForm.chromosomeNumber is NOT the chromosome number.  It is the index
-			//into the static chromosomes list where the chromosome can be found.
-			if(!"".equals(cgForm.getChromosomeNumber())) {
-				ChromosomeBean bean = (ChromosomeBean)chromosomes.get(Integer.parseInt(cgForm.getChromosomeNumber()));
-				cgForm.setCytobands(bean.getCytobands());
-			}
-			
-			this.servletRequest.setAttribute("selectedView", "regionView");
-			return "backToCGH";
-	}
+    		throws Exception {
+
+    	ComparativeGenomicForm cgForm = (ComparativeGenomicForm)comparativeGenomicForm;
+    	cgForm.validateForCytobands();
+    	//This is the static list of chromosomes that is fetched the first time it is needed
+    	List chromosomes = cgForm.getChromosomes();
+    	//IMPORTANT! geForm.chromosomeNumber is NOT the chromosome number.  It is the index
+    	//into the static chromosomes list where the chromosome can be found.
+    	if(!"".equals(cgForm.getChromosomeNumber())) {
+    		ChromosomeBean bean = (ChromosomeBean)chromosomes.get(Integer.parseInt(cgForm.getChromosomeNumber()));
+    		cgForm.setCytobands(bean.getCytobands());
+    	}
+
+    	this.servletRequest.setAttribute("selectedView", "regionView");
+    	return "backToCGH";
+    }
     
     
     /**
@@ -376,6 +384,16 @@ public class ComparativeGenomicAction extends GeneExpressionAction /*ActionSuppo
     	//if (!isTokenValid(request)) {
 		//	return mapping.findForward("failure");
 		//}
+    	
+    	setDataFormDetails();
+    	
+    	List<String> errors =  comparativeGenomicForm.validateForSubmitOrPreview();
+    	if (errors != null && errors.size() > 0) {
+    		for (String error : errors)
+    			addActionError(error);
+    		
+    		return "backToCGH";
+    	}
         
         this.servletRequest.getSession().setAttribute("currentPage", "0");
         this.servletRequest.getSession().removeAttribute("currentPage2");
@@ -485,6 +503,16 @@ public class ComparativeGenomicAction extends GeneExpressionAction /*ActionSuppo
     	//if (!isTokenValid(request)) {
 		//	return mapping.findForward("failure");
 		//}
+    	
+    	setDataFormDetails();
+    	
+    	List<String> errors =  comparativeGenomicForm.validateForSubmitOrPreview();
+    	if (errors != null && errors.size() > 0) {
+    		for (String error : errors)
+    			addActionError(error);
+    		
+    		return "backToCGH";
+    	}
         
         this.servletRequest.getSession().setAttribute("currentPage", "0");
         this.servletRequest.getSession().removeAttribute("currentPage2");
@@ -763,18 +791,48 @@ public class ComparativeGenomicAction extends GeneExpressionAction /*ActionSuppo
 	}
 
 
+	public GeneExpressionForm getGeneExpressionForm() {
+		return geneExpressionForm;
+	}
 
-//
-//	public GeneExpressionForm getGeneExpressionForm() {
-//		return geneExpressionForm;
-//	}
-//
-//
-//
-//
-//	public void setGeneExpressionForm(GeneExpressionForm geneExpressionForm) {
-//		this.geneExpressionForm = geneExpressionForm;
-//	}
-    
+	public void setGeneExpressionForm(GeneExpressionForm geneExpressionForm) {
+		this.geneExpressionForm = geneExpressionForm;
+	}
+	
+	protected void setDataFormDetails() {
+		this.comparativeGenomicForm.setGeneListDetails();
+		this.comparativeGenomicForm.setGeneOptionDetails();
+		
+		this.comparativeGenomicForm.setCytobandRegionStartDetails();
+		this.comparativeGenomicForm.setCytobandRegionEndDetails();
+		this.comparativeGenomicForm.setCloneListSpecifyDetails();
+		this.comparativeGenomicForm.setBasePairStartDetails();
+		this.comparativeGenomicForm.setBasePairEndDetails();
+		
+		//this.comparativeGenomicForm.setGoClassificationDetails();
+		//this.comparativeGenomicForm.setFoldChangeValueDownDetails();
+		//this.comparativeGenomicForm.setFoldChangeValueUnchangeFromDetails();
+		//this.comparativeGenomicForm.setFoldChangeValueUnchangeToDetails();
+		//this.comparativeGenomicForm.setFoldChangeValueUpDetails();
+		//this.comparativeGenomicForm.setFoldChangeValueUDUpDetails();
+		//this.comparativeGenomicForm.setFoldChangeValueUDDownDetails();
+		
+		
+		
+		this.comparativeGenomicForm.setCnAmplifiedDetails();
+		this.comparativeGenomicForm.setSmAmplifiedDetails();
+		this.comparativeGenomicForm.setCloneListFileDetails();
+		this.comparativeGenomicForm.setSnpListSpecifyDetails();
+		this.comparativeGenomicForm.setCnADAmplifiedDetails();
+		this.comparativeGenomicForm.setCnADDeletedDetails();
+		this.comparativeGenomicForm.setCnUnchangeToDetails();
+		this.comparativeGenomicForm.setSmUnchangeToDetails();
+		this.comparativeGenomicForm.setCnDeletedDetails();
+		this.comparativeGenomicForm.setSmDeletedDetails();
+		this.comparativeGenomicForm.setCnUnchangeFromDetails();
+		this.comparativeGenomicForm.setSmUnchangeFromDetails();
+		
+	}
     
 }
+    

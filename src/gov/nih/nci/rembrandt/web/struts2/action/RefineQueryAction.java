@@ -43,6 +43,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.ServletRequestAware;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.Preparable;
 
 /**
  * This action is associated with the refine_tile.jsp tile and is mapped
@@ -113,13 +114,26 @@ import com.opensymphony.xwork2.ActionSupport;
 * 
 */
 
-public class RefineQueryAction extends ActionSupport implements ServletRequestAware {
+public class RefineQueryAction extends ActionSupport implements ServletRequestAware, Preparable {
 
     private static Logger logger = Logger.getLogger(RefineQueryAction.class);
 	private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	
 	HttpServletRequest servletRequest;
     RefineQueryForm refineQueryForm;
+    
+    SelectedQueryBean queryBean;
+    
+    
+	@Override
+	public void prepare() throws Exception {
+		if (refineQueryForm == null) {
+			refineQueryForm = new RefineQueryForm();
+			refineQueryForm.reset(this.servletRequest);
+		}
+		
+	}
+
 	/**
     *  Responsible for looking at the user constructed compound query from the
     *  refine_tile.jsp.  If the Selected queries and operations are correct
@@ -305,21 +319,24 @@ public class RefineQueryAction extends ActionSupport implements ServletRequestAw
    
         //RefineQueryForm refineQueryForm = (RefineQueryForm)form;
         List selectedQuerries = refineQueryForm.getSelectedQueries();
-        SelectedQueryBean lastQuery = (SelectedQueryBean)selectedQuerries.get(selectedQuerries.size()-1);
-        //This logic is to prevent the adding of unnecesary rows...
-        if(!lastQuery.getOperand().equals("")) {
-        	refineQueryForm.addSelectedQuery();
-        }else {
-        	for(int i = 0; i < selectedQuerries.size();i++) {
-        		if(((SelectedQueryBean)selectedQuerries.get(i)).getOperand().equals("")&& i!=selectedQuerries.size()-1) {
-        			for(int j = selectedQuerries.size()-1; j>=i;j--) {
-                       selectedQuerries.remove(j);
-                    }
-                    break;
-                }
-           }
+        refineQueryForm.addSelectedQuery(this.queryBean);
         
-        }
+        
+//        SelectedQueryBean lastQuery = (SelectedQueryBean)selectedQuerries.get(selectedQuerries.size()-1);
+//        //This logic is to prevent the adding of unnecesary rows...
+//        if(lastQuery.getOperand() != null && !lastQuery.getOperand().equals("")) {
+//        	refineQueryForm.addSelectedQuery(this.queryBean);
+//        }else {
+//        	for(int i = 0; i < selectedQuerries.size();i++) {
+//        		if(((SelectedQueryBean)selectedQuerries.get(i)).getOperand().equals("")&& i!=selectedQuerries.size()-1) {
+//        			for(int j = selectedQuerries.size()-1; j>=i;j--) {
+//                       selectedQuerries.remove(j);
+//                    }
+//                    break;
+//                }
+//           }
+//        
+//        }
         //Flag used by the refine_query.jsp to determine if we should show the 
         //run_report button
         refineQueryForm.setRunFlag("no");
@@ -362,5 +379,15 @@ public class RefineQueryAction extends ActionSupport implements ServletRequestAw
 	public void setRefineQueryForm(RefineQueryForm refineQueryForm) {
 		this.refineQueryForm = refineQueryForm;
 	}
+
+	public SelectedQueryBean getQueryBean() {
+		return queryBean;
+	}
+
+	public void setQueryBean(SelectedQueryBean queryBean) {
+		this.queryBean = queryBean;
+	}
+	
+	
       
 }

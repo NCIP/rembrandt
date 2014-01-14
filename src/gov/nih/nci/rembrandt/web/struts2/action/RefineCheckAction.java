@@ -8,10 +8,17 @@
 package gov.nih.nci.rembrandt.web.struts2.action;
 
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
+import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
+import gov.nih.nci.rembrandt.dto.query.ComparativeGenomicQuery;
+import gov.nih.nci.rembrandt.dto.query.GeneExpressionQuery;
+import gov.nih.nci.rembrandt.dto.query.Query;
 import gov.nih.nci.rembrandt.util.ApplicationContext;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.struts2.form.RefineQueryForm;
+
+import java.util.Collection;
+import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,6 +26,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.ServletRequestAware;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.Preparable;
 
 
 
@@ -83,13 +91,25 @@ import com.opensymphony.xwork2.ActionSupport;
 * 
 */
 
-public class RefineCheckAction extends ActionSupport implements ServletRequestAware {
+public class RefineCheckAction extends ActionSupport implements ServletRequestAware, Preparable {
     private static Logger logger = Logger.getLogger(RefineCheckAction.class);
     private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
     
     HttpServletRequest servletRequest;
     RefineQueryForm refineQueryForm;
-    /**
+    
+    Collection selectedQueries;
+    
+    
+    @Override
+	public void prepare() throws Exception {
+    	if (refineQueryForm == null) {
+			refineQueryForm = new RefineQueryForm();
+			refineQueryForm.reset(this.servletRequest);
+		}
+		
+	}
+	/**
 	 * Method execute
 	 * @param ActionMapping mapping
 	 * @param ActionForm form
@@ -104,7 +124,40 @@ public class RefineCheckAction extends ActionSupport implements ServletRequestAw
 		servletRequest.getSession().setAttribute("currentPage", "0");
 		servletRequest.getSession().removeAttribute("currentPage2");
 		String sessionId = servletRequest.getSession().getId();
+		
 		SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
+		
+		//debug
+		Collection queryColl = queryBag.getQueries();
+	 	Iterator i = queryColl.iterator();
+	 	int cghQueryNum = 0;
+	 	int cpQueryNum = 0;
+	 	int geQueryNum = 0;
+	 	
+	 	while (i.hasNext()){
+	 		Query query = (Query)i.next();
+	 		if(query instanceof ClinicalDataQuery){
+	 			logger.debug("this is a Clinical Data query in the collection");
+	 	 		cghQueryNum++;
+	 	 		//cghQueryString = Integer.toString(cghQueryNum);
+	 	 		}
+	 		
+	 		else if(query instanceof ComparativeGenomicQuery){
+	 		   logger.debug("this is a Comparative Genomic query in the collection");
+	 	 	   cpQueryNum++;
+	 	 	   //cpQueryString = Integer.toString(cpQueryNum);
+	 	 	}
+	 		
+	 		else if(query instanceof GeneExpressionQuery){
+				   logger.debug("this is a gene expression query in the collection");
+		 		   geQueryNum++;
+		 		  // geQueryString = Integer.toString(geQueryNum);
+		 		}
+	 		
+	 	} 
+		
+	 	this.selectedQueries = queryColl;
+		//debug
 		
 		RefineQueryForm rqForm = (RefineQueryForm)refineQueryForm;
 		
@@ -121,7 +174,7 @@ public class RefineCheckAction extends ActionSupport implements ServletRequestAw
      }
 	@Override
 	public void setServletRequest(HttpServletRequest arg0) {
-		// TODO Auto-generated method stub
+		this.servletRequest = arg0;
 		
 	}
 	public RefineQueryForm getRefineQueryForm() {
@@ -132,6 +185,12 @@ public class RefineCheckAction extends ActionSupport implements ServletRequestAw
 	}
 	public HttpServletRequest getServletRequest() {
 		return servletRequest;
+	}
+	public Collection getSelectedQueries() {
+		return selectedQueries;
+	}
+	public void setSelectedQueries(Collection selectedQueries) {
+		this.selectedQueries = selectedQueries;
 	}
 	
 	
