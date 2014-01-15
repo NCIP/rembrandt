@@ -123,11 +123,11 @@ public class BaseForm implements Serializable, RootForm{
     protected DiseaseOrGradeCriteria diseaseOrGradeCriteria;
     protected SampleCriteria sampleCriteria;
     protected String[] tumorType;   
-	protected String sampleList;
+	protected String sampleList = "";
 	protected transient String sampleFile;
 	protected transient HttpServletRequest thisRequest;	
     protected static Collection savedSampleList;
-    protected String sampleGroup;
+    protected String sampleGroup = "";
     protected UserCredentials credentials ;
     
     protected List<String> tumorGrades;

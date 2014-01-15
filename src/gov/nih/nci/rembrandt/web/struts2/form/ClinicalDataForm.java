@@ -135,7 +135,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
     /** queryName property */
     private String queryName;
 
-    private String resultView;
+    private String resultView = "";
     
     /** clinical_evaluation  lansky property */
     private String lansky;
@@ -262,6 +262,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
     private SurvivalDE.LowerSurvivalRange lowerSurvivalRange = null;    
    
 	
+	private String recur;
 	
 
     /**
@@ -303,6 +304,8 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
     private ArrayList neuroExamTypeColl = new ArrayList();
     
     private ArrayList mriTypeColl = new ArrayList();
+    
+    private List<String> resultViewColl = new ArrayList<String>();
    
     /**
      * private search criteria objects used to contain data element objects
@@ -789,9 +792,8 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
         ageUpperColl.add(new LabelValueBean("90", "90"));
         //	ageUpperColl.add( new LabelValueBean( "90+", "90+" ) );
         
-        
-
-    
+        this.resultViewColl.add("Sample Centric");
+        this.resultViewColl.add("Gene Centric");
 
     }
 
@@ -868,8 +870,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
         raceCriteria = new RaceCriteria();
        
 
-        thisRequest = request;
-
+       
     }
  
     
@@ -914,20 +915,23 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	 */
 	public void setKarnofskyType(String karnofskyType) {
 		this.karnofskyType = karnofskyType;
+	}
+	
+	public void setKarnofskyTypeDetails() {
 		
 //		   if (thisRequest != null) {
 //	            // this is to check if thisKarnofsky option is selected
-//	            String thisKarnofsky = thisRequest.getParameter("karnofsky");
-//	            karnofskyCriteria = new KarnofskyClinicalEvalCriteria();
-//	            
-//	            // this is to check the type of Karnofsky
-//	            String thisKarnofskyType = thisRequest.getParameter("karnofskyType");
-//
-//	            if (thisKarnofsky != null && thisKarnofskyType != null
-//	                    && !thisKarnofskyType.equals("")) {
-//	            	KarnofskyClinicalEvalDE karnofskyClinicalEvalDE = new KarnofskyClinicalEvalDE(this.karnofskyType);
-//	            	karnofskyCriteria.setKarnofskyClinicalEvalDE(karnofskyClinicalEvalDE);	              
-//	            }
+		String thisKarnofsky = this.karnofsky; // thisRequest.getParameter("karnofsky");
+		karnofskyCriteria = new KarnofskyClinicalEvalCriteria();
+
+		// this is to check the type of Karnofsky
+		String thisKarnofskyType = this.karnofskyType; // thisRequest.getParameter("karnofskyType");
+
+		if (thisKarnofsky != null && thisKarnofskyType != null
+				&& !thisKarnofskyType.equals("")) {
+			KarnofskyClinicalEvalDE karnofskyClinicalEvalDE = new KarnofskyClinicalEvalDE(this.karnofskyType);
+			karnofskyCriteria.setKarnofskyClinicalEvalDE(karnofskyClinicalEvalDE);	              
+		}
 //	        }
 	}
 
@@ -973,20 +977,23 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	 */
 	public void setLanskyType(String lanskyType) {
 		this.lanskyType = lanskyType;
+	}
+	
+	public void setLanskyTypeDetails() {
 		
 //		if (thisRequest != null) {
 //            // this is to check if thisKarnofsky option is selected
-//            String thisLansky = thisRequest.getParameter("lansky");
-//            lanskyCriteria = new LanskyClinicalEvalCriteria();
-//            
-//            // this is to check the type of lanskyType
-//            String thisLanskyType = thisRequest.getParameter("lanskyType");
-//
-//            if (thisLansky != null && thisLanskyType != null
-//                    && !thisLanskyType.equals("")) {
-//            	LanskyClinicalEvalDE lanskyClinicalEvalDE = new LanskyClinicalEvalDE(this.lanskyType);
-//            	lanskyCriteria.setLanskyClinicalEvalDE(lanskyClinicalEvalDE);	              
-//            }
+		String thisLansky = this.lansky; // thisRequest.getParameter("lansky");
+		lanskyCriteria = new LanskyClinicalEvalCriteria();
+
+		// this is to check the type of lanskyType
+		String thisLanskyType = this.lanskyType; //thisRequest.getParameter("lanskyType");
+
+		if (thisLansky != null && thisLanskyType != null
+				&& !thisLanskyType.equals("")) {
+			LanskyClinicalEvalDE lanskyClinicalEvalDE = new LanskyClinicalEvalDE(this.lanskyType);
+			lanskyCriteria.setLanskyClinicalEvalDE(lanskyClinicalEvalDE);	              
+		}
 //        }
 	}
 
@@ -1032,20 +1039,23 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	 */
 	public void setMriType(String mriType) {
 		this.mriType = mriType;
+	}
+	
+	public void setMriTypeDetails() {
 		
 //		if (thisRequest != null) {
 //            // this is to check if thisKarnofsky option is selected
-//            String thisMRI= thisRequest.getParameter("mri");
-//            mriCriteria = new MRIClinicalEvalCriteria();
-//            
-//            // this is to check the type of lanskyType
-//            String thisMRIType = thisRequest.getParameter("mriType");
-//
-//            if (thisMRI != null && thisMRIType != null
-//                    && !thisMRIType.equals("")) {
-//            	MRIClinicalEvalDE mriClinicalEvalDE = new MRIClinicalEvalDE(this.mriType);
-//            	mriCriteria.setMRIClinicalEvalDE(mriClinicalEvalDE);	              
-//            }
+		String thisMRI= this.mri;  //thisRequest.getParameter("mri");
+		mriCriteria = new MRIClinicalEvalCriteria();
+
+		// this is to check the type of lanskyType
+		String thisMRIType = this.mriType; //thisRequest.getParameter("mriType");
+
+		if (thisMRI != null && thisMRIType != null
+				&& !thisMRIType.equals("")) {
+			MRIClinicalEvalDE mriClinicalEvalDE = new MRIClinicalEvalDE(this.mriType);
+			mriCriteria.setMRIClinicalEvalDE(mriClinicalEvalDE);	              
+		}
 //        }
 	}
 
@@ -1088,20 +1098,23 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	 */
 	public void setNeuroExamType(String neuroExamType) {
 		this.neuroExamType = neuroExamType;
+	}
+	
+	public void setNeuroExamTypeDetails() {
 		
 //		if (thisRequest != null) {
 //            // this is to check if thisKarnofsky option is selected
-//            String thisNeuroExam= thisRequest.getParameter("neuroExam");
-//            neuroExamCriteria = new NeuroExamClinicalEvalCriteria();
-//            
-//            // this is to check the type of lanskyType
-//            String thisNeuroExamType = thisRequest.getParameter("neuroExamType");
-//
-//            if (thisNeuroExam != null && thisNeuroExamType != null
-//                    && !thisNeuroExamType.equals("")) {
-//            	NeuroExamClinicalEvalDE neuroExamClinicalEvalDE = new NeuroExamClinicalEvalDE(this.neuroExamType);
-//            	neuroExamCriteria.setNeuroExamClinicalEvalDE(neuroExamClinicalEvalDE);	              
-//            }
+		String thisNeuroExam= this.neuroExam; //thisRequest.getParameter("neuroExam");
+		neuroExamCriteria = new NeuroExamClinicalEvalCriteria();
+
+		// this is to check the type of lanskyType
+		String thisNeuroExamType =this.neuroExamType; // thisRequest.getParameter("neuroExamType");
+
+		if (thisNeuroExam != null && thisNeuroExamType != null
+				&& !thisNeuroExamType.equals("")) {
+			NeuroExamClinicalEvalDE neuroExamClinicalEvalDE = new NeuroExamClinicalEvalDE(this.neuroExamType);
+			neuroExamCriteria.setNeuroExamClinicalEvalDE(neuroExamClinicalEvalDE);	              
+		}
 //        }
 	}
 
@@ -1125,16 +1138,17 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	 */
 	public void setAfricanAmerican(String africanAmerican) {
 		this.africanAmerican = africanAmerican;
-//		 if (africanAmerican != null) {
-//	            if (africanAmerican.equalsIgnoreCase("Specify")) {	               
-//	            	this.africanAmerican = RaceType.BLACK_OR_AFRICAN_AMERICAN.toString(); //"BLACK";
-//	            	RaceDE raceDE = new RaceDE(this.africanAmerican );
-//		            raceCriteria.setRace(raceDE);
-//		            this.africanAmerican ="Specify";
-//	            }
-//	            
-//	          
-//	        }
+	
+		if (africanAmerican != null) {
+			if (africanAmerican.equalsIgnoreCase("Specify")) {	               
+				this.africanAmerican = RaceType.BLACK_OR_AFRICAN_AMERICAN.toString(); //"BLACK";
+				RaceDE raceDE = new RaceDE(this.africanAmerican );
+				raceCriteria.setRace(raceDE);
+				this.africanAmerican ="Specify";
+			}
+
+
+		}
 	}
 
 
@@ -1153,17 +1167,18 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	 */
 	public void setCaucasion(String caucasion) {
 		this.caucasion = caucasion;	
-//		 if (caucasion != null) {
-//	            if (caucasion.equalsIgnoreCase("Specify")) {
-//	                //this.caucasion = "Caucasion";	     
-//	            	this.caucasion = RaceType.WHITE.toString(); //"WHITE";	 
-//	            	 RaceDE raceDE = new RaceDE(this.caucasion );
-//	 	             raceCriteria.setRace(raceDE);
-//	 	            this.caucasion ="Specify";
-//	 	          
-//	            }
-//	           
-//	        }
+	
+		if (caucasion != null) {
+			if (caucasion.equalsIgnoreCase("Specify")) {
+				//this.caucasion = "Caucasion";	     
+				this.caucasion = RaceType.WHITE.toString(); //"WHITE";	 
+				RaceDE raceDE = new RaceDE(this.caucasion );
+				raceCriteria.setRace(raceDE);
+				this.caucasion ="Specify";
+
+			}
+	           
+	        }
 	}
 
 	/**
@@ -1358,16 +1373,19 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
      */
     public void setRecurrence(String recurrence) {
         this.recurrence = recurrence;
-//        if (thisRequest != null) {
-//            String recurrenceStr = (String) thisRequest.getParameter("recur");
-//            String recurrenceSpecify = (String) thisRequest
-//                    .getParameter("recurrence");
-//            if (recurrenceStr != null && !recurrenceStr.equals("")&& recurrenceSpecify != null && !recurrenceSpecify.equals("")) {            	 
-//           	     OccurrenceDE occurrenceDE = new OccurrenceDE(this.recurrence);
-//                 occurrenceCriteria.setOccurrence(occurrenceDE);
-//                
-//            }
-//        }
+    }
+    
+    public void setRecurrenceDetails() {
+    //    if (thisRequest != null) {
+    	String recurrenceStr = this.recur; // (String) thisRequest.getParameter("recur");
+    	String recurrenceSpecify =this.recurrence;
+    	//(String) thisRequest.getParameter("recurrence");
+    	if (recurrenceStr != null && !recurrenceStr.equals("")&& recurrenceSpecify != null && !recurrenceSpecify.equals("")) {            	 
+    		OccurrenceDE occurrenceDE = new OccurrenceDE(this.recurrence);
+    		occurrenceCriteria.setOccurrence(occurrenceDE);
+
+    	}
+ //      }
     }
 
     /**
@@ -1431,39 +1449,42 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
      */
     public void setRadiationType(String radiationType) {
         this.radiationType = radiationType;
+    }
+    
+    public void setRadiationTypeDetails() {
 //        if (thisRequest != null) {
 //            // this is to check if radiation option is selected
-//            String thisRadiation = thisRequest.getParameter("radiation");
-//            radiationTherapyCriteria = new RadiationTherapyCriteria();
-//            
-//            // this is to check the type of radiation
-//            String thisRadiationType = thisRequest.getParameter("radiationType");
-//
-//            if (thisRadiation != null && thisRadiationType != null
-//                    && !thisRadiationType.equals("")) {
-//            	
-//            	  if(thisRadiationType.equalsIgnoreCase("ANY")) {
-//            		  
-//            		   // This is to deal with adding a collection of all the prior therapy radiation types if any is selected            	
-//                	  
-//          	    	ArrayList allRadiationTypes = this.getRadiationTypeColl();
-//          	    	 for (Iterator radiationIter = allRadiationTypes.iterator(); radiationIter.hasNext();) {
-//                            LabelValueBean thisLabelBean = (LabelValueBean) radiationIter.next();
-//                            String thisRadiationSiteType = thisLabelBean.getValue();    
-//                            if (!thisRadiationSiteType.equalsIgnoreCase("ANY")) {
-//                            	RadiationTherapyDE radiationDE = new RadiationTherapyDE(thisRadiationSiteType);
-//                            	radiationTherapyCriteria.setRadiationTherapyDE(radiationDE);
-//    		                }
-//          	    	
-//                        }
-//          	       }
-//            	  else {
-//            		  // This is to deal with adding a single prior therapy radiation type    
-//            	    RadiationTherapyDE radiationTherapyDE = new RadiationTherapyDE(this.radiationType);
-//                    radiationTherapyCriteria.setRadiationTherapyDE(radiationTherapyDE);
-//            	  }
-//              
-//            }
+    	String thisRadiation = this.radiation; // thisRequest.getParameter("radiation");
+    	radiationTherapyCriteria = new RadiationTherapyCriteria();
+
+    	// this is to check the type of radiation
+    	String thisRadiationType = this.radiationType; // thisRequest.getParameter("radiationType");
+
+    	if (thisRadiation != null && thisRadiationType != null
+    			&& !thisRadiationType.equals("")) {
+
+    		if(thisRadiationType.equalsIgnoreCase("ANY")) {
+
+    			// This is to deal with adding a collection of all the prior therapy radiation types if any is selected            	
+
+    			ArrayList allRadiationTypes = this.getRadiationTypeColl();
+    			for (Iterator radiationIter = allRadiationTypes.iterator(); radiationIter.hasNext();) {
+    				LabelValueBean thisLabelBean = (LabelValueBean) radiationIter.next();
+    				String thisRadiationSiteType = thisLabelBean.getValue();    
+    				if (!thisRadiationSiteType.equalsIgnoreCase("ANY")) {
+    					RadiationTherapyDE radiationDE = new RadiationTherapyDE(thisRadiationSiteType);
+    					radiationTherapyCriteria.setRadiationTherapyDE(radiationDE);
+    				}
+
+    			}
+    		}
+    		else {
+    			// This is to deal with adding a single prior therapy radiation type    
+    			RadiationTherapyDE radiationTherapyDE = new RadiationTherapyDE(this.radiationType);
+    			radiationTherapyCriteria.setRadiationTherapyDE(radiationTherapyDE);
+    		}
+
+    	}
 //        }
     }
 
@@ -1555,36 +1576,39 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
      */
     public void setChemoType(String chemoType) {
         this.chemoType = chemoType;
+    }
+    
+    public void setChemoTypeDetails() {
 //        if (thisRequest != null) {
 //            // this is to check if the chemo option is selected
-//            String thisChemo = thisRequest.getParameter("chemo");
-//            chemoAgentCriteria = new ChemoAgentCriteria();
-//            // this is to check the chemo type
-//            String thisChemoType = thisRequest.getParameter("chemoType");
-//            if (thisChemo != null && thisChemoType != null
-//                    && !thisChemoType.equals("")) { 
-//            	   if(thisChemoType.equalsIgnoreCase("ANY")) {
-//            		   
-//             		   // This is to deal with adding a collection of all the prior therapy chemo types if any is selected            	
-//            	        
-//            	    	ArrayList allAgents = this.getChemoAgentTypeColl();
-//            	    	 for (Iterator agentIter = allAgents.iterator(); agentIter.hasNext();) {
-//                              LabelValueBean thisLabelBean = (LabelValueBean) agentIter.next();
-//                              String thisAgentType = thisLabelBean.getValue();    
-//                              if (!thisAgentType.equalsIgnoreCase("ANY")) {
-//                            	  ChemoAgentDE chemoAgentDE = new ChemoAgentDE(thisAgentType);
-//                            	  chemoAgentCriteria.setChemoAgentDE(chemoAgentDE);
-//      		                }
-//            	    	
-//                          }
-//            	       }	 
-//            	   else {
-//            		   // This is to deal with adding a single prior therapy chemo type    
-//                       ChemoAgentDE chemoAgentDE = new ChemoAgentDE(thisChemoType);
-//                       chemoAgentCriteria.setChemoAgentDE(chemoAgentDE);
-//            	   }
-//                  
-//                }
+    	String thisChemo = this.chemo; // thisRequest.getParameter("chemo");
+    	chemoAgentCriteria = new ChemoAgentCriteria();
+    	// this is to check the chemo type
+    	String thisChemoType = this.chemoType; // thisRequest.getParameter("chemoType");
+    	if (thisChemo != null && thisChemoType != null
+    			&& !thisChemoType.equals("")) { 
+    		if(thisChemoType.equalsIgnoreCase("ANY")) {
+
+    			// This is to deal with adding a collection of all the prior therapy chemo types if any is selected            	
+
+    			ArrayList allAgents = this.getChemoAgentTypeColl();
+    			for (Iterator agentIter = allAgents.iterator(); agentIter.hasNext();) {
+    				LabelValueBean thisLabelBean = (LabelValueBean) agentIter.next();
+    				String thisAgentType = thisLabelBean.getValue();    
+    				if (!thisAgentType.equalsIgnoreCase("ANY")) {
+    					ChemoAgentDE chemoAgentDE = new ChemoAgentDE(thisAgentType);
+    					chemoAgentCriteria.setChemoAgentDE(chemoAgentDE);
+    				}
+
+    			}
+    		}	 
+    		else {
+    			// This is to deal with adding a single prior therapy chemo type    
+    			ChemoAgentDE chemoAgentDE = new ChemoAgentDE(thisChemoType);
+    			chemoAgentCriteria.setChemoAgentDE(chemoAgentDE);
+    		}
+
+    	}
 //              
 //            }
         }
@@ -1628,34 +1652,37 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
      */
     public void setSurgeryOutcome(String surgeryOutcome) {
         this.surgeryOutcome = surgeryOutcome;
+    }
+    
+    public void setSurgeryOutcomeDetails() {
 //        if (thisRequest != null) {
-//            String thisSurgery = thisRequest.getParameter("surgery");
-//            String thisSurgeryOutcome = thisRequest.getParameter("surgeryOutcome");
-//            surgeryOutcomeCriteria = new SurgeryOutcomeCriteria();
-//            if (thisSurgery != null && thisSurgeryOutcome != null
-//                    && !thisSurgeryOutcome.equals("")) {
-//            	
-//            	 if(thisSurgeryOutcome.equalsIgnoreCase("ANY")) {
-//            		   // This is to deal with adding a collection of all the prior therapy surgery outcomes if any is selected            	
-//                 	
-//         	    	ArrayList allSurgeryOutcomes = this.getSurgeryOutcomeColl();
-//         	    	 for (Iterator outcomeIter = allSurgeryOutcomes.iterator(); outcomeIter.hasNext();) {
-//                           LabelValueBean thisLabelBean = (LabelValueBean) outcomeIter.next();
-//                           String thisOutcomeType = thisLabelBean.getValue();    
-//                           if (!thisOutcomeType.equalsIgnoreCase("ANY")) {
-//                        	   SurgeryOutcomeDE surgeryOutcomeDE = new SurgeryOutcomeDE(thisOutcomeType);
-//                        	   surgeryOutcomeCriteria.setSurgeryOutcomeDE(surgeryOutcomeDE);
-//   		                }
-//         	    	
-//                       }
-//         	       }
-//            	 else {
-//            		   // This is to deal with adding a single prior therapy surgery outcome       	
-//                 	
-//            	   SurgeryOutcomeDE surgeryOutcomeDE = new SurgeryOutcomeDE(this.surgeryOutcome);
-//          	       surgeryOutcomeCriteria.setSurgeryOutcomeDE(surgeryOutcomeDE); 
-//            	 }
-//            }
+    	String thisSurgery = this.surgery; // thisRequest.getParameter("surgery");
+    	String thisSurgeryOutcome = this.surgeryOutcome; // thisRequest.getParameter("surgeryOutcome");
+    	surgeryOutcomeCriteria = new SurgeryOutcomeCriteria();
+    	if (thisSurgery != null && thisSurgeryOutcome != null
+    			&& !thisSurgeryOutcome.equals("")) {
+
+    		if(thisSurgeryOutcome.equalsIgnoreCase("ANY")) {
+    			// This is to deal with adding a collection of all the prior therapy surgery outcomes if any is selected            	
+
+    			ArrayList allSurgeryOutcomes = this.getSurgeryOutcomeColl();
+    			for (Iterator outcomeIter = allSurgeryOutcomes.iterator(); outcomeIter.hasNext();) {
+    				LabelValueBean thisLabelBean = (LabelValueBean) outcomeIter.next();
+    				String thisOutcomeType = thisLabelBean.getValue();    
+    				if (!thisOutcomeType.equalsIgnoreCase("ANY")) {
+    					SurgeryOutcomeDE surgeryOutcomeDE = new SurgeryOutcomeDE(thisOutcomeType);
+    					surgeryOutcomeCriteria.setSurgeryOutcomeDE(surgeryOutcomeDE);
+    				}
+
+    			}
+    		}
+    		else {
+    			// This is to deal with adding a single prior therapy surgery outcome       	
+
+    			SurgeryOutcomeDE surgeryOutcomeDE = new SurgeryOutcomeDE(this.surgeryOutcome);
+    			surgeryOutcomeCriteria.setSurgeryOutcomeDE(surgeryOutcomeDE); 
+    		}
+    	}
 //        }
     }
 
@@ -1721,35 +1748,38 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	 */
 	public void setOnStudyChemoType(String onStudyChemoType) {
 		this.onStudyChemoType = onStudyChemoType;
-		
+	}
+	
+	
+	public void setOnStudyChemoTypeDetails() {	
 //		if (thisRequest != null) {
 //            // this is to check if the chemo option is selected
-//            String thisOnStudyChemo = thisRequest.getParameter("onStudyChemo");
-//            onStudyChemoAgentCriteria = new OnStudyChemoAgentCriteria();
-//            // this is to check the chemo type
-//            String thisOnStudyChemoType = thisRequest.getParameter("onStudyChemoType");
-//            if (thisOnStudyChemo != null && thisOnStudyChemoType != null
-//                    && !thisOnStudyChemoType.equals("")) { 
-//            	   // This is to deal with adding a collection of all the onStudy chemo types if any is selected            	
-//            	   if(thisOnStudyChemoType.equalsIgnoreCase("ANY")) {
-//            	    	ArrayList allAgents = this.getOnStudyChemoAgentTypeColl();
-//            	    	 for (Iterator agentIter = allAgents.iterator(); agentIter.hasNext();) {
-//                              LabelValueBean thisLabelBean = (LabelValueBean) agentIter.next();
-//                              String thisAgentType = thisLabelBean.getValue();    
-//                              if (!thisAgentType.equalsIgnoreCase("ANY")) {
-//                            	  OnStudyChemoAgentDE chemoAgentDE = new OnStudyChemoAgentDE(thisAgentType);
-//                            	  onStudyChemoAgentCriteria.setOnStudyChemoAgentDE(chemoAgentDE);
-//      		                }
-//            	    	
-//                          }
-//            	       }	 
-//            	   else {
-//            		   // This is to deal with adding a single onStudy chemo type
-//                   		   OnStudyChemoAgentDE chemoAgentDE = new OnStudyChemoAgentDE(thisOnStudyChemoType);
-//            		   onStudyChemoAgentCriteria.setOnStudyChemoAgentDE(chemoAgentDE);
-//            	   }
-//                  
-//                }
+		String thisOnStudyChemo = this.onStudyChemo; // thisRequest.getParameter("onStudyChemo");
+		onStudyChemoAgentCriteria = new OnStudyChemoAgentCriteria();
+		// this is to check the chemo type
+		String thisOnStudyChemoType = this.onStudyChemoType; // thisRequest.getParameter("onStudyChemoType");
+		if (thisOnStudyChemo != null && thisOnStudyChemoType != null
+				&& !thisOnStudyChemoType.equals("")) { 
+			// This is to deal with adding a collection of all the onStudy chemo types if any is selected            	
+			if(thisOnStudyChemoType.equalsIgnoreCase("ANY")) {
+				ArrayList allAgents = this.getOnStudyChemoAgentTypeColl();
+				for (Iterator agentIter = allAgents.iterator(); agentIter.hasNext();) {
+					LabelValueBean thisLabelBean = (LabelValueBean) agentIter.next();
+					String thisAgentType = thisLabelBean.getValue();    
+					if (!thisAgentType.equalsIgnoreCase("ANY")) {
+						OnStudyChemoAgentDE chemoAgentDE = new OnStudyChemoAgentDE(thisAgentType);
+						onStudyChemoAgentCriteria.setOnStudyChemoAgentDE(chemoAgentDE);
+					}
+
+				}
+			}	 
+			else {
+				// This is to deal with adding a single onStudy chemo type
+				OnStudyChemoAgentDE chemoAgentDE = new OnStudyChemoAgentDE(thisOnStudyChemoType);
+				onStudyChemoAgentCriteria.setOnStudyChemoAgentDE(chemoAgentDE);
+			}
+
+		}
 //              
 //            }
         }
@@ -1798,34 +1828,37 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	 */
 	public void setOnStudyRadiationType(String onStudyRadiationType) {
 		this.onStudyRadiationType = onStudyRadiationType;
-		
+	}
+	
+	
+	public void setOnStudyRadiationTypeDetails() {	
 //		if (thisRequest != null) {
 //            // this is to check if the chemo option is selected
-//            String thisOnStudyRadiation = thisRequest.getParameter("onStudyRadiation");
-//            onStudyRadiationTherapyCriteria = new OnStudyRadiationTherapyCriteria();
-//            // this is to check the chemo type
-//            String thisOnStudyRadiationType = thisRequest.getParameter("onStudyRadiationType");
-//            if (thisOnStudyRadiation != null && thisOnStudyRadiationType != null
-//                    && !thisOnStudyRadiationType.equals("")) { 
-//            	   // This is to deal with adding a collection of all the radiation types if any is selected
-//            	   if(thisOnStudyRadiationType.equalsIgnoreCase("ANY")) {
-//            	    	ArrayList allRadiationTypes = this.getOnStudyRadiationTypeColl();
-//            	    	 for (Iterator radiationTypeIter = allRadiationTypes.iterator(); radiationTypeIter.hasNext();) {
-//                              LabelValueBean thisLabelBean = (LabelValueBean) radiationTypeIter.next();
-//                              String thisRadiationType = thisLabelBean.getValue();    
-//                              if (!thisRadiationType.equalsIgnoreCase("ANY")) {
-//                            	  OnStudyRadiationTherapyDE onStudyRadiationTherapyDE = new OnStudyRadiationTherapyDE(thisRadiationType);
-//                            	  onStudyRadiationTherapyCriteria.setOnStudyRadiationTherapyDE(onStudyRadiationTherapyDE);
-//      		                }
-//            	    	
-//                          }
-//            	       }	 
-//            	   else {// this is to deal with adding a single entry of radiation type
-//            		   OnStudyRadiationTherapyDE onStudyRadiationTherapyDE = new OnStudyRadiationTherapyDE(thisOnStudyRadiationType);
-//            		   onStudyRadiationTherapyCriteria.setOnStudyRadiationTherapyDE(onStudyRadiationTherapyDE);
-//            	   }
-//                  
-//                }
+		String thisOnStudyRadiation = this.onStudyRadiation; // thisRequest.getParameter("onStudyRadiation");
+		onStudyRadiationTherapyCriteria = new OnStudyRadiationTherapyCriteria();
+		// this is to check the chemo type
+		String thisOnStudyRadiationType = this.onStudyRadiationType; // thisRequest.getParameter("onStudyRadiationType");
+		if (thisOnStudyRadiation != null && thisOnStudyRadiationType != null
+				&& !thisOnStudyRadiationType.equals("")) { 
+			// This is to deal with adding a collection of all the radiation types if any is selected
+			if(thisOnStudyRadiationType.equalsIgnoreCase("ANY")) {
+				ArrayList allRadiationTypes = this.getOnStudyRadiationTypeColl();
+				for (Iterator radiationTypeIter = allRadiationTypes.iterator(); radiationTypeIter.hasNext();) {
+					LabelValueBean thisLabelBean = (LabelValueBean) radiationTypeIter.next();
+					String thisRadiationType = thisLabelBean.getValue();    
+					if (!thisRadiationType.equalsIgnoreCase("ANY")) {
+						OnStudyRadiationTherapyDE onStudyRadiationTherapyDE = new OnStudyRadiationTherapyDE(thisRadiationType);
+						onStudyRadiationTherapyCriteria.setOnStudyRadiationTherapyDE(onStudyRadiationTherapyDE);
+					}
+
+				}
+			}	 
+			else {// this is to deal with adding a single entry of radiation type
+				OnStudyRadiationTherapyDE onStudyRadiationTherapyDE = new OnStudyRadiationTherapyDE(thisOnStudyRadiationType);
+				onStudyRadiationTherapyCriteria.setOnStudyRadiationTherapyDE(onStudyRadiationTherapyDE);
+			}
+
+		}
 //              
 //            }
 	}
@@ -1872,37 +1905,39 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	 */
 	public void setOnStudySurgeryOutcome(String onStudySurgeryOutcome) {
 		this.onStudySurgeryOutcome = onStudySurgeryOutcome;
-		
+	}
+	
+	public void setOnStudySurgeryOutcomeDetails() {	
 //		if (thisRequest != null) {
 //            // this is to check if the chemo option is selected
-//            String thisOnStudySurgery = thisRequest.getParameter("onStudySurgery");
-//            onStudySurgeryOutcomeCriteria = new OnStudySurgeryOutcomeCriteria();
-//            // this is to check the chemo type
-//            String thisOnStudySurgeryOutcome = thisRequest.getParameter("onStudySurgeryOutcome");
-//            if (thisOnStudySurgery != null && thisOnStudySurgeryOutcome != null
-//                    && !thisOnStudySurgeryOutcome.equals("")) { 
-//            	   if(thisOnStudySurgeryOutcome.equalsIgnoreCase("ANY")) {
-//            		   
-//            		   // This is to deal with adding a collection of all the onstudy surgery outcomes if any is selected
-//                   	
-//            	    	ArrayList allSurgeryOutcomes = this.getOnStudySurgeryOutcomeColl();
-//            	    	 for (Iterator surgeryOutcomeIter = allSurgeryOutcomes.iterator(); surgeryOutcomeIter.hasNext();) {
-//                              LabelValueBean thisLabelBean = (LabelValueBean) surgeryOutcomeIter.next();
-//                              String thisSurgeryOutcome = thisLabelBean.getValue();    
-//                              if (!thisSurgeryOutcome.equalsIgnoreCase("ANY")) {
-//                            	  OnStudySurgeryOutcomeDE onStudySurgeryOutcomeDE = new OnStudySurgeryOutcomeDE(thisSurgeryOutcome);
-//                            	  onStudySurgeryOutcomeCriteria.setOnStudySurgeryOutcomeDE(onStudySurgeryOutcomeDE);
-//      		                }
-//            	    	
-//                          }
-//            	       }	 
-//            	   else {
-//                          // this is to deal with adding a single entry of onstudy surgery outcome
-//            			  OnStudySurgeryOutcomeDE onStudySurgeryOutcomeDE = new OnStudySurgeryOutcomeDE(thisOnStudySurgeryOutcome);
-//                      	  onStudySurgeryOutcomeCriteria.setOnStudySurgeryOutcomeDE(onStudySurgeryOutcomeDE);
-//              		  }
-//                  
-//                }
+		String thisOnStudySurgery = this.onStudySurgery; // thisRequest.getParameter("onStudySurgery");
+		onStudySurgeryOutcomeCriteria = new OnStudySurgeryOutcomeCriteria();
+		// this is to check the chemo type
+		String thisOnStudySurgeryOutcome = this.onStudySurgeryOutcome; // thisRequest.getParameter("onStudySurgeryOutcome");
+		if (thisOnStudySurgery != null && thisOnStudySurgeryOutcome != null
+				&& !thisOnStudySurgeryOutcome.equals("")) { 
+			if(thisOnStudySurgeryOutcome.equalsIgnoreCase("ANY")) {
+
+				// This is to deal with adding a collection of all the onstudy surgery outcomes if any is selected
+
+				ArrayList allSurgeryOutcomes = this.getOnStudySurgeryOutcomeColl();
+				for (Iterator surgeryOutcomeIter = allSurgeryOutcomes.iterator(); surgeryOutcomeIter.hasNext();) {
+					LabelValueBean thisLabelBean = (LabelValueBean) surgeryOutcomeIter.next();
+					String thisSurgeryOutcome = thisLabelBean.getValue();    
+					if (!thisSurgeryOutcome.equalsIgnoreCase("ANY")) {
+						OnStudySurgeryOutcomeDE onStudySurgeryOutcomeDE = new OnStudySurgeryOutcomeDE(thisSurgeryOutcome);
+						onStudySurgeryOutcomeCriteria.setOnStudySurgeryOutcomeDE(onStudySurgeryOutcomeDE);
+					}
+
+				}
+			}	 
+			else {
+				// this is to deal with adding a single entry of onstudy surgery outcome
+				OnStudySurgeryOutcomeDE onStudySurgeryOutcomeDE = new OnStudySurgeryOutcomeDE(thisOnStudySurgeryOutcome);
+				onStudySurgeryOutcomeCriteria.setOnStudySurgeryOutcomeDE(onStudySurgeryOutcomeDE);
+			}
+
+		}
 //              
 //            }
 	}
@@ -1927,35 +1962,37 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	 */
 	public void setOnStudySurgeryTitle(String onStudySurgeryTitle) {
 		this.onStudySurgeryTitle = onStudySurgeryTitle;
+	}
 		
+	public void setOnStudySurgeryTitleDetails() {
 //		if (thisRequest != null) {
 //            // this is to check if the chemo option is selected
-//            String thisOnStudySurgery = thisRequest.getParameter("onStudySurgery");
-//            onStudySurgeryTitleCriteria = new OnStudySurgeryTitleCriteria();
-//            // this is to check the chemo type
-//            String thisOnStudySurgeryTitle = thisRequest.getParameter("onStudySurgeryTitle");
-//            if (thisOnStudySurgery != null && thisOnStudySurgeryTitle != null
-//                    && !thisOnStudySurgeryTitle.equals("")) { 
-//            	   // This is to deal with adding a collection of all the onstudy surgery titles if any is selected
-//            	   if(thisOnStudySurgeryTitle.equalsIgnoreCase("ANY")) {
-//            	    	ArrayList allSurgeryTitles = this.getOnStudySurgeryTitleColl();
-//            	    	 for (Iterator surgeryTitleIter = allSurgeryTitles.iterator(); surgeryTitleIter.hasNext();) {
-//                              LabelValueBean thisLabelBean = (LabelValueBean) surgeryTitleIter.next();
-//                              String thisSurgeryTitle = thisLabelBean.getValue();    
-//                              if (!thisSurgeryTitle.equalsIgnoreCase("ANY")) {
-//                            	  OnStudySurgeryTitleDE onStudySurgeryTitleDE = new OnStudySurgeryTitleDE(thisSurgeryTitle);
-//                            	  onStudySurgeryTitleCriteria.setOnStudySurgeryTitleDE(onStudySurgeryTitleDE);
-//      		                }
-//            	    	
-//                          }
-//            	       }	 
-//            	   else {
-//            		   // this is to deal with adding a single entry of onstudy surgery title
-//                   	  OnStudySurgeryTitleDE onStudySurgeryTitleDE = new OnStudySurgeryTitleDE(thisOnStudySurgeryTitle);
-//                	  onStudySurgeryTitleCriteria.setOnStudySurgeryTitleDE(onStudySurgeryTitleDE);
-//	     		  }
-//                  
-//                }
+		String thisOnStudySurgery = this.onStudySurgery; // thisRequest.getParameter("onStudySurgery");
+		onStudySurgeryTitleCriteria = new OnStudySurgeryTitleCriteria();
+		// this is to check the chemo type
+		String thisOnStudySurgeryTitle = this.onStudySurgeryTitle; // thisRequest.getParameter("onStudySurgeryTitle");
+		if (thisOnStudySurgery != null && thisOnStudySurgeryTitle != null
+				&& !thisOnStudySurgeryTitle.equals("")) { 
+			// This is to deal with adding a collection of all the onstudy surgery titles if any is selected
+			if(thisOnStudySurgeryTitle.equalsIgnoreCase("ANY")) {
+				ArrayList allSurgeryTitles = this.getOnStudySurgeryTitleColl();
+				for (Iterator surgeryTitleIter = allSurgeryTitles.iterator(); surgeryTitleIter.hasNext();) {
+					LabelValueBean thisLabelBean = (LabelValueBean) surgeryTitleIter.next();
+					String thisSurgeryTitle = thisLabelBean.getValue();    
+					if (!thisSurgeryTitle.equalsIgnoreCase("ANY")) {
+						OnStudySurgeryTitleDE onStudySurgeryTitleDE = new OnStudySurgeryTitleDE(thisSurgeryTitle);
+						onStudySurgeryTitleCriteria.setOnStudySurgeryTitleDE(onStudySurgeryTitleDE);
+					}
+
+				}
+			}	 
+			else {
+				// this is to deal with adding a single entry of onstudy surgery title
+				OnStudySurgeryTitleDE onStudySurgeryTitleDE = new OnStudySurgeryTitleDE(thisOnStudySurgeryTitle);
+				onStudySurgeryTitleCriteria.setOnStudySurgeryTitleDE(onStudySurgeryTitleDE);
+			}
+
+		}
 //		}
 	}
 
@@ -2462,35 +2499,38 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	 * @param surgeryTitle The surgeryTitle to set.
 	 */
 	public void setSurgeryTitle(String surgeryTitle) {
-		this.surgeryTitle = surgeryTitle;		
+		this.surgeryTitle = surgeryTitle;	
+	}
+	
+	public void setSurgeryTitleDetails() {
 //	        if (thisRequest != null) {
-//	            String thisSurgery = thisRequest.getParameter("surgery");
-//	            String thisSurgeryTitle = thisRequest.getParameter("surgeryTitle");
-//	            priorSurgeryTitleCriteria = new PriorSurgeryTitleCriteria();
-//	            if (thisSurgery != null && thisSurgeryTitle != null
-//	                    && !thisSurgeryTitle.equals("")) {
-//	            	
-//	            	 if(thisSurgeryTitle.equalsIgnoreCase("ANY")) {
-//	            		  // This is to deal with adding a collection of all the prior therapy surgery titles if any is selected
-//	         	    	ArrayList allSurgeryTitles = this.getSurgeryTitleColl();
-//	         	    	 for (Iterator titleIter = allSurgeryTitles.iterator(); titleIter.hasNext();) {
-//	                           LabelValueBean thisLabelBean = (LabelValueBean) titleIter.next();
-//	                           String thisTitleType = thisLabelBean.getValue();    
-//	                           if (!thisTitleType.equalsIgnoreCase("ANY")) {
-//	                        	   PriorSurgeryTitleDE priorSurgeryTitleDE = new PriorSurgeryTitleDE(thisTitleType);
-//	                        	   priorSurgeryTitleCriteria.setPriorSurgeryTitleDE(priorSurgeryTitleDE);
-//	   		                }
-//	         	    	
-//	                       }
-//	         	       }
-//	            	 else {
-//	            		 
-//	          		     // This is to deal with adding a single entry of  prior therapy surgery title
-//	   	         	  
-//	            		 PriorSurgeryTitleDE priorSurgeryTitleDE = new PriorSurgeryTitleDE(this.surgeryTitle);
-//	            		 priorSurgeryTitleCriteria.setPriorSurgeryTitleDE(priorSurgeryTitleDE); 
-//	            	 }
-//	            }
+		String thisSurgery = this.surgery; // thisRequest.getParameter("surgery");
+		String thisSurgeryTitle = this.surgeryTitle; // thisRequest.getParameter("surgeryTitle");
+		priorSurgeryTitleCriteria = new PriorSurgeryTitleCriteria();
+		if (thisSurgery != null && thisSurgeryTitle != null
+				&& !thisSurgeryTitle.equals("")) {
+
+			if(thisSurgeryTitle.equalsIgnoreCase("ANY")) {
+				// This is to deal with adding a collection of all the prior therapy surgery titles if any is selected
+				ArrayList allSurgeryTitles = this.getSurgeryTitleColl();
+				for (Iterator titleIter = allSurgeryTitles.iterator(); titleIter.hasNext();) {
+					LabelValueBean thisLabelBean = (LabelValueBean) titleIter.next();
+					String thisTitleType = thisLabelBean.getValue();    
+					if (!thisTitleType.equalsIgnoreCase("ANY")) {
+						PriorSurgeryTitleDE priorSurgeryTitleDE = new PriorSurgeryTitleDE(thisTitleType);
+						priorSurgeryTitleCriteria.setPriorSurgeryTitleDE(priorSurgeryTitleDE);
+					}
+
+				}
+			}
+			else {
+
+				// This is to deal with adding a single entry of  prior therapy surgery title
+
+				PriorSurgeryTitleDE priorSurgeryTitleDE = new PriorSurgeryTitleDE(this.surgeryTitle);
+				priorSurgeryTitleCriteria.setPriorSurgeryTitleDE(priorSurgeryTitleDE); 
+			}
+		}
 //	        }
 	    }
 
@@ -2697,9 +2737,71 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		
 	}
 
+	
+	@Override
+	public String getSubmitActionName() {
+		// TODO Auto-generated method stub
+		return "cdSubmit";
+	}
+
+	@Override
+	public String getPreviewActionName() {
+		// TODO Auto-generated method stub
+		return "cdPreview";
+	}
+
+	public void setTumorType(String[] tumorType) {
+		super.setTumorType(tumorType);
+	}
+
+	@Override
+	public void setSampleList(String sampleList) {
+		// TODO Auto-generated method stub
+		super.setSampleList(sampleList);
+	}
+
+	@Override
+	public void setSampleFile(String sampleFile) {
+		// TODO Auto-generated method stub
+		super.setSampleFile(sampleFile);
+	}
+
+	@Override
+	public void setSampleGroup(String sampleGroup) {
+		// TODO Auto-generated method stub
+		super.setSampleGroup(sampleGroup);
+	}
+	
+	
+
+	@Override
+	public void setTumorGrades(List<String> tumorGradeList) {
+		// TODO Auto-generated method stub
+		super.setTumorGrades(tumorGradeList);
+	}
+	
+
+	@Override
+	public ArrayList<LabelValueBean> getGeneTypeColl() {
+		// TODO Auto-generated method stub
+		return super.getGeneTypeColl();
+	}
+
+	@Override
+	public void setGeneTypeColl(ArrayList<LabelValueBean> geneTypeColl) {
+		// TODO Auto-generated method stub
+		super.setGeneTypeColl(geneTypeColl);
+	}
 
 
+	public String getRecur() {
+		return recur;
+	}
 
+
+	public void setRecur(String recur) {
+		this.recur = recur;
+	}
 
 
 }
