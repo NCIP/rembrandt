@@ -133,31 +133,29 @@ import com.opensymphony.xwork2.Preparable;
 * 
 */
 
-public class ClinicalDataAction extends GeneExpressionAction /*ActionActionSupport implements SessionAware, ServletRequestAware, Preparable */{
+public class ClinicalDataAction extends ActionSupport implements SessionAware, ServletRequestAware, Preparable {
 //extends LookupDispatchAction {
     private static Logger logger = Logger.getLogger(ClinicalDataAction.class);
     private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
    //if multiUse button clicked (with styles de-activated) forward back to page
     
-    //HttpServletRequest servletRequest;
-    //Map<String, Object> sessionMap;
+    HttpServletRequest servletRequest;
+    Map<String, Object> sessionMap;
     
-    ClinicalDataForm clinicalDataForm;
+    ClinicalDataForm form;
+    
     ClinicalDataForm clinicalDataFormInSession;
     
     @Override
 	public void prepare() throws Exception {
-    	super.prepare();
     	
-    	clinicalDataFormInSession = (ClinicalDataForm)sessionMap.get("clinicalDataForm");
-		if (clinicalDataFormInSession == null) {
-			clinicalDataFormInSession = new ClinicalDataForm();
-			sessionMap.put("comparativeGenomicForm", clinicalDataFormInSession);
-		}
+    	
+    	//clinicalDataFormInSession = (ClinicalDataForm)sessionMap.get("clinicalDataForm");
 		
-		//Do we reset everytime
-		clinicalDataFormInSession.reset(this.servletRequest);
-		
+    	if (form == null) {
+			form = new ClinicalDataForm();
+			form.reset(this.servletRequest);
+		}		
 	}
 
 	public String multiUse()
@@ -182,9 +180,7 @@ public class ClinicalDataAction extends GeneExpressionAction /*ActionActionSuppo
      */
     
     public String setup() {
-    //throws Exception {
-    	
-    	super.setup();
+
     	
     	String sID = this.servletRequest.getHeader("Referer");
     	// prevents Referer Header injection
@@ -192,13 +188,13 @@ public class ClinicalDataAction extends GeneExpressionAction /*ActionActionSuppo
     		return "failure";
     	}
     	
-    	clinicalDataForm = clinicalDataFormInSession;
+    	//clinicalDataForm = clinicalDataFormInSession;
         //ClinicalDataForm clinicalDataForm = (ClinicalDataForm) this.;
         GroupRetriever groupRetriever = new GroupRetriever();
-        clinicalDataForm.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(servletRequest.getSession()));
+        form.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(servletRequest.getSession()));
         //saveToken(request);
         
-        sessionMap.put("clinicalDataForm", clinicalDataForm);
+        //sessionMap.put("clinicalDataForm", form);
         return "backToClinical";
     }
     
@@ -247,8 +243,10 @@ public class ClinicalDataAction extends GeneExpressionAction /*ActionActionSuppo
         //ClinicalDataForm clinicalDataForm = (ClinicalDataForm) form;
         logger.debug("This is a Clinical Data Submittal");
         
+        this.setDataFormDetails();
+        
         //Create Query Objects
-        ClinicalDataQuery clinicalDataQuery = createClinicalDataQuery(clinicalDataForm, this.servletRequest.getSession());
+        ClinicalDataQuery clinicalDataQuery = createClinicalDataQuery(form, this.servletRequest.getSession());
         
         //Check user credentials and constrain query by Institutions
         if(clinicalDataQuery != null){
@@ -257,7 +255,7 @@ public class ClinicalDataAction extends GeneExpressionAction /*ActionActionSuppo
         
         if (!clinicalDataQuery.isEmpty()) {
         	SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
-            queryBag.putQuery(clinicalDataQuery, clinicalDataForm);
+            queryBag.putQuery(clinicalDataQuery, form);
             presentationTierCache.putSessionQueryBag(sessionId, queryBag);
         }else{
                         
@@ -289,14 +287,16 @@ public class ClinicalDataAction extends GeneExpressionAction /*ActionActionSuppo
                 
         //ClinicalDataForm clinicalDataForm = (ClinicalDataForm) form;
         
+        this.setDataFormDetails();
+        
         logger.debug("This is a Clinical Data Preview");
         //Create Query Objects
-        ClinicalDataQuery clinicalDataQuery = createClinicalDataQuery(clinicalDataForm, this.servletRequest.getSession());
+        ClinicalDataQuery clinicalDataQuery = createClinicalDataQuery(form, this.servletRequest.getSession());
         if(clinicalDataQuery != null){
             clinicalDataQuery.setInstitutionCriteria(InsitutionAccessHelper.getInsititutionCriteria(this.servletRequest.getSession()));
             }
 
-        this.servletRequest.setAttribute("previewForm",clinicalDataForm.cloneMe());
+        this.servletRequest.setAttribute("previewForm",form.cloneMe());
         CompoundQuery compoundQuery = new CompoundQuery(clinicalDataQuery);
         compoundQuery.setQueryName(RembrandtConstants.PREVIEW_RESULTS);
         logger.debug("Setting query name to:"+compoundQuery.getQueryName());
@@ -348,7 +348,7 @@ public class ClinicalDataAction extends GeneExpressionAction /*ActionActionSuppo
         // Set sample Criteria
         SampleCriteria sampleIDCrit = clinicalDataForm.getSampleCriteria();
         Set<SampleIDDE> sampleIds = new HashSet<SampleIDDE>();
-        if(sampleIDCrit.isEmpty() && clinicalDataForm.getSampleGroup().equalsIgnoreCase("Upload")){
+        if((sampleIDCrit == null || sampleIDCrit.isEmpty()) && clinicalDataForm.getSampleGroup().equalsIgnoreCase("Upload")){
            UserList sampleList = helper.getUserList(clinicalDataForm.getSampleFile());
            if(sampleList!=null){
                try {
@@ -534,13 +534,13 @@ public class ClinicalDataAction extends GeneExpressionAction /*ActionActionSuppo
 		this.servletRequest = servletRequest;
 	}
 
-	public ClinicalDataForm getClinicalDataForm() {
-		return clinicalDataForm;
-	}
-
-	public void setClinicalDataForm(ClinicalDataForm clinicalDataForm) {
-		this.clinicalDataForm = clinicalDataForm;
-	}
+//	public ClinicalDataForm getClinicalDataForm() {
+//		return clinicalDataForm;
+//	}
+//
+//	public void setClinicalDataForm(ClinicalDataForm clinicalDataForm) {
+//		this.clinicalDataForm = clinicalDataForm;
+//	}
 
 	@Override
 	public void setSession(Map<String, Object> arg0) {
@@ -548,7 +548,30 @@ public class ClinicalDataAction extends GeneExpressionAction /*ActionActionSuppo
 		
 	}
 
+	protected void setDataFormDetails() {
+		form.setKarnofskyTypeDetails();
+		form.setLanskyTypeDetails();
+		form.setMriTypeDetails();
+		form.setNeuroExamTypeDetails();
+		
+		form.setRecurrenceDetails();
+		form.setRadiationTypeDetails();
+		form.setChemoTypeDetails();
+		form.setSurgeryOutcomeDetails();
+		form.setOnStudyChemoTypeDetails();
+		form.setOnStudyRadiationTypeDetails();
+		form.setOnStudySurgeryOutcomeDetails();
+		form.setOnStudySurgeryTitleDetails();
+		form.setSurgeryTitleDetails();
+	}
 
+	public ClinicalDataForm getForm() {
+		return form;
+	}
+
+	public void setForm(ClinicalDataForm form) {
+		this.form = form;
+	}
 
 
 

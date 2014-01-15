@@ -137,13 +137,12 @@ import com.opensymphony.xwork2.Preparable;
 */
 
 public class ComparativeGenomicAction extends ActionSupport implements SessionAware, ServletRequestAware, Preparable { 
-//Shan
-// extends LookupDispatchAction {
+
     private static Logger logger = Logger.getLogger(ComparativeGenomicAction.class);
     private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
     
     HttpServletRequest servletRequest;
-    ComparativeGenomicForm comparativeGenomicForm;
+    ComparativeGenomicForm form;
     //ComparativeGenomicForm comparativeGenomicFormInSession;
     
     Map<String, Object> sessionMap;
@@ -158,9 +157,9 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
     	//super.prepare();
     	
     	//comparativeGenomicFormInSession = (ComparativeGenomicForm)sessionMap.get("comparativeGenomicForm");
-		if (comparativeGenomicForm == null) {
-			comparativeGenomicForm = new ComparativeGenomicForm();
-			comparativeGenomicForm.reset(this.servletRequest);
+		if (form == null) {
+			form = new ComparativeGenomicForm();
+			form.reset(this.servletRequest);
 			//sessionMap.put("comparativeGenomicForm", comparativeGenomicFormInSession);
 		}
 		
@@ -217,14 +216,14 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
 		
     	//Since Chromosomes is a static variable there is no need to set it twice.
 		//It is only a lookup option collection
-		if(comparativeGenomicForm.getChromosomes()==null||comparativeGenomicForm.getChromosomes().isEmpty()) {
+		if(form.getChromosomes()==null||form.getChromosomes().isEmpty()) {
 			//set the chromsomes list in the form 
 			logger.debug("Setup the chromosome values for the form");
-			comparativeGenomicForm.setChromosomes(ChromosomeHelper.getInstance().getChromosomes());
-			this.geneExpressionForm.setChromosomes(comparativeGenomicForm.getChromosomes());
+			form.setChromosomes(ChromosomeHelper.getInstance().getChromosomes());
+			this.geneExpressionForm.setChromosomes(form.getChromosomes());
 		}
         GroupRetriever groupRetriever = new GroupRetriever();
-        comparativeGenomicForm.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(servletRequest.getSession()));
+        form.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(servletRequest.getSession()));
         
         //saveToken(request);
         //sessionMap.put("comparativeGenomicForm", comparativeGenomicForm);
@@ -255,8 +254,9 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
     public String getCytobands()
     		throws Exception {
 
-    	ComparativeGenomicForm cgForm = (ComparativeGenomicForm)comparativeGenomicForm;
+    	ComparativeGenomicForm cgForm = (ComparativeGenomicForm)form;
     	cgForm.validateForCytobands();
+    	
     	//This is the static list of chromosomes that is fetched the first time it is needed
     	List chromosomes = cgForm.getChromosomes();
     	//IMPORTANT! geForm.chromosomeNumber is NOT the chromosome number.  It is the index
@@ -301,19 +301,19 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
 		//ComparativeGenomicForm comparativeGenomicForm = (ComparativeGenomicForm) comparitiveGenomicForm;
 		                       
         //set all Genes query and give copyNumber default value
-		this.comparativeGenomicForm.setSampleType("PairedTissue");
-		comparativeGenomicForm.setGeneGroup("");
-		comparativeGenomicForm.setCopyNumberView("calculatedCN");
-		comparativeGenomicForm.setGeneRegionView("geneView");
-		comparativeGenomicForm.setCopyNumber("amplified");
-		comparativeGenomicForm.setCnAmplified(RembrandtConstants.ALL_GENES_COPY_NUMBER_REGULATION);
-		comparativeGenomicForm.setCnADAmplified(RembrandtConstants.ALL_GENES_COPY_NUMBER_REGULATION);
-		comparativeGenomicForm.setCnADDeleted("1");
-		comparativeGenomicForm.setCnDeleted("1");
+		this.form.setSampleType("PairedTissue");
+		form.setGeneGroup("");
+		form.setCopyNumberView("calculatedCN");
+		form.setGeneRegionView("geneView");
+		form.setCopyNumber("amplified");
+		form.setCnAmplified(RembrandtConstants.ALL_GENES_COPY_NUMBER_REGULATION);
+		form.setCnADAmplified(RembrandtConstants.ALL_GENES_COPY_NUMBER_REGULATION);
+		form.setCnADDeleted("1");
+		form.setCnDeleted("1");
 
-		comparativeGenomicForm.setSegmentMean("");
-		comparativeGenomicForm.setSmAmplified("");
-		comparativeGenomicForm.setSmDeleted("");
+		form.setSegmentMean("");
+		form.setSmAmplified("");
+		form.setSmDeleted("");
          
 		logger.debug("This is an All Genes cgh Submital");
        
@@ -345,15 +345,15 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
 		
 		//ComparativeGenomicForm comparativeGenomicForm = (ComparativeGenomicForm) form;
 		////set standard query and clear copyNumber default value
-		comparativeGenomicForm.setCopyNumber("");
-		comparativeGenomicForm.setCnAmplified("");
-		comparativeGenomicForm.setCnADAmplified("");
-		comparativeGenomicForm.setCnADDeleted("");
-		comparativeGenomicForm.setCnDeleted("");
+		form.setCopyNumber("");
+		form.setCnAmplified("");
+		form.setCnADAmplified("");
+		form.setCnADDeleted("");
+		form.setCnDeleted("");
 
-		comparativeGenomicForm.setSegmentMean("");
-		comparativeGenomicForm.setSmAmplified("");
-		comparativeGenomicForm.setSmDeleted("");
+		form.setSegmentMean("");
+		form.setSmAmplified("");
+		form.setSmDeleted("");
 		
 		logger.debug("This is an Standard cgh Submital");
 
@@ -387,7 +387,7 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
     	
     	setDataFormDetails();
     	
-    	List<String> errors =  comparativeGenomicForm.validateForSubmitOrPreview();
+    	List<String> errors =  form.validateForSubmitOrPreview();
     	if (errors != null && errors.size() > 0) {
     		for (String error : errors)
     			addActionError(error);
@@ -410,14 +410,14 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
    	  * an error is created and sent with the request to the forward.
    	  * BEGINS HERE!!
    	  */
-   		   if (comparativeGenomicForm.getIsAllGenes()){
+   		   if (form.getIsAllGenes()){
    		       try{
-   		        int intCnAmplified = Integer.parseInt(comparativeGenomicForm.getCnAmplified());
-   		        float floatCnDeleted = Float.parseFloat(comparativeGenomicForm.getCnDeleted());
-   		        int intCnADAmplified = Integer.parseInt(comparativeGenomicForm.getCnADAmplified());
-   		        float floatCnADDeleted = Float.parseFloat(comparativeGenomicForm.getCnADDeleted());
-   			        if((intCnAmplified < 10 && comparativeGenomicForm.getCopyNumber().equalsIgnoreCase("amplified")) || 
-   			             (intCnADAmplified < 10 && comparativeGenomicForm.getCopyNumber().equalsIgnoreCase("ampdel"))){
+   		        int intCnAmplified = Integer.parseInt(form.getCnAmplified());
+   		        float floatCnDeleted = Float.parseFloat(form.getCnDeleted());
+   		        int intCnADAmplified = Integer.parseInt(form.getCnADAmplified());
+   		        float floatCnADDeleted = Float.parseFloat(form.getCnADDeleted());
+   			        if((intCnAmplified < 10 && form.getCopyNumber().equalsIgnoreCase("amplified")) || 
+   			             (intCnADAmplified < 10 && form.getCopyNumber().equalsIgnoreCase("ampdel"))){
    			            
    			        	//ActionErrors errors = new ActionErrors();
 			            //errors.add("copyNumberAllGenesAmp", new ActionError(
@@ -428,8 +428,8 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
 			            addActionError(error);
 			            return "showAllGenes"; 
    			        }
-   			        if((floatCnDeleted > 1 && comparativeGenomicForm.getCopyNumber().equalsIgnoreCase("deleted")) ||
-   			             (floatCnADDeleted > 1 && comparativeGenomicForm.getCopyNumber().equalsIgnoreCase("ampdel"))) {
+   			        if((floatCnDeleted > 1 && form.getCopyNumber().equalsIgnoreCase("deleted")) ||
+   			             (floatCnADDeleted > 1 && form.getCopyNumber().equalsIgnoreCase("ampdel"))) {
    			            
    			            String error = ApplicationContext.getLabelProperties().getProperty(
 					    		"gov.nih.nci.nautilus.ui.struts.form.copyNumberDel.allGenes.error");
@@ -449,7 +449,7 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
         
         logger.debug("This is a Comparative Genomic Submittal");
         //Create Query Objects
-        ComparativeGenomicQuery cghQuery = createCGHQuery(comparativeGenomicForm, this.servletRequest.getSession());
+        ComparativeGenomicQuery cghQuery = createCGHQuery(form, this.servletRequest.getSession());
         
         //Check user credentials and constrain query by Institutions
         if(cghQuery != null){
@@ -457,14 +457,14 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
             }
         
         //This is required as struts resets the form.  It is later added back to the request
-        this.servletRequest.setAttribute("previewForm", comparativeGenomicForm.cloneMe());
+        this.servletRequest.setAttribute("previewForm", form.cloneMe());
        
         
             try {
                 //Store the query in the SessionQueryBag
                 if (!cghQuery.isEmpty()) {
                     SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
-                    queryBag.putQuery(cghQuery, comparativeGenomicForm);
+                    queryBag.putQuery(cghQuery, form);
                     presentationTierCache.putSessionQueryBag(sessionId, queryBag);
                 } else {                    
                     addActionError(ApplicationContext.getLabelProperties().getProperty(
@@ -506,7 +506,7 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
     	
     	setDataFormDetails();
     	
-    	List<String> errors =  comparativeGenomicForm.validateForSubmitOrPreview();
+    	List<String> errors =  form.validateForSubmitOrPreview();
     	if (errors != null && errors.size() > 0) {
     		for (String error : errors)
     			addActionError(error);
@@ -520,12 +520,12 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
         //ComparativeGenomicForm comparativeGenomicForm = (ComparativeGenomicForm) form;
         logger.debug("This is a Comparative Genomic Preview");
         //Create Query Objects
-        ComparativeGenomicQuery cghQuery = createCGHQuery(comparativeGenomicForm,this.servletRequest.getSession());
+        ComparativeGenomicQuery cghQuery = createCGHQuery(form,this.servletRequest.getSession());
         if(cghQuery != null){
         	cghQuery.setInstitutionCriteria(InsitutionAccessHelper.getInsititutionCriteria(this.servletRequest.getSession()));
             }
         //This is required as struts resets the form.  It is later added back to the request
-        this.servletRequest.setAttribute("previewForm", comparativeGenomicForm.cloneMe());
+        this.servletRequest.setAttribute("previewForm", form.cloneMe());
         CompoundQuery compoundQuery = new CompoundQuery(cghQuery);
         compoundQuery.setQueryName(RembrandtConstants.PREVIEW_RESULTS);
         logger.debug("Setting query name to:"+compoundQuery.getQueryName());
@@ -770,14 +770,14 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
 		
 	}
 
-	public ComparativeGenomicForm getComparativeGenomicForm() {
-		return comparativeGenomicForm;
-	}
-
-	public void setComparativeGenomicForm(
-			ComparativeGenomicForm comparativeGenomicForm) {
-		this.comparativeGenomicForm = comparativeGenomicForm;
-	}
+//	public ComparativeGenomicForm getComparativeGenomicForm() {
+//		return comparativeGenomicForm;
+//	}
+//
+//	public void setComparativeGenomicForm(
+//			ComparativeGenomicForm comparativeGenomicForm) {
+//		this.comparativeGenomicForm = comparativeGenomicForm;
+//	}
 
 	public HttpServletRequest getServletRequest() {
 		return servletRequest;
@@ -800,14 +800,14 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
 	}
 	
 	protected void setDataFormDetails() {
-		this.comparativeGenomicForm.setGeneListDetails();
-		this.comparativeGenomicForm.setGeneOptionDetails();
+		this.form.setGeneListDetails();
+		this.form.setGeneOptionDetails();
 		
-		this.comparativeGenomicForm.setCytobandRegionStartDetails();
-		this.comparativeGenomicForm.setCytobandRegionEndDetails();
-		this.comparativeGenomicForm.setCloneListSpecifyDetails();
-		this.comparativeGenomicForm.setBasePairStartDetails();
-		this.comparativeGenomicForm.setBasePairEndDetails();
+		this.form.setCytobandRegionStartDetails();
+		this.form.setCytobandRegionEndDetails();
+		this.form.setCloneListSpecifyDetails();
+		this.form.setBasePairStartDetails();
+		this.form.setBasePairEndDetails();
 		
 		//this.comparativeGenomicForm.setGoClassificationDetails();
 		//this.comparativeGenomicForm.setFoldChangeValueDownDetails();
@@ -819,20 +819,29 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
 		
 		
 		
-		this.comparativeGenomicForm.setCnAmplifiedDetails();
-		this.comparativeGenomicForm.setSmAmplifiedDetails();
-		this.comparativeGenomicForm.setCloneListFileDetails();
-		this.comparativeGenomicForm.setSnpListSpecifyDetails();
-		this.comparativeGenomicForm.setCnADAmplifiedDetails();
-		this.comparativeGenomicForm.setCnADDeletedDetails();
-		this.comparativeGenomicForm.setCnUnchangeToDetails();
-		this.comparativeGenomicForm.setSmUnchangeToDetails();
-		this.comparativeGenomicForm.setCnDeletedDetails();
-		this.comparativeGenomicForm.setSmDeletedDetails();
-		this.comparativeGenomicForm.setCnUnchangeFromDetails();
-		this.comparativeGenomicForm.setSmUnchangeFromDetails();
+		this.form.setCnAmplifiedDetails();
+		this.form.setSmAmplifiedDetails();
+		this.form.setCloneListFileDetails();
+		this.form.setSnpListSpecifyDetails();
+		this.form.setCnADAmplifiedDetails();
+		this.form.setCnADDeletedDetails();
+		this.form.setCnUnchangeToDetails();
+		this.form.setSmUnchangeToDetails();
+		this.form.setCnDeletedDetails();
+		this.form.setSmDeletedDetails();
+		this.form.setCnUnchangeFromDetails();
+		this.form.setSmUnchangeFromDetails();
 		
 	}
+
+	public ComparativeGenomicForm getForm() {
+		return form;
+	}
+
+	public void setForm(ComparativeGenomicForm form) {
+		this.form = form;
+	}
     
+	
 }
     
