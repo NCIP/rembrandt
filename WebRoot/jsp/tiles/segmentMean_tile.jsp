@@ -21,16 +21,16 @@ L--%>
 </legend>
 
 	
-<input type="radio" name="comparativeGenomicForm.segmentMean" value="amplified" class="radio"/> Mean &ge;
-<s:textfield name="comparativeGenomicForm.smAmplified" onfocus="javascript:radioFold(this);" />&nbsp;<br>
+<input type="radio" name="form.segmentMean" value="amplified" class="radio"/> Mean &ge;
+<s:textfield name="form.smAmplified" onfocus="javascript:radioFold(this);" />&nbsp;<br>
 <s:actionerror name="smAmplified"/>
-<input type="radio" name="comparativeGenomicForm.segmentMean" value="deleted" class="radio"/> Mean &le;
-				<s:textfield name="comparativeGenomicForm.smDeleted" onfocus="javascript:radioFold(this);" />&nbsp;<br>
+<input type="radio" name="form.segmentMean" value="deleted" class="radio"/> Mean &le;
+				<s:textfield name="form.smDeleted" onfocus="javascript:radioFold(this);" />&nbsp;<br>
 <s:actionerror name="smDeleted"/>			
 
-<input type="radio" name="comparativeGenomicForm.segmentMean" value="unchange" class="radio"/>Unchanged&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<s:textfield name="comparativeGenomicForm.smUnchangeFrom" onfocus="javascript:radioFold(this);" />-to-
-				<s:textfield name="comparativeGenomicForm.smUnchangeTo" onfocus="javascript:radioFold(this);" />&nbsp;mean
+<input type="radio" name="form.segmentMean" value="unchange" class="radio"/>Unchanged&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<s:textfield name="form.smUnchangeFrom" onfocus="javascript:radioFold(this);" />-to-
+				<s:textfield name="form.smUnchangeTo" onfocus="javascript:radioFold(this);" />&nbsp;mean
 <s:actionerror name="smUnchangeFrom"/>	
 <s:actionerror name="smUnchangeTo"/>	
 <s:actionerror name="cnerror"/><br>

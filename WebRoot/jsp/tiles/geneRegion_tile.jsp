@@ -27,10 +27,10 @@ String strIncFile2 = "/jsp/tiles/region_tile.jsp?act="+act;
 <fieldset style="padding:5px;">
 <legend class="right" align="right">Gene/Region</legend><br clear="both"/><br clear="both"/>
 
-<input type="radio" name="comparativeGenomicForm.geneRegionView" class="radio" value="geneView" 
+<input type="radio" name="form.geneRegionView" class="radio" value="geneView" 
 		onclick="javascript:toggleGeneRegionView('geneView');"/> Gene View &nbsp;&nbsp;&nbsp;
 
-<input type="radio" name="comparativeGenomicForm.geneRegionView" class="radio" value="regionView" 
+<input type="radio" name="form.geneRegionView" class="radio" value="regionView" 
 		onclick="javascript:toggleGeneRegionView('regionView');"/> Region View
 <br/>
 <br/>

@@ -16,16 +16,16 @@ L--%>
 <!-- <app:help help="Specify the therapy received after enrollment the current study"/>-->
 <app:cshelp topic="clinical_Onstudy_tooltip" text="[?]"/>   
 </legend><br />	
-<s:checkbox id="onStudyRadiation" class="radio" name="clinicalDataForm.onStudyRadiation" value="Specify"/>
+<s:checkbox id="onStudyRadiation" class="radio" name="form.onStudyRadiation" value="Specify"/>
 <label for="onStudyRadiation">Radiation&nbsp;&nbsp;</label>
 <label for="onStudyRadiationType">&nbsp;&nbsp;&nbsp;&nbsp;- radiation type:&nbsp;</label>
 
-<s:select id="onStudyRadiationType" name="clinicalDataForm.onStudyRadiationType" 
-list="clinicalDataForm.onStudyRadiationTypeColl" listKey="value" listValue="label" />
+<s:select id="onStudyRadiationType" name="form.onStudyRadiationType" 
+list="form.onStudyRadiationTypeColl" listKey="value" listValue="label" />
 <s:actionerror name="onStudyRadiationType"/>
 
 <br>
-<s:checkbox id="onStudyChemo" class="radio" name="clinicalDataForm.onStudyChemo" value="Specify"/>
+<s:checkbox id="onStudyChemo" class="radio" name="form.onStudyChemo" value="Specify"/>
 <label for="onStudyChemo">Chemo&nbsp;&nbsp;</label>
 <label for="onStudyChemoType">- agent:&nbsp;</label>
 <!--- <select property="chemoType" name="chemo" disabled="true">
@@ -33,23 +33,23 @@ list="clinicalDataForm.onStudyRadiationTypeColl" listKey="value" listValue="labe
 	<option></option>
 </select> --->
 
-<s:select id="onStudyChemoType" name="clinicalDataForm.onStudyChemoType" 
-list="clinicalDataForm.onStudyChemoAgentTypeColl" listKey="value" listValue="label" />
+<s:select id="onStudyChemoType" name="form.onStudyChemoType" 
+list="form.onStudyChemoAgentTypeColl" listKey="value" listValue="label" />
 <s:actionerror name="onStudyChemoType"/>
 
 <Br>
-<s:checkbox id="onStudySurgery" class="radio" name="clinicalDataForm.onStudySurgery"  value="Specify"/>
+<s:checkbox id="onStudySurgery" class="radio" name="form.onStudySurgery"  value="Specify"/>
 <label for="onStudySurgery">Surgery&nbsp;&nbsp;</label>
 <label for="onStudySurgeryTitle">&nbsp;&nbsp;&nbsp;&nbsp;- title:&nbsp;</label>
 
-<s:select sid="onStudySurgeryTitle" name="clinicalDataForm.onStudySurgeryTitle" 
-list="clinicalDataForm.onStudySurgeryTitleColl" listKey="value" listValue="label" />
+<s:select sid="onStudySurgeryTitle" name="form.onStudySurgeryTitle" 
+list="form.onStudySurgeryTitleColl" listKey="value" listValue="label" />
 <s:actionerror name="onStudySurgeryTitle"/>
 
 <Br>
 <label for="onStudySurgeryOutcome">&nbsp;&nbsp;&nbsp;&nbsp;- Outcome:&nbsp;</label>
-<s:select id="onStudySurgeryOutcome" name="clinicalDataForm.onStudySurgeryOutcome" 
-list="clinicalDataForm.onStudySurgeryOutcomeColl" listKey="value" listValue="label" />
+<s:select id="onStudySurgeryOutcome" name="form.onStudySurgeryOutcome" 
+list="form.onStudySurgeryOutcomeColl" listKey="value" listValue="label" />
 <s:actionerror name="onStudySurgeryOutcome"/>
 
 

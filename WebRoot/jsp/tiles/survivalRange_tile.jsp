@@ -21,15 +21,15 @@ L--%>
 
 	<label for="survivalLower">&nbsp;&nbsp;&nbsp;lower:&nbsp;</label>
 		
-		<s:select id="survivalLower" name="clinicalDataForm.survivalLower" 
-		list="clinicalDataForm.survivalLowerColl" listKey="value" listValue="label" />
+		<s:select id="survivalLower" name="form.survivalLower" 
+		list="form.survivalLowerColl" listKey="value" listValue="label" />
 	    <s:actionerror name="survivalLower"/>
 		
 		
 		<label for="survivalUpper">upper:&nbsp;</label>
 		
-		<s:select id="survivalUpper" name="clinicalDataForm.survivalUpper" 
-		 list="clinicalDataForm.survivalUpperColl" listKey="value" listValue="label" />
+		<s:select id="survivalUpper" name="form.survivalUpper" 
+		 list="form.survivalUpperColl" listKey="value" listValue="label" />
 	    <s:actionerror name="survivalUpper"/>
 		&nbsp;<b class="message">(months)</b>
 	 </fieldset>
@@ -42,13 +42,13 @@ L--%>
 		
 	<label for="ageLower">&nbsp;&nbsp;&nbsp;lower:&nbsp;</label>
 		
-		<s:select id="ageLower" name="clinicalDataForm.ageLower" 
-		 list="clinicalDataForm.ageLowerColl" listKey="value" listValue="label" />
+		<s:select id="ageLower" name="form.ageLower" 
+		 list="form.ageLowerColl" listKey="value" listValue="label" />
 	    <s:actionerror name="ageLower"/>
 		<label for="ageUpper">upper:&nbsp;</label>
 		
-		<s:select id="ageUpper" name="clinicalDataForm.ageUpper" 
-		 list="clinicalDataForm.ageUpperColl" listKey="value" listValue="label" />
+		<s:select id="ageUpper" name="form.ageUpper" 
+		 list="form.ageUpperColl" listKey="value" listValue="label" />
 	    <s:actionerror name="ageUpper"/>
 		&nbsp;<b class="message">(years)</b>
 		</fieldset>
@@ -62,8 +62,8 @@ L--%>
 	</legend><br />
 			
 			
-			&nbsp;&nbsp;<s:select id="genderType" name="clinicalDataForm.genderType" 
-			 list="clinicalDataForm.genderTypeColl" listKey="value" listValue="label" />
+			&nbsp;&nbsp;<s:select id="genderType" name="form.genderType" 
+			 list="form.genderTypeColl" listKey="value" listValue="label" />
 	        <s:actionerror name="genderType"/>
       </fieldset>
       <br />

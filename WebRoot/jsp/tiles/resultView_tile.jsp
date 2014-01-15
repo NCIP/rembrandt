@@ -15,11 +15,9 @@ L--%>
 %>
 <br>
 	<!-- <html:form action="<%=act%>" method="get"> -->
-<html:select property="resultView">
-				<html:option value="sample">Sample Centric</html:option>
-				<html:option value="gene">Gene Centric</html:option>
-</html:select><html:errors property="resultView"/>
-	<!-- </html:form> -->
+<s:select name="form.resultView" list="form.resultViewColl" />
+				
+<s:actionerror name="resultView"/>
 
 &nbsp;<a href="#" class="message">[sample centric example]</a>&nbsp;<a href="#" class="message">[gene centric example]</a>
 </fieldset>

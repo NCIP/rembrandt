@@ -28,8 +28,7 @@ function refresh()	{
 
 &nbsp;&nbsp;
 
-<!--  html:button styleClass="xbutton" property="method" value="Cancel" onclick="javascript:alertUser('menu');" /> -->
- <input type="button" id="submitButton" onclick="" class="xbutton" value="Cancel" onclick="javascript:alertUser('menu');"/>
+<input type="button" id="submitButton" onclick="" class="xbutton" value="Cancel" onclick="javascript:alertUser('menu');"/>
 &nbsp;&nbsp;
 
 <!-- used in  cytobandChange script -->
@@ -49,8 +48,12 @@ function refresh()	{
  	</s:if>
 	
 	<s:if test="form.geneOption.equals('standard')"> 
+	<!--  
 			<s:submit type="button" id="previewButton" action="gePreview" class="xbutton" theme="simple"
 				onclick="handlePreviewButton();">Preview-GE2</s:submit>
+				-->
+			<input type="button" id="previewButton" name="previewButton" class="xbutton" value="Preview-GE2" 
+			onclick="handlePreviewButton();"/>
 	&nbsp;&nbsp;
  	</s:if>
  	
@@ -59,8 +62,14 @@ function refresh()	{
 		onclick="handlePreviewButton();"/>
 		&nbsp;&nbsp;
  	</s:if>
+ 	
+ 	<s:if test="#previewAction.startsWith('cd')">
+ 		<input type="button" id="previewButton" name="previewButton" class="xbutton" value="Preview-CD" 
+		onclick="handlePreviewButton();"/>
+		&nbsp;&nbsp;
+ 	</s:if>
 
-
+<
 <input type="button" id="submittalButton" class="subButton" value="Submit" onclick="handleSubmitButton();"/>
 
 <!--  input type="submit" id="multiUseButton" class="subButtonInv" value="MultiUse"/> -->
@@ -68,17 +77,24 @@ function refresh()	{
 
 <script language="javascript">
 function handlePreviewButton()	{
-	var ret = GeneAlias.validateAliases($('geneList').value, 'Preview');
-	
 	var actionName = document.getElementById("previewAction").value;
+	//alert(actionName);
+	if (actionName != 'cdPreview')
+		var ret = GeneAlias.validateAliases($('geneList').value, 'Preview');
+	
 	document.forms[0].action = actionName + '.action';
 	document.forms[0].submit();
 	
 }
 
 function handleSubmitButton()	{
-	var ret = gecnSubmitX();
+	
 	var actionName = document.getElementById("submitAction").value;
+	
+	if (actionName != 'cdSubmit')
+		var ret = gecnSubmitX();
+	
+	//alert(actionName);
 	document.forms[0].action = actionName + '.action';
 	document.forms[0].submit();
 	

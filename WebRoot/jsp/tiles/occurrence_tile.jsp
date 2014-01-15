@@ -16,15 +16,15 @@ L--%>
 </legend>
 
 	
-<input type="checkbox" id="firstPresentation" name="clinicalDataForm.firstPresentation" class="radio" disabled="true" />
+<input type="checkbox" id="firstPresentation" name="form.firstPresentation" class="radio" disabled="true" />
 <label for="firstPresentation">First Presentation</label>
 &nbsp;&nbsp;
-<input id="recur" type="checkbox" name="clinicalDataForm.recur" class="radio"  disabled="true"
+<input id="recur" type="checkbox" name="form.recur" class="radio"  disabled="true"
 onclick="javascript:document.forms[0].rec.disabled=(!(document.forms[0].rec.disabled));" />
 <label for="recur">Recurrence&nbsp;&nbsp;</label>
 	
-	<s:select id="recurrence" name="clinicalDataForm.recurrence" 
-	list="clinicalDataForm.recurrenceTypeColl" listKey="value" listValue="label" disabled="true" />
+	<s:select id="recurrence" name="form.recurrence" 
+	list="form.recurrenceTypeColl" listKey="value" listValue="label" disabled="true" />
 	<label for="recurrence">&nbsp;</label>
 	<s:actionerror name="recurrence"/> 
 	

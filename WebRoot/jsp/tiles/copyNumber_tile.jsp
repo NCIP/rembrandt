@@ -27,26 +27,26 @@ L--%>
 <s:actionerror name="copyNumberAllGenesAmp"/></br>
 <s:actionerror name="copyNumberAllGenesDel"/></br>
 	
-<input type="radio" id="copyNumber1" name="comparativeGenomicForm.copyNumber" class="radio" value="amplified" />
+<input type="radio" id="copyNumber1" name="form.copyNumber" class="radio" value="amplified" />
 
 <label for="copyNumber1">Amplified</label> &ge;
-<s:textfield id="cnAmplified" name="comparativeGenomicForm.cnAmplified" onfocus="javascript:radioFold(this);" />
+<s:textfield id="cnAmplified" name="form.cnAmplified" onfocus="javascript:radioFold(this);" />
 <label for="cnAmplified">&nbsp;copies</label></br>
 
 <s:actionerror name="cnAmplified"/>
-<input type="radio" id="copyNumber2" name="comparativeGenomicForm.copyNumber" value="deleted" class="radio"/> 
+<input type="radio" id="copyNumber2" name="form.copyNumber" value="deleted" class="radio"/> 
 <label for="copyNumber2">Deleted</label> &nbsp;&nbsp;&le;
 				
-<s:textfield id="cnDeleted" name="comparativeGenomicForm.cnDeleted" onfocus="javascript:radioFold(this);" />
+<s:textfield id="cnDeleted" name="form.cnDeleted" onfocus="javascript:radioFold(this);" />
 <label for="cnDeleted">&nbsp;copies</label></br>
 <s:actionerror name="cnDeleted"/>			
 
-<input type="radio" id="copyNumber3" name="comparativeGenomicForm.copyNumber" value="ampdel" class="radio"/> 
+<input type="radio" id="copyNumber3" name="form.copyNumber" value="ampdel" class="radio"/> 
 <label for="copyNumber3">Amplified or Deleted</label> &nbsp;
 
 <blockquote>
 Amplified&nbsp;&nbsp;&nbsp; &ge;
- <s:textfield id="cnADAmplified" name="comparativeGenomicForm.cnADAmplified" onfocus="javascript:radioFold(this);" />
+ <s:textfield id="cnADAmplified" name="form.cnADAmplified" onfocus="javascript:radioFold(this);" />
  <label for="cnADAmplified">&nbsp;copies</label>
 &nbsp;
 <html:errors property="cnADAmplified"/>	
@@ -57,13 +57,13 @@ Deleted&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &le;
 <s:actionerror name="cnADDeleted"/>	
 </blockquote>
 
-<input type="radio" id="copyNumber4" name="comparativeGenomicForm.copyNumber" value="unchange" class="radio"/>
+<input type="radio" id="copyNumber4" name="form.copyNumber" value="unchange" class="radio"/>
 <label for="copyNumber4">Unchanged&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 				
-<s:textfield id="cnUnchangeFrom" name="comparativeGenomicForm.cnUnchangeFrom" onfocus="javascript:radioFold(this);" />
+<s:textfield id="cnUnchangeFrom" name="form.cnUnchangeFrom" onfocus="javascript:radioFold(this);" />
 <label for="cnUnchangeFrom">-to-</label>
 
-<s:textfield id="cnUnchangeTo" name="comparativeGenomicForm.cnUnchangeTo" onfocus="javascript:radioFold(this);" />
+<s:textfield id="cnUnchangeTo" name="form.cnUnchangeTo" onfocus="javascript:radioFold(this);" />
 <label for="cnUnchangeTo">&nbsp;copies</label>
 <s:actionerror name="cnUnchangeFrom"/>	
 <s:actionerror name="cnUnchangeTo"/>	
