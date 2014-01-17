@@ -74,19 +74,12 @@
          <result name="histogram" type="redirectAction">
         	 <param name="actionName">graph</param>
          </result>      
-		 
  		 <result name="mismatch" type="tiles">nautilus.home</result>
- 		 
  		 <result name="badgraph" type="redirectAction">
         	 <param name="actionName">home</param>
          </result> 
-         
-         <!--  result name="kmplot" type="redirect">/kmGraph.action-->
           <result name="kmplot" type="redirectAction">
           	<param name="actionName">kmGraph</param>
-        	
-        	 
-        	 <!-- param name="method">doKMPlot</param>  -->
          </result>
   		 
 		 <result name="failure" type="redirectAction">
@@ -114,14 +107,13 @@
 	
 	<action name="clinical2KmSearch"            
         class="gov.nih.nci.rembrandt.web.struts2.action.QuickSearchAction" method="clinical2KmSearch">     
-		 <result name="kmplot" type="tiles">nautilus.KMGraph</result>
-		 <result name="histogram" type="redirectAction">
-        	 <param name="actionName">graph</param>
+		 <result name="kmplot" type="redirectAction">
+          	<param name="actionName">kmGraph</param>
          </result>
-         <result name="mismatch" type="redirectAction">
-         	<param name="actionName">home</param>
-         	<!--  param name="namespace">/</param> -->
-        </result>
+          <result name="mismatch" type="tiles">nautilus.home</result>
+          <result name="failure" type="redirectAction">
+		 	<param name="actionName">login</param>
+		 </result>
 	</action>
 	
 	<action name="graph">
@@ -463,8 +455,8 @@
     scope="request"
             parameter="method"
             validate="true"-->
-   <action name="refineQuery"
-            class="gov.nih.nci.rembrandt.web.struts2.action.RefineQueryAction">
+   <action name="refineQueryRunReport"
+            class="gov.nih.nci.rembrandt.web.struts2.action.RefineQueryAction" method="runReport">
          
          <result name="success" type="redirectAction">
          	<param name="actionName">runGeneViewReport</param>
@@ -519,6 +511,27 @@
            validate="false" -->
    <action name="runReport"
 	       class="gov.nih.nci.rembrandt.web.struts2.action.ReportGeneratorAction">
+         <result name="runGeneViewReport">jsp/geneViewReport.jsp</result>
+         <result name="runGeneViewReportFromCache">jsp/geneViewReport.jsp</result>
+         <result name="runCSVGeneViewReport">jsp/geneViewReportCSV.jsp</result>
+         <result name="runEmailedGeneViewReport">jsp/geneViewReport.jsp </result>
+	     <result name="runIGVReport">jsp/segmentViewIGVReport.jsp</result>
+         <result name="failure">error.jsp</result>
+         
+         <result name="forwardToGeneViewReport" type="redirectAction">
+         	<param name="actionName">runGeneViewReport</param>
+         	<param name="resultSetName">${resultSetName}</param>
+         </result>
+         
+         <result name="webGenome" type="redirect">${webGenomeRequestUrl}
+         
+         </result>
+         
+    </action>
+    
+    
+     <action name="runGeneViewReportFromCache"
+	       class="gov.nih.nci.rembrandt.web.struts2.action.ReportGeneratorAction" method="runGeneViewReportFromCache">
          <result name="runGeneViewReport">jsp/geneViewReport.jsp</result>
          <result name="runGeneViewReportFromCache">jsp/geneViewReport.jsp</result>
          <result name="runCSVGeneViewReport">jsp/geneViewReportCSV.jsp</result>
