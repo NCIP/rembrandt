@@ -122,6 +122,7 @@ public class RefineQueryAction extends ActionSupport implements ServletRequestAw
 	HttpServletRequest servletRequest;
     RefineQueryForm refineQueryForm;
     
+    
     SelectedQueryBean queryBean;
     
     
@@ -317,26 +318,24 @@ public class RefineQueryAction extends ActionSupport implements ServletRequestAw
     public String operandChange()
             throws Exception {
    
-        //RefineQueryForm refineQueryForm = (RefineQueryForm)form;
-        List selectedQuerries = refineQueryForm.getSelectedQueries();
-        refineQueryForm.addSelectedQuery(this.queryBean);
+        List selectedQuerries = refineQueryForm.getSelectedQueries();        
+        SelectedQueryBean lastQuery = (SelectedQueryBean)selectedQuerries.get(selectedQuerries.size()-1);
+        //this.queryBean.copyMe(lastQuery);
         
+        //This logic is to prevent the adding of unnecesary rows...
+        if(lastQuery.getOperand() != null && !lastQuery.getOperand().equals("")) {
+        	refineQueryForm.addSelectedQuery();
+        }else {
+        	for(int i = 0; i < selectedQuerries.size();i++) {
+        		if(((SelectedQueryBean)selectedQuerries.get(i)).getOperand().equals("")&& i!=selectedQuerries.size()-1) {
+        			for(int j = selectedQuerries.size()-1; j>=i;j--) {
+                       selectedQuerries.remove(j);
+                    }
+                    break;
+                }
+           }
         
-//        SelectedQueryBean lastQuery = (SelectedQueryBean)selectedQuerries.get(selectedQuerries.size()-1);
-//        //This logic is to prevent the adding of unnecesary rows...
-//        if(lastQuery.getOperand() != null && !lastQuery.getOperand().equals("")) {
-//        	refineQueryForm.addSelectedQuery(this.queryBean);
-//        }else {
-//        	for(int i = 0; i < selectedQuerries.size();i++) {
-//        		if(((SelectedQueryBean)selectedQuerries.get(i)).getOperand().equals("")&& i!=selectedQuerries.size()-1) {
-//        			for(int j = selectedQuerries.size()-1; j>=i;j--) {
-//                       selectedQuerries.remove(j);
-//                    }
-//                    break;
-//                }
-//           }
-//        
-//        }
+        }
         //Flag used by the refine_query.jsp to determine if we should show the 
         //run_report button
         refineQueryForm.setRunFlag("no");

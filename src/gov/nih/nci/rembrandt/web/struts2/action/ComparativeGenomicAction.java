@@ -143,39 +143,20 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
     
     HttpServletRequest servletRequest;
     ComparativeGenomicForm form;
-    //ComparativeGenomicForm comparativeGenomicFormInSession;
+    
     
     Map<String, Object> sessionMap;
-    
-    GeneExpressionForm geneExpressionForm;
-    //GeneExpressionForm geneExpressionFormInSession;
-    
+       
     
     @Override
 	public void prepare() throws Exception {
 		
-    	//super.prepare();
-    	
-    	//comparativeGenomicFormInSession = (ComparativeGenomicForm)sessionMap.get("comparativeGenomicForm");
-		if (form == null) {
+    	if (form == null) {
 			form = new ComparativeGenomicForm();
 			form.reset(this.servletRequest);
-			//sessionMap.put("comparativeGenomicForm", comparativeGenomicFormInSession);
-		}
-		
-		//Do we reset everytime
-		//comparativeGenomicFormInSession.reset(this.servletRequest);
-		//geneExpressionForm = form;
-		
-		if (geneExpressionForm == null) {
-			geneExpressionForm = new GeneExpressionForm();
-			geneExpressionForm.reset(this.servletRequest);
 		}
 		
 	}
-    
-   
-    
 
 	//if multiUse button clicked (with styles de-activated) forward back to page
     public String multiUse()
@@ -220,7 +201,6 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
 			//set the chromsomes list in the form 
 			logger.debug("Setup the chromosome values for the form");
 			form.setChromosomes(ChromosomeHelper.getInstance().getChromosomes());
-			this.geneExpressionForm.setChromosomes(form.getChromosomes());
 		}
         GroupRetriever groupRetriever = new GroupRetriever();
         form.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(servletRequest.getSession()));
@@ -266,7 +246,10 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
     		cgForm.setCytobands(bean.getCytobands());
     	}
 
-    	this.servletRequest.setAttribute("selectedView", "regionView");
+    	//toggle the Gene / Region views correctly
+    	cgForm.setSelectedView("regionView");
+    	cgForm.setGeneRegionViewChange();
+    	
     	return "backToCGH";
     }
     
@@ -789,15 +772,6 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
 		// TODO Auto-generated method stub
 		sessionMap = arg0;
 	}
-
-
-	public GeneExpressionForm getGeneExpressionForm() {
-		return geneExpressionForm;
-	}
-
-	public void setGeneExpressionForm(GeneExpressionForm geneExpressionForm) {
-		this.geneExpressionForm = geneExpressionForm;
-	}
 	
 	protected void setDataFormDetails() {
 		this.form.setGeneListDetails();
@@ -808,16 +782,6 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
 		this.form.setCloneListSpecifyDetails();
 		this.form.setBasePairStartDetails();
 		this.form.setBasePairEndDetails();
-		
-		//this.comparativeGenomicForm.setGoClassificationDetails();
-		//this.comparativeGenomicForm.setFoldChangeValueDownDetails();
-		//this.comparativeGenomicForm.setFoldChangeValueUnchangeFromDetails();
-		//this.comparativeGenomicForm.setFoldChangeValueUnchangeToDetails();
-		//this.comparativeGenomicForm.setFoldChangeValueUpDetails();
-		//this.comparativeGenomicForm.setFoldChangeValueUDUpDetails();
-		//this.comparativeGenomicForm.setFoldChangeValueUDDownDetails();
-		
-		
 		
 		this.form.setCnAmplifiedDetails();
 		this.form.setSmAmplifiedDetails();
@@ -841,7 +805,5 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
 	public void setForm(ComparativeGenomicForm form) {
 		this.form = form;
 	}
-    
-	
 }
     

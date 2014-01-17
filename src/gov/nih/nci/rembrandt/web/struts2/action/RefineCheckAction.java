@@ -156,12 +156,13 @@ public class RefineCheckAction extends ActionSupport implements ServletRequestAw
 	 		
 	 	} 
 		
-	 	this.selectedQueries = queryColl;
+	 	//this.selectedQueries = queryColl;
 		//debug
 		
-		RefineQueryForm rqForm = (RefineQueryForm)refineQueryForm;
+		
 		
 		if (queryBag.hasQuery()) {
+			refineQueryForm.addSelectedQuery();
 			return "success";
 		}else{
 		    logger.debug("SessionQueryBag has no queries.  Please select a query to execute");			

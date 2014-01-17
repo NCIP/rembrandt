@@ -183,20 +183,19 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 		String sessionId = servletRequest.getSession().getId();
 		
 		this.quickSearchForm = (QuickSearchForm)servletRequest.getSession().getAttribute(QUICK_SEARCH_FORM_OBJ);
-		//KMDataSetForm kmForm = (KMDataSetForm) form;
-		kmForm = new KMDataSetForm();
+		this.kmForm = new KMDataSetForm();
 		
 		
 		InstitutionCriteria institutionCriteria = InsitutionAccessHelper.getInsititutionCriteria(servletRequest.getSession());
 		
-		//ActionErrors errors = new ActionErrors();
 		String quickSearchVariableName = MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, 
 				((String) servletRequest.getSession().getAttribute("quickSearchName")));
 		if (quickSearchVariableName != null) {
 			quickSearchVariableName = quickSearchVariableName.toUpperCase();
 		}
        
-		String quickSearchType = MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, ((String) servletRequest.getAttribute("quickSearchType")));
+		String quickSearchType = MoreStringUtils.cleanString(
+				MoreStringUtils.specialCharacters, ((String) servletRequest.getAttribute("quickSearchType")));
 		if (quickSearchType == null) {
 			quickSearchType = RembrandtConstants.GENE_SYMBOL;
 		}
@@ -229,7 +228,6 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 		catch(Exception e){
 			logger.warn("GROUP " + qsGroupName + " NOT FOUND"+ e.getMessage());
 		}
-		
 		
 		if (kmplotType.equals(CaIntegratorConstants.GENE_EXP_KMPLOT)) {			
             kmResultsContainer = performKMGeneExpressionQuery(constrainSamples, quickSearchVariableName, GeneExpressionDataSetType.GeneExpressionDataSet, institutionCriteria);
@@ -616,8 +614,6 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 
 		QuickSearchForm qsForm = quickSearchForm;
 		
-		//ActionErrors errors = new ActionErrors();
-		
 		// cleanup data - To prevent cross-site scripting
 		if( qsForm.getQuickSearchName() != null )
 			qsForm.setQuickSearchName(MoreStringUtils.cleanJavascriptAndSpecialChars(
@@ -679,8 +675,6 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 
 		}
 		
-		//this.saveErrors(request, errors);
-		
 		for (String error : errors)
 			addActionError(error);
 		
@@ -691,20 +685,7 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 	public String clinical2KmSearch()
 			throws Exception {
 		
-		QuickSearchForm qsFormInput = this.quickSearchForm;
-		
-		this.kmForm = (KMDataSetForm)this.servletRequest.getSession().getAttribute(KMDATASET_FORM_OBJ);
-		
-		//kmForm = (KMDataSetForm)this.servletRequest.getSession().getAttribute(KMDATASET_FORM_OBJ);
-		this.quickSearchForm = (QuickSearchForm) servletRequest.getSession().getAttribute(QUICK_SEARCH_FORM_OBJ);
-		this.quickSearchForm.setGroupName(qsFormInput.getGroupName());
-		this.quickSearchForm.setGroupNameCompare(qsFormInput.getGroupNameCompare());
-		this.quickSearchForm.setPlot(qsFormInput.getPlot());
-		
 		QuickSearchForm qsForm = quickSearchForm;
-		
-		//debug
-		QuickSearchForm qsFormInput2 = (QuickSearchForm) servletRequest.getSession().getAttribute(QUICK_SEARCH_FORM_OBJ);
 		
 		//ActionErrors errors = new ActionErrors();
 		List<String> errors = new ArrayList<String>();
@@ -751,7 +732,7 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 				} catch (Exception e) {
 					logger.error("Gene Expression Plot Flopped");
 					logger.error(e);
-					return "error";
+					return "failure";
 				}
 			}
 
@@ -901,7 +882,6 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 	
 	public List<String> validateFormData() {
 	    
-		//ActionErrors errors = new ActionErrors();
 		List<String> errors = new ArrayList<String>();
 	    
 		if(this.quickSearchForm.getPlot() != null && !this.quickSearchForm.getPlot().equals(CaIntegratorConstants.SAMPLE_KMPLOT) 
@@ -921,9 +901,6 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 			}
 	    }
 		
-		//for (String error : errors) {
-		//	addActionError(error);
-		//}
 		return errors;
 		
 

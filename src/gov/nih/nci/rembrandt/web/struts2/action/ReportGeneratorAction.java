@@ -49,6 +49,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.ServletRequestAware;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.Preparable;
 //import gov.nih.nci.rembrandt.web.struts2.form.ClinicalDataForm;
 //import gov.nih.nci.rembrandt.web.struts2.form.ComparativeGenomicForm;
 //import gov.nih.nci.rembrandt.web.struts2.form.GeneExpressionForm;
@@ -120,7 +121,7 @@ import com.opensymphony.xwork2.ActionSupport;
 * 
 */
 
-public class ReportGeneratorAction extends ActionSupport implements ServletRequestAware {
+public class ReportGeneratorAction extends ActionSupport implements ServletRequestAware, Preparable {
 //extends DispatchAction {
 
     private static Logger logger = Logger.getLogger(ReportGeneratorAction.class);
@@ -128,15 +129,25 @@ public class ReportGeneratorAction extends ActionSupport implements ServletReque
     
     HttpServletRequest servletRequest;
     
-    //ReportGeneratorForm reportGeneratorForm;
+    ReportGeneratorForm reportGeneratorForm;
     
-    BaseForm reportForm;
+    BaseForm form;
     
     //Temp solution to pass parameters with action config
     String resultSetName;
     String webGenomeRequestUrl;
     
-    public String compundReport()
+    
+    
+    @Override
+	public void prepare() throws Exception {
+		if (reportGeneratorForm == null) {
+			reportGeneratorForm = new ReportGeneratorForm();
+			reportGeneratorForm.reset(servletRequest);
+		}
+		
+	}
+	public String compundReport()
 			throws Exception {
 		return "generateReport";
 	}
@@ -164,11 +175,9 @@ public class ReportGeneratorAction extends ActionSupport implements ServletReque
     		return "failure";
     	}
     	
-    	if (! (this.reportForm instanceof ReportGeneratorForm)) {
-    		//scream
-    	}
     	
-    	ReportGeneratorForm rgForm = (ReportGeneratorForm) this.reportForm;
+    	
+    	ReportGeneratorForm rgForm = (ReportGeneratorForm) this.reportGeneratorForm;
     	String sessionId = this.servletRequest.getSession().getId();
     	
     	// cleanup data - To prevent cross-site scripting
@@ -339,7 +348,7 @@ public class ReportGeneratorAction extends ActionSupport implements ServletReque
      */
     public String runIGVReport()
 	throws Exception {
-    	ReportGeneratorForm rgForm = (ReportGeneratorForm)this.reportForm;
+    	ReportGeneratorForm rgForm = (ReportGeneratorForm)this.reportGeneratorForm;
     	String sessionId = this.servletRequest.getSession().getId();
     	//get the specified report bean from the cache using the query name as the key
     	ReportBean reportBean = presentationTierCache.getReportBean(sessionId,rgForm.getQueryName());
@@ -481,7 +490,7 @@ public class ReportGeneratorAction extends ActionSupport implements ServletReque
     		return "failure";
     	}
     	
-    	ReportGeneratorForm rgForm = (ReportGeneratorForm) this.reportForm;
+    	ReportGeneratorForm rgForm = (ReportGeneratorForm) this.reportGeneratorForm;
     	String sessionId = this.servletRequest.getSession().getId();
 		String taskId = this.servletRequest.getParameter("taskId");
 		
@@ -727,14 +736,16 @@ public class ReportGeneratorAction extends ActionSupport implements ServletReque
 			throws Exception {
         String goBack=null;	
         
-        
-        if(reportForm instanceof GeneExpressionForm) {
+        if (form == null) {
+        	return "failure";
+        }
+        if(form instanceof GeneExpressionForm) {
             this.servletRequest.setAttribute("geneexpressionForm", this.servletRequest.getAttribute("previewForm"));
             goBack = "backToGeneExp";
-        }else if(reportForm instanceof ClinicalDataForm) {
+        }else if(form instanceof ClinicalDataForm) {
             this.servletRequest.setAttribute("clinicaldataForm", this.servletRequest.getAttribute("previewForm"));
             goBack = "backToClinical";
-        }else if(reportForm instanceof ComparativeGenomicForm) {
+        }else if(form instanceof ComparativeGenomicForm) {
             this.servletRequest.setAttribute("comparitivegenomicForm", this.servletRequest.getAttribute("previewForm"));
             goBack = "backToCGH";
         }
@@ -753,7 +764,7 @@ public class ReportGeneratorAction extends ActionSupport implements ServletReque
 		//ActionForward thisForward = null;
 		
 		
-		ReportGeneratorForm rgForm = (ReportGeneratorForm)this.reportForm;
+		ReportGeneratorForm rgForm = (ReportGeneratorForm)this.reportGeneratorForm;
 		//Used to get the old resultant from cache
 		String queryName = rgForm.getQueryName();
 		//This is what the user wants to name the new resultSet
@@ -783,14 +794,14 @@ public class ReportGeneratorAction extends ActionSupport implements ServletReque
 		//return runGeneViewReport(mapping, rgForm, request, response);
 		
 		//Shan: Watch this
-		this.reportForm = rgForm;
+		this.reportGeneratorForm = rgForm;
 		return runGeneViewReport();
 	}
 
 	public String submitSpecimens()
 		throws Exception {
 	//ActionForward thisForward = null;
-	ReportGeneratorForm rgForm = (ReportGeneratorForm)this.reportForm;
+	ReportGeneratorForm rgForm = (ReportGeneratorForm)this.reportGeneratorForm;
 	//Used to get the old resultant from cache
 	String queryName = rgForm.getQueryName();
 	//This is what the user wants to name the new resultSet
@@ -821,14 +832,14 @@ public class ReportGeneratorAction extends ActionSupport implements ServletReque
 	//now send everything that we have done to the actual method that will render the report
 	
 	//Shan: Watch this
-	this.reportForm = rgForm;
+	this.reportGeneratorForm = rgForm;
 	return runGeneViewReport();
 }
 
 public String exportToExcelForGeneView()
 		throws Exception {
 	
-	ReportGeneratorForm rgForm = (ReportGeneratorForm) this.reportForm;
+	ReportGeneratorForm rgForm = (ReportGeneratorForm) this.reportGeneratorForm;
 	//Used to get the old resultant from cache
 	String queryName = rgForm.getQueryName();
 	//This is what the user wants to name the new resultSet
@@ -880,14 +891,14 @@ public String exportToExcelForGeneView()
    	}
 	//now send everything that we have done to the actual method that will render the report
 	
-	this.reportForm = rgForm;
+	this.reportGeneratorForm = rgForm;
 	return runGeneViewReport();
 }
 
 public String exportToIGV()
 		throws Exception {
 	
-	ReportGeneratorForm rgForm = (ReportGeneratorForm) this.reportForm;
+	ReportGeneratorForm rgForm = (ReportGeneratorForm) this.reportGeneratorForm;
 	//Used to get the old resultant from cache
 	String queryName = rgForm.getQueryName();
 	//This is what the user wants to name the new resultSet
@@ -929,14 +940,14 @@ public String exportToIGV()
 		rgForm.setQueryName(reportBean.getResultantCacheKey());
    	}
 	//now send everything that we have done to the actual method that will render the report
-	this.reportForm = rgForm;
+	this.reportGeneratorForm = rgForm;
 	return runGeneViewReport();
 }
 
 public String switchViews()
 			throws Exception {
 		
-		ReportGeneratorForm rgForm = (ReportGeneratorForm) this.reportForm;
+		ReportGeneratorForm rgForm = (ReportGeneratorForm) this.reportGeneratorForm;
 		//Used to get the old resultant from cache
 		String queryName = rgForm.getQueryName();
 		String sessionId = this.servletRequest.getSession().getId();
@@ -984,14 +995,14 @@ public String switchViews()
 			rgForm.setQueryName(reportBean.getResultantCacheKey());
        	}
 		//now send everything that we have done to the actual method that will render the report
-		this.reportForm = rgForm;
+		this.reportGeneratorForm = rgForm;
 		return runGeneViewReport();
 	}
 	
 	public String runShowAllValuesQuery()
 			throws Exception {
 		
-		ReportGeneratorForm rgForm = (ReportGeneratorForm)this.reportForm;
+		ReportGeneratorForm rgForm = (ReportGeneratorForm)this.reportGeneratorForm;
 		String queryName = rgForm.getQueryName();
 		String sessionId = this.servletRequest.getSession().getId();
 		ReportBean reportBean = presentationTierCache.getReportBean(sessionId, queryName);
@@ -1016,14 +1027,14 @@ public String switchViews()
 			}
        	}
 		//now send everything that we have done to the actual method that will render the report
-		this.reportForm = rgForm;
+		this.reportGeneratorForm = rgForm;
 		return runGeneViewReport();
 	}
 	
 	public String runFilterCopyNumber()
 			throws Exception {
 		
-		ReportGeneratorForm rgForm = (ReportGeneratorForm)this.reportForm;
+		ReportGeneratorForm rgForm = (ReportGeneratorForm)this.reportGeneratorForm;
 		String queryName = rgForm.getQueryName();
 		String sessionId = this.servletRequest.getSession().getId();
 		ReportBean reportBean = presentationTierCache.getReportBean(sessionId, queryName);
@@ -1072,7 +1083,7 @@ public String switchViews()
 		     
        	}
 		//now send everything that we have done to the actual method that will render the report
-		this.reportForm = rgForm;
+		this.reportGeneratorForm = rgForm;
 		return runGeneViewReport();
 	}
 
@@ -1117,17 +1128,24 @@ public String switchViews()
 	public void setResultSetName(String resultSetName) {
 		this.resultSetName = resultSetName;
 	}
-	public BaseForm getReportForm() {
-		return reportForm;
-	}
-	public void setReportForm(BaseForm reportForm) {
-		this.reportForm = reportForm;
-	}
+	
 	public String getWebGenomeRequestUrl() {
 		return webGenomeRequestUrl;
 	}
 	public void setWebGenomeRequestUrl(String webGenomeRequestUrl) {
 		this.webGenomeRequestUrl = webGenomeRequestUrl;
+	}
+	public ReportGeneratorForm getReportGeneratorForm() {
+		return reportGeneratorForm;
+	}
+	public void setReportGeneratorForm(ReportGeneratorForm reportGeneratorForm) {
+		this.reportGeneratorForm = reportGeneratorForm;
+	}
+	public BaseForm getForm() {
+		return form;
+	}
+	public void setForm(BaseForm form) {
+		this.form = form;
 	}
     
     
