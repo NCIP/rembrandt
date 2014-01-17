@@ -127,7 +127,8 @@ L--%>
         	
         	
 	       	<label for="baselineGroupName">Restrict to sample group: </label>
-        	 <s:select property="baselineGroup" list="quickSearchForm.sampleGroupsList" id="baselineGroupName" disabled="true" theme="simple">
+        	 <s:select property="baselineGroup" list="quickSearchForm.sampleGroupsList" listKey="value" listValue="label"
+        	 	id="baselineGroupName" disabled="true" theme="simple">
 			 	
 			</s:select>
 	        
@@ -136,17 +137,21 @@ L--%>
 	        <!--  sample based plots -->
 	        <h5>Sample-based Graph&nbsp;&nbsp;&nbsp;&nbsp;</h5>
 	        <br>
-	        <input id="samplePlotRadio" type="radio" name="quickSearchForm.plot" class="radio" value="<%=CaIntegratorConstants.SAMPLE_KMPLOT%>" onclick="javascript:onRadio(this,3); needGVal = false;">
+	        <input id="samplePlotRadio" type="radio" name="quickSearchForm.plot" class="radio" 
+	        	value="<%=CaIntegratorConstants.SAMPLE_KMPLOT%>" onclick="javascript:onRadio(this,3); needGVal = false;">
 	        <label for="samplePlotRadio">Kaplan-Meier survival plot for Sample Data&nbsp;</label>
 	        <br><br>
 	        
 	        
 	        <label for="groupName">&#160;</label>
-	        <s:select name="quickSearchForm.groupName" list="quickSearchForm.sampleGroupsList" theme="simple" headerKey="0" style="margin-left:20px;width:200px;" id="groupName" disabled="false" onchange="examineGroups(this);needGVal = false;">
-			 	<!--  html:optionsCollection property="sampleGroupsList" /> -->
+	        <s:select name="quickSearchForm.groupName" list="quickSearchForm.sampleGroupsList" listKey="value" listValue="label"
+	        theme="simple" headerKey="0" style="margin-left:20px;width:200px;" id="groupName" disabled="false" onchange="examineGroups(this);needGVal = false;">
+			 	
 			</s:select>
 	         vs.
-	         <s:select name="quickSearchForm.groupNameCompare" list="quickSearchForm.getSampleGroupListWithExtra()" theme="simple" id="groupNameCompare" style="width:200px;" disabled="false" onchange="examineGroups(this);needGVal = false;">	         	
+	         <s:select name="quickSearchForm.groupNameCompare" 
+	         list="quickSearchForm.getSampleGroupListWithExtra()" listKey="value" listValue="label"
+	         theme="simple" id="groupNameCompare" style="width:200px;" disabled="false" onchange="examineGroups(this);needGVal = false;">	         	
 			 	
 			</s:select>
 	        

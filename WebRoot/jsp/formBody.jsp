@@ -112,8 +112,7 @@ String param = request.getParameter("s");
   	%>
     <app:cshelp topic="<%=act%>" style="cursor:pointer;float:right;padding:2px;" />
 
-	<c:choose> 
-	  	<c:when test="#request.selectedView == 'regionView'">
+	  	<s:if test="form.selectedView.equals('regionView')">
 			<script type="text/javascript">
 				Event.observe(window, "load", function() {
 					document.getElementById("segmentMean").style.display = "none";
@@ -122,18 +121,18 @@ String param = request.getParameter("s");
 					toggleGeneRegionView('regionView');
 				});
 			</script>
-		</c:when>
-		<c:otherwise> 
+		</s:if>
+		<s:else> 
 			<script type="text/javascript">
 				Event.observe(window, "load", function() {
 					document.getElementById("segmentMean").style.display = "none";
 					document.getElementById("segmentMean").style.visibility = "hidden";
-					
 					toggleGeneRegionView('geneView');
+					
 				});
 			</script>
-		</c:otherwise>
-	</c:choose>
+		</s:else>
+	
 	<script type="text/javascript">
 		function toggleCopyNumberView(selectedView) {
 			if ( selectedView == "calculatedCN" ) {

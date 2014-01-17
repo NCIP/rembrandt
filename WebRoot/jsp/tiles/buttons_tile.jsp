@@ -69,7 +69,6 @@ function refresh()	{
 		&nbsp;&nbsp;
  	</s:if>
 
-<
 <input type="button" id="submittalButton" class="subButton" value="Submit" onclick="handleSubmitButton();"/>
 
 <!--  input type="submit" id="multiUseButton" class="subButtonInv" value="MultiUse"/> -->
@@ -108,12 +107,12 @@ function gecnSubmitX() {
 		var geneOptionVal = document.forms[0].geneOption1.value;
 		alert(geneOptionVal);
 		if ( geneOptionVal == "standard" ) {
-			alert("Checking geneList...");
+			//alert("Checking geneList...");
 		    var ret = GeneAlias.validateAliases($('geneList').value, 'Submit');
-		    if (ret == false)
-		    	alert("Not valid");
-		    else 
-		    	alert ("Valid");
+		    //if (ret == false)
+		    //	alert("Not valid");
+		    //else 
+		    //	alert ("Valid");
 		  }
 	}
 	

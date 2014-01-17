@@ -82,7 +82,6 @@ function cytobandChange(){
   
   //javascript:cytobandChange()
   var actionName = document.getElementById("cytobandsAction").value;
-  alert(actionName);
   document.forms[0].action=actionName + ".action";
   document.forms[0].submit();
 }

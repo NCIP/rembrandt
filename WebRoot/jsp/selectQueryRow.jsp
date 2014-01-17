@@ -7,29 +7,18 @@ L--%>
 
 <tr class="setQuery">
 	<td>
-		<nested:select styleId="leftParen" property="leftParen">
-			<html:option value="">&nbsp;</html:option>
-			<html:option value="(">&nbsp;(&nbsp;</html:option>
-		</nested:select>
+		<s:select id="leftParen" name="refineQueryForm.leftParen" list="refineQueryForm.leftParenOptions" />
 	</td>
 	<td>
-		<nested:select styleId="queryName" property="queryName">
-		    <option/>
-		    <html:optionsCollection property="nonAllGenesQueries" label="queryName" value="queryName" />
-		</nested:select>
+		<s:select id="queryName"name="refineQueryForm.queryName" 
+			list="refineQueryForm.nonAllGenesQueries" listKey="queryName" listValue="queryName" />
 	</td>
 	<td>
-		<nested:select styleId="rightParen" property="rightParen">
-			<html:option value="">&nbsp;</html:option>
-			<html:option value=")">&nbsp;)&nbsp;</html:option>
-		</nested:select>
+		<s:select id="rightParen" name="refineQueryForm.rightParen" list="refineQueryForm.rightParenOptions" />
 	</td>
 	<Td>
-		<nested:select styleId="operand" property="operand" onchange="operandChange()">
-			<html:option value="">&nbsp;</html:option>
-			<html:option value="AND">and</html:option>
-			<html:option value="OR">or</html:option>
-		</nested:select>
-		<html:errors property="operand"/>
+		<s:select id="operand" name="refineQueryForm.operand" list="refineQueryForm.operands" onchange="operandChange()" />
+			
+		<s:actionerror name="operand"/>
 	</td>
 </tr>

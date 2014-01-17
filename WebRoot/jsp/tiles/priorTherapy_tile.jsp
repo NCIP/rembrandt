@@ -16,16 +16,16 @@ L--%>
 <app:cshelp topic="clinical_Prior_tooltip" text="[?]"/>   
 <!-- <app:help help="Specify the therapy received before enrollment in the current study"/>-->
 </legend><br />	
-<s:checkbox name="form.radiation" value="Specify" id="radiation"/>
+<s:checkbox name="form.radiation" value="Specify" id="radiation" theme="simple" />
 
 <label for="radiation">Radiation&nbsp;&nbsp;</label>
 <label for="radiationType">&nbsp;&nbsp;&nbsp;&nbsp;- radiation type:&nbsp;</label>
 
-<s:select id="radiationType" name="form.radiationType" list="form.radiationTypeColl" listKey="value" listValue="label"/>
+<s:select id="radiationType" name="form.radiationType" list="form.radiationTypeColl" listKey="value" listValue="label" theme="simple" />
 <s:actionerror name="radiationType"/>
 
 <br>
-<s:checkbox id="chemo" class="radio" name="form.chemo" value="Specify"/>
+<s:checkbox id="chemo" class="radio" name="form.chemo" value="Specify" theme="simple" />
 <label for="chemo">Chemo&nbsp;&nbsp;</label>
 <label for="chemoType">- agent:&nbsp;</label>
 <!--- <select property="chemoType" name="chemo" disabled="true">
@@ -37,10 +37,10 @@ L--%>
 <s:actionerror name="chemoType"/>
 
 <Br>
-<s:checkbox id="surgery" class="radio" name="form.surgery" value="Specify"/>
+<s:checkbox id="surgery" class="radio" name="form.surgery" value="Specify" theme="simple" />
 <label for="surgery">Surgery&nbsp;&nbsp;</label>
 <label for="surgeryTitle">&nbsp;&nbsp;&nbsp;&nbsp;- title:&nbsp;</label>
-<s:select id="surgeryTitle" name="form.surgeryTitle" list="form.surgeryTitleColl" listKey="value" listValue="label"/>
+<s:select id="surgeryTitle" name="form.surgeryTitle" list="form.surgeryTitleColl" listKey="value" listValue="label" theme="simple"/>
 <s:actionerror name="surgeryTitle"/>
 
 <Br>

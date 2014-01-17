@@ -80,7 +80,7 @@ if(queryCollection == null){
 			</td></tr>
 			    
 			 <tr><td> 
-			     <s:form action="comparitivegenomicSetup" method="post" namespace="/" theme="simple">
+			     <s:form action="cgSetup" method="post" namespace="/" theme="simple">
 			     <s:submit value="Copy Number Data Analysis" style="width:200px;margin-bottom: 5px;"/>
 			  		&nbsp; <b class="message">- (<% out.write(cpQueryString); %>) Copy Number Data Queries</b>
 			       

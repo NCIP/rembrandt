@@ -9,7 +9,7 @@ L--%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 
-<s:form action="refineQuery" theme="simple">
+<s:form action="refineQueryRunReport" theme="simple">
 
 <app:cshelp topic="Refine_query" /><br clear="all"/>
 
@@ -26,7 +26,8 @@ L--%>
 		<tr><th></th></tr>
 		<tr>
 			<td colspan="4" class="message">
-				Group Your Queries<BR>
+				Group Your Queries<BR>== select q size = <s:property value="refineQueryForm.selectedQueries.size()" />
+				
 			</td>
 		</tr>
 		<tr>
@@ -38,24 +39,36 @@ L--%>
 		<!-- BEGIN  Selected Queries -->
 			
 		
-		<s:iterator value="refineQueryForm.selectedQueries" var="aBean">
+		<s:iterator value="refineQueryForm.selectedQueries" status="stat">
+		
 		<tr>
 			<td>
-				<s:select id="leftParen" name="queryBean.leftParen" list="refineQueryForm.leftParenOptions" />
+				<s:select id="leftParen" name="refineQueryForm.selectedQueries[%{#stat.index}].leftParen" 
+					list="refineQueryForm.leftParenOptions" headerValue="refineQueryForm.selectedQueries[%{#stat.index}].leftParen"/>
 			</td>
 			<td>
-				<s:select id="queryName"name="queryBean.queryName" 
-					list="refineQueryForm.nonAllGenesQueries" listKey="queryName" listValue="queryName" />
+			<s:if test="refineQueryForm.selectedQueries[%{#stat.index}].queryName.length() > 0">
+				<s:select id="queryName"name="refineQueryForm.selectedQueries[%{#stat.index}].queryName" 
+					list="refineQueryForm.nonAllGenesQueries" listKey="queryName" listValue="queryName" 
+					headerValue="refineQueryForm.selectedQueries[%{#stat.index}].queryName"/>
+					</s:if>
+					<s:else>
+					<s:select id="queryName"name="refineQueryForm.selectedQueries[%{#stat.index}].queryName" 
+						list="refineQueryForm.nonAllGenesQueries" listKey="queryName" listValue="queryName" 
+						headerKey="-1" headerValue=" "/>
+					</s:else>
 			</td>
 			<td>
-				<s:select id="rightParen" name="queryBean.rightParen" list="refineQueryForm.rightParenOptions" />
+				<s:select id="rightParen" name="refineQueryForm.selectedQueries[%{#stat.index}].rightParen" 
+					list="refineQueryForm.rightParenOptions" headerValue="refineQueryForm.selectedQueries[%{#stat.index}].rightParen"/>
 			</td>
 			<Td>
-				<s:select id="operand" name="queryBean.operand" list="refineQueryForm.operands" onchange="operandChange()" />
-			
-				<s:actionerror name="operand"/>
+				<s:select id="operand" name="refineQueryForm.selectedQueries[%{#stat.index}].operand" 
+					list="refineQueryForm.operands" headerValue="refineQueryForm.selectedQueries[%{#stat.index}].operand"
+					onchange="operandChange()" />
 			</td>
 		</tr>
+		
 		</s:iterator>
 				
 		<!-- End  Selected Queries -->
@@ -135,8 +148,7 @@ L--%>
 	<table width="100%" border="0" summary="This table is used to format page content">
 		<tr><th></th></tr>
 		<tr><td>
-				
-				
+			
 				<s:select name="refineQueryForm.instituteView" onchange="" id="instituteView" style="width:300px" 
 					list="refineQueryForm.institueViewColl" listKey="displayName" listValue="displayName" />
 					 
@@ -154,20 +166,18 @@ L--%>
 			<br>
 			    <input type="button" id="clearButton" class="xbutton" value="Clear" onclick="javascript:location.href='refinecheck'"/>
 				
-				<!--  
-				<html:button property="backbutton" styleClass="xbutton" value="<< Back" 
+				<input type="button" name="backbutton" class="xbutton" value="<< Back" 
 					onclick="javascript:history.back();"/>
-				-->
-				<s:submit type="button" action="gePreview" class="xbutton" theme="simple"
-					onclick="javascript:history.back();"><< Back</s:submit>	
 
 					&nbsp;&nbsp
 				<!--check to see if query has been validated and the runFlag has been set on the form-->
 				<s:if test="refineQueryForm.runFlag.equals('yes')">
 					<!-- JavaScript here is to create a popup for the ReportResults -->
-					<s:submit class="xbutton" id="runReportButton" property="method">
-						Anoth button
-					</s:submit>
+					<input type="button" id="runReportButton" name="backbutton" class="xbutton" value="Run Report >>" 
+						onclick="runReport();"/>
+						
+						<s:submit id="runReportButton" value="Run Report >>" class="xbutton" onclick="runReport();">
+			</s:submit>
 				</s:if>
 				
 </fieldset>
@@ -186,6 +196,13 @@ function validateQuery(){
 	  //document.forms[0].validateButton.value="ChangedOperand";
 	  //document.forms[0].validateButton.click();
 	  document.forms[0].action="refineQueryValidateQery.action";
+	  document.forms[0].submit();
+	}
+	
+function runReport(){
+	  //document.forms[0].validateButton.value="ChangedOperand";
+	  //document.forms[0].validateButton.click();
+	  document.forms[0].action="refineQueryRunReport.action";
 	  document.forms[0].submit();
 	}
 </script>	

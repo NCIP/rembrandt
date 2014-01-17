@@ -28,7 +28,7 @@ String act = request.getParameter("act") + "_Gene_tooltip";
 	
 	<!-- html:radio styleId="geneOption1" property="geneOption" styleClass="radio" value="standard" onclick="submitStandardQuery();"/>  -->
 	
-	<input type="radio" name="form.geneOption" id="geneOption1" class="radio" value="standard" />
+	<input type="radio" name="form.geneOption" id="geneOption1" checked="checked" class="radio" value="standard" />
 	<label for="geneType">Type Genes:&nbsp;&nbsp;</label>
 	<s:select name="form.geneType" id="geneType" disabled="false" 
 		list="form.geneTypeColl" listKey="value" listValue="label" theme="simple" 

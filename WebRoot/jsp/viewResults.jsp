@@ -149,8 +149,7 @@ String helpLinkClose = "', 350, 500);\" title=\"Click here for additional inform
 							view = "(CN)";
 						}
 					}
-						//out.println("<li><a id=\"" + qname + "_link\" href=\"javascript:spawnx('runReport.do?method=runGeneViewReport&queryName=previewResults&showSampleSelect=false', 770, 550, '_report');\" onclick=\"" + onclick + "\">" + qname + "</a> <i>(Clinical)</i> ");
-						out.println("<li><a id=\"" + task.getTask().getId() + "_link\" href=\"javascript:spawnx('runReport.do?method=runGeneViewReportFromCache&taskId=' + encodeURIComponent('" + URLEncoder.encode(task.getTask().getId()) + "') + '&cacheId=" + task.getTask().getCacheId() + "', 750, 500,'_report');\" onclick=\"" + queryOnclick + "\">" + qname + "</a> <i>"+view+"</i> ");
+						out.println("<li><a id=\"" + task.getTask().getId() + "_link\" href=\"javascript:spawnx('runGeneViewReportFromCache.action?taskId=' + encodeURIComponent('" + URLEncoder.encode(task.getTask().getId()) + "') + '&cacheId=" + task.getTask().getCacheId() + "', 750, 500,'_report');\" onclick=\"" + queryOnclick + "\">" + qname + "</a> <i>"+view+"</i> ");
 
 
 					out.println("<span style=\"font-size:10px\">(elapsed time: <span id=\"" + task.getTask().getId() + "_time\" >" + task.getTask().getElapsedTime()/1000 + "</span> sec) </span>");
