@@ -138,4 +138,11 @@ public class SelectedQueryBean {
 	public void setAllGeneQuery(boolean allGeneQuery) {
 		this.allGeneQuery = allGeneQuery;
 	}
+	
+	public void trimFields() {
+		this.leftParen = this.leftParen.trim();
+		this.rightParen = this.rightParen.trim();
+		this.queryName = this.queryName.trim();
+		this.operand = this.operand.trim();
+	}
 }
