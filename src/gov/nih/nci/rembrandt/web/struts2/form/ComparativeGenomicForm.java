@@ -278,8 +278,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
     private boolean isAllGenes = false;
     
     /** specimenType property */
-    private String specimenType;  
-    
+    private String specimenType;     
     
 
     // Collections used for Lookup values.
@@ -300,10 +299,6 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 
     private ArrayList assayTypes = new ArrayList();    
 
-    
-
- 
-
     private GeneIDCriteria geneCriteria;
     
     private AllGenesCriteria allGenesCriteria;  
@@ -323,6 +318,10 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
     private AssayPlatformCriteria assayPlatformCriteria;
 
     private AnalysisTypeCriteria analysisTypeCriteria;
+    
+    private String selectedView = "geneView";
+    private String geneReviewChecked;
+    private String regionReviewChecked;
 
     //----------------------------constuctor()
 
@@ -377,6 +376,9 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
         
         this.assayPlatforms = new HashMap<String, String>();
         assayPlatforms.put("Affymetrix 100K SNP Arrays", "100K SNP Array");
+        
+        this.geneReviewChecked = "checked";
+        this.regionReviewChecked = "";
     }
 
     /**
@@ -1383,7 +1385,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 		//number.  Chromosome numbers can actually be characters, like
 		// X and Y so we 
 		this.chromosomeNumber = chromosomeIndex;
-		if(!"".equals(chromosomeIndex)) {
+		if(!"".equals(chromosomeIndex) && !"-1".equals(chromosomeIndex)) {
 			//Get the chromosome from the Chromosome List
 			try {
 				ChromosomeBean bean = (ChromosomeBean)chromosomes.get(Integer.parseInt(chromosomeIndex));
@@ -2197,5 +2199,39 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 	public String getPreviewActionName() {
 		// TODO Auto-generated method stub
 		return "cgPreview";
+	}
+
+	public String getGeneReviewChecked() {
+		return geneReviewChecked;
+	}
+
+	public void setGeneReviewChecked(String geneReviewChecked) {
+		this.geneReviewChecked = geneReviewChecked;
+	}
+
+	public String getRegionReviewChecked() {
+		return regionReviewChecked;
+	}
+
+	public void setRegionReviewChecked(String regionReviewChecked) {
+		this.regionReviewChecked = regionReviewChecked;
+	}
+
+	public String getSelectedView() {
+		return selectedView;
+	}
+
+	public void setSelectedView(String selectedView) {
+		this.selectedView = selectedView;
+	}
+	
+	public void setGeneRegionViewChange() {
+		if (selectedView == null || selectedView.equalsIgnoreCase("regionView")) {
+			this.geneReviewChecked = "";
+			this.regionReviewChecked = "checked";
+		} else {
+			this.geneReviewChecked = "checked";
+			this.regionReviewChecked = "";
+		} 
 	}
 }

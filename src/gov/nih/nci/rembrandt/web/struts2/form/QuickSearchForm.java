@@ -96,21 +96,15 @@ public class QuickSearchForm extends BaseForm implements GeneValidator{
 	private String groupNameCompare = null;
 	private String baselineGroup = null;
 	
-	//private Collection<LabelValueBean> sampleGroupsList;
-	private HashMap<String, String> sampleGroupsList;
+	private List<LabelValueBean> sampleGroupsList;
 	
 	private List<String> quickSearchTypes = new ArrayList<String>();
 	
-	//public void reset(ActionMapping mapping, HttpServletRequest request) {
-	
-	//TODO: Shan This needs to be called prior or during homepage loading
 	public void reset(HttpServletRequest request) {
 		GroupRetriever groupRetriever = new GroupRetriever();
 		
 		List<LabelValueBean> al = groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession());
-//		al.add(new LabelValueBean("all", ""));
-		//al.addAll(groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession()));
-		
+
 		//specifically remove only these values, not to effect the groupRetriever
 		LabelValueBean tmp = new LabelValueBean("UNKNOWN", "UNKNOWN");
 		al.remove(tmp);
@@ -119,8 +113,10 @@ public class QuickSearchForm extends BaseForm implements GeneValidator{
 		tmp = new LabelValueBean("NON_TUMOR", "NON_TUMOR");
 		al.remove(tmp);
 		
-		//struts1 to 2 migration
-		sampleGroupsList = convertToHashMap(al);
+		//al.add(new LabelValueBean("None", "none"));
+		//al.add(new LabelValueBean("Rest of the Gliomas", "Rest of the Gliomas"));
+		
+		sampleGroupsList = al;
 	}
 	
 	
@@ -157,32 +153,6 @@ public class QuickSearchForm extends BaseForm implements GeneValidator{
 	public AllGeneAliasLookup[] getAllGeneAlias(){
 	    return this.allGeneAlias;
 	}
-	
-	//TODO: This needs be moved to action class or somewhere
-	public List<String> validate(ActionMapping mapping,
-			HttpServletRequest request) {
-	    
-		//ActionErrors errors = new ActionErrors();
-		List<String> errors = new ArrayList<String>();
-	    
-		if(getPlot() != null && !getPlot().equals(CaIntegratorConstants.SAMPLE_KMPLOT) 
-				&& getQuickSearchType() != null  &&
-	    		getQuickSearchType().compareTo(RembrandtConstants.GENE_SYMBOL)==0){
-		    
-			errors = UIFormValidator.validateGeneSymbolisNotEmpty(quickSearchName, errors);
-		    
-		    if( getQuickSearchName() != null )
-				setQuickSearchName(MoreStringUtils.cleanJavascriptAndSpecialChars(MoreStringUtils.specialCharacters, getQuickSearchName()));
-		    
-			try {
-				errors = UIFormValidator.validateGeneSymbol(this, errors);
-			} catch (Exception e) {
-				logger.error(e);
-			}
-	    }
-		return errors;
-
-	}
 
     /* (non-Javadoc)
      * @see gov.nih.nci.nautilus.ui.struts.form.GeneValidator#setGeneSymbol(java.lang.String)
@@ -218,13 +188,7 @@ public class QuickSearchForm extends BaseForm implements GeneValidator{
 		this.groupNameCompare = groupNameCompare;
 	}
 
-	public HashMap<String, String> getSampleGroupsList() {
-		return sampleGroupsList;
-	}
-
-	public void setSampleGroupsList(HashMap<String, String> sampleGroupsList) {
-		this.sampleGroupsList = sampleGroupsList;
-	}
+	
 
 	/*
 	public Collection getSampleGroupsList() {
@@ -243,12 +207,12 @@ public class QuickSearchForm extends BaseForm implements GeneValidator{
 		this.baselineGroup = baselineGroup;
 	}
 	
-	public HashMap<String, String> getSampleGroupListWithExtra() {
+	public List<LabelValueBean> getSampleGroupListWithExtra() {
 		if (this.sampleGroupsList == null)
-			return new HashMap<String, String>();
+			return new ArrayList<LabelValueBean>();
 		
-		this.sampleGroupsList.put("None", "none");
-		this.sampleGroupsList.put("Rest of the Gliomas", "Rest of the Gliomas");
+		this.sampleGroupsList.add(new LabelValueBean("None", "none"));
+		this.sampleGroupsList.add(new LabelValueBean("Rest of the Gliomas", "Rest of the Gliomas"));
 		
 		return sampleGroupsList;
 		
@@ -274,4 +238,16 @@ public class QuickSearchForm extends BaseForm implements GeneValidator{
 		
 		return aMap;
 	}
+
+	public List<LabelValueBean> getSampleGroupsList() {
+		return sampleGroupsList;
+	}
+
+	public void setSampleGroupsList(List<LabelValueBean> sampleGroupsList) {
+		this.sampleGroupsList = sampleGroupsList;
+	}
+
+	
+
+	
 }

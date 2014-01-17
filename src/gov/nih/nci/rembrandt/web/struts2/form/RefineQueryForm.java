@@ -117,7 +117,8 @@ public class RefineQueryForm extends BaseForm implements Factory {
 	private List compoundViewColl = new ArrayList();
 	private Collection<InstitutionDE> institueViewColl; // = new ArrayList();
 
-	private List selectedQueries = LazyList.decorate(new ArrayList(), this);
+	//private List selectedQueries = LazyList.decorate(new ArrayList(), this);
+	private List<SelectedQueryBean> selectedQueries = new ArrayList<SelectedQueryBean>();
 	
 	private String allGeneQuery = "";
 	
@@ -146,15 +147,15 @@ public class RefineQueryForm extends BaseForm implements Factory {
 		super();
 		
 		leftParenOptions = new ArrayList<String>();
-		leftParenOptions.add("");
+		leftParenOptions.add(" ");
 		leftParenOptions.add("(");
 		
 		rightParenOptions = new ArrayList<String>();
-		rightParenOptions.add("");
+		rightParenOptions.add(" ");
 		rightParenOptions.add(")");
 		
 		operands = new ArrayList<String>();
-		operands.add("");
+		operands.add(" ");
 		operands.add("and");
 		operands.add("or");
 	}
@@ -282,11 +283,11 @@ public class RefineQueryForm extends BaseForm implements Factory {
 	 * @return Returns the selectedQueries.
 	 */
 	public List getSelectedQueries() {
-		if (selectedQueries.isEmpty()) {
-			SelectedQueryBean newQuery = new SelectedQueryBean();
-			newQuery.setQueryName("");
-			selectedQueries.add(newQuery);
-		}
+//		if (selectedQueries.isEmpty()) {
+//			SelectedQueryBean newQuery = new SelectedQueryBean();
+//			newQuery.setQueryName("");
+//			selectedQueries.add(newQuery);
+//		}
 		return selectedQueries;
 	}
 
@@ -307,14 +308,6 @@ public class RefineQueryForm extends BaseForm implements Factory {
 		SelectedQueryBean newQuery = new SelectedQueryBean();
 		newQuery.setQueryName("");
 		selectedQueries.add(newQuery);
-	}
-	
-	public void addSelectedQuery(SelectedQueryBean newBean) {
-		List selectedQueries = this.getSelectedQueries();
-		//SelectedQueryBean newQuery = new SelectedQueryBean();
-		//newQuery.setQueryName("");
-		newBean.setQueryName(""); //why?
-		selectedQueries.add(newBean);
 	}
 
 	/*
