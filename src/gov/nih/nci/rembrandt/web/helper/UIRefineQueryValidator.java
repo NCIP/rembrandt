@@ -395,6 +395,7 @@ public class UIRefineQueryValidator {
 			Iterator iter = selectedQueries.iterator();
 			while(iter.hasNext()) {
 				SelectedQueryBean bean = (SelectedQueryBean)iter.next();
+				bean.trimFields();
 				if(bean.getQueryName()==null||bean.getQueryName().equals("")) {
 					//drop the bean
 					selectedQueries.remove(bean);
