@@ -786,6 +786,21 @@
 		<result name="success" type="tiles">nautilus.viewResults</result>
 	</action>
 	
+	<action name="testReport"
+		class="gov.nih.nci.rembrandt.web.struts2.action.DoFirst" method="execute">
+		<result name="success">jsp/testReport.jsp</result>	
+	</action>
+	
+	<action name="pcaReport"
+		class="gov.nih.nci.rembrandt.web.struts2.action.DoFirst" method="execute">
+		<result name="success">jsp/pcaReport.jsp</result>	
+	</action>
+	
+	<action name="hcReport"
+		class="gov.nih.nci.rembrandt.web.struts2.action.DoFirst" method="execute">
+		<result name="success">jsp/hcReport.jsp</result>	
+	</action>
+
         
     </package>
 
