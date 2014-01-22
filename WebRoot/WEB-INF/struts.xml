@@ -801,6 +801,9 @@
 		<result name="success">jsp/hcReport.jsp</result>	
 	</action>
 
+	<action name="quickClinical">
+		<result>jsp/quickClinical.jsp</result>
+     </action>
         
     </package>
 

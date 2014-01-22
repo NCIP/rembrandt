@@ -78,7 +78,7 @@ String pcaView = request.getParameter("pcaView")!=null ? (String) request.getPar
 		if(pcaView.equals("PC1vsPC2"))
 			out.write("<span>PC1vsPC2</span>");
 		else
-			out.write("<a href=\"pcaReport.do?key="+key+"&pcaView=PC1vsPC2\">PC1vsPC2</a>");		
+			out.write("<a href=\"pcaReport.action?key="+key+"&pcaView=PC1vsPC2\">PC1vsPC2</a>");		
 		%>
 		</li>
 		<li>
@@ -86,14 +86,14 @@ String pcaView = request.getParameter("pcaView")!=null ? (String) request.getPar
 		if(pcaView.equals("PC1vsPC3"))
 			out.write("<span>PC1vsPC3</span>");
 		else
-			out.write("<a href=\"pcaReport.do?key="+key+"&pcaView=PC1vsPC3\">PC1vsPC3</a>");		
+			out.write("<a href=\"pcaReport.action?key="+key+"&pcaView=PC1vsPC3\">PC1vsPC3</a>");		
 		%>
 		<li>
 		<%
 		if(pcaView.equals("PC2vsPC3"))
 			out.write("<span>PC2vsPC3</span>");
 		else
-			out.write("<a href=\"pcaReport.do?key="+key+"&pcaView=PC2vsPC3\">PC2vsPC3</a>");		
+			out.write("<a href=\"pcaReport.action?key="+key+"&pcaView=PC2vsPC3\">PC2vsPC3</a>");		
 		%>
 	</ul>
 </div>
@@ -102,21 +102,21 @@ String pcaView = request.getParameter("pcaView")!=null ? (String) request.getPar
 <b>Color By: </b>
 <%
 if(!colorBy.equals("Disease"))
-	out.write("<a href=\"pcaReport.do?key="+key+"&pcaView="+pcaView+"&colorBy=Disease\">Disease</a>");		
+	out.write("<a href=\"pcaReport.action?key="+key+"&pcaView="+pcaView+"&colorBy=Disease\">Disease</a>");		
 else
 	out.write("Disease");
 	
 out.write(" | ");
 
 if(!colorBy.equals("Gender"))
-	out.write("<a href=\"pcaReport.do?key="+key+"&pcaView="+pcaView+"&colorBy=Gender\">Gender</a>");		
+	out.write("<a href=\"pcaReport.action?key="+key+"&pcaView="+pcaView+"&colorBy=Gender\">Gender</a>");		
 else
 	out.write("Gender");
 
 out.write(" | ");	
 
 if(!colorBy.equals("NONE"))
-	out.write("<a href=\"pcaReport.do?key="+key+"&pcaView="+pcaView+"&colorBy=NONE\">Remove Colors and Shapes</a>");		
+	out.write("<a href=\"pcaReport.action?key="+key+"&pcaView="+pcaView+"&colorBy=NONE\">Remove Colors and Shapes</a>");		
 else
 	out.write("Remove Colors and Shapes");
 	
@@ -172,7 +172,7 @@ else
 		if(!f)	{ return; }
 		//set up the form
 		f.setAttribute("method", "post");
-		f.setAttribute("action", "quickClinical.do");
+		f.setAttribute("action", "quickClinical.action");
 		f.setAttribute("name", "quickClinicalWrapper");
 		
 		for(var i=0; i<pendingSamples.length; i++)	{
