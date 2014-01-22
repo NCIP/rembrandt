@@ -181,14 +181,14 @@ public class ClassComparisonAction extends ActionSupport implements ServletReque
 			return "backToClassComparison";
 		}
 		
-        String sessionId = servletRequest.getSession().getId();
-        ClassComparisonQueryDTO classComparisonQueryDTO = createClassComparisonQueryDTO(classComparisonForm,servletRequest.getSession());
+        String sessionId = getServletRequest().getSession().getId();
+        ClassComparisonQueryDTO classComparisonQueryDTO = createClassComparisonQueryDTO(classComparisonForm,getServletRequest().getSession());
         
         /*Create the InstituteDEs using credentials from the local session.
          * May want to put these in the cache eventually.
          */        
         if(servletRequest.getSession().getAttribute(RembrandtConstants.USER_CREDENTIALS)!=null){
-           classComparisonQueryDTO.setInstitutionDEs(InsitutionAccessHelper.getInsititutionCollection(servletRequest.getSession()));
+           classComparisonQueryDTO.setInstitutionDEs(InsitutionAccessHelper.getInsititutionCollection(getServletRequest().getSession()));
         }
         if (classComparisonQueryDTO!=null) {
             SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
@@ -224,7 +224,7 @@ public class ClassComparisonAction extends ActionSupport implements ServletReque
 	    
         // JB:Begin - #5677 (2.0) add a  &quot;vs. rest of samples&quot; option
 	    // Add the list names (labels) to the existing groups list for UI display
-        List<LabelValueBean> existingGroups = groupRetriever.getClinicalGroupsCollection(servletRequest.getSession());
+        List<LabelValueBean> existingGroups = groupRetriever.getClinicalGroupsCollection(getServletRequest().getSession());
 	    existingGroups.add(new LabelValueBean("REST OF ALL SAMPLES", "gov.nih.nci.caintegrator.application.lists.UserList#REST OF ALL SAMPLES"));
 	    existingGroups.add(new LabelValueBean("REST OF ALL GLIOMAS", "gov.nih.nci.caintegrator.application.lists.UserList#REST OF ALL GLIOMAS"));
         //classComparisonForm.setExistingGroupsList(groupRetriever.getClinicalGroupsCollection(request.getSession()));
@@ -457,7 +457,7 @@ public class ClassComparisonAction extends ActionSupport implements ServletReque
         
         //look at the manual FC to check for neg value
         //this is validated in the UI, so its put here only as a failsafe
-        if(getClassComparisonForm().getFoldChangeManual() < 0){
+        if(getClassComparisonForm().getFoldChangeManual() != null && getClassComparisonForm().getFoldChangeManual() < 0){
         	getClassComparisonForm().setFoldChangeManual(Math.abs(getClassComparisonForm().getFoldChangeManual()));
         }
         

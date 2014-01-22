@@ -89,16 +89,16 @@ function turnOffLoadingMessage(){
      <fieldset>
      	<legend>GenePattern Modules <app:cshelp topic="genepattern_Modules_tooltip" text="[?]"/></legend>
      	<br/>
-     	<html:form method="post" action="/gpProcess.do?method=startApplet" styleId="qsForm" onsubmit="return checkJobId(document.forms[0].jobId);">
+     	<s:form action="gpProcessStartApplet.action" id="qsForm" onsubmit="return checkJobId(document.forms[0].jobId);">
        		<table border="0" cellpadding="3" cellspacing="3">
-       		    <logic:present name="goApplet" >
+       			<s:if test="goApplet != null">
        		    <tr><td colspan="3">
        		    	<div id="advOptions" class="divShow">
 					<b>Please be patient, the viewer is loading...</b><br/> <img src="images/indicator.gif"/>
-					<b>The viewer requires JVM 1.5 or above. <br/><br/>
+					<b>The viewer requires JVM 1.5 or above. </b><br/><br/>
 					</div>
 				</td></tr>
-				</logic:present >
+				</s:if>
        			<tr> 
        				<td width="20%">
        					<label for="<%= jobIdSelect %>">GP job Number</label>
@@ -107,46 +107,37 @@ function turnOffLoadingMessage(){
        					<label for="<%= processSelect %>">GP Process</label>
        				</td>
        			</tr>
-       			<logic:present name="jobId" >
+       			<s:if test="jobId != null">
        			<tr>
        				<td>  
-						<html:select property="jobId" style="width:100px"
-							disabled="true" styleId="<%= jobIdSelect %>">
-								<html:options property="jobList" />
-						</html:select>
+						<s:select id="jobIdSelect" disabled="true" style="width:100px" name="form.jobId" list="form.jobList" theme="simple">
+ 						</s:select>
 					</td>
 					<td>
-						<html:select property="processName" style="width:200px"
-							disabled="true" styleId="<%= processSelect %>">
-								<html:optionsCollection property="processList" />
-						</html:select>
+						<s:select id="processSelect" disabled="true" style="width:200px" name="form.processName" list="form.processList" listKey="value" listValue="label" theme="simple">
+ 						</s:select>
 					</td>
 					<td>
-						<html:submit styleClass="subButton" disabled="true" property="method" value="go" styleId="<%= submitButton %>"> 
-						</html:submit>
+						<s:submit cssClass="subButton" disabled="true" name="method" value="go" id="submitButton" theme="simple"> 
+						</s:submit>
        				</td>
-     			</tr>
-     			</logic:present>
-     			<logic:notPresent name="jobId" >
-       			<tr>
+     			</s:if>
+     			<s:if test="jobId == null">
+     			<tr>
        				<td>  
-						<html:select property="jobId" styleId="geneList" style="width:100px" styleId="<%= jobIdSelect %>">
-								<html:options property="jobList" />
-						</html:select>
+						<s:select id="jobIdSelect" style="width:100px" name="form.jobId" list="form.jobList" theme="simple">
+ 						</s:select>
 					</td>
 					<td>
-						<html:select property="processName" styleId="geneList" style="width:200px" styleId="<%= processSelect %>">
-								<html:optionsCollection property="processList" />
-						</html:select>
+						<s:select id="processSelect" style="width:200px" name="form.processName" list="form.processList" listKey="value" listValue="label" theme="simple">
+ 						</s:select>
 					</td>
 					<td>
-						<html:submit styleId="submittalButton"  styleClass="subButton" property="method" value="go" styleId="<%= submitButton %>"> 
-						</html:submit>
+						<s:submit cssClass="subButton" name="method" value="go" id="submitButton" theme="simple"> 
+						</s:submit>
        				</td>
-     			</tr>
-     			</logic:notPresent>
-     		</table>
-     		</html:form>
+     			</s:if>
+     		</s:form>
 		</fieldset>
 <br /><br />			
 <br/>       
@@ -155,12 +146,12 @@ function turnOffLoadingMessage(){
      	<br/>
        	<div id="loadingMsg" style="color:red;font-weight:bold;">&nbsp;</div>
        		<table border="0" cellpadding="3" cellspacing="3">
-       			<logic:present name="jobId" >
+       			<s:if test="jobId != null">
        			<tr>
        				<td>
        				<% if (indicator.equals("2")) { %>
        					Your request has been sent to GenePattern for processing, and  
-       					your job id is :  <span style="color:red;font-weight:bold"><bean:write name="jobId"/></span>.
+       					your job id is :  <span style="color:red;font-weight:bold"><s:property value="jobId"/></span>.
        					When your task is complete, your data will be ready 
        					for visualizer.  Just click <img src='images/visualizer.gif' border='0' alt='visualizer' id=\"" + jobId + "_image\" /> next to the link below to 
        					launch the visualizer you have selected.   
@@ -168,7 +159,7 @@ function turnOffLoadingMessage(){
        					depending on the size of the dataset.<br><br>
        				<% } else { %> 
        					Your request has been sent to GenePattern for processing, and  
-       					your job id is :  <span style="color:red;font-weight:bold"><bean:write name="jobId"/></span>.
+       					your job id is :  <span style="color:red;font-weight:bold"><s:property value="jobId"/></span>.
        					When your task is complete, your data will be ready 
        					for analysis in GenePattern.  Your available tasks will appear in the right 
        					sidebar of the GenePattern when they are ready.  The approximate 
@@ -228,7 +219,7 @@ function turnOffLoadingMessage(){
 					</li></ul>
 					</td>
 				</tr>
-				</logic:present>
+				</s:if>
 				<tr>
 					<td>
 						<!--  All available GenePattern jobs -->

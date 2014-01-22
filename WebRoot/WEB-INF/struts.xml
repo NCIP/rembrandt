@@ -647,10 +647,12 @@
 	<action name="classcomparison"
 		class="gov.nih.nci.rembrandt.web.struts2.action.ClassComparisonAction"  method="submit">
 		<result name="backToClassComparison"  type="tiles">nautilus.classComparison</result>
-		<!-- result name="viewResults" type="redirectAction">
+		
+		<result name="viewResults" type="redirectAction">
 		 	<param name="actionName">viewResults</param>
-		 </result -->
-		 <result name="classComparisonSetup" type="redirectAction">
+		</result>
+		 
+		<result name="classComparisonSetup" type="redirectAction">
 			<param name="actionName">classcomparisonInit</param>
         </result>
         
@@ -676,9 +678,9 @@
 			<param name="actionName">principalcomponentInit</param>
         </result>
         
-		<!-- result name="viewResults" type="viewResults">
+		<result name="viewResults" type="redirectAction">
 		 	<param name="actionName">viewResults</param>
-		</result -->
+		</result>
 		 
 		 <result name="failure" type="redirectAction">
 		 	<param name="actionName">login</param>
@@ -693,9 +695,9 @@
 			<param name="actionName">hierarchicalclusteringInit</param>
         </result>
         
-		<!-- result name="viewResults" type="viewResults">
+		<result name="viewResults" type="redirectAction">
 		 	<param name="actionName">viewResults</param>
-		</result -->
+		</result>
 		 
 		 <result name="failure" type="redirectAction">
 		 	<param name="actionName">login</param>
@@ -726,9 +728,9 @@
 		 </result>
 		
 		<!-- forward name="viewJob" path="/gpProcess.do?method=setup" / -->
-		<!-- result name="viewJob" type="viewJob">
+		<result name="viewJob" type="redirectAction">
 		 	<param name="actionName">gpProcess</param>
-		</result -->
+		</result>
 	</action>
 	
 	<action name="gpintegrationInit"
@@ -745,9 +747,9 @@
 		 </result>
 		
 		<!-- forward name="viewJob" path="/gpProcess.do?method=setup" / -->
-		<!-- result name="viewJob" type="viewJob">
+		<result name="viewJob" type="redirectAction">
 		 	<param name="actionName">gpProcess</param>
-		</result -->
+		</result>
 	</action>
 	
 	<action name="gpProcess"
@@ -765,10 +767,25 @@
 		</result>
 	</action>
 	
+	<action name="gpProcessStartApplet"
+		class="gov.nih.nci.rembrandt.web.struts2.action.GPProcessAction" method="startApplet">
+		<result name="appletViewer" type="tiles">rembrandt.gpJobView</result>
+		
+		<result name="viewJob" type="redirectAction">
+		 	<param name="actionName">gpProcess</param>
+		</result>
+	</action>	
+	
 	<action name="igvProcess"
 		class="gov.nih.nci.rembrandt.web.struts2.action.GPProcessAction" method="blankIgvViewer">
 		<result name="runIGVReport">jsp/segmentViewIGVReport.jsp</result>
 	</action>
+	
+	<action name="viewResults"
+		class="gov.nih.nci.rembrandt.web.struts2.action.ViewResultsAction" method="execute">
+		<result name="success" type="tiles">nautilus.viewResults</result>
+	</action>
+	
         
     </package>
 

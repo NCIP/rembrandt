@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.apache.struts.util.LabelValueBean;
+import gov.nih.nci.rembrandt.web.bean.LabelValueBean;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.genepattern.client.GPClient;
 import org.genepattern.util.StringUtils;
@@ -112,7 +112,7 @@ public class GPProcessAction extends ActionSupport implements ServletRequestAwar
     
     public String setup()
     throws Exception {
-    	processSetUp(gpProcessForm, servletRequest);
+    	processSetUp(getGpProcessForm(), servletRequest);
 
         return "success";
     }
@@ -593,8 +593,11 @@ public class GPProcessAction extends ActionSupport implements ServletRequestAwar
 	public void setGpProcessForm(GpProcessForm gpProcessForm) {
 		this.gpProcessForm = gpProcessForm;
 	}
-    
-    
+	
+	public GpProcessForm getForm() {
+		return getGpProcessForm();
+	}
+	
 }
 
 
