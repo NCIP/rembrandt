@@ -44,13 +44,20 @@ L--%>
 </div>
 
 <h3>Queries</h3>
-<s:form action ="delete_Query" theme="simple">
+
+<s:form action ="deleteQuery" id="deleteQuery" theme="simple">
 <script type="text/javascript">
 	var method;
 	var queryKey; 
 	function setMode(method, queryKey){   
-		document.deleteQueryForm.method.value = method;
-		document.deleteQueryForm.queryKey.value = queryKey;  
+		//document.deleteQueryForm.method.value = method;
+		//document.deleteQueryForm.queryKey.value = queryKey;  
+		alert("method: " + method);
+		alert(queryKey);
+		//document.forms[0].action=method + ".action";
+		document.getElementById("deleteQuery").action=method + ".action";
+		document.getElementById("queryKey").value = queryKey;
+		document.forms[0].submit();
 	}
 </script>
 				 
@@ -60,6 +67,7 @@ String  query = "";
 String cquery = "";
 int j = 0;	
 String queryKey = null;
+String queryKeyId = null;
 	
 String pageStr = (String)request.getSession().getAttribute("currentPage");					   
 String pageStr2 = (String)request.getSession().getAttribute("currentPage2");  
@@ -82,6 +90,9 @@ if(queryCollection != null)	{
 		 Iterator iter = queryKeys.iterator();
 	     while(iter.hasNext())	{
 	     	queryKey = (String)iter.next();
+	     	queryKeyId = queryKey+j;
+	     	out.println("QueryKey: " + queryKey + "====");
+	     	out.println("QueryKeyID: " + queryKeyId + "==");
 			String queryName = queryCollection.getQuery(queryKey).toString();
 			if(query.equalsIgnoreCase(queryName))	{
 				break;
@@ -97,7 +108,8 @@ if(queryCollection != null)	{
 %>			
 			     <input type="submit" class="sbutton" style="width:50px" value="Delete" onclick="setMode('deleteQuery', '<%=queryKey%>')">
 			     <input type="submit" class="sbutton" style="width:50px" value="Edit" onclick="setMode('editQuery', '<%=queryKey%>')">
-			     <input type="submit" class="sbutton" style="width:50px" value="Copy" onclick="setMode('copyQuery', '<%=queryKey%>')">	
+			     <input type="submit" class="sbutton" style="width:50px" value="Copy" onclick="setMode('copyQuery', '<%=queryKey%>')">
+			     
 <%
 			}
 %>
@@ -143,8 +155,7 @@ if(j !=0 && j>=2)	{
 	}
 }
 %>
-	<s:hidden property="method"/>
-	<s:hidden property="queryKey" />
+	<s:hidden id="queryKey" name="deleteQueryForm.queryKey"/>
 	</s:form>
 	<br/>
 </div>

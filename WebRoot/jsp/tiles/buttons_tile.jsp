@@ -22,7 +22,8 @@ function refresh()	{
 }
 </script>
 
-<s:if test="deleteQueryForm == null">
+<s:if test="queryKey == null">
+query key is null
 <input type="button" id="clearButton" class="xbutton" value="Clear" onclick="refresh();"/>
 </s:if>
 
@@ -105,7 +106,7 @@ function gecnSubmitX() {
 	
 	if (document.forms[0].geneOption1.checked) {
 		var geneOptionVal = document.forms[0].geneOption1.value;
-		alert(geneOptionVal);
+		//alert(geneOptionVal);
 		if ( geneOptionVal == "standard" ) {
 			//alert("Checking geneList...");
 		    var ret = GeneAlias.validateAliases($('geneList').value, 'Submit');
