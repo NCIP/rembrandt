@@ -1698,7 +1698,7 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	public List getCytobands() {
 		//Check to make sure that if we have a chromosome selected
 		//that we also have it's associated cytobands
-		if(!"".equals(chromosomeNumber)) {
+		if(!"".equals(chromosomeNumber) && !"-1".equals(chromosomeNumber)) {
 			cytobands = ((ChromosomeBean)(chromosomes.get(Integer.parseInt(chromosomeNumber)))).getCytobands();
 		}
 		return cytobands;

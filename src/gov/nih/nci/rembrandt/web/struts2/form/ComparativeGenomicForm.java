@@ -815,8 +815,8 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 		//Shan: Need to change this somewhere else
 		//if (thisRequest != null) {
 			String thisRegion = this.region;//this.thisRequest.getParameter("region");
-			String thisChrNumber = this.thisRequest
-					.getParameter("chromosomeNumber");
+			String thisChrNumber = this.chromosomeNumber;    
+					//this.thisRequest.getParameter("chromosomeNumber");
 
 			if (thisChrNumber != null && thisChrNumber.trim().length() > 0) {
 
@@ -1108,7 +1108,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
     	String thisCloneId = this.cloneId; //(String) thisRequest.getParameter("cloneId");
 
     	// this is to check the type of the clone
-    	String thisCloneList = (String) thisRequest.getParameter("cloneList");
+    	String thisCloneList = this.cloneList;   //(String) thisRequest.getParameter("cloneList");
 
     	if (thisCloneId != null && thisCloneList != null
     			&& !thisCloneList.equals("")) {
@@ -2060,7 +2060,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 	public List getCytobands() {
 		//Check to make sure that if we have a chromosome selected
 		//that we also have it's associated cytobands
-		if(!"".equals(chromosomeNumber)) {
+		if(!"".equals(chromosomeNumber) && !"-1".equals(chromosomeNumber)) {
 			cytobands = ((ChromosomeBean)(chromosomes.get(Integer.parseInt(chromosomeNumber)))).getCytobands();
 		}
 		return cytobands;
