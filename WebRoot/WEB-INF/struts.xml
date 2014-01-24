@@ -575,20 +575,6 @@
 	<action name="deleteQuery"
 		class="gov.nih.nci.rembrandt.web.struts2.action.DeleteQueryAction" method="deleteQuery">       
          <result name="menuPage" type="tiles">nautilus.menu </result>
-		 <result name="cghPage" type="tiles">nautilus.comparitiveGenomic </result>
-		 <result name="clinicalPage" type="tiles">nautilus.clinical </result>
-		 
-		 <result name="editClinical" type="redirectAction">
-         	<param name="actionName">editClinical</param>
-         </result>
-		 
-		 <result name="editCGH" type="redirectAction">
-         	<param name="actionName">editCGH</param>
-         </result>
-		 
-		 <result name="editGE" type="redirectAction">
-         	<param name="actionName">editGE</param>
-         </result>
 	</action>
 	
 	<action name="editQuery"
@@ -663,6 +649,34 @@
 		class="gov.nih.nci.rembrandt.web.struts2.action.EditGEAction">
          <result name="goEditGE" type="tiles">nautilus.geneExpression</result>
     </action>
+    
+    <!-- Start Download actions -->
+    <!--  
+    name="downloadForm"
+		scope="request"
+		validate="false"
+		parameter="method"
+		-->
+    <action name="downloadInit"    	    
+	    class="gov.nih.nci.rembrandt.web.struts2.action.DownloadAction" method="setup">
+		<result name="success" type="tiles">nautilus.download</result>
+	</action>
+	
+	<action name="download"
+	    class="gov.nih.nci.rembrandt.web.struts2.action.DownloadAction" method="download">
+		<result name="success" type="tiles">nautilus.download</result>
+	</action>
+	
+	<action name="downloadcaArray"
+	    class="gov.nih.nci.rembrandt.web.struts2.action.DownloadAction" method="caarray">
+		<result name="success" type="tiles">nautilus.download</result>
+	</action>
+	
+	<action name="fileDownload"
+		class="gov.nih.nci.rembrandt.web.struts2.action.FileDownloadAction" method="brbFileDownload">
+		<result name="success" type="tiles">nautilus.viewResults</result>
+	</action>
+    <!-- End Download actions -->
 	
 	<action name="analysisHome"
 		class="gov.nih.nci.rembrandt.web.struts2.action.DoFirst">
