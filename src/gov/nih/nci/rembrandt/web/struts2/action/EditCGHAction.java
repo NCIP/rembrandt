@@ -100,10 +100,13 @@ public class EditCGHAction extends ActionSupport implements SessionAware, Servle
     private static Logger logger = Logger.getLogger(DeleteQueryAction.class);
     private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
     
-    ComparativeGenomicForm comparativeGenomicForm;
+    ComparativeGenomicForm form;
     
     HttpServletRequest servletRequest;
     Map<String, Object> sessionMap;
+    
+    String queryKey;
+    String copy = "false";
 	
 	public String execute() {
 
@@ -117,7 +120,10 @@ public class EditCGHAction extends ActionSupport implements SessionAware, Servle
 		// else
 		// session.setAttribute(mapping.getAttribute(), form);
 		// }
-		ComparativeGenomicForm cdForm = (ComparativeGenomicForm) comparativeGenomicForm;
+		//ComparativeGenomicForm cdForm = (ComparativeGenomicForm) form;
+		form = new ComparativeGenomicForm();
+		form.reset(servletRequest);
+		
 		String sessionId = this.servletRequest.getSession().getId();
 		SessionQueryBag queryBag = presentationTierCache
 				.getSessionQueryBag(sessionId);
@@ -128,7 +134,7 @@ public class EditCGHAction extends ActionSupport implements SessionAware, Servle
 					.getFormBeanMap().get(queryKey);
 			try {
 				// try this, else call each setter
-				PropertyUtils.copyProperties(cdForm, origCdForm);
+				PropertyUtils.copyProperties(form, origCdForm);
 			} catch (IllegalAccessException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -143,20 +149,16 @@ public class EditCGHAction extends ActionSupport implements SessionAware, Servle
 		}
 
 		String editForward = "";
-		if (this.servletRequest.getAttribute("copy") != null
-				&& ((String) this.servletRequest.getAttribute("copy"))
-						.equals("true"))
-			cdForm.setQueryName(cdForm.getQueryName() + "_copy");
+		if (this.copy.equalsIgnoreCase("true"))
+			form.setQueryName(form.getQueryName() + "_copy");
 
 		editForward = "goEditCGH";
 
 		// Show RegionView DIV
-		if (cdForm.getGeneList() == null || cdForm.getGeneList().length() == 0) {
+		if (form.getGeneList() == null || form.getGeneList().length() == 0) {
 			this.servletRequest.setAttribute("selectedView", "regionView");
 		}
 
-		// saveToken(request);
-		comparativeGenomicForm = cdForm;
 		return editForward;
 	}
 
@@ -171,13 +173,28 @@ public class EditCGHAction extends ActionSupport implements SessionAware, Servle
 		this.sessionMap = arg0;
 	}
 
-	public ComparativeGenomicForm getComparativeGenomicForm() {
-		return comparativeGenomicForm;
+	public ComparativeGenomicForm getForm() {
+		return form;
 	}
 
-	public void setComparativeGenomicForm(
-			ComparativeGenomicForm comparativeGenomicForm) {
-		this.comparativeGenomicForm = comparativeGenomicForm;
+	public void setForm(ComparativeGenomicForm form) {
+		this.form = form;
+	}
+
+	public String getQueryKey() {
+		return queryKey;
+	}
+
+	public void setQueryKey(String queryKey) {
+		this.queryKey = queryKey;
+	}
+
+	public String getCopy() {
+		return copy;
+	}
+
+	public void setCopy(String copy) {
+		this.copy = copy;
 	}
 
     

@@ -107,7 +107,10 @@ public class EditGEAction extends ActionSupport implements SessionAware, Servlet
     HttpServletRequest servletRequest;
     Map<String, Object> sessionMap;
     
-    GeneExpressionForm geneExpressionForm;
+    GeneExpressionForm form;
+    
+    String queryKey;
+    String copy = "false";
     
 	public String execute()	{
 	    
@@ -120,17 +123,19 @@ public class EditGEAction extends ActionSupport implements SessionAware, Servlet
 //		            else
 //		                session.setAttribute(mapping.getAttribute(), form);
 //			}
-			GeneExpressionForm cdForm = geneExpressionForm;	
+			this.form = new GeneExpressionForm();	
+			this.form.reset(this.servletRequest);
+			
 			   String sessionId = this.servletRequest.getSession().getId();
 			   SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
-			   String queryKey = (String) this.servletRequest.getAttribute("queryKey");
+			   //String queryKey = (String) this.servletRequest.getAttribute("queryKey");
 			   if(queryBag != null){			     
 			       //get the Form from the sessionQB
-			       GeneExpressionForm origCdForm = (GeneExpressionForm) queryBag.getFormBeanMap().get(queryKey); 
+			       GeneExpressionForm origCdForm = (GeneExpressionForm) queryBag.getFormBeanMap().get(this.queryKey); 
 				  try {
                     //try this, else call each setter
-					 cdForm.setUpGeneAndCloneList(this.servletRequest);
-					 PropertyUtils.copyProperties(cdForm, origCdForm);
+					  form.setUpGeneAndCloneList(this.servletRequest);
+					 PropertyUtils.copyProperties(form, origCdForm);
                 } catch (IllegalAccessException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -150,19 +155,21 @@ public class EditGEAction extends ActionSupport implements SessionAware, Servlet
 //               GroupRetriever groupRetriever = new GroupRetriever();
 //               cdForm.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession()));
                String editForward = "";
-			   if(this.servletRequest.getAttribute("copy")!=null && ((String) this.servletRequest.getAttribute("copy")).equals("true"))
-			       cdForm.setQueryName(cdForm.getQueryName() + "_copy");
+			   //if(this.servletRequest.getAttribute("copy")!=null && ((String) this.servletRequest.getAttribute("copy")).equals("true"))
+               if (this.copy.equalsIgnoreCase("true"))
+			       form.setQueryName(form.getQueryName() + "_copy");
 			   
-				if(cdForm.getChromosomes()==null||cdForm.getChromosomes().isEmpty()) {
+				if(form.getChromosomes()==null||form.getChromosomes().isEmpty()) {
+               //if (form.getChromosomeNumber().equals("-1")){
 					//set the chromsomes list in the form 
 					logger.debug("Setup the chromosome values for the form");
-					cdForm.setChromosomes(ChromosomeHelper.getInstance().getChromosomes());
+					form.setChromosomes(ChromosomeHelper.getInstance().getChromosomes());
 				}
 				
 		       editForward = "goEditGE";
 		       
 		       //saveToken(request);
-			   this.geneExpressionForm = cdForm;
+			   //this.form = cdForm;
 			   return editForward;		
 		     }
 
@@ -176,12 +183,30 @@ public class EditGEAction extends ActionSupport implements SessionAware, Servlet
 		this.sessionMap = arg0;
 	}
 
-	public GeneExpressionForm getGeneExpressionForm() {
-		return geneExpressionForm;
+	public GeneExpressionForm getForm() {
+		return form;
 	}
 
-	public void setGeneExpressionForm(GeneExpressionForm geneExpressionForm) {
-		this.geneExpressionForm = geneExpressionForm;
+	public void setForm(GeneExpressionForm form) {
+		this.form = form;
 	}
+
+	public String getQueryKey() {
+		return queryKey;
+	}
+
+	public void setQueryKey(String queryKey) {
+		this.queryKey = queryKey;
+	}
+
+	public String getCopy() {
+		return copy;
+	}
+
+	public void setCopy(String copy) {
+		this.copy = copy;
+	}
+
+	
 
 }

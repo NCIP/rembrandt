@@ -103,58 +103,65 @@ public class EditClinicalDataAction extends ActionSupport implements SessionAwar
     HttpServletRequest servletRequest;
     Map<String, Object> sessionMap;
     
-    ClinicalDataForm clinicalDataForm;
+    ClinicalDataForm form;
+    
+    String queryKey;
+    String copy = "false";
 	
-    public String execute()	{
+    public String getQueryKey() {
+		return queryKey;
+	}
 
-//			    HttpSession session = request.getSession();
-//				if (form == null) {
-//			          
-//				    form = new ClinicalDataForm();
-//			            if ("request".equals(mapping.getScope()))
-//			                request.setAttribute(mapping.getAttribute(), form);
-//			            else
-//			                session.setAttribute(mapping.getAttribute(), form);
-//				}
-			   ClinicalDataForm cdForm = clinicalDataForm;	
-			   String sessionId = this.servletRequest.getSession().getId();
-			   SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
-			   String queryKey = (String) this.servletRequest.getAttribute("queryKey");
-			   if(queryBag != null){			     
-			       //get the Form from the sessionQB
-			       ClinicalDataForm origCdForm = (ClinicalDataForm) queryBag.getFormBeanMap().get(queryKey); 
-				  try {
-                    //try this, else call each setter
-                     PropertyUtils.copyProperties(cdForm, origCdForm);
-                } catch (IllegalAccessException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (NoSuchMethodException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-			     //  cdForm = origCdForm.cloneMe();
-			     
-				} 
-               /*
-                * resets the dropdowns that the saved form will need in order to render the page
-                * and save the value.
-                */
-//               GroupRetriever groupRetriever = new GroupRetriever();
-//               cdForm.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession()));
-			   String editForward = "";
-			   if(this.servletRequest.getAttribute("copy")!=null && ((String) this.servletRequest.getAttribute("copy")).equals("true"))
-			       cdForm.setQueryName(cdForm.getQueryName() + "_copy");
-			  
-			  editForward = "goEditClinical";
-			  
-			  //saveToken(request);
-			   
-			   return editForward;		
-		     }
+	public void setQueryKey(String queryKey) {
+		this.queryKey = queryKey;
+	}
+
+	public String getCopy() {
+		return copy;
+	}
+
+	public void setCopy(String copy) {
+		this.copy = copy;
+	}
+
+	public String execute()	{
+
+		form = new ClinicalDataForm();
+		form.reset(this.servletRequest);
+
+		String sessionId = this.servletRequest.getSession().getId();
+		SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
+		String queryKey = (String) this.servletRequest.getAttribute("queryKey");
+		if(queryBag != null){			     
+			//get the Form from the sessionQB
+			ClinicalDataForm origCdForm = (ClinicalDataForm) queryBag.getFormBeanMap().get(queryKey); 
+			try {
+				//try this, else call each setter
+				PropertyUtils.copyProperties(form, origCdForm);
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//  cdForm = origCdForm.cloneMe();
+
+		} 
+
+		String editForward = "";
+		if (this.copy.equalsIgnoreCase("true"))
+			form.setQueryName(form.getQueryName() + "_copy");
+
+		editForward = "goEditClinical";
+
+		//saveToken(request);
+
+		return editForward;		
+	}
 
 	@Override
 	public void setServletRequest(HttpServletRequest arg0) {
@@ -166,12 +173,14 @@ public class EditClinicalDataAction extends ActionSupport implements SessionAwar
 		this.sessionMap = arg0;
 	}
 
-	public ClinicalDataForm getClinicalDataForm() {
-		return clinicalDataForm;
+	public ClinicalDataForm getForm() {
+		return form;
 	}
 
-	public void setClinicalDataForm(ClinicalDataForm clinicalDataForm) {
-		this.clinicalDataForm = clinicalDataForm;
+	public void setForm(ClinicalDataForm form) {
+		this.form = form;
 	}
+	
+	
 
 }

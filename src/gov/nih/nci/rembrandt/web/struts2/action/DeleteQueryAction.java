@@ -22,7 +22,6 @@ import java.util.Collection;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
@@ -30,8 +29,6 @@ import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 
 import com.opensymphony.xwork2.ActionSupport;
-
-
 
 
 /**
@@ -99,6 +96,9 @@ public class DeleteQueryAction extends ActionSupport implements SessionAware, Se
     
     HttpServletRequest servletRequest;
     Map<String, Object> sessionMap;
+    
+    String queryKey;
+    
 
 	/** 
 	 * Method execute
@@ -160,64 +160,64 @@ public class DeleteQueryAction extends ActionSupport implements SessionAware, Se
 	
 	public String editQuery()
 			throws Exception {
-	    		String queryKey = "";
-	    		
-			   //DeleteQueryForm deleteQueryForm = (DeleteQueryForm) form;	
-			   String sessionId = this.servletRequest.getSession().getId();
-			   SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
-			   if(queryBag != null){			     
-				  queryKey = deleteQueryForm.getQueryKey();
-				  //store this somewhere
-				  this.servletRequest.setAttribute("queryKey", queryKey);
-				}  	 	
-			   String editForward = "";
-			   //by default, should be reset below, always
-			   editForward = "editClinical";
-			   
-			   Query query = queryBag.getQuery(queryKey);               //use this to get query
-			   if(query instanceof ComparativeGenomicQuery){
-			       editForward = "editCGH";
-               }
-			   else  if(query instanceof ClinicalDataQuery){
-			       editForward = "editClinical";
-               }
-			   else  if(query instanceof GeneExpressionQuery){
-			       editForward = "editGE";
-               }
 
-			   return editForward;		
-		     }
+
+		//DeleteQueryForm deleteQueryForm = (DeleteQueryForm) form;	
+		String sessionId = this.servletRequest.getSession().getId();
+		SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
+		if(queryBag != null){			     
+			this.queryKey = deleteQueryForm.getQueryKey();
+			//store this somewhere
+			//this.servletRequest.setAttribute("queryKey", queryKey);
+		}  	 	
+		String editForward = "";
+		//by default, should be reset below, always
+		editForward = "editClinical";
+
+		Query query = queryBag.getQuery(queryKey);               //use this to get query
+		if(query instanceof ComparativeGenomicQuery){
+			editForward = "editCGH";
+		}
+		else  if(query instanceof ClinicalDataQuery){
+			editForward = "editClinical";
+		}
+		else  if(query instanceof GeneExpressionQuery){
+			editForward = "editGE";
+		}
+
+		return editForward;		
+	}
 
 	public String copyQuery()
 			throws Exception {
-	    		String queryKey = "";
-	    		
-			   //DeleteQueryForm deleteQueryForm = (DeleteQueryForm) form;	
-			   String sessionId = this.servletRequest.getSession().getId();
-			   SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
-			   if(queryBag != null){			     
-				  queryKey = deleteQueryForm.getQueryKey();
-				  //store this somewhere
-				  this.servletRequest.setAttribute("queryKey", queryKey);
-				}  	 	
-			   String editForward = "";
-			   //by default, should be reset below, always
-			   editForward = "editClinical";
-			   
-			   Query query = queryBag.getQuery(queryKey);               //use this to get query
-			   if(query instanceof ComparativeGenomicQuery){
-			       editForward = "editCGH";
-               }
-			   else  if(query instanceof ClinicalDataQuery){
-			       editForward = "editClinical";
-               }
-			   else  if(query instanceof GeneExpressionQuery){
-			       editForward = "editGE";
-               }
-			   this.servletRequest.setAttribute("copy", "true");
-			   //Remove this comment later
-			   return editForward;		
-		     }
+
+
+		//DeleteQueryForm deleteQueryForm = (DeleteQueryForm) form;	
+		String sessionId = this.servletRequest.getSession().getId();
+		SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
+		if(queryBag != null){			     
+			queryKey = deleteQueryForm.getQueryKey();
+			//store this somewhere
+			this.servletRequest.setAttribute("queryKey", queryKey);
+		}  	 	
+		String editForward = "";
+		//by default, should be reset below, always
+		editForward = "editClinical";
+
+		Query query = queryBag.getQuery(queryKey);               //use this to get query
+		if(query instanceof ComparativeGenomicQuery){
+			editForward = "editCGH";
+		}
+		else  if(query instanceof ClinicalDataQuery){
+			editForward = "editClinical";
+		}
+		else  if(query instanceof GeneExpressionQuery){
+			editForward = "editGE";
+		}
+		//this.servletRequest.setAttribute("copy", "true");
+		//Remove this comment later
+		return editForward;		
+	}
 	
 	
 	public String deleteAll()
@@ -255,6 +255,14 @@ public class DeleteQueryAction extends ActionSupport implements SessionAware, Se
 	public void setSession(Map<String, Object> arg0) {
 		this.sessionMap = arg0;
 		
+	}
+
+	public String getQueryKey() {
+		return queryKey;
+	}
+
+	public void setQueryKey(String queryKey) {
+		this.queryKey = queryKey;
 	}
 	
 

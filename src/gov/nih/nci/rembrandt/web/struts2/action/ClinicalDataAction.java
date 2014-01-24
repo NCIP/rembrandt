@@ -467,37 +467,37 @@ public class ClinicalDataAction extends ActionSupport implements SessionAware, S
 
         // Set gender Criteria
         GenderCriteria genderCrit = clinicalDataForm.getGenderCriteria();
-        if (!genderCrit.isEmpty()) {
+        if (genderCrit != null && !genderCrit.isEmpty()) {
             clinicalDataQuery.setGenderCrit(genderCrit);
         }
         
         // Set race Criteria
         RaceCriteria raceCrit = clinicalDataForm.getRaceCriteria();
-        if (!raceCrit.isEmpty()) {
+        if (raceCrit != null && !raceCrit.isEmpty()) {
             clinicalDataQuery.setRaceCrit(raceCrit);
         }
         
        // set KarnofskyClinicalEvalCriteria 
     	KarnofskyClinicalEvalCriteria karnofskyCriteria = clinicalDataForm.getKarnofskyCriteria();
-    	 if (!karnofskyCriteria.isEmpty()) {
+    	 if (karnofskyCriteria != null && !karnofskyCriteria.isEmpty()) {
              clinicalDataQuery.setKarnofskyCriteria(karnofskyCriteria);
          }
     	
     	 // set lanskyCriteria 
     	 LanskyClinicalEvalCriteria lanskyCriteria = clinicalDataForm.getLanskyCriteria();
-     	 if (!lanskyCriteria.isEmpty()) {
+     	 if (lanskyCriteria != null && !lanskyCriteria.isEmpty()) {
               clinicalDataQuery.setLanskyCriteria(lanskyCriteria);
           }
 
      	 // set lanskyCriteria 
     	 MRIClinicalEvalCriteria mriCriteria = clinicalDataForm.getMriCriteria();
-     	 if (!mriCriteria.isEmpty()) {
+     	 if (mriCriteria!= null && !mriCriteria.isEmpty()) {
               clinicalDataQuery.setMriCriteria(mriCriteria);
           }
      	 
      	 // set NeuroExamClinicalEvalCriteria 
      	 NeuroExamClinicalEvalCriteria neuroExamCriteria = clinicalDataForm.getNeuroExamCriteria();
-     	 if (!neuroExamCriteria.isEmpty()) {
+     	 if (neuroExamCriteria != null && !neuroExamCriteria.isEmpty()) {
               clinicalDataQuery.setNeuroExamCriteria(neuroExamCriteria);
           }
      	 
