@@ -50,11 +50,7 @@ L--%>
 	var method;
 	var queryKey; 
 	function setMode(method, queryKey){   
-		//document.deleteQueryForm.method.value = method;
-		//document.deleteQueryForm.queryKey.value = queryKey;  
-		alert("method: " + method);
-		alert(queryKey);
-		//document.forms[0].action=method + ".action";
+		
 		document.getElementById("deleteQuery").action=method + ".action";
 		document.getElementById("queryKey").value = queryKey;
 		document.forms[0].submit();

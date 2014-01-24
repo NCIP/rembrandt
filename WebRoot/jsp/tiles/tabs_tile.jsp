@@ -124,7 +124,7 @@ L--%>
 				analysis = "<a href=\"analysisHome.action\">High Order Analysis</a>";
 				list = "<a href=\"manageLists.action\">Manage Lists</a>";
 				myWorkspace = "<a href=\"manageLists.action\">My Workspace</a>";
-				download="<a href=\"downloadInit.action?method=setup\">Download</a>";
+				download="<a href=\"downloadInit.action\">Download</a>";
 				break;
 			case 2:
 				//2 is adv
@@ -134,7 +134,7 @@ L--%>
 				analysis = "<a href=\"analysisHome.action\">High Order Analysis</a>";
 				list = "<a href=\"manageLists.action\">Manage Lists</a>";
 				myWorkspace = "<a href=\"manageLists.action\">My Workspace</a>";
-				download="<a href=\"downloadInit.action?method=setup\">Download</a>";
+				download="<a href=\"downloadInit.action\">Download</a>";
 				break;
 			case 3:
 				//3 is view results
@@ -144,7 +144,7 @@ L--%>
 				analysis = "<a href=\"analysisHome.action\">High Order Analysis</a>";
 				list = "<a href=\"manageLists.action\">Manage Lists</a>";
 				myWorkspace = "<a href=\"manageLists.action\">My Workspace</a>";
-				download="<a href=\"downloadInit.action?method=setup\">Download</a>";
+				download="<a href=\"downloadInit.action\">Download</a>";
 				break;
 			case 4:
 				//4 is high order analysis
@@ -154,7 +154,7 @@ L--%>
 				analysis = "<span>High Order Analysis</span>\n" + analysisSecondary;
 				list = "<a href=\"manageLists.action\">Manage Lists</a>";
 				myWorkspace = "<a href=\"manageLists.action\">My Workspace</a>";
-				download="<a href=\"downloadInit.action?method=setup\">Download</a>";
+				download="<a href=\"downloadInit.action\">Download</a>";
 				break;
 			case 5:
 				//5 is list mgr
@@ -164,7 +164,7 @@ L--%>
 				analysis = "<a href=\"analysisHome.action\">High Order Analysis</a>";
 				list = "<span>Manage Lists</span>\n";
 				myWorkspace = "<a href=\"manageLists.action\">My Workspace</a>";
-				download="<a href=\"downloadInit.action?method=setup\">Download</a>";
+				download="<a href=\"downloadInit.action\">Download</a>";
 				break;
 			case 6: //download
 				simple = "<a href=\"home.action\">Simple Search</a>";
@@ -182,7 +182,7 @@ L--%>
 				analysis = "<a href=\"analysisHome.action\">High Order Analysis</a>";
 				list = "<a href=\"manageLists.action\">Manage Lists</a>";
 				myWorkspace="<span>My Workspace</span>\n" + myWorkspaceSecondary;
-				download="<a href=\"downloadInit.action?method=setup\">Download</a>";
+				download="<a href=\"downloadInit.action\">Download</a>";
 				break;
 			case 0:
 			default:
@@ -192,7 +192,7 @@ L--%>
 				analysis = "<a href=\"analysisHome.action\">High Order Analysis</a>";
 				list = "<a href=\"manageLists.action\">Manage Lists</a>";
 				myWorkspace = "<a href=\"manageLists.action\">My Workspace</a>";
-				download="<a href=\"downloadInit.action?method=setup\">Download</a>";
+				download="<a href=\"downloadInit.action\">Download</a>";
 				break;
 		}
 	

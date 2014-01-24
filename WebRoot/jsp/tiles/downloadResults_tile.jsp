@@ -33,7 +33,7 @@ L--%>
 			var dl = sel.value;
 			//why does this need an whole sep action and mapping?  bad...
 			//var lnk = "fileDownloadforDownloadpage.do?method=brbFileDownload&fileId=";
-			var lnk = "fileDownload.do?method=brbFileDownload&fileId=";
+			var lnk = "fileDownload?fileId=";
 			window.location.href=lnk+dl;
 		}
 </script>
@@ -49,65 +49,61 @@ L--%>
 	 		DownloadInboxWidgetController.start("downloadStatusContainer", 10);
 		});
 	</script>
-	<!-- <br clear="all"/><a href="#" onclick="DownloadInboxWidgetController.stop();return false;">stop updating</a> -->
+	
 </fieldset>
 <br/><br/>
-<html:form action="/download.do?method=caarray">
+<s:form action="downloadcaArray" theme="simple">
 <fieldset>
 	<legend>caArray <app:cshelp topic="caarray_download_tooltip" text="[?]"/></legend>
 	 	<fieldset class="gray">
 			<legend class="red"><label for="groupNameCompare">Step 1:Choose the saved List:</label></legend></br> 
-			<html:select property="groupNameCompare" styleId="groupNameCompare" style="width:200px;" disabled="false" onchange="">	         	
-	 			<html:optionsCollection name="sampleGroupsList" />
-	 		</html:select>
+			
+			<s:select name="downloadForm.groupNameCompare" id="groupNameCompare" style="width:200px;" disabled="false" 
+				list="sampleGroupsList" listKey="value" listValue="label">	         	
+	 		</s:select>
 		</fieldset>
 		<fieldset class="gray">
 			<legend class="red"><label for="arrayPlatform">Step 2:Choose Array Platform: </label></legend><br/>
-			<select id="arrayPlatform" name="arrayPlatform"> 		
-		    	<!-- <option value="<%=Constants.ALL_PLATFROM%>">All</option>  -->
-				<option selected="true" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Oligo (Affymetrix U133 Plus 2.0)</option>
-				<option value="<%=Constants.AFFY_100K_SNP_ARRAY%>">Affymetrix 100K SNP Array</option> -->
-			</select>	
+			<s:select id="arrayPlatform" name="downloadForm.arrayPlatform" list="arrayPlatformList" listKey="value" listValue="label" /> 		
+			
 		</fieldset>
 	    <fieldset class="gray">
 			<legend class="red"><label for="fileType">Step 3:Select file type to download:</label></legend><br/>
-			<select id="fileType" name="fileType">
-				<option>CEL</option>
-				<option>CHP</option>
-				<!-- <option>ALL</option>  -->
-				<!-- <option>OTHER</option> -->
-			</select>
+			<s:select id="fileType" name="downloadForm.fileType" list="fileTypeList" />
+				
 		</fieldset><br/>
-			<logic:present name="disableDownload">
-				<legend class="red">caArray File Download is unavailable at this time <br>as we are unable to successfully connect with caArray server,<br> Please visit http://array.nci.nih.gov to download the data directly.</legend><br/>
+			<s:if test="#disableDownload != null && #disableDownload.length() > 0">
+				<legend class="red">caArray File Download is unavailable at this time <br>
+				as we are unable to successfully connect with caArray server,<br> 
+				Please visit http://array.nci.nih.gov to download the data directly.</legend><br/>
 	       		<input type="submit" value="download" style="width:70px" disabled/>	
-			</logic:present>
-			<logic:notPresent name="disableDownload">
+			</s:if>
+			<s:else>
+			
 	       		<input type="submit" value="download" style="width:70px"/>	 
-			</logic:notPresent>
+			</s:else>
      
 	
 </fieldset>
-</html:form>
+</s:form>
 
 <br/><br/>
 <fieldset>
 	<legend><label for="brbFormat">BRB File Downloads </label><app:cshelp topic="Brb_download_tooltip" text="[?]"/></legend>
-    <logic:notEmpty name="downloadFileList">
-        	<select id="brbFormat">
-        		<option>BRB Format</option>
-        	</select>
-        	<select id="idfile" style="width:300px">
-		        <logic:iterate name="downloadFileList" id="downloadFile">
-			       <option value="<bean:write name="downloadFile" property="fileName"/>"><bean:write name="downloadFile" property="fileName"/></option>
-		        </logic:iterate>
-	        </select><label for="idfile">&#160;</label>
-	        <input type="button" onclick="getDL($('idfile'))" value="download" style="width:70px"/>
-     	</logic:notEmpty>
-	    <logic:empty name="downloadFileList">
+    <s:if test="downloadFileList != null && downloadFileList.size() > 0">
+    <s:form action="fileDownload" theme="simple" >
+        	<s:select id="brbFormat" list="brbFormatList" />
+       
+        	<s:select id="idfile" style="width:300px" name="fileId" list="downloadFileList" listKey="fileName" listValue="fileName" />
+		        <label for="idfile">&#160;</label>
+	        <s:submit type="button" style="width:70px" class="xbutton" theme="simple">download</s:submit> 
+	        
+	 </s:form>
+     	</s:if>
+     	<s:else>
 		    <strong>There are no files to download at this time.</strong>
 		    <br /><br />
-	    </logic:empty>
+	    </s:else>
      	<br/><br/>
 	    &nbsp;&nbsp;&nbsp;
 	    <a href="http://linus.nci.nih.gov/BRB-ArrayTools.html" target="_blank"><span style="font-size:.8em;text-align:left;"> BRB-Array Tools </span></a>
