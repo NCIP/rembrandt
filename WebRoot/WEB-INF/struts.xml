@@ -253,9 +253,6 @@
 	</action>
 	<!-- end Gene Expression actions -->
     
-    <!-- scope="request"
-            parameter="method"
-            validate="false" -->
     <action name="previewcgreport"
             class="gov.nih.nci.rembrandt.web.struts2.action.ReportGeneratorAction"
             method="previewReport">
@@ -264,21 +261,12 @@
          </result>
          <result name="backToCGH" type="tiles">nautilus.comparitiveGenomic</result>
 	</action>
-	
-	<!-- input="nautilus.viewResults"
-	name="viewResultsForm"
-		scope="request"
-	 -->
+
 	<action name="viewResults"
 	    class="gov.nih.nci.rembrandt.web.struts2.action.ViewResultsAction">
 		<result name="success" type="tiles">nautilus.viewResults</result>
 	</action>
     		
-    		<!--  name="comparitivegenomicForm"
-            scope="request"
-            parameter="method"
-            validate="true" 
-            input="nautilus.comparitiveGenomic"-->
     <action name="comparitivegenomic"
       	class="gov.nih.nci.rembrandt.web.struts2.action.ComparativeGenomicAction">
          <result name="advanceSearchMenu" type="tiles">nautilus.menu</result>
@@ -378,14 +366,8 @@
          </result>
          
 	</action>
-	
 	<!-- end Comparative Genomic actions -->
 	
-	<!-- input="nautilus.clinical"
-            name="clinicaldataForm" 
-            scope="request"
-            parameter="method"
-            validate="true"-->
 	<action name="clinicalSetup"
           class="gov.nih.nci.rembrandt.web.struts2.action.ClinicalDataAction" method="setup">
          <result name="advanceSearchMenu" type="tiles">nautilus.menu</result>
@@ -590,13 +572,8 @@
 	</action>
     
 	
-	<!-- 
-	type="gov.nih.nci.rembrandt.web.struts2.action.DeleteQueryAction"
-            scope="request"
-			parameter="method"
-            validate="false" -->
-	<action name="delete_Query"
-		class="gov.nih.nci.rembrandt.web.struts2.action.DeleteQueryAction">       
+	<action name="deleteQuery"
+		class="gov.nih.nci.rembrandt.web.struts2.action.DeleteQueryAction" method="deleteQuery">       
          <result name="menuPage" type="tiles">nautilus.menu </result>
 		 <result name="cghPage" type="tiles">nautilus.comparitiveGenomic </result>
 		 <result name="clinicalPage" type="tiles">nautilus.clinical </result>
@@ -612,6 +589,63 @@
 		 <result name="editGE" type="redirectAction">
          	<param name="actionName">editGE</param>
          </result>
+	</action>
+	
+	<action name="editQuery"
+		class="gov.nih.nci.rembrandt.web.struts2.action.DeleteQueryAction" method="editQuery">       
+         <result name="menuPage" type="tiles">nautilus.menu </result>
+		 <result name="cghPage" type="tiles">nautilus.comparitiveGenomic </result>
+		 <result name="clinicalPage" type="tiles">nautilus.clinical </result>
+		 
+		 <result name="editClinical" type="redirectAction">
+         	<param name="actionName">editClinical</param>
+         	<param name="queryKey">${queryKey}</param>
+         </result>
+		 
+		 <result name="editCGH" type="redirectAction">
+         	<param name="actionName">editCGH</param>
+         	<param name="queryKey">${queryKey}</param>
+         </result>
+		 
+		 <result name="editGE" type="redirectAction">
+         	<param name="actionName">editGE</param>
+         	<param name="queryKey">${queryKey}</param>
+         </result>
+	</action>
+	
+	<action name="copyQuery"
+		class="gov.nih.nci.rembrandt.web.struts2.action.DeleteQueryAction" method="copyQuery">       
+         <result name="menuPage" type="tiles">nautilus.menu </result>
+		 <result name="cghPage" type="tiles">nautilus.comparitiveGenomic </result>
+		 <result name="clinicalPage" type="tiles">nautilus.clinical </result>
+		 
+		 <result name="editClinical" type="redirectAction">
+         	<param name="actionName">editClinical</param>
+         	<param name="queryKey">${queryKey}</param>
+         	<param name="copy">true</param>
+         </result>
+		 
+		 <result name="editCGH" type="redirectAction">
+         	<param name="actionName">editCGH</param>
+         	<param name="queryKey">${queryKey}</param>
+         	<param name="copy">true</param>
+         </result>
+		 
+		 <result name="editGE" type="redirectAction">
+         	<param name="actionName">editGE</param>
+         	<param name="queryKey">${queryKey}</param>
+         	<param name="copy">true</param>
+         </result>
+	</action>
+	
+	<action name="deleteAll"
+		class="gov.nih.nci.rembrandt.web.struts2.action.DeleteQueryAction" method="deleteAll">       
+         <result name="menuPage" type="tiles">nautilus.menu </result>
+	</action>
+	
+	<action name="deleteCompoundQuery"
+		class="gov.nih.nci.rembrandt.web.struts2.action.DeleteQueryAction" method="deleteCompoundQuery">       
+         <result name="menuPage" type="tiles">nautilus.menu </result>
 	</action>
 	
 	<action name="editClinical"
