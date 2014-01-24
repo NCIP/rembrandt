@@ -14,6 +14,10 @@ L--%>
 <%
 String key = request.getParameter("fileId")!=null ? (String) request.getParameter("fileId") : null;
 if(key!=null)	{
+	
+	out.println(key);
+	
+	
 	Long fileId = new Long(key);
 	long randomness = System.currentTimeMillis();
 		DownloadFile downloadFile = null;
@@ -43,5 +47,5 @@ if(key!=null)	{
 	catch(Exception e)	{
 		out.write("error writing list");
 	}
-}
+} 
 %>
