@@ -873,20 +873,12 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
        
     }
  
-    
-    
-
-   
 	/**
 	 * @return Returns the karnofsky.
 	 */
 	public String getKarnofsky() {
 		return karnofsky;
 	}
-
-
-
-
 
 	/**
 	 * @param karnofsky The karnofsky to set.
@@ -895,20 +887,12 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		this.karnofsky = karnofsky;
 	}
 
-
-
-
-
 	/**
 	 * @return Returns the karnofskyType.
 	 */
 	public String getKarnofskyType() {
 		return karnofskyType;
 	}
-
-
-
-
 
 	/**
 	 * @param karnofskyType The karnofskyType to set.
@@ -919,8 +903,6 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	
 	public void setKarnofskyTypeDetails() {
 		
-//		   if (thisRequest != null) {
-//	            // this is to check if thisKarnofsky option is selected
 		String thisKarnofsky = this.karnofsky; // thisRequest.getParameter("karnofsky");
 		karnofskyCriteria = new KarnofskyClinicalEvalCriteria();
 
@@ -932,12 +914,8 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 			KarnofskyClinicalEvalDE karnofskyClinicalEvalDE = new KarnofskyClinicalEvalDE(this.karnofskyType);
 			karnofskyCriteria.setKarnofskyClinicalEvalDE(karnofskyClinicalEvalDE);	              
 		}
-//	        }
+
 	}
-
-
-
-
 
 	/**
 	 * @return Returns the lansky.
@@ -946,10 +924,6 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		return lansky;
 	}
 
-
-
-
-
 	/**
 	 * @param lansky The lansky to set.
 	 */
@@ -957,20 +931,12 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		this.lansky = lansky;
 	}
 
-
-
-
-
 	/**
 	 * @return Returns the lanskyType.
 	 */
 	public String getLanskyType() {
 		return lanskyType;
 	}
-
-
-
-
 
 	/**
 	 * @param lanskyType The lanskyType to set.
@@ -981,8 +947,6 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	
 	public void setLanskyTypeDetails() {
 		
-//		if (thisRequest != null) {
-//            // this is to check if thisKarnofsky option is selected
 		String thisLansky = this.lansky; // thisRequest.getParameter("lansky");
 		lanskyCriteria = new LanskyClinicalEvalCriteria();
 
@@ -994,12 +958,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 			LanskyClinicalEvalDE lanskyClinicalEvalDE = new LanskyClinicalEvalDE(this.lanskyType);
 			lanskyCriteria.setLanskyClinicalEvalDE(lanskyClinicalEvalDE);	              
 		}
-//        }
 	}
-
-
-
-
 
 	/**
 	 * @return Returns the mri.
@@ -1008,10 +967,6 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		return mri;
 	}
 
-
-
-
-
 	/**
 	 * @param mri The mri to set.
 	 */
@@ -1019,20 +974,12 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		this.mri = mri;
 	}
 
-
-
-
-
 	/**
 	 * @return Returns the mriType.
 	 */
 	public String getMriType() {
 		return mriType;
 	}
-
-
-
-
 
 	/**
 	 * @param mriType The mriType to set.
@@ -1043,9 +990,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	
 	public void setMriTypeDetails() {
 		
-//		if (thisRequest != null) {
-//            // this is to check if thisKarnofsky option is selected
-		String thisMRI= this.mri;  //thisRequest.getParameter("mri");
+		String thisMRI= this.mri;  
 		mriCriteria = new MRIClinicalEvalCriteria();
 
 		// this is to check the type of lanskyType
@@ -1056,12 +1001,8 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 			MRIClinicalEvalDE mriClinicalEvalDE = new MRIClinicalEvalDE(this.mriType);
 			mriCriteria.setMRIClinicalEvalDE(mriClinicalEvalDE);	              
 		}
-//        }
+
 	}
-
-
-
-
 
 	/**
 	 * @return Returns the neuroExam.
@@ -1070,10 +1011,6 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		return neuroExam;
 	}
 
-
-
-
-
 	/**
 	 * @param neuroExam The neuroExam to set.
 	 */
@@ -1081,17 +1018,12 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		this.neuroExam = neuroExam;
 	}
 
-
-
-
-
 	/**
 	 * @return Returns the neuroExamType.
 	 */
 	public String getNeuroExamType() {
 		return neuroExamType;
 	}
-
 
 	/**
 	 * @param neuroExamType The neuroExamType to set.
@@ -1102,10 +1034,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	
 	public void setNeuroExamTypeDetails() {
 		
-//		if (thisRequest != null) {
-//            // this is to check if thisKarnofsky option is selected
-		String thisNeuroExam= this.neuroExam; //thisRequest.getParameter("neuroExam");
-		neuroExamCriteria = new NeuroExamClinicalEvalCriteria();
+		String thisNeuroExam= this.neuroExam; 
 
 		// this is to check the type of lanskyType
 		String thisNeuroExamType =this.neuroExamType; // thisRequest.getParameter("neuroExamType");
@@ -1115,12 +1044,8 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 			NeuroExamClinicalEvalDE neuroExamClinicalEvalDE = new NeuroExamClinicalEvalDE(this.neuroExamType);
 			neuroExamCriteria.setNeuroExamClinicalEvalDE(neuroExamClinicalEvalDE);	              
 		}
-//        }
+
 	}
-
-
-
-
 
 	/**
 	 * @return Returns the africanAmerican.
@@ -1128,10 +1053,6 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	public String getAfricanAmerican() {
 		return africanAmerican;
 	}
-
-
-
-
 
 	/**
 	 * @param africanAmerican The africanAmerican to set.
@@ -1146,14 +1067,8 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 				raceCriteria.setRace(raceDE);
 				this.africanAmerican ="Specify";
 			}
-
-
 		}
 	}
-
-
-	    
-
 
 	/**
 	 * @return Returns the caucasion.
@@ -1188,10 +1103,6 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		return asian;
 	}
 
-
-
-
-
 	/**
 	 * @param asian The asian to set.
 	 */
@@ -1210,20 +1121,12 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	        }
 	}
 
-
-
-
-
 	/**
 	 * @return Returns the nativeHawaiian.
 	 */
 	public String getNativeHawaiian() {
 		return nativeHawaiian;
 	}
-
-
-
-
 
 	/**
 	 * @param nativeHawaiian The nativeHawaiian to set.
@@ -1243,20 +1146,12 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	        }
 	}
 
-
-
-
-
 	/**
 	 * @return Returns the other.
 	 */
 	public String getOther() {
 		return other;
 	}
-
-
-
-
 
 	/**
 	 * @param other The other to set.
@@ -1272,13 +1167,8 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	 	            this.other="Specify";
 	            }
 	          
-	          
 	        }
 	}
-
-
-
-
 
 	/**
 	 * @return Returns the unknown.
@@ -1286,10 +1176,6 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	public String getUnknown() {
 		return unknown;
 	}
-
-
-
-
 
 	/**
 	 * @param unknown The unknown to set.
@@ -1310,11 +1196,6 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	}
 
 
-
-
-
-
-	  
   /**
      * Returns the tumorGrade.
      * 
@@ -1334,9 +1215,6 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
     	this.tumorGrade = tumorGrade;    	
      
      }
-
-  
-  
 
     /**
      * Set the firstPresentation.
@@ -1452,8 +1330,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
     }
     
     public void setRadiationTypeDetails() {
-//        if (thisRequest != null) {
-//            // this is to check if radiation option is selected
+
     	String thisRadiation = this.radiation; // thisRequest.getParameter("radiation");
     	radiationTherapyCriteria = new RadiationTherapyCriteria();
 
@@ -1579,8 +1456,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
     }
     
     public void setChemoTypeDetails() {
-//        if (thisRequest != null) {
-//            // this is to check if the chemo option is selected
+
     	String thisChemo = this.chemo; // thisRequest.getParameter("chemo");
     	chemoAgentCriteria = new ChemoAgentCriteria();
     	// this is to check the chemo type
@@ -1609,8 +1485,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
     		}
 
     	}
-//              
-//            }
+
         }
    
     
@@ -1655,8 +1530,8 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
     }
     
     public void setSurgeryOutcomeDetails() {
-//        if (thisRequest != null) {
-    	String thisSurgery = this.surgery; // thisRequest.getParameter("surgery");
+
+    	String thisSurgery = this.surgery; 
     	String thisSurgeryOutcome = this.surgeryOutcome; // thisRequest.getParameter("surgeryOutcome");
     	surgeryOutcomeCriteria = new SurgeryOutcomeCriteria();
     	if (thisSurgery != null && thisSurgeryOutcome != null
@@ -1683,7 +1558,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
     			surgeryOutcomeCriteria.setSurgeryOutcomeDE(surgeryOutcomeDE); 
     		}
     	}
-//        }
+
     }
 
     /**
@@ -1717,10 +1592,6 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		return onStudyChemo;
 	}
 
-
-
-
-
 	/**
 	 * @param onStudyChemo The onStudyChemo to set.
 	 */
@@ -1728,20 +1599,12 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		this.onStudyChemo = onStudyChemo;
 	}
 
-
-
-
-
 	/**
 	 * @return Returns the onStudyChemoType.
 	 */
 	public String getOnStudyChemoType() {
 		return onStudyChemoType;
 	}
-
-
-
-
 
 	/**
 	 * @param onStudyChemoType The onStudyChemoType to set.
@@ -1752,9 +1615,8 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	
 	
 	public void setOnStudyChemoTypeDetails() {	
-//		if (thisRequest != null) {
-//            // this is to check if the chemo option is selected
-		String thisOnStudyChemo = this.onStudyChemo; // thisRequest.getParameter("onStudyChemo");
+
+		String thisOnStudyChemo = this.onStudyChemo; 
 		onStudyChemoAgentCriteria = new OnStudyChemoAgentCriteria();
 		// this is to check the chemo type
 		String thisOnStudyChemoType = this.onStudyChemoType; // thisRequest.getParameter("onStudyChemoType");
@@ -1780,26 +1642,15 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 			}
 
 		}
-//              
-//            }
-        }
-   
-	
 
-
-
-
-
+   }
+  
 	/**
 	 * @return Returns the onStudyRadiation.
 	 */
 	public String getOnStudyRadiation() {
 		return onStudyRadiation;
 	}
-
-
-
-
 
 	/**
 	 * @param onStudyRadiation The onStudyRadiation to set.
@@ -1808,20 +1659,12 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		this.onStudyRadiation = onStudyRadiation;
 	}
 
-
-
-
-
 	/**
 	 * @return Returns the onStudyRadiationType.
 	 */
 	public String getOnStudyRadiationType() {
 		return onStudyRadiationType;
 	}
-
-
-
-
 
 	/**
 	 * @param onStudyRadiationType The onStudyRadiationType to set.
@@ -1830,10 +1673,8 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		this.onStudyRadiationType = onStudyRadiationType;
 	}
 	
-	
 	public void setOnStudyRadiationTypeDetails() {	
-//		if (thisRequest != null) {
-//            // this is to check if the chemo option is selected
+
 		String thisOnStudyRadiation = this.onStudyRadiation; // thisRequest.getParameter("onStudyRadiation");
 		onStudyRadiationTherapyCriteria = new OnStudyRadiationTherapyCriteria();
 		// this is to check the chemo type
@@ -1859,13 +1700,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 			}
 
 		}
-//              
-//            }
 	}
-
-
-
-
 
 	/**
 	 * @return Returns the onStudySurgery.
@@ -1874,10 +1709,6 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		return onStudySurgery;
 	}
 
-
-
-
-
 	/**
 	 * @param onStudySurgery The onStudySurgery to set.
 	 */
@@ -1885,20 +1716,12 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		this.onStudySurgery = onStudySurgery;
 	}
 
-
-
-
-
 	/**
 	 * @return Returns the onStudySurgeryOutcome.
 	 */
 	public String getOnStudySurgeryOutcome() {
 		return onStudySurgeryOutcome;
 	}
-
-
-
-
 
 	/**
 	 * @param onStudySurgeryOutcome The onStudySurgeryOutcome to set.
@@ -1908,8 +1731,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	}
 	
 	public void setOnStudySurgeryOutcomeDetails() {	
-//		if (thisRequest != null) {
-//            // this is to check if the chemo option is selected
+
 		String thisOnStudySurgery = this.onStudySurgery; // thisRequest.getParameter("onStudySurgery");
 		onStudySurgeryOutcomeCriteria = new OnStudySurgeryOutcomeCriteria();
 		// this is to check the chemo type
@@ -1938,8 +1760,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 			}
 
 		}
-//              
-//            }
+
 	}
 
 
@@ -1953,10 +1774,6 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		return onStudySurgeryTitle;
 	}
 
-
-
-
-
 	/**
 	 * @param onStudySurgeryTitle The onStudySurgeryTitle to set.
 	 */
@@ -1965,8 +1782,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	}
 		
 	public void setOnStudySurgeryTitleDetails() {
-//		if (thisRequest != null) {
-//            // this is to check if the chemo option is selected
+
 		String thisOnStudySurgery = this.onStudySurgery; // thisRequest.getParameter("onStudySurgery");
 		onStudySurgeryTitleCriteria = new OnStudySurgeryTitleCriteria();
 		// this is to check the chemo type
@@ -1993,12 +1809,8 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 			}
 
 		}
-//		}
+
 	}
-
-
-
-
 
 	/**
      * Set the survivalLower.
@@ -2093,18 +1905,17 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
      *            The ageUpper to set
      */
     public void setAgeUpper(String ageUpper) {
-        this.ageUpper = ageUpper;
-        
-      if(this.ageUpper != null && this.ageUpper.trim().length()>=1){
-        	try{        	
-	         upperAgeLimit = new AgeAtDiagnosisDE.UpperAgeLimit(Integer.valueOf(this.ageUpper));	        	  
-	         ageCriteria.setUpperAgeLimit(upperAgeLimit);
-        	} 
-        	
-        catch(NumberFormatException e){}
-    }
-    
-    
+    	this.ageUpper = ageUpper;
+
+    	if(this.ageUpper != null && this.ageUpper.trim().length()>=1){
+    		try{        	
+    			upperAgeLimit = new AgeAtDiagnosisDE.UpperAgeLimit(Integer.valueOf(this.ageUpper));	        	  
+    			ageCriteria.setUpperAgeLimit(upperAgeLimit);
+    		} 
+
+    		catch(NumberFormatException e){}
+    	}
+
     }
 
     /**
@@ -2224,9 +2035,6 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		
 	}
 
-
-
-
 	/**
 	 * @return Returns the onStudyRadiationTherapyCriteria.
 	 */
@@ -2296,9 +2104,6 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 			}
 		}
 	}
-
-
-
 
 	public SurvivalCriteria getSurvivalCriteria() {
         return this.survivalCriteria;
@@ -2390,15 +2195,12 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		return karnofskyCriteria;
 	}
 
-
-
 	/**
 	 * @return Returns the lanskyCriteria.
 	 */
 	public LanskyClinicalEvalCriteria getLanskyCriteria() {
 		return lanskyCriteria;
 	}
-
 
 	/**
 	 * @return Returns the mriCriteria.
@@ -2413,8 +2215,6 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	public NeuroExamClinicalEvalCriteria getNeuroExamCriteria() {
 		return neuroExamCriteria;
 	}
-
-
 
 	public ArrayList getRecurrenceTypeColl() {
         return recurrenceTypeColl;
@@ -2473,9 +2273,6 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		return mriTypeColl;
 	}
 
-
-
-
 	/**
 	 * @return Returns the neuroExamTypeColl.
 	 */
@@ -2491,11 +2288,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		return surgeryTitle;
 	}
 
-
-
-
-
-		/**
+	/**
 	 * @param surgeryTitle The surgeryTitle to set.
 	 */
 	public void setSurgeryTitle(String surgeryTitle) {
@@ -2503,9 +2296,9 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	}
 	
 	public void setSurgeryTitleDetails() {
-//	        if (thisRequest != null) {
-		String thisSurgery = this.surgery; // thisRequest.getParameter("surgery");
-		String thisSurgeryTitle = this.surgeryTitle; // thisRequest.getParameter("surgeryTitle");
+
+		String thisSurgery = this.surgery; 
+		String thisSurgeryTitle = this.surgeryTitle; 
 		priorSurgeryTitleCriteria = new PriorSurgeryTitleCriteria();
 		if (thisSurgery != null && thisSurgeryTitle != null
 				&& !thisSurgeryTitle.equals("")) {
@@ -2531,14 +2324,8 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 				priorSurgeryTitleCriteria.setPriorSurgeryTitleDE(priorSurgeryTitleDE); 
 			}
 		}
-//	        }
+
 	    }
-
-	
-
-
-
-
 
 	/**
 	 * @return Returns the surgeryTitleColl.
@@ -2547,20 +2334,12 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		return surgeryTitleColl;
 	}
 
-
-
-
-
 	/**
 	 * @return Returns the onStudyChemoAgentTypeColl.
 	 */
 	public ArrayList getOnStudyChemoAgentTypeColl() {
 		return onStudyChemoAgentTypeColl;
 	}
-
-
-
-
 
 	/**
 	 * @return Returns the onStudyRadiationTypeColl.
@@ -2569,10 +2348,6 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		return onStudyRadiationTypeColl;
 	}
 
-
-
-
-
 	/**
 	 * @return Returns the onStudySurgeryOutcomeColl.
 	 */
@@ -2580,19 +2355,12 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		return onStudySurgeryOutcomeColl;
 	}
 
-
-
-
-
 	/**
 	 * @return Returns the onStudySurgeryTitleColl.
 	 */
 	public ArrayList getOnStudySurgeryTitleColl() {
 		return onStudySurgeryTitleColl;
 	}
-
-
-
 
   /**
    * Method used to copy individual values when called
@@ -2646,46 +2414,6 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
               
         return form;
     }
-    /**
-     * Method validate
-     * 
-     * @param ActionMapping
-     *            mapping
-     * @param HttpServletRequest
-     *            request
-     * @return ActionErrors
-     */
-	
-	///Shan temp comment out
-	/*
-    public ActionErrors validate(ActionMapping mapping,
-            HttpServletRequest request) {
-
-        //ActionErrors errors = new ActionErrors();
-        List<String> errors = new ArrayList<String>();
-
-        // Query Name cannot be blank
-//      if the method of the button is "submit" or "run report", validate
-        if(this.getMethod()!=null && (this.getMethod().equalsIgnoreCase("submit") || this.getMethod().equalsIgnoreCase("preview"))){
-            logger.debug("Validating Form");
-            if ((queryName == null || queryName.length() < 1))
-                //errors.add("queryName", new ActionError(
-                  //      "gov.nih.nci.nautilus.ui.struts.form.queryname.no.error"));
-            	errors.add("gov.nih.nci.nautilus.ui.struts.form.queryname.no.error");
-             if (!MoreStringUtils.isURLSafe(queryName))
-                //errors.add("queryName", new ActionError(
-                  //      "gov.nih.nci.nautilus.ui.struts.form.queryname.illegal.characters"));
-            	 errors.add("gov.nih.nci.nautilus.ui.struts.form.queryname.illegal.characters");
-        }
-        // survival range validations
-     
-
-        return errors;
-    }
-
-*/
-
-
 
 	/**
 	 * @return Returns the priorSurgeryTitleCriteria.
@@ -2772,8 +2500,6 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 		super.setSampleGroup(sampleGroup);
 	}
 	
-	
-
 	@Override
 	public void setTumorGrades(List<String> tumorGradeList) {
 		// TODO Auto-generated method stub
