@@ -41,28 +41,27 @@ Event.observe(window, 'load', function()	{
 		</tr>
 		<tr>
 			<td>
-				<html:form action="importWorkspaceFile.do" enctype="multipart/form-data">
-					<html:errors/>
+				<s:form action="importWorkspaceFile" enctype="multipart/form-data" method="post" theme="simple">
+					<s:fielderror fieldName="Import File" />
 					<table>
 						<tr>
 							<td>
-								<label for="fileType">File Type :</label> 
-								<html:select styleId="fileType" property="fileType">
-									<html:option value="1">Query</html:option>
-									<html:option value="2">List</html:option>
-								</html:select>	
+							<label for="fileType">File Type :</label> 
+							<s:select id="fileType" name="form.fileType" list="form.fileTypeList" theme="simple"/>
+							
 							</td>
 							<td style="padding-left:10px;">
-								<html:file styleId="workspaceFile" property="workspaceFile" /><label for="workspaceFile">&nbsp;</label> 
+								<s:file id="workspaceFile" name="workspaceFile" />
+								<label for="workspaceFile">&nbsp;</label> 
 							</td>
 						</tr>
 						<tr>
 							<td  style="padding-top:10px;">
-								<html:submit styleClass="xbutton" value="Import" />
+								<s:submit styleClass="xbutton" value="Import" />
 							</td>
 						</tr>
 					</table>			
-				</html:form>			
+				</s:form>			
 			</td>
 		</tr>	
 	</tbody>

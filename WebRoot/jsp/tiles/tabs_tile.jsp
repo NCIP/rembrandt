@@ -72,13 +72,11 @@ L--%>
 	String download="";
 	String advSecondary = "<ul id=\"secondary\">\n" +
 							"<li><a href=\"menu.action\">Advanced Search Home</a></li>\n" +
-							//"<li><a href=\"menu.action\">Build Query</a></li>\n" +
 							"<li><a href=\"refinecheck.action\">Refine Query</a></li>\n" +
 							"</ul>\n";
 	String resultsSecondary = "<ul id=\"secondary\">\n" +
 							"<li><a href=\"viewResults.action\">View Findings</a></li>\n" +
 							"<li><a href=\"#\">Managed Saved Lists</a></li>\n" +
-							//"<li><a href=\"#\">Upload Lists</a></li>\n" +
 							"</ul>\n";				
 	String simpleSecondary = "<ul id=\"secondary\">\n" +
 							"<li><a href=\"home.action\">Simple Search Home</a></li>\n" +
@@ -88,7 +86,6 @@ L--%>
 							"</ul>\n";
 
 	String resultSecondary = "<ul id=\"secondary\">\n" +
-							//"<li><a href=\"graph.action?method=setup\">Search</a></li>\n" +
 							"<li><a href=\"viewResults.action\">Report Results</a></li>\n" +
 							"<li><a href=\"gpProcess.action?method=setup\">GenePattern Job Results</a></li>\n" +							
 							"</ul>\n";
@@ -107,7 +104,7 @@ L--%>
 	else {								
 	myWorkspaceSecondary = "<ul id=\"secondary\">\n" +
 							"<li><a href=\"manageLists.action\">Manage Lists</a></li>\n" +
-							"<li><a href=\"manageWorkspace.action\">Organize</a></li>\n" +
+							"<li><a href=\"organizeWorkspace.action\">Organize</a></li>\n" +
 							"<li><a href=\"importWorkspace.action\">Import</a></li>\n" +
 							"<li><a href=\"exportWorkspace.action\">Export</a></li>\n" +							
 							"</ul>\n";
