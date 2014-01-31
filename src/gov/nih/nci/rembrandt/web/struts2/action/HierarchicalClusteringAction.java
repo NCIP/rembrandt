@@ -158,7 +158,7 @@ public class HierarchicalClusteringAction extends ActionSupport implements Servl
 			for (String error : errors)
 				addActionError(error);
 			
-			return "backToPrincipalComponent";
+			return "backToHierarchicalClustering";
 		}
         
         logger.debug("Selected Distance Matrix in HttpServletRequest: " + getServletRequest().getParameter("distanceMatrix"));

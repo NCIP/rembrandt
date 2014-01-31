@@ -19,6 +19,7 @@ L--%>
 	String cdtFile = (String)request.getAttribute("cdtFile");
 	String gtrFile = (String)request.getAttribute("gtrFile");
 	String atrFile = (String)request.getAttribute("atrFile");
+	String goApplet = (String)request.getAttribute("goApplet");
 	
 	String comparativeMarkerSelectionFilename = (String)request.getAttribute("comparativeMarkerSelectionFilename");
 	String comparativeMarkerSelectionDatasetFilename = (String)request.getAttribute("comparativeMarkerSelectionDatasetFilename");
@@ -36,8 +37,8 @@ L--%>
 	String GenePatternURL = (String)request.getAttribute("GenePatternURL");
  %>
 
-<s:if test="goApplet != null">
-
+<!-- s:if test="goApplet != null" -->
+<% if (goApplet != null) { %>
 <script type="text/javascript">
 document.writeln('<applet code="gov.nih.nci.caintegrator.application.gpvisualizer.CaIntegratorRunVisualizerApplet" archive="SignedGPApplet.jar,GenePattern.jar,commons-httpclient-3.1.jar,commons-logging-1.0.4.jar,commons-codec-1.3.jar" codebase="Applets/gp" width="100" height="100" alt="Your browser refuses to run applets" name="<%= appletName %>" >');
 document.writeln('<param name="moduleName" value="<%= name %>" >');
@@ -82,8 +83,8 @@ document.writeln('<param name="gp_lsid" value="<%= gp_lsid %>" >');
 document.writeln("<PARAM name=\"browserCookie\" value=\"" + document.cookie + "\">");
 document.writeln('</applet>');	
 </script>
-
-</s:if>
+<% } %>
+<!-- /s:if -->
 
 
 

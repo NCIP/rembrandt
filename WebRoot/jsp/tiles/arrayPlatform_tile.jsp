@@ -73,7 +73,7 @@ Step 2: Select Array Platform (Select at least one)
 <!-- /s:else -->
 
 			
-<s:actionerror name="arrayPlatform"/>
+<s:fielderror fieldName="arrayPlatform"/>
 </fieldset>
 <s:if test="geneexpressionForm != null">
 <script type="text/javascript">

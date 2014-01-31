@@ -60,12 +60,12 @@ L--%>
 
  <!-- s:if test="%{#parameters.act[0] == 'gpintegration'}" -->
  <% if (act.equals("gpintegration")) { %>
- 	<s:actionerror name="selectedGroups"/>Select 2 or More Groups <br />
+ 	<s:fielderror fieldName="selectedGroups" />Select 2 or More Groups <br />
  <% } %> 	
  <!-- /s:if -->
   <!-- s:if test="%{#parameters.act[0] == 'igvintegration'}" -->
  <% if (act.equals("igvintegration")) { %>
- 	<s:actionerror name="selectedGroups"/>Select 1 or More Groups <br />
+ 	<s:fielderror fieldName="selectedGroups" />Select 1 or More Groups <br />
  <% } %> 	
  <!-- /s:if -->
 
@@ -108,7 +108,7 @@ L--%>
 </legend>
 <br clear="both"/>
 	<em>choose 2 or more groups</em>
-	<s:actionerror name="selectedGroups"/>
+	<s:fielderror fieldName="selectedGroups" />
 	<table align="center" border="0" summary="This table is used to format page content">
     <tr style="vertical-align:top">
       <td><label for="nonselectedGroups">Existing Groups</label>

@@ -41,10 +41,10 @@ L--%>
 <app:cshelp topic="<%=act%>" text="[?]"/>   
 </legend>
 <br>
-	<s:actionerror name="analysisResultName"/>
+	<s:fielderror fieldName="analysisResultName"/>
 <s:textfield id="analysisResultName" name="form.analysisResultName" size="50" theme="simple" /> (should be unique)
 <br />
-<s:actionerror name="queryName"/><br />
+<!-- s:actionerror name="queryName"/><br / -->
 </fieldset>
 <%
 		final Logger logger = Logger.getLogger("analysisResultName_tile");

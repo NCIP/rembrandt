@@ -174,11 +174,11 @@ public class ClassComparisonAction extends ActionSupport implements ServletReque
 		}
 */
 		List<String> errors = validateFormData();
-		if (errors.size() > 0) {
-			for (String error : errors)
+		 if (errors.size() > 0) {
+			/* for (String error : errors)
 				addActionError(error);
-			
-			return "backToClassComparison";
+			addFieldError(error); */
+			return setup();
 		}
 		
         String sessionId = getServletRequest().getSession().getId();
@@ -446,14 +446,22 @@ public class ClassComparisonAction extends ActionSupport implements ServletReque
 		List<String> errors = new ArrayList<String>();
                 
         //Analysis Query Name cannot be blank
-        errors.addAll(UIFormValidator.validateAnalysisName(getClassComparisonForm().getAnalysisResultName(), errors));
+        errors = (UIFormValidator.validateAnalysisName(getClassComparisonForm().getAnalysisResultName(), errors));
+        if( errors != null && errors.size() > 0)
+        	addFieldError("analysisResultName", errors.get(0));
         
         //User must select exactly 2 comparison Groups if not for FTest
-        if (!"FTest".equals(getClassComparisonForm().getStatisticalMethod()))
-        	errors.addAll(UIFormValidator.validateSelectedGroups(getClassComparisonForm().getSelectedGroups(), errors));
+        if (!"FTest".equals(getClassComparisonForm().getStatisticalMethod())) {
+        	errors = (UIFormValidator.validateSelectedGroups(getClassComparisonForm().getSelectedGroups(), errors));
+        	
+        }
         //otherwise, it must be at least two.
-        else
-        	errors.addAll(UIFormValidator.validateSelectedGroups(getClassComparisonForm().getSelectedGroups(), 2, errors));
+        else {
+        	errors = (UIFormValidator.validateSelectedGroups(getClassComparisonForm().getSelectedGroups(), 2, errors));
+        }
+        
+        if( errors != null && errors.size() > 0)
+        	addFieldError("selectedGroups", errors.get(0));
         
         //look at the manual FC to check for neg value
         //this is validated in the UI, so its put here only as a failsafe

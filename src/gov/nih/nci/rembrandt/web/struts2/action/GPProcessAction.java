@@ -160,9 +160,10 @@ public class GPProcessAction extends ActionSupport implements ServletRequestAwar
     throws Exception {
     	logger.info("Entering igvViewer method.......");
 
-        String processName = gpProcessForm.getProcessName();
+        //String processName = gpProcessForm.getProcessName();
 
-		String jobNumber = gpProcessForm.getJobId(); 
+		//String jobNumber = gpProcessForm.getJobId(); 
+    	String jobNumber = getServletRequest().getParameter("jobId");
 
 		RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
 		Collection tempGpTaskList = _cacheManager.getAllSessionGPTasks(getServletRequest().getSession().getId());
@@ -307,8 +308,10 @@ public class GPProcessAction extends ActionSupport implements ServletRequestAwar
     public String hcApplet()
     throws Exception {
 
-    	processSetUp(gpProcessForm, getServletRequest());
-		String jobNumber =  gpProcessForm.getJobId(); 
+    	processSetUp(getGpProcessForm(), getServletRequest());
+		//String jobNumber =  gpProcessForm.getJobId(); 
+    	String jobNumber = getServletRequest().getParameter("jobId");
+
 		RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
 		Collection tempGpTaskList = _cacheManager.getAllSessionGPTasks(getServletRequest().getSession().getId());
 		GPTask gpTask = getGPTask(tempGpTaskList, jobNumber);
@@ -341,8 +344,9 @@ public class GPProcessAction extends ActionSupport implements ServletRequestAwar
     public String knnApplet()
     throws Exception {
 
-    	processSetUp(gpProcessForm, getServletRequest());
-		String jobNumber = gpProcessForm.getJobId(); 
+    	processSetUp(getGpProcessForm(), getServletRequest());
+		//String jobNumber = gpProcessForm.getJobId(); 
+    	String jobNumber = getServletRequest().getParameter("jobId");
 
 		RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
 		Collection tempGpTaskList = _cacheManager.getAllSessionGPTasks(getServletRequest().getSession().getId());
@@ -373,8 +377,10 @@ public class GPProcessAction extends ActionSupport implements ServletRequestAwar
     }
     public String cmsApplet()
     throws Exception {
-    	processSetUp(gpProcessForm, getServletRequest());
-		String jobNumber = gpProcessForm.getJobId(); 
+    	processSetUp(getGpProcessForm(), getServletRequest());
+		//String jobNumber = gpProcessForm.getJobId(); 
+    	String jobNumber = getServletRequest().getParameter("jobId");
+
 
 		RembrandtPresentationTierCache _cacheManager = ApplicationFactory.getPresentationTierCache();
 		Collection tempGpTaskList = _cacheManager.getAllSessionGPTasks(getServletRequest().getSession().getId());

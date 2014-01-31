@@ -141,7 +141,7 @@ public class PrincipalComponentAction extends ActionSupport implements ServletRe
 			for (String error : errors)
 				addActionError(error);
 			
-			return "backToHierarchicalClustering";
+			return setup();
 		}
         
         String sessionId = getServletRequest().getSession().getId();
@@ -324,10 +324,14 @@ public class PrincipalComponentAction extends ActionSupport implements ServletRe
 		List<String> errors = new ArrayList<String>();
 
        // Analysis name cannot be blank
-        errors.addAll(UIFormValidator.validateQueryName(getPrincipalComponentForm().getAnalysisResultName(), errors));
+        errors = (UIFormValidator.validateQueryName(getPrincipalComponentForm().getAnalysisResultName(), errors));
+        if( errors != null && errors.size() > 0)
+        	addFieldError("analysisResultName", errors.get(0));
        
        // Validate group field
-        errors.addAll(UIFormValidator.validateSelectedGroup(getPrincipalComponentForm().getGroupsOption(), getPrincipalComponentForm().getSelectedGroups(), errors));
+        errors = (UIFormValidator.validateSelectedGroup(getPrincipalComponentForm().getGroupsOption(), getPrincipalComponentForm().getSelectedGroups(), errors));
+        if( errors != null && errors.size() > 0)
+        	addFieldError("selectedGroups", errors.get(0));
        
         return errors;
     }	

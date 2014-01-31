@@ -868,6 +868,26 @@
 		<result name="runIGVReport">jsp/segmentViewIGVReport.jsp</result>
 	</action>
 	
+	<action name="igvViewer"
+		class="gov.nih.nci.rembrandt.web.struts2.action.GPProcessAction" method="igvViewer">
+		<result name="runIGVReport">jsp/segmentViewIGVReport.jsp</result>
+	</action>
+	
+	<action name="hcApplet"
+		class="gov.nih.nci.rembrandt.web.struts2.action.GPProcessAction" method="hcApplet">
+		<result name="appletViewer" type="tiles">rembrandt.gpJobView</result>
+	</action>
+	
+	<action name="knnApplet"
+		class="gov.nih.nci.rembrandt.web.struts2.action.GPProcessAction" method="knnApplet">
+		<result name="appletViewer" type="tiles">rembrandt.gpJobView</result>
+	</action>
+	
+	<action name="cmsApplet"
+		class="gov.nih.nci.rembrandt.web.struts2.action.GPProcessAction" method="cmsApplet">
+		<result name="appletViewer" type="tiles">rembrandt.gpJobView</result>
+	</action>		
+	
 	<action name="viewResults"
 		class="gov.nih.nci.rembrandt.web.struts2.action.ViewResultsAction" method="execute">
 		<result name="success" type="tiles">nautilus.viewResults</result>
