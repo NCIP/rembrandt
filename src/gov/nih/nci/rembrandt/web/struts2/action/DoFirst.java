@@ -159,7 +159,6 @@ public class DoFirst extends ActionSupport implements SessionAware, ServletReque
 					session.setAttribute(RembrandtConstants.USER_CREDENTIALS,credentials);
 				}
 			
-				
 				session.setAttribute("logged", "yes");
 				session.setAttribute("autoLogged", "yes");
 //				aRequest.getSession().setAttribute("name", "RBTuser");
