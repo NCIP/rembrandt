@@ -89,8 +89,10 @@ public class IgvIntegrationAction extends GPIntegrationAction {
 		String a_fileName = null;
 		String cn_fileName = null;
 		
-		if(platformName.equalsIgnoreCase(ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString()) && 
-				snpPlatformName.equalsIgnoreCase(ArrayPlatformType.AFFY_100K_SNP_ARRAY.toString() ) ) {
+//		if(platformName.equalsIgnoreCase(ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString()) && 
+//				snpPlatformName.equalsIgnoreCase(ArrayPlatformType.AFFY_100K_SNP_ARRAY.toString() ) ) {
+		if(platformName.equalsIgnoreCase("true") && 
+				snpPlatformName.equalsIgnoreCase("true" ) ) {			
 			
 			r_fileName = System.getProperty("gov.nih.nci.rembrandt.affy_data_matrix");
 			a_fileName = System.getProperty("gov.nih.nci.rembrandt.affy_data_annotation_igv");
@@ -99,7 +101,7 @@ public class IgvIntegrationAction extends GPIntegrationAction {
 		    List<String> filePathList = extractPatientGroups(getServletRequest(), session, patientGroups, analysisType,"ge-cp");
 			runGpExpSegTask( getServletRequest(), getIgvIntegrationForm(),  session, filePathList,  r_fileName,  cn_fileName,  a_fileName);
 		}
-		else if(platformName.equalsIgnoreCase(ArrayPlatformType.AFFY_OLIGO_PLATFORM.toString())) {
+		else if(platformName.equalsIgnoreCase("true")) {
 	   
 			r_fileName = System.getProperty("gov.nih.nci.rembrandt.affy_data_matrix");
 			a_fileName = System.getProperty("gov.nih.nci.rembrandt.affy_data_annotation_igv");
@@ -108,7 +110,7 @@ public class IgvIntegrationAction extends GPIntegrationAction {
 
 		 
 	   }
-	   else if(snpPlatformName.equalsIgnoreCase(ArrayPlatformType.AFFY_100K_SNP_ARRAY.toString())) {
+	   else if(snpPlatformName.equalsIgnoreCase("true")) {
 		   AnalysisType analysisType = getAnalysisType(snpAnalysis);
 		   r_fileName = getCNFileName(analysisType);
 		   List<String> filePathList = extractPatientGroups(getServletRequest(), session, patientGroups,analysisType,"cp");
@@ -331,6 +333,10 @@ public class IgvIntegrationAction extends GPIntegrationAction {
 
        
         return errors;
+    }
+    
+    public String getJobId() {
+    	return getServletRequest().getAttribute("jobId").toString();
     }
 	
 }

@@ -47,12 +47,13 @@ function checkJobId(jobList) {
 	String gpurl = (String)request.getSession().getAttribute("ticketString");
 	String jobTitle = (String)request.getAttribute("taskModule");
 	String gpTaskType = (String)request.getAttribute("gpTaskType");
+	String goApplet = (String)request.getAttribute("goApplet");
 	String indicator = "1";
 	String actionLink1 = null;
 	if (jobTitle == null) {
 		if (gpTaskType != null && gpTaskType.equals("IGV")){ 
 			indicator = "2";
-			actionLink1 = "gpProcess.do?method=igvViewer&jobId=" + jobId;
+			actionLink1 = "igvViewer.action?jobId=" + jobId;
 			jobTitle = "IGV";
 		}
 		else {
@@ -61,15 +62,15 @@ function checkJobId(jobList) {
 	}
 	else if (jobTitle != null && jobTitle.equalsIgnoreCase("HC.pipeline")){
 		indicator = "2";
-		actionLink1 = "gpProcess.do?method=hcApplet&jobId=" + jobId;
+		actionLink1 = "hcApplet.action?jobId=" + jobId;
 		jobTitle = "Hierarchical Clustering";
 	} else if (jobTitle != null && jobTitle.equalsIgnoreCase("KNN.pipeline")){
 		indicator = "2";
-		actionLink1 = "gpProcess.do?method=knnApplet&jobId=" + jobId;
+		actionLink1 = "knnApplet.action?jobId=" + jobId;
 		jobTitle = "K-Nearest Neighbors";
 	} else if (jobTitle != null && jobTitle.equalsIgnoreCase("CMS.pipeline")){
 		indicator = "2";
-		actionLink1 = "gpProcess.do?method=cmsApplet&jobId=" + jobId;
+		actionLink1 = "cmsApplet.action?jobId=" + jobId;
 		jobTitle = "Comparative Marker Selection";
 	}
 %>
@@ -91,14 +92,16 @@ function turnOffLoadingMessage(){
      	<br/>
      	<s:form action="gpProcessStartApplet.action" id="qsForm" onsubmit="return checkJobId(document.forms[0].jobId);">
        		<table border="0" cellpadding="3" cellspacing="3">
-       			<s:if test="goApplet != null">
+       			<!-- s:if test="goApplet != null" -->
+       			<% if (goApplet != null) { %>
        		    <tr><td colspan="3">
        		    	<div id="advOptions" class="divShow">
 					<b>Please be patient, the viewer is loading...</b><br/> <img src="images/indicator.gif"/>
 					<b>The viewer requires JVM 1.5 or above. </b><br/><br/>
 					</div>
 				</td></tr>
-				</s:if>
+				<% } %>
+				<!-- /s:if -->
        			<tr> 
        				<td width="20%">
        					<label for="<%= jobIdSelect %>">GP job Number</label>
@@ -107,7 +110,8 @@ function turnOffLoadingMessage(){
        					<label for="<%= processSelect %>">GP Process</label>
        				</td>
        			</tr>
-       			<s:if test="jobId != null">
+       			<!-- s:if test="jobId != null" -->
+       			<% if (jobId != null) { %>
        			<tr>
        				<td>  
 						<s:select id="jobIdSelect" disabled="true" style="width:100px" name="form.jobId" list="form.jobList" theme="simple">
@@ -121,8 +125,10 @@ function turnOffLoadingMessage(){
 						<s:submit cssClass="subButton" disabled="true" name="method" value="go" id="submitButton" theme="simple"> 
 						</s:submit>
        				</td>
-     			</s:if>
-     			<s:if test="jobId == null">
+       			<% } %>
+     			<!-- /s:if -->
+     			<!-- s:if test="jobId == null" -->
+     			<% if (jobId == null) { %>
      			<tr>
        				<td>  
 						<s:select id="jobIdSelect" style="width:100px" name="form.jobId" list="form.jobList" theme="simple">
@@ -136,7 +142,8 @@ function turnOffLoadingMessage(){
 						<s:submit cssClass="subButton" name="method" value="go" id="submitButton" theme="simple"> 
 						</s:submit>
        				</td>
-     			</s:if>
+       			<% } %>
+     			<!-- /s:if -->
      		</s:form>
 		</fieldset>
 <br /><br />			
@@ -146,12 +153,13 @@ function turnOffLoadingMessage(){
      	<br/>
        	<div id="loadingMsg" style="color:red;font-weight:bold;">&nbsp;</div>
        		<table border="0" cellpadding="3" cellspacing="3">
-       			<s:if test="jobId != null">
+       			<!-- s:if test="jobId != null" -->
+       			<% if (jobId != null) { %>
        			<tr>
        				<td>
        				<% if (indicator.equals("2")) { %>
        					Your request has been sent to GenePattern for processing, and  
-       					your job id is :  <span style="color:red;font-weight:bold"><s:property value="jobId"/></span>.
+       					your job id is :  <span style="color:red;font-weight:bold"><%= jobId %></span>.
        					When your task is complete, your data will be ready 
        					for visualizer.  Just click <img src='images/visualizer.gif' border='0' alt='visualizer' id=\"" + jobId + "_image\" /> next to the link below to 
        					launch the visualizer you have selected.   
@@ -159,7 +167,7 @@ function turnOffLoadingMessage(){
        					depending on the size of the dataset.<br><br>
        				<% } else { %> 
        					Your request has been sent to GenePattern for processing, and  
-       					your job id is :  <span style="color:red;font-weight:bold"><s:property value="jobId"/></span>.
+       					your job id is :  <span style="color:red;font-weight:bold"><%= jobId %></span>.
        					When your task is complete, your data will be ready 
        					for analysis in GenePattern.  Your available tasks will appear in the right 
        					sidebar of the GenePattern when they are ready.  The approximate 
@@ -219,7 +227,8 @@ function turnOffLoadingMessage(){
 					</li></ul>
 					</td>
 				</tr>
-				</s:if>
+				<% } %>
+				<!-- /s:if -->
 				<tr>
 					<td>
 						<!--  All available GenePattern jobs -->
@@ -244,7 +253,7 @@ function turnOffLoadingMessage(){
 								if (task.getTaskModule() == null){
 									if( task.getType().equals(GPTask.TaskType.IGV_GENE_EXP) || task.getType().equals(GPTask.TaskType.IGV_COPY_NUMBER)) {
 										jobTitle = "IGV";
-										actionLink2 = "gpProcess.do?method=igvViewer&jobId=" + task.getJobId();
+										actionLink2 = "igvViewer.action?jobId=" + task.getJobId();
 										indicator = "2";
 									}
 									else {
@@ -254,17 +263,17 @@ function turnOffLoadingMessage(){
 								}
 								else if (task.getTaskModule().equalsIgnoreCase("HC.pipeline")){
 									jobTitle = task.getTaskModuleDisplayName();
-									actionLink2 = "gpProcess.do?method=hcApplet&jobId=" + task.getJobId();
+									actionLink2 = "hcApplet.action?jobId=" + task.getJobId();
 									indicator = "2";
 								}
 								else if (task.getTaskModule().equalsIgnoreCase("KNN.pipeline")){
 									jobTitle = task.getTaskModuleDisplayName();
-									actionLink2 = "gpProcess.do?method=knnApplet&jobId=" + task.getJobId();
+									actionLink2 = "knnApplet.action?jobId=" + task.getJobId();
 									indicator = "2";
 								}
 								else if (task.getTaskModule().equalsIgnoreCase("CMS.pipeline")){
 									jobTitle = task.getTaskModuleDisplayName();
-									actionLink2 = "gpProcess.do?method=cmsApplet&jobId=" + task.getJobId();
+									actionLink2 = "cmsApplet.action?jobId=" + task.getJobId();
 									indicator = "2";
 								}
 								if (jobId != null && jobId.equals(task.getJobId()))
