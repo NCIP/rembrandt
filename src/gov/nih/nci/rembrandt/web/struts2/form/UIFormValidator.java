@@ -7,6 +7,7 @@
 
 package gov.nih.nci.rembrandt.web.struts2.form;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -15,7 +16,6 @@ import java.util.Properties;
 import gov.nih.nci.rembrandt.util.ApplicationContext;
 import gov.nih.nci.rembrandt.util.MoreStringUtils;
 import gov.nih.nci.rembrandt.dto.lookup.AllGeneAliasLookup;
-import gov.nih.nci.rembrandt.dto.lookup.LookupManager;
 import gov.nih.nci.rembrandt.queryservice.validation.DataValidator;
 import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
@@ -390,14 +390,15 @@ public class UIFormValidator {
         
         return errors;
     }
+    
+    //Shan commented this
 
-    public static List<String> validateXmlFileType(FormFile formFile, String fileContents,
-            List<String> errors) {
+    public static List<String> validateXmlFileType(File formFile, List<String> errors) {
     	
         //Make sure the uploaded File is of type txt and MIME type is text/plain
             if(formFile != null  &&
-              (!(formFile.getFileName().toLowerCase().endsWith(".xml"))) &&
-              (!(formFile.getContentType().equals("text/xml")))){
+              (!(formFile.getName().toLowerCase().endsWith(".xml")))/* &&
+              (!(formFile.get.equals("text/xml")))*/){
                 errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.importFile.no.error"));
             }   
             
