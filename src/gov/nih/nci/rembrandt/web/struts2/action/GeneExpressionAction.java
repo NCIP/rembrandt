@@ -127,7 +127,7 @@ import com.opensymphony.xwork2.Preparable;
 */
 
 public class GeneExpressionAction extends ActionSupport implements SessionAware, ServletRequestAware, Preparable {
-//extends LookupDispatchAction {
+	
     private static Logger logger = Logger.getLogger(GeneExpressionAction.class);
 	private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
     private UserCredentials credentials;
@@ -149,8 +149,6 @@ public class GeneExpressionAction extends ActionSupport implements SessionAware,
 			form = new GeneExpressionForm();
 			form.reset(this.servletRequest);
 		}
-		
-		
 	}
 
 	/**
@@ -167,21 +165,15 @@ public class GeneExpressionAction extends ActionSupport implements SessionAware,
      * @return ActionForward
      * @throws Exception
      */
-    
-    //Setup the gene Expression form from menu page
     public String setup() {
-	//throws Exception {
-    	
+
     	String sID = this.servletRequest.getHeader("Referer");
     	
     	// prevents Referer Header injection
     	if ( sID != null && sID != "" && !sID.contains("rembrandt")) {
     		return "failure";
     	}
-    	
-    	//geneExpressionForm = geneExpressionFormInSession;
-
-		//GeneExpressionForm geneExpressionForm = (GeneExpressionForm) form;
+    
 		//Since Chromosomes is a static variable there is no need to set it twice.
 		//It is only a lookup option collection
 		if(form.getChromosomes()==null||form.getChromosomes().isEmpty()) {
@@ -190,32 +182,10 @@ public class GeneExpressionAction extends ActionSupport implements SessionAware,
 			form.setChromosomes(ChromosomeHelper.getInstance().getChromosomes());
 		}
        
-        
-		//saveToken(request);
-		//setDataFormDetails();
 		sessionMap.put("geneExpressionForm", form);
         return "backToGeneExp";
     }
     
-    /*This method is needed for the apparant problem with LookupDispatchAction class in Struts
-     *  (non-Javadoc)
-     * Doesn't appear that the developer can make a call to any of the methods in this
-     * class via a url path (e.g. myaction.do?method=setup). The work around is not specifying
-     * a method, in which case struts will call the following "unspecified" method call below.
-     * In this case the desired effect is to reset the form(setup) with the prefilled dropdowns...
-     * so ALL this method does is call the setup method.
-     */
-    /**TODO change the action to a DispatchAction for more flexibility in the future.
-     * -KR
-     */
-    
-    public String unspecified()
-    throws Exception {
-        this.setup();
-        //saveToken(request);
-
-        return "backToGeneExp";
-    }
     
    //if multiUse button clicked (with styles de-activated) forward back to page
     public String multiUse()
@@ -291,14 +261,6 @@ public class GeneExpressionAction extends ActionSupport implements SessionAware,
         sessionMap.put("currentPage", "0");
 		sessionMap.remove("currentPage2");
 		
-		//GeneExpressionForm geneExpressionForm = (GeneExpressionForm) form;
-		// set form back to standard state and clear default value
-//		geneExpressionFormInSession.setRegulationStatus("");
-//		geneExpressionFormInSession.setFoldChangeValueUp(RembrandtConstants.STANDARD_GENE_EXP_REGULATION);
-//		geneExpressionFormInSession.setFoldChangeValueUDUp(RembrandtConstants.STANDARD_GENE_EXP_REGULATION);
-//		geneExpressionFormInSession.setFoldChangeValueDown(RembrandtConstants.STANDARD_GENE_EXP_REGULATION);
-//		geneExpressionFormInSession.setFoldChangeValueUDDown(RembrandtConstants.STANDARD_GENE_EXP_REGULATION);
-		
 		form.setRegulationStatus("");
 		form.setFoldChangeValueUp(RembrandtConstants.STANDARD_GENE_EXP_REGULATION);
 		form.setFoldChangeValueUDUp(RembrandtConstants.STANDARD_GENE_EXP_REGULATION);
@@ -326,13 +288,9 @@ public class GeneExpressionAction extends ActionSupport implements SessionAware,
      * @return ActionForward
      * @throws Exception
      */
-    //If this is a Submittal do the following	
-	public String submittal()
+   public String submittal()
 			throws Exception {
-//        if (!isTokenValid(request)) {
-//			return mapping.findForward("failure");
-//		}
-		
+
 		setDataFormDetails();
 		
 		List<String> errors = validateForPreviewOrSubmit();
@@ -346,7 +304,6 @@ public class GeneExpressionAction extends ActionSupport implements SessionAware,
 		sessionMap.put("currentPage", "0");
 		sessionMap.remove("currentPage2");
 		String sessionId = this.servletRequest.getSession().getId();
-		//GeneExpressionForm geneExpressionForm = (GeneExpressionForm) form;
  
 	 /*The following 15 lines of code/logic will eventually need to be moved/re-organized. All Genes queries should have their own actions, forms, etc. For
 	  * now, in order to properly validate an all genes query and STILL be able to forward back to
@@ -380,16 +337,13 @@ public class GeneExpressionAction extends ActionSupport implements SessionAware,
 	  		    }
 		    }
 		   //All Genes validation ENDS HERE 
-		   
 		
-		// Create Query Objects
 		GeneExpressionQuery geneExpQuery = createGeneExpressionQuery(form, this.servletRequest.getSession());
 	    
         //Check user credentials and constrain query by Institutions
         if(geneExpQuery != null){
         	geneExpQuery.setInstitutionCriteria(InsitutionAccessHelper.getInsititutionCriteria(this.servletRequest.getSession()));
-            }
-        logger.debug("This is a Gene Expression Submital");
+        }
 	   
 		if (!geneExpQuery.isEmpty()) {
 			SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
@@ -402,8 +356,6 @@ public class GeneExpressionAction extends ActionSupport implements SessionAware,
         	addActionError(msg);
 		    return "backToGeneExp"; 
 		}
-        
-		//resetToken(request);
         
 		return "advanceSearchMenu";
 	}
@@ -476,12 +428,9 @@ public class GeneExpressionAction extends ActionSupport implements SessionAware,
 	
 	public String getCytobands()
 			throws Exception {
-
-		//GeneExpressionForm geForm = form;
+		
 		validateGetCytobands();
 		
-		//This is the static list of chromosomes that is fetched the first time it is needed
-		//List chromosomes = geneExpressionFormInSession.getChromosomes();
 		List chromosomes = form.getChromosomes();
 		
 		//IMPORTANT! geForm.chromosomeNumber is NOT the chromosome number.  It is the index
@@ -489,19 +438,13 @@ public class GeneExpressionAction extends ActionSupport implements SessionAware,
 		String chromosomeIndex = form.getChromosomeNumber();
 		if(!"".equals(chromosomeIndex)) {
 			ChromosomeBean bean = (ChromosomeBean)chromosomes.get(Integer.parseInt(chromosomeIndex));
-			//geForm.setCytobands(bean.getCytobands());
-			List cyto = bean.getCytobands();
-//			geneExpressionFormInSession.setChromosomeNumber(chromosomeIndex);
-//			geneExpressionFormInSession.setChromosomeRegionCriteria(chromosomeIndex);
-//			geneExpressionFormInSession.setCytobands(bean.getCytobands());
-			
+					
 			form.setChromosomeNumber(chromosomeIndex);
 			form.setChromosomeRegionCriteria(chromosomeIndex);
 			form.setCytobands(bean.getCytobands());
 	
 		}
 
-		//geneExpressionForm = geneExpressionFormInSession;
 		sessionMap.put("geneExpressionForm", form);
 		return "backToGeneExp";
 	}
