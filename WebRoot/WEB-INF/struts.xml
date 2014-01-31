@@ -8,6 +8,7 @@
     <constant name="struts.enable.DynamicMethodInvocation" value="false" />
     <constant name="struts.devMode" value="true" />
     <constant name="struts.custom.i18n.resources" value="ApplicationResources" />
+    <constant name="struts.multipart.maxSize" value="31457280" />
  	
     <package name="default" extends="struts-default" namespace="/">
 
@@ -433,11 +434,7 @@
         </result>
    </action>
    
-   <!-- input="nautilus.refine" 
-    scope="request"
-            parameter="method"
-            validate="true"-->
-   <action name="refineQueryRunReport"
+  <action name="refineQueryRunReport"
             class="gov.nih.nci.rembrandt.web.struts2.action.RefineQueryAction" method="runReport">
          
          <result name="success" type="redirectAction">
@@ -677,6 +674,48 @@
 		<result name="success" type="tiles">nautilus.viewResults</result>
 	</action>
     <!-- End Download actions -->
+    
+    <!-- Start workspace actions -->
+    
+    <action name="exportWorkspaceFile"
+		class="gov.nih.nci.rembrandt.web.struts2.action.ExportWorkspaceAction">
+	</action>
+	
+	<!-- 
+	name="importWorkspaceForm"
+		scope="request"
+		input="nautilus.importWorkspace"
+		validate="true"
+	 -->
+	<action name="importWorkspaceFile"
+		class="gov.nih.nci.rembrandt.web.struts2.action.ImportWorkspaceAction">
+    <interceptor-ref name="defaultStack"></interceptor-ref>  
+        <result name="input" type="tiles">nautilus.importWorkspace</result>  
+		<result name="success" type="tiles">nautilus.manageWorkspace</result>
+		<result name="failure" type="tiles">nautilus.importWorkspace</result>
+	</action>
+    
+    <action name="manageLists" 
+    	class="gov.nih.nci.rembrandt.web.struts2.action.WorkspaceAction" method="manageLists">
+    	<result name="manageLists" type="tiles">nautilus.manageLists</result>
+    </action>
+    
+    <action name="organizeWorkspace" 
+    	class="gov.nih.nci.rembrandt.web.struts2.action.WorkspaceAction" method="organize">
+    	<result name="organizeWorkspace" type="tiles">nautilus.manageWorkspace</result>
+    </action>
+    
+    <action name="importWorkspace" 
+    	class="gov.nih.nci.rembrandt.web.struts2.action.WorkspaceAction" method="importWorkspace">
+    	<result name="importWorkspace" type="tiles">nautilus.importWorkspace</result>
+    </action>
+    
+    <action name="exportWorkspace" 
+    	class="gov.nih.nci.rembrandt.web.struts2.action.WorkspaceAction" method="exportWorkspace">
+    	<result name="exportWorkspace" type="tiles">nautilus.exportWorkspace</result>
+    </action>  
+    
+    <!-- End workspace actions -->
 	
 	<action name="analysisHome"
 		class="gov.nih.nci.rembrandt.web.struts2.action.DoFirst">
