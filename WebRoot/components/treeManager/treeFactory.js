@@ -83,7 +83,7 @@ var TreeUtils = {
   },
   exportFile: function(branch)  {
   	var root = branch.getAncestor();
-    window.location.replace( "/rembrandt/exportWorkspaceFile.do?node_name=" + branch.getText() + "&node_type=" + root.getText() );
+    window.location.replace( "/rembrandt/exportWorkspaceFile.action?node_name=" + branch.getText() + "&node_type=" + root.getText() );
   },
   addCursorHand: function(branch)  {
     branch.addClass("tafelTreedrag");
