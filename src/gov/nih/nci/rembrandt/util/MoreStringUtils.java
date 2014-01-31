@@ -190,6 +190,30 @@ public class MoreStringUtils extends StringUtils{
 		
 		return cleanJavascriptAndSpecialChars(unallowableCharacters, stringToClean);
 	}
+	
+	/**
+	 * Replace token like "{0}" in action errors (configured in ApplicationResources.properties)
+	 * with given param at given position
+	 * 
+	 * @param error error message from ApplicationResources.properties
+	 * @param param value to replace token. Same token could repeat in error messages
+	 * @param paramIndex param number (0, 1, 2...) of the token to be replaced
+	 * @return if success, error with param value inserted <br>
+	 * 		   if error, original error
+	 */
+	public static String insertParameterToErrorString(String error, String param, int paramIndex)  {
+		if (error == null || error.length() == 0) 
+			return error;
+		
+		if (paramIndex < 0)
+			return error;
+		
+		//patttern: "{n}" with optional spaces between "{" or "}" and the number
+		String regEx = "\\{ ?" + String.valueOf(paramIndex) + " ?\\}";
+		
+		return error.replaceAll(regEx, param);
+	}
+	
 }
 
 
