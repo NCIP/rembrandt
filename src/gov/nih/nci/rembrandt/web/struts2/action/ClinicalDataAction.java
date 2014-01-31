@@ -41,6 +41,7 @@ import gov.nih.nci.rembrandt.dto.query.ClinicalDataQuery;
 import gov.nih.nci.rembrandt.dto.query.CompoundQuery;
 import gov.nih.nci.rembrandt.queryservice.QueryManager;
 import gov.nih.nci.rembrandt.service.findings.RembrandtAsynchronousFindingManagerImpl;
+import gov.nih.nci.rembrandt.util.MoreStringUtils;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 import gov.nih.nci.rembrandt.web.bean.SessionQueryBag;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
@@ -68,6 +69,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.struts.action.ActionMapping;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 
@@ -233,9 +235,14 @@ public class ClinicalDataAction extends ActionSupport implements SessionAware, S
     public String submittal()
             throws Exception {
     	
-    	//if (!isTokenValid(request)) {
-		//	return mapping.findForward("failure");
-		//}
+    	List<String> inputErrors = validateQueryName(form.getQueryName());
+    	if (inputErrors.size() > 0) {
+    		for (String error : inputErrors) {
+    			addActionError(error);
+    		}
+    		
+    		return "backToClinical";
+    	}
 
         this.servletRequest.getSession().setAttribute("currentPage", "0");
         this.servletRequest.getSession().removeAttribute("currentPage2");
@@ -278,9 +285,14 @@ public class ClinicalDataAction extends ActionSupport implements SessionAware, S
     public String preview()
             throws Exception {
     	
-    	//if (!isTokenValid(request)) {
-		//	return mapping.findForward("failure");
-		//}
+    	List<String> inputErrors = validateQueryName(form.getQueryName());
+    	if (inputErrors.size() > 0) {
+    		for (String error : inputErrors) {
+    			addActionError(error);
+    		}
+    		
+    		return "backToClinical";
+    	}
 
         this.servletRequest.getSession().setAttribute("currentPage", "0");
         this.servletRequest.getSession().removeAttribute("currentPage2");
@@ -572,8 +584,22 @@ public class ClinicalDataAction extends ActionSupport implements SessionAware, S
 	public void setForm(ClinicalDataForm form) {
 		this.form = form;
 	}
+	
+	//moved from the form class
+    public List<String> validateQueryName(String queryName) {
 
-
+        List<String> errors = new ArrayList<String>();
+        
+        if ((queryName == null || queryName.length() < 1))
+            errors.add("gov.nih.nci.nautilus.ui.struts.form.queryname.no.error");
+         
+        if (!MoreStringUtils.isURLSafe(queryName))
+            errors.add("gov.nih.nci.nautilus.ui.struts.form.queryname.illegal.characters");
+     
+        return errors;
+    }
+    
+    
 
 
 }
