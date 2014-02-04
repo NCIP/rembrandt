@@ -52,7 +52,7 @@
             <interceptor-ref name="defaultStack"/>  
     <result name="success">/legal.jsp</result>
     <result name="input" type="tiles">registration</result>
-    <result name="error" type="tiles">registration</result>
+    <result name="failure" type="tiles">registration</result>
     <result name="invalid.token" type="tiles">registration</result>
     </action>
     
@@ -60,6 +60,25 @@
 		class="gov.nih.nci.rembrandt.web.struts2.action.RegistrationAction">
 		<result name="success" type="tiles">registration</result>
 	</action>
+	
+	<action name="logoutPage"
+           class="gov.nih.nci.rembrandt.web.struts2.action.LogoutPageAction">
+    	<result name="logout" type="tiles">nautilus.logout</result>
+    	<result name="failure">error.jsp</result>
+   
+    </action>  
+       
+       <!--  name="logoutForm"
+           scope="request"
+           input="nautilus.logout" --> 
+    <action name="logout"
+           class="gov.nih.nci.rembrandt.web.struts2.action.LogoutAction">
+    	<result name="logout">login.jsp</result>
+    	<result name="dontLogout" type="redirectAction">
+        	 <param name="actionName">viewResults</param>
+         </result>
+     	<result name="failure">error.jsp</result>
+    </action>
 	
 	<action name="home"
 		class="gov.nih.nci.rembrandt.web.struts2.action.DoFirst">
