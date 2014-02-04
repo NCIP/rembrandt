@@ -93,8 +93,7 @@ L--%>
 		
 		<b class="msg">Login with your current credentials</b>
 		<br/><br/>
-		<!--  html:errors property="invalidLogin" /> -->
-		<s:actionerror />
+		<s:fielderror fieldName="invalidLogin" />
 		<br/><br/>
 			<div class="h">Login:</div>
 			<div class="r"><label for="userName">Username:</label> <input type="text" name="loginForm.userName" id="userName"/></div>

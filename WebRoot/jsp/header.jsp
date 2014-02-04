@@ -28,16 +28,22 @@ Welcome&nbsp;
 </p>-->
 
 <!--header REMBRANDT image map-->
-<% 
-String toPage = "menu.do";
-UserCredentials credentials = (UserCredentials)session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
-if (credentials == null || (credentials.getUserName() != null && credentials.getUserName().equalsIgnoreCase("RBTuser"))) {
-	toPage = "login.do";
-} 
- %>
+
 <div style="width:765px; border-bottom: 1px solid #000000; margin:0px;">
 <map name="headerMap">
-<area alt="REMBRANDT application logo" coords="7,8,272,50" href="<%= toPage%>">
+<% 
+UserCredentials credentials = (UserCredentials)session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
+if (credentials == null || (credentials.getUserName() != null && credentials.getUserName().equalsIgnoreCase("RBTuser"))) {
+	%>
+	<area alt="REMBRANDT application logo" coords="7,8,272,50" href="<s:url action="login" namespace='/' />">
+<% 
+}else {
+%>
+<area alt="REMBRANDT application logo" coords="7,8,272,50" href="<s:url action="menu" namespace='/' />">
+<% 
+} 
+ %>
+
 </map>
 <img src="images/header.jpg" width="765" height="65" alt="REMBRANDT application logo" border="0" usemap="#headerMap">
 </div>

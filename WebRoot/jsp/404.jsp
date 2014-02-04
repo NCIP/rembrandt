@@ -25,7 +25,8 @@ L--%>
 <div align="center" width="765px">
 <div style="width:765px; border-bottom: 1px solid #000000; margin:0px;">
 <map name="headerMap">
-<area alt="REMBRANDT website" coords="7,8,272,50" href="login.do">
+<s:url action="login" namespace="/" id="aURL"></s:url>
+<area alt="REMBRANDT website" coords="7,8,272,50" href="%{aURL}">
 </map>
 <img src="<%=request.getContextPath()%>/images/header.jpg" width="765" height="65" alt="REMBRANDT application logo" border="0" usemap="#headerMap">
 </div>

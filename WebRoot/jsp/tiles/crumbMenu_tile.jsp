@@ -35,12 +35,12 @@ L--%>
 UserCredentials credent = (UserCredentials)session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
 if (credent == null || (credent.getUserName() != null && credent.getUserName().equalsIgnoreCase("RBTuser"))) {
 %>
-<!-- Shan: login action is not configured now -->
-<s:url action="login" namespace="/" id="aURL"></s:url>
+
+	<s:url action="login" namespace="/" id="aURL"></s:url>
 <%} else { %>
 	<s:url action="menu" namespace="/" id="aURL"></s:url>
 <%} %>
-<s:a style="font-size:.8em" href="%{aURL}">Home-Need fix</s:a>&nbsp;&nbsp;&nbsp;
+<s:a style="font-size:.8em" href="%{aURL}">Home</s:a>&nbsp;&nbsp;&nbsp;
 
 
 <app:cshelp topic="Welcome" style="font-size:.8em" text="Help"/>&nbsp;&nbsp;&nbsp;
@@ -56,9 +56,10 @@ if(session.getAttribute("name") != null)	{
     Welcome, &nbsp;
     <% out.println(session.getAttribute("name")); %>
     &nbsp;|&nbsp;
-    <a style="font-size:.85em;" href="logoutPage.do">
+    <s:url action="logoutPage" id="aURL" />
+    <s:a style="font-size:.85em;" href="%{aURL}">
       Logout
-    </a>
+    </s:a>
 <% } 
 	else	{
 %>
