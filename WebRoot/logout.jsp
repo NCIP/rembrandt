@@ -6,11 +6,11 @@
 L--%>
 
 <%@ page language="java" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="/WEB-INF/rembrandt.tld"  prefix="app" %>
 <script language="javascript" src="js/lib/scriptaculous/scriptaculous.js"></script>
 <app:cshelp topic="Logging_out" />
- <html:form action="logout.do">
+ <s:form action="logout" theme="simple">
 	<fieldset class="gray">
 		<legend class="red">
 		Thank you for visiting the REMBRANDT application
@@ -18,15 +18,17 @@ L--%>
 		<br clear="both"/>
 		You cannot save the current session if you are logged in as a guest user (RBTuser).
 	<br /><br />
-		<html:radio styleClass="radio" property="procedure" value="logoutSave" />
+		<input type="radio" name="form.procedure" class="radio" value="logoutSave" />
 		Save my current session and logout. 
 		<app:help help="This will save all queries and preferences from your current browser session in addition to queries from your previous session(s)." />
 		<br />
-		<html:radio styleClass="radio" property="procedure" value="logoutNoSave" />
+		
+		<input type="radio" name="form.procedure" class="radio" value="logoutNoSave" />
 		Do not save my current session and logout. 
 		<app:help help="This will not save any queries or preferences from your current browser session." />
 		<br/>
-		<html:radio styleClass="radio" property="procedure" value="dontLogout" />
+		
+		<input type="radio" name="form.procedure" class="radio" value="dontLogout" />		
 		Continue working in the application and do not logout. 
 		
 		<br /><br />
@@ -36,27 +38,27 @@ L--%>
 		<div id="survey" style="display:none;border:2px dotted silver;border-top:1px solid silver;">
 			<div style="margin:10px;">
 			The feature I used/liked the most this session: 
-			<select id="usedMost" name="usedMost">
+			<select id="usedMost" name="form.usedMost">
 				<option value="">N/A</option>
-			</select>
+			<select>
 			<br/><br/>
 			The feature I used/liked the least this session: 
-			<select id="usedLeast" name="usedLeast">
+			<select id="usedLeast" name="form.usedLeast">
 				<option value="">N/A</option>
-			</select>
+			<select>
 			<br/><br/>
 			General Feedback:<br/>
-			<textarea style="width:90%" name="generalFeedback"></textarea>
+			<textarea style="width:90%" name="form.generalFeedback"></textarea>
 			<br/>
 			We appreciate your input.
 			</div>
 		</div>
 		<br/>
 		<div align="center">
-		<html:submit styleClass="xbutton" />
+		<s:submit styleClass="xbutton" />
 		</div>
    </fieldset>
-</html:form>
+</s:form>
 
 <script language="javascript">
 	
