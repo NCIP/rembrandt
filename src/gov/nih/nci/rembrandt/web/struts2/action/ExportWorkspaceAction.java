@@ -124,6 +124,9 @@ public class ExportWorkspaceAction extends ActionSupport implements SessionAware
 	HttpServletRequest servletRequest;
 	HttpServletResponse servletReponse;
 	
+	String node_name;
+	String node_type;
+	
 	/**
 	 * execute is called when this action is posted to
 	 * <P>
@@ -139,8 +142,8 @@ public class ExportWorkspaceAction extends ActionSupport implements SessionAware
 		WorkspaceList exportListFolder = null;
 		WorkspaceQuery exportQueryFolder = null;
 		
-		String nodeName = this.servletRequest.getParameter( "node_name" );
-		String nodeType = this.servletRequest.getParameter( "node_type" );
+		String nodeName = this.node_name; // this.servletRequest.getParameter( "node_name" );
+		String nodeType = this.node_type; // this.servletRequest.getParameter( "node_type" );
 		
 		if ( nodeType.equals( "Lists")) {
 			UserListBeanHelper ulbh = new UserListBeanHelper(sess.getId());
@@ -335,6 +338,22 @@ public class ExportWorkspaceAction extends ActionSupport implements SessionAware
 	@Override
 	public void setServletResponse(HttpServletResponse arg0) {
 		this.servletReponse = arg0;
+	}
+
+	public String getNode_name() {
+		return node_name;
+	}
+
+	public void setNode_name(String node_name) {
+		this.node_name = node_name;
+	}
+
+	public String getNode_type() {
+		return node_type;
+	}
+
+	public void setNode_type(String node_type) {
+		this.node_type = node_type;
 	}
 	
 	

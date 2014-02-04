@@ -13,6 +13,7 @@ import gov.nih.nci.caintegrator.application.lists.ListOrigin;
 import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBean;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
+import gov.nih.nci.rembrandt.util.ApplicationContext;
 import gov.nih.nci.caintegrator.dto.de.InstitutionDE;
 import gov.nih.nci.caintegrator.exceptions.FindingsQueryException;
 import gov.nih.nci.caintegrator.security.SecurityManager;
@@ -113,7 +114,7 @@ import com.opensymphony.xwork2.ActionSupport;
 */
 
 
-public final class LoginAction extends ActionSupport implements SessionAware, ServletRequestAware
+public final class LoginAction extends ActionSupport implements ServletRequestAware
 {
     private static Logger logger = Logger.getLogger(LoginAction.class);
     
@@ -124,9 +125,10 @@ public final class LoginAction extends ActionSupport implements SessionAware, Se
 			.getInstance("rembrandt");
     private UserCredentials credentials;
     
-    private HttpServletRequest request;
+    private HttpServletRequest servletRequest;
     
     LoginForm loginForm;
+    String token;
     
     public String execute()
     {
@@ -138,17 +140,14 @@ public final class LoginAction extends ActionSupport implements SessionAware, Se
     	 * saved session.
     	 */
     	
-    	request = ServletActionContext.getRequest();
-    	String sID = request.getHeader("Referer");
+    	String sID = this.servletRequest.getHeader("Referer");
     	
     	// prevents Referer Header injection
     	if ( sID != null && sID != "" && !sID.contains("rembrandt")) {
-    		
-    		//return (mapping.findForward("failure"));
-    		return ERROR;
+    		return "failure";
     	}
     	
-        HttpSession session = request.getSession();
+        HttpSession session = this.servletRequest.getSession();
         ServletContext context = session.getServletContext();
         RembrandtListLoader myListLoader = (RembrandtListLoader) SpringContext.getBean("listLoader");
         SessionQueryBag theBag = null;
@@ -164,84 +163,83 @@ public final class LoginAction extends ActionSupport implements SessionAware, Se
         	logger.error("Failed to schedule the job: " + se.getMessage());
         }
        
-    
         LoginForm f = loginForm;
         
         String error = validateLogin(f.getUserName(), f.getPassword());
         
         if(!f.getUserLoggedIn()) {
-        	addActionError(error);
-        	return ERROR;
-            //return (mapping.findForward("failure"));  
+        	addFieldError("invalidLogin", error);
+        	return "failure";  
         }
         
         session.setAttribute("autoLogged", "no");
         
         //Shan: seems this is never set to "no"
-        	session.setAttribute("logged", "yes");
-            session.setAttribute("name", f.getUserName());
-            UserPreferencesBean userPreferencesBean = new UserPreferencesBean();
-            session.setAttribute(RembrandtConstants.USER_PREFERENCES,userPreferencesBean);
-        	//UserCredentials credentials = (UserCredentials)session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
-    		if(credentials.getUserId() != null  && !credentials.getUserName().equals("RBTuser")){
-                 session.setAttribute("email", credentials.getEmailAddress());
-    			 theBag = WorkspaceHelper.loadSessionQueryBagFromDB(session,credentials.getUserId());
-    			 WorkspaceHelper.loadListTreeStructures(session);
-    			 WorkspaceHelper.loadQueryTreeStructures(session);
-    		}
+        session.setAttribute("logged", "yes");
+        session.setAttribute("name", f.getUserName());
+        UserPreferencesBean userPreferencesBean = new UserPreferencesBean();
+        session.setAttribute(RembrandtConstants.USER_PREFERENCES,userPreferencesBean);
+        //UserCredentials credentials = (UserCredentials)session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
+        if(credentials.getUserId() != null  && !credentials.getUserName().equals("RBTuser")){
+        	session.setAttribute("email", credentials.getEmailAddress());
+        	theBag = WorkspaceHelper.loadSessionQueryBagFromDB(session,credentials.getUserId());
+        	WorkspaceHelper.loadListTreeStructures(session);
+        	WorkspaceHelper.loadQueryTreeStructures(session);
+        }
 
-    		if(theBag != null){
-        		_cacheManager.putSessionQueryBag(session.getId(), theBag);
-        	}else{ //user has no previously saved session so create one
-        		_cacheManager.putSessionQueryBag(session.getId(), new SessionQueryBag());
-        	} 
-            
-            UserListBean userListBean = new UserListBean();
-            try {
-            	userListBean = myListLoader.loadDiseaseGroups(userListBean, session);
-            } catch (OperationNotSupportedException e) {
-            	// TODO Auto-generated catch block
-            	e.printStackTrace();
-            }
-           
+        if(theBag != null){
+        	_cacheManager.putSessionQueryBag(session.getId(), theBag);
+        }else{ //user has no previously saved session so create one
+        	_cacheManager.putSessionQueryBag(session.getId(), new SessionQueryBag());
+        } 
 
-            UserListBeanHelper userListBeanHelper = new UserListBeanHelper(session.getId());
-            
-            //load institution based lists
-			Collection<InstitutionDE> institutions = InsitutionAccessHelper.getInsititutionCollection(session);
-			if(institutions != null){
-				for(InstitutionDE institution:institutions){
-	            List<UserList> userLists = (List<UserList>) myListLoader.loadUserListsByInstitution(institution.getInstituteName());
-		            if(userLists != null && userLists.size() > 0){
-		            	for(UserList ul: userLists){
-                            userListBean.addList(ul);
-		            	}
-		            }
-				}
-			}
-			//load custom lists
-	            List<UserList> userLists = WorkspaceHelper.loadCustomListsFromDB(credentials.getUserName());
-		            if(userLists != null && userLists.size() > 0){
-		            	WorkspaceHelper.fetchListWorkspaceFromDB(session, credentials.getUserId());
-		            	for(UserList ul: userLists){
-                            userListBean.addList(ul);
-		            	}
-		            }
+        UserListBean userListBean = new UserListBean();
+        try {
+        	userListBean = myListLoader.loadDiseaseGroups(userListBean, session);
+        } catch (OperationNotSupportedException e) {
+        	// TODO Auto-generated catch block
+        	e.printStackTrace();
+        }
 
-            userListBeanHelper.addBean(session.getId(),CacheConstants.USER_LISTS,userListBean);
-            //load persisted Q
-            
-            String reportName = (String) request.getSession().getAttribute("emailFileName");
-            if(reportName != null){       	
-		        RembrandtAsynchronousFindingManagerImpl asynchronousFindingManagerImpl = new RembrandtAsynchronousFindingManagerImpl();
-		        try {						
-						asynchronousFindingManagerImpl.retrieveResultsFromFile(request.getSession().getId(), reportName, credentials.getUserName(), request.getSession());
-				} catch (FindingsQueryException e) {
-					logger.error(e.getMessage());				
-				}
-            }
-            //return (mapping.findForward("success"));
-            return SUCCESS;
+
+        UserListBeanHelper userListBeanHelper = new UserListBeanHelper(session.getId());
+
+        //load institution based lists
+        Collection<InstitutionDE> institutions = InsitutionAccessHelper.getInsititutionCollection(session);
+        if(institutions != null){
+        	for(InstitutionDE institution:institutions){
+        		List<UserList> userLists = (List<UserList>) myListLoader.loadUserListsByInstitution(institution.getInstituteName());
+        		if(userLists != null && userLists.size() > 0){
+        			for(UserList ul: userLists){
+        				userListBean.addList(ul);
+        			}
+        		}
+        	}
+        }
+        //load custom lists
+        List<UserList> userLists = WorkspaceHelper.loadCustomListsFromDB(credentials.getUserName());
+        if(userLists != null && userLists.size() > 0){
+        	WorkspaceHelper.fetchListWorkspaceFromDB(session, credentials.getUserId());
+        	for(UserList ul: userLists){
+        		userListBean.addList(ul);
+        	}
+        }
+
+        userListBeanHelper.addBean(session.getId(),CacheConstants.USER_LISTS,userListBean);
+        //load persisted Q
+
+        String reportName = (String) this.servletRequest.getSession().getAttribute("emailFileName");
+        if(reportName != null){       	
+        	RembrandtAsynchronousFindingManagerImpl asynchronousFindingManagerImpl = new RembrandtAsynchronousFindingManagerImpl();
+        	try {						
+        		asynchronousFindingManagerImpl.retrieveResultsFromFile(this.servletRequest.getSession().getId(), 
+        				reportName, credentials.getUserName(), this.servletRequest.getSession());
+        	} catch (FindingsQueryException e) {
+        		logger.error(e.getMessage());				
+        	}
+        }
+       
+        return "success";
     }
     
     private UserList getUserList(UserList theList){
@@ -274,18 +272,6 @@ public final class LoginAction extends ActionSupport implements SessionAware, Se
     public void setListLoader(RembrandtListLoader listLoader) {
         this.listLoader = listLoader;
     }
-    
-    
-    @Override
-   	public void setServletRequest(HttpServletRequest arg0) {
-   		// TODO Auto-generated method stub
-   		
-   	}
-   	@Override
-   	public void setSession(Map<String, Object> arg0) {
-   		// TODO Auto-generated method stub
-   		
-   	}
    	
    	@Override
     public void validate(){
@@ -293,11 +279,11 @@ public final class LoginAction extends ActionSupport implements SessionAware, Se
    		String password = this.loginForm.getPassword();
         
    		if(userName == null || userName.length() == 0){
-            addActionError("error.userName");
+            addFieldError("invalidLogin", "Invalid User Name");
         }
    		
         if(password == null || password.length() == 0){
-            addActionError("error.password");
+        	addFieldError("invalidLogin", "Invalid Password");
         }
     }
 
@@ -311,13 +297,6 @@ public final class LoginAction extends ActionSupport implements SessionAware, Se
    	
 
 	public String validateLogin(String userName, String password) {
-		//ActionErrors errors = new ActionErrors();
-		
-		if (userName == null || password.equals("")) {
-			//errors.add("User Name:", new ActionError("error.userName"));
-			//errors.add("Password:", new ActionError("error.password"));
-			return "error.userName";
-		}
 		
 		try {
 			boolean authenticate = false;
@@ -357,15 +336,28 @@ public final class LoginAction extends ActionSupport implements SessionAware, Se
 		if (credentials != null && credentials.authenticated()) {
 			//request.getSession().invalidate();
 			this.loginForm.setUserLoggedIn(true);
-			request.getSession().setAttribute(RembrandtConstants.USER_CREDENTIALS,credentials);
+			this.servletRequest.getSession().setAttribute(RembrandtConstants.USER_CREDENTIALS,credentials);
 		} else {
-			//errors.add("invalidLogin", new ActionError(
-			//		"gov.nih.nci.nautilus.ui.struts.form.invalidLogin.error"));
-			
-			error = "Invalid login";
+			error = ApplicationContext.getLabelProperties().getProperty(
+	    			"gov.nih.nci.nautilus.ui.struts.form.invalidLogin.error");
 		}
 
-		return "";
+		return error;
 	}
+
+	@Override
+	public void setServletRequest(HttpServletRequest arg0) {
+		this.servletRequest = arg0;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+	
+	
  
 }

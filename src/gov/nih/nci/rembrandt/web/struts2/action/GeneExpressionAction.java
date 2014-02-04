@@ -9,7 +9,7 @@ package gov.nih.nci.rembrandt.web.struts2.action;
 
 import gov.nih.nci.caintegrator.application.lists.UserList;
 import gov.nih.nci.caintegrator.application.lists.UserListBeanHelper;
-import gov.nih.nci.caintegrator.application.util.ApplicationContext;
+import gov.nih.nci.rembrandt.util.ApplicationContext;
 import gov.nih.nci.caintegrator.dto.critieria.AllGenesCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.ArrayPlatformCriteria;
 import gov.nih.nci.caintegrator.dto.critieria.CloneOrProbeIDCriteria;
