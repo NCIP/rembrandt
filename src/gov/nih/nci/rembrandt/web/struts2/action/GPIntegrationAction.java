@@ -106,7 +106,7 @@ public class GPIntegrationAction extends ActionSupport implements ServletRequest
 			for (String error : errors)
 				addActionError(error);
 			
-			return "success";
+			return setup();
 		}
     	
     	   String sessionId = getServletRequest().getSession().getId();

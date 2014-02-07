@@ -68,7 +68,7 @@ public class IgvIntegrationAction extends GPIntegrationAction {
 			for (String error : errors)
 				addActionError(error);
 			
-			return "success";
+			return setup();
 		}
 		
 	   String sessionId = getServletRequest().getSession().getId();
