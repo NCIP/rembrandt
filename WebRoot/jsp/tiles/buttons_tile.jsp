@@ -23,7 +23,6 @@ function refresh()	{
 </script>
 
 <s:if test="queryKey == null">
-query key is null
 <input type="button" id="clearButton" class="xbutton" value="Clear" onclick="refresh();"/>
 </s:if>
 
@@ -42,7 +41,7 @@ query key is null
 
 	<s:if test="form.geneOption == null || form.geneOption.length() == 0" >
 			
-		<input type="button" id="previewButton" name="previewButton" class="xbutton" value="Preview-GE" 
+		<input type="button" id="previewButton" name="previewButton" class="xbutton" value="Preview" 
 			onclick="handlePreviewButton();"/>
 			
 		&nbsp;&nbsp;
@@ -53,19 +52,19 @@ query key is null
 			<s:submit type="button" id="previewButton" action="gePreview" class="xbutton" theme="simple"
 				onclick="handlePreviewButton();">Preview-GE2</s:submit>
 				-->
-			<input type="button" id="previewButton" name="previewButton" class="xbutton" value="Preview-GE2" 
+			<input type="button" id="previewButton" name="previewButton" class="xbutton" value="Preview" 
 			onclick="handlePreviewButton();"/>
 	&nbsp;&nbsp;
  	</s:if>
  	
 	<s:if test="form.geneOption.equals('geneList')">
-	<input type="button" id="previewButton" name="previewButton" class="xbutton" value="Preview-GE3" 
+	<input type="button" id="previewButton" name="previewButton" class="xbutton" value="Preview" 
 		onclick="handlePreviewButton();"/>
 		&nbsp;&nbsp;
  	</s:if>
  	
  	<s:if test="#previewAction.startsWith('cd')">
- 		<input type="button" id="previewButton" name="previewButton" class="xbutton" value="Preview-CD" 
+ 		<input type="button" id="previewButton" name="previewButton" class="xbutton" value="Preview" 
 		onclick="handlePreviewButton();"/>
 		&nbsp;&nbsp;
  	</s:if>
