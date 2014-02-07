@@ -87,8 +87,8 @@ if(queryCollection != null)	{
 	     while(iter.hasNext())	{
 	     	queryKey = (String)iter.next();
 	     	queryKeyId = queryKey+j;
-	     	out.println("QueryKey: " + queryKey + "====");
-	     	out.println("QueryKeyID: " + queryKeyId + "==");
+	     	//out.println("QueryKey: " + queryKey + "====");
+	     	//out.println("QueryKeyID: " + queryKeyId + "==");
 			String queryName = queryCollection.getQuery(queryKey).toString();
 			if(query.equalsIgnoreCase(queryName))	{
 				break;
