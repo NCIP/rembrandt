@@ -106,7 +106,7 @@ import com.opensymphony.xwork2.ActionSupport;
 * 
 */
 
-public class DoFirst extends ActionSupport implements SessionAware, ServletRequestAware {
+public class DoFirst extends ActionSupport implements ServletRequestAware {
 	private static SecurityManager securityManager = SecurityManager
 			.getInstance("rembrandt");
 	
@@ -220,24 +220,15 @@ public class DoFirst extends ActionSupport implements SessionAware, ServletReque
 			//TODO: watch this
 			//saveToken(aRequest);
 		
-		return SUCCESS;
+		return "success";
 
 	}
 
 
 	@Override
 	public void setServletRequest(HttpServletRequest arg0) {
-		// TODO Auto-generated method stub
-		
+		request = arg0;
 	}
-
-
-	@Override
-	public void setSession(Map<String, Object> arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 	public QuickSearchForm getQuickSearchForm() {
 		return quickSearchForm;
@@ -247,17 +238,6 @@ public class DoFirst extends ActionSupport implements SessionAware, ServletReque
 	public void setQuickSearchForm(QuickSearchForm quickSearchForm) {
 		this.quickSearchForm = quickSearchForm;
 	}
-
-
-	public HttpServletRequest getRequest() {
-		return request;
-	}
-
-
-	public void setRequest(HttpServletRequest request) {
-		this.request = request;
-	}
-
 
 	public String getDataName() {
 		return dataName;
