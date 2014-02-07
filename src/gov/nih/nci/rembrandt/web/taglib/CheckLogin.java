@@ -7,6 +7,7 @@
 
 package gov.nih.nci.rembrandt.web.taglib;
 
+import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
 
 import java.io.IOException;
@@ -116,16 +117,21 @@ public final class CheckLogin extends TagSupport
     {
         boolean valid = false;
         HttpSession session = pageContext.getSession();
+        
         if(session != null && session.getAttribute(RembrandtConstants.USER_CREDENTIALS) != null)
             valid = true;
+       
         if(valid)
             return 6;
-        ModuleConfig config = (ModuleConfig)pageContext.getServletContext().getAttribute("org.apache.struts.action.MODULE");
+        
+        //ModuleConfig config = (ModuleConfig)pageContext.getServletContext().getAttribute("org.apache.struts.action.MODULE");
+        //String path = pageContext.getServletContext().getContextPath();
+        
         try
         {
         	//Shan
             //pageContext.forward(config.getPrefix() + page);
-        	pageContext.forward("/login.jsp");
+        	pageContext.forward(page);
         	
         }
         catch(ServletException e)
