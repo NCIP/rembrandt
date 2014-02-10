@@ -86,7 +86,7 @@
 	  <a href="#" onclick="javascript:toggleDiv('hideme');return false;" title="Show or Hide Report Tools."><img alt="Show or Hide Report Tools" align="right" src="images/tools.png" border="0" /></a>
    	</span>
 
-	<form action="runReport.do?method=runGeneViewReport" name="paginate" method="post">
+	<form action="runGeneViewReport" name="paginate" method="post">
 	<input type="hidden" name="queryName" value="{$qName}" />
 	<input type="hidden" name="filter_value2" value="{$filter_value2}" />
 	<input type="hidden" name="filter_value3" value="{$filter_value3}" />
@@ -94,10 +94,10 @@
 	<input type="hidden" name="showAllValues" value="{$showAllValues}"/>
 	</form>
 	
-	<form action="runReport.do?method=switchViews" method="post" target="_blank" name="switchViewsForm">
-	     <input type="hidden" name= "reportView" value="" />
-	     <input type="hidden" name="queryName" value="{$qName}" />
-	     <input type="hidden" name="samples" value="" />			
+	<form action="runSwitchViews" method="post" target="_blank" name="switchViewsForm">
+	     <input type="hidden" name= "reportGeneratorForm.reportView" value="" />
+	     <input type="hidden" name="reportGeneratorForm.queryName" value="{$qName}" />
+	     <input type="hidden" name="reportGeneratorForm.samples" value="" />			
 	</form>
 	
 	<div class="rptHeader">	
@@ -137,7 +137,7 @@
 	  <xsl:if test="@reportType != 'Gene Expression Disease' and @reportType != 'Clinical'" >
  
 	  <div class="filterForm">
-	  <form style="margin-bottom:0;" action="runReport.do?method=runGeneViewReport" method="post" name="filter_form">
+	  <form style="margin-bottom:0;" action="runGeneViewReport" method="post" name="filter_form">
 		<b><span class="lb">Filter:</span></b> 
 		<xsl:text>&#160;</xsl:text>
 		<span id="showOnlyLabel"><input type="radio" class="checkorradio" name="filter_type" id="showOnly_radio" value="show" /><label for="showOnly_radio">Show Only</label></span>
@@ -167,11 +167,11 @@
 	  
 	  <xsl:if test="$rType = 'Copy Number'">
 	  <div class="filterForm" id="cNumberFilter" style="display:none">
-	  <form style="margin-bottom:0;margin:0;" action="runReport.do?method=runFilterCopyNumber" method="post" name="cfilter_form">
+	  <form style="margin-bottom:0;margin:0;" action="runFilterCopyNumber" method="post" name="cfilter_form">
 		<b><span class="lb">Filter Options:</span></b> 
 		<xsl:text>&#160;</xsl:text>
 		<label for="filter_value5">No. of Consecutive SNPs:</label>
-		<select if="filter_value5" name="filter_value5">
+		<select if="filter_value5" name="reportGeneratorForm.filter_value5">
 			<option value="1">1</option>
 			<option value="2">2</option>
 			<option value="3">3</option>
@@ -222,7 +222,7 @@
 	  
 			
 	  <div class="filterForm">
-	  <form style="margin-bottom:0;" action="runReport.do?method=runGeneViewReport" method="post" name="highlight_form">
+	  <form style="margin-bottom:0;" action="runGeneViewReport" method="post" name="highlight_form">
 		<b><span class="lb"><label for="filter_value1">Highlight:</label></span></b> 
 		<xsl:text>&#160;</xsl:text>
 		<label for="filter_value4">highlight values</label> 
@@ -261,7 +261,8 @@
   	 <div class="filterForm">
 		<b><span class="lb">Show all Values:</span></b> 
 		<xsl:text>&#160;</xsl:text>
-		<input type="button" name="filter_submit" value="Show all values on this report" onclick="javascript:location.href='runReport.do?method=runShowAllValuesQuery&amp;queryName={$qName}';" />
+		<input type="button" name="filter_submit" value="Show all values on this report" 
+		onclick="javascript:location.href='runShowAllValuesQuery.action?queryName={$qName}';" />
 		<xsl:text>&#160;</xsl:text>
 		<input type="button" name="filter_submit" value="View Previous Report" onclick="javascript:doShowAllValues('{$qName}', false);" />
 		<xsl:text>&#160;</xsl:text>
@@ -406,8 +407,8 @@
 		    </tr>
 		</xsl:for-each>
 		
-		<form action="runReport.do?method=submitSpecimens" method="post" name="prbSamples">
-		<input type="hidden" name="queryName" value="{$qName}"/>
+		<form action="runSubmitSpecimens" method="post" name="prbSamples">
+		<input type="hidden" name="reportGeneratorForm.queryName" value="{$qName}"/>
 		<xsl:for-each select="Row[@name='sampleRow']">
 			<tr class="sampleRow">
 		  	<xsl:for-each select="Cell[@class != 'csv']">
@@ -419,7 +420,7 @@
 			  	
 			  	<xsl:if test="preceding::Cell[1]/Data[1]/text() != ' ' and $currentGroup = 'header'">
 			  	<td colspan="2" align="center">
-				  <input type="hidden" name="prbQueryName" value="{$qName}" size="10" />
+				  <input type="hidden" name="reportGeneratorForm.prbQueryName" value="{$qName}" size="10" />
 				  <!-- <input type="submit" name="prb_submitSamples" value="Save" style="width:40px" /> -->
 				 </td>
 			  	</xsl:if>
@@ -430,7 +431,7 @@
 			  <xsl:otherwise>
 		      	<td class="{$currentGroup}">
 		      	<xsl:if test="$specimen != '' and $specimen != ' ' and $showSampleSelect != 'false' and contains($qName,'previewResults') = false">
-		      		<input id ="{$currentGroup}" class="checkorradio" type="checkbox" name="samples" value="{$specimen}"/>
+		      		<input id ="{$currentGroup}" class="checkorradio" type="checkbox" name="reportGeneratorForm.samples" value="{$specimen}"/>
 		      	</xsl:if>
 		      	<!--
 		      		<a href="runReport.do?method=switchViews&amp;queryName={$qName}"><xsl:value-of select="Data" /></a>

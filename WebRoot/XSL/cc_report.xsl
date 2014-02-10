@@ -110,10 +110,10 @@
 			<input type="hidden" name="showAllValues" value="{$showAllValues}"/>
 		</form>
 	
-		<form action="runReport.do?method=switchViews" method="post" name="switchViewsForm">
-		     <input type="hidden" name= "reportView" value="" />
-		     <input type="hidden" name="queryName" value="{$qName}" />
-		     <input type="hidden" name="samples" value="" />			
+		<form action="runSwitchViews" method="post" name="switchViewsForm">
+		     <input type="hidden" name= "reportGeneratorForm.reportView" value="" />
+		     <input type="hidden" name="reportGeneratorForm.queryName" value="{$qName}" />
+		     <input type="hidden" name="reportGeneratorForm.samples" value="" />			
 		</form>
 	
 		<div class="rptHeader">	
@@ -327,8 +327,8 @@
 		    </tr>
 		</xsl:for-each>
 		
-		<form action="runReport.do?method=submitSamples" method="post" name="prbSamples">
-		<input type="hidden" name="queryName" value="{$qName}"/>
+		<form action="runSubmitSamples" method="post" name="prbSamples">
+		<input type="hidden" name="reportGeneratorForm.queryName" value="{$qName}"/>
 		
 		
 		

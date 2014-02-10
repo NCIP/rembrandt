@@ -171,7 +171,7 @@ function stupidXSL(i, cPage, total)	{
 	
 	function webGenome_cb(txt) {
 		if(txt!="fail")	{
-		var dest ="runReport.do?method=webGenomeRequest"
+		var dest ="runWebGenomeRequest.action";
 		var winw = 800;
 		var winh = 550;
 		spawn(dest, winw, winh);
@@ -392,7 +392,7 @@ function checkElement(id)	{
 function stupidXSLEscape(qname, rtype)	{
 	// For Preview Results, no checkboxes are shown for Samples. So, Export All by default.
 	if ( qname === 'previewResults' ) {
-		var dest = "runReport.do?method=runGeneViewReport&queryName="+ escape(qname)+"&csv=true";
+		var dest = "runGeneViewReport?queryName="+ escape(qname)+"&csv=true";
 		location.href = dest;
 		return;
 	}
@@ -424,7 +424,7 @@ function stupidXSLEscape(qname, rtype)	{
 
 function excel_export_cb(qnameAndrType) {
 	var qnameAndrTypeArray = qnameAndrType.split(",");
-	var dest = "runReport.do?method=exportToExcelForGeneView&queryName="+ escape(qnameAndrTypeArray[0])+"&reportType="+escape(qnameAndrTypeArray[1])+"&csv=true&checkedAll=true";
+	var dest = "runExportToExcelForGeneView.action?queryName="+ escape(qnameAndrTypeArray[0])+"&reportType="+escape(qnameAndrTypeArray[1])+"&csv=true&checkedAll=true";
 	location.href = dest;
 }
 function igvEscape(qname)	{
@@ -460,7 +460,6 @@ function igvEscape(qname)	{
 function igv_export_cb(qnameAndrType) {
 	var qnameAndrTypeArray = qnameAndrType.split(",");
 	var dest = "runReport.do?method=runIGVReport&queryName="+ escape(qnameAndrTypeArray[0])+"&reportType="+escape(qnameAndrTypeArray[1])+"&checkedAll=true"+"&igv=true";
-//	var dest = "runReport.do?method=runGeneViewReport&queryName="+ escape(qname)+"&igv=true";
 	location.href = dest;
 }
 function runFindingCSV(key)	{
@@ -488,7 +487,7 @@ function doShowAllValues(q, state)	{
 		oldq = q.substr(0, tmp);
 		//alert("'"+oldq+"'");
 		if(oldq!="")				
-			location.href='runReport.do?method=runGeneViewReport&queryName='+oldq;
+			location.href='runGeneViewReport.action?queryName='+oldq;
 	}
 }
 
