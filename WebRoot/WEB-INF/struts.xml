@@ -554,6 +554,49 @@
          <result name="failure">error.jsp</result>
     </action>
     
+    <action name="runWebGenomeRequest"
+	       class="gov.nih.nci.rembrandt.web.struts2.action.ReportGeneratorAction" method="webGenomeRequest">
+         <result name="webGenome" type="redirect">${webGenomeRequestUrl}</result>
+         <result name="failure">error.jsp</result>
+    </action>
+    
+    <action name="runExportToExcelForGeneView"
+	       class="gov.nih.nci.rembrandt.web.struts2.action.ReportGeneratorAction" method="exportToExcelForGeneView">
+         <result name="runGeneViewReport">jsp/geneViewReport.jsp</result>
+         <result name="failure">error.jsp</result>
+    </action>
+    
+    <action name="runSwitchViews"
+	       class="gov.nih.nci.rembrandt.web.struts2.action.ReportGeneratorAction" method="switchViews">
+         <result name="runGeneViewReport">jsp/geneViewReport.jsp</result>
+         <result name="failure">error.jsp</result>
+    </action>
+    
+    <action name="runFilterCopyNumber"
+	       class="gov.nih.nci.rembrandt.web.struts2.action.ReportGeneratorAction" method="runFilterCopyNumber">
+         <result name="runGeneViewReport">jsp/geneViewReport.jsp</result>
+         <result name="failure">error.jsp</result>
+    </action>
+    
+    <action name="runShowAllValuesQuery"
+	       class="gov.nih.nci.rembrandt.web.struts2.action.ReportGeneratorAction" method="runShowAllValuesQuery">
+         <result name="runGeneViewReport">jsp/geneViewReport.jsp</result>
+         <result name="failure">error.jsp</result>
+    </action>
+    
+    <action name="runSubmitSpecimens"
+	       class="gov.nih.nci.rembrandt.web.struts2.action.ReportGeneratorAction" method="submitSpecimens">
+         <result name="runGeneViewReport">jsp/geneViewReport.jsp</result>
+         <result name="failure">error.jsp</result>
+    </action>
+    
+    
+    
+     <action name="runSubmitSamples"
+	       class="gov.nih.nci.rembrandt.web.struts2.action.ReportGeneratorAction" method="submitSamples">
+         <result name="runGeneViewReport">jsp/geneViewReport.jsp</result>
+         <result name="failure">error.jsp</result>
+    </action>
     <!-- input="nautilus.viewResults"
     scope="request"
      -->
