@@ -1287,12 +1287,12 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 		//Shan: Need to change this somewhere else
 //		if (thisRequest != null) {
 			String thisRegion = this.region; //this.thisRequest.getParameter("region");
-			String thisChrNumber = this.chromosomeNumber; 
+			String thisChrNumber = this.chromosomeNumber.trim(); 
 			//this.thisRequest.getParameter("chromosomeNumber");
-			String thisBasePairStart = this.thisRequest
-					.getParameter("basePairStart");
+			String thisBasePairStart = this.basePairStart;
 
-			if (thisChrNumber != null && thisChrNumber.trim().length() > 0) {
+			if (thisChrNumber != null && thisChrNumber.length() > 0
+					&& !"-1".equals(thisChrNumber)) {
 				if (thisRegion != null && thisBasePairStart != null
 						&& this.basePairEnd != null) {
 					if ((thisRegion.equalsIgnoreCase("basePairPosition"))
