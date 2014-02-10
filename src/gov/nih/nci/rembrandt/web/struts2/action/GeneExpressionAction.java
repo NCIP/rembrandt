@@ -326,13 +326,13 @@ public class GeneExpressionAction extends ActionSupport implements SessionAware,
 			            
 			        	String msg = ApplicationContext.getLabelProperties().getProperty(
 			        			"gov.nih.nci.nautilus.ui.struts.form.regulationStatus.allGenes.error");
-			        	addActionError(msg);
+			        	addFieldError("regulationStatusAllGenes", msg);
 					    return "showAllGenes"; 
 			        }
 		      }catch (NumberFormatException ex) {
 		            String msg = ApplicationContext.getLabelProperties().getProperty(
 		        			"gov.nih.nci.nautilus.ui.struts.form.regulationStatus.allGenes.error");
-		        	addActionError(msg);
+		        	addFieldError("regulationStatusAllGenes", msg);
 				    return "showAllGenes";    
 	  		    }
 		    }
@@ -752,6 +752,7 @@ public class GeneExpressionAction extends ActionSupport implements SessionAware,
 		this.form.setGeneListDetails();
 		this.form.setGeneOptionDetails();
 		this.form.setFoldChangeValueDownDetails();
+		
 		this.form.setCytobandRegionStartDetails();
 		this.form.setCytobandRegionEndDetails();
 		this.form.setCloneListSpecifyDetails();

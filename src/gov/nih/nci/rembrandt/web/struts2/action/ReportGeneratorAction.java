@@ -164,8 +164,6 @@ public class ReportGeneratorAction extends ActionSupport implements ServletReque
      * @throws Exception
      */
     
-    //Shan: this method is not mapped as action but called internally (from this class)
-    //Wrong: it's configured as action
     public String runGeneViewReport()
 	throws Exception {
     	String sID = this.servletRequest.getHeader("Referer");
@@ -173,9 +171,7 @@ public class ReportGeneratorAction extends ActionSupport implements ServletReque
     	// prevents Referer Header injection
     	if ( sID != null && sID != "" && !sID.contains("rembrandt")) {
     		return "failure";
-    	}
-    	
-    	
+    	} 	
     	
     	ReportGeneratorForm rgForm = (ReportGeneratorForm) this.reportGeneratorForm;
     	String sessionId = this.servletRequest.getSession().getId();
@@ -847,6 +843,7 @@ public String exportToExcelForGeneView()
 	String sessionId = this.servletRequest.getSession().getId();
 	
 	String reportType = this.servletRequest.getParameter( "reportType" );
+	
 	String[] sampleIds = null;
 	
 	if( reportType.equals( "Gene Expression Sample" ) || reportType.equals( "Copy Number" ) ){
@@ -1103,10 +1100,10 @@ public String switchViews()
            String webGenomeURL = WebGenomeHelper.buildURL(report, sessionID, hostURL, specimenNames);
            //request.getSession().removeAttribute("tmp_web_genome");
 	       //request.getSession().removeAttribute("tmp_web_genome_qname");
+           
+           this.webGenomeRequestUrl = webGenomeURL;
             logger.debug("Sending Plotting request to WebGenome Application:  URL: " + webGenomeURL);
             
-            //ActionForward f2 = new ActionForward("webGenome", webGenomeURL, true, false);
-            //return f2;
             return "webGenome";
     }
 

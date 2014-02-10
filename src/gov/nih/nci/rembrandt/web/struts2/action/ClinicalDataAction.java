@@ -238,7 +238,7 @@ public class ClinicalDataAction extends ActionSupport implements SessionAware, S
     	List<String> inputErrors = validateQueryName(form.getQueryName());
     	if (inputErrors.size() > 0) {
     		for (String error : inputErrors) {
-    			addActionError(error);
+    			addFieldError("queryName", error);
     		}
     		
     		return "backToClinical";
@@ -288,7 +288,7 @@ public class ClinicalDataAction extends ActionSupport implements SessionAware, S
     	List<String> inputErrors = validateQueryName(form.getQueryName());
     	if (inputErrors.size() > 0) {
     		for (String error : inputErrors) {
-    			addActionError(error);
+    			addFieldError("queryName", error);
     		}
     		
     		return "backToClinical";

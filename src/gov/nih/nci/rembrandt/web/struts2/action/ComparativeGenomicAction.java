@@ -408,7 +408,7 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
 			            //this.saveErrors(request, errors);
 					    String error = ApplicationContext.getLabelProperties().getProperty(
 					    		"gov.nih.nci.nautilus.ui.struts.form.copyNumberAmp.allGenes.error");
-			            addActionError(error);
+			            addFieldError("copyNumberAllGenesAmp", error);
 			            return "showAllGenes"; 
    			        }
    			        if((floatCnDeleted > 1 && form.getCopyNumber().equalsIgnoreCase("deleted")) ||
@@ -416,14 +416,14 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
    			            
    			            String error = ApplicationContext.getLabelProperties().getProperty(
 					    		"gov.nih.nci.nautilus.ui.struts.form.copyNumberDel.allGenes.error");
-   			            addActionError(error);
+   			            addFieldError("copyNumberAllGenesDel", error);
    					    return "showAllGenes"; 
    			        }
    		     } catch (NumberFormatException ex) {
 		            
 		            String error = ApplicationContext.getLabelProperties().getProperty(
 				    		"gov.nih.nci.nautilus.ui.struts.form.copyNumberDel.allGenes.error");
-			            addActionError(error);
+		            addFieldError("copyNumberAllGenesDel", error);
 				    return "showAllGenes";    
   		    }
         }

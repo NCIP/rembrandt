@@ -254,15 +254,6 @@ public class RefineQueryAction extends ActionSupport implements ServletRequestAw
 			//serialize and later execution.
             queryBag.putCompoundQuery(cQuery);
             presentationTierCache.putSessionQueryBag(sessionId, queryBag);
-            /*
-			ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cQuery, new HashMap());
-			ReportBean reportBean = rgHelper.getReportBean();
-			request.setAttribute("queryName", reportBean.getResultantCacheKey());
-			//Send to the appropriate view as per selection!!
-			thisForward = new ActionForward();
-			String queryName = reportBean.getResultantCacheKey();
-			thisForward.setPath("/runReport.do?method=runGeneViewReport&resultSetName=" + queryName);
-			*/
             RembrandtAsynchronousFindingManagerImpl asynchronousFindingManagerImpl = new RembrandtAsynchronousFindingManagerImpl();
             try {
     			asynchronousFindingManagerImpl.submitQuery(this.servletRequest.getSession(), cQuery);
