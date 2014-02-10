@@ -247,10 +247,6 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	private transient SessionQueryBag queryCollection;
 	
 	private boolean isAllGenes = false;
-    protected transient HttpServletRequest thisRequest; 
-    
-    
-
 
 	// --------------------------------------------------------- Methods
 	public GeneExpressionForm() {
@@ -336,10 +332,7 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 		basePairStart = "";
 		//sampleGroup = "";
 		sampleList = "";
-		//sampleFile = null;
-
-		// Set the Request Object
-		this.thisRequest = request;	 
+		//sampleFile = null; 
 
 		diseaseOrGradeCriteria = new DiseaseOrGradeCriteria();
 		geneCriteria = new GeneIDCriteria();
@@ -408,7 +401,7 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	
 	public void setGeneListDetails() {
 
-		String thisGeneType =  this.geneType; //this.thisRequest.getParameter("geneType");
+		String thisGeneType =  this.geneType;
 		geneCriteria = new GeneIDCriteria();
 		GeneIdentifierDE geneIdentifierDE = null;
 		if ((geneList != null)
@@ -444,7 +437,7 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	
 	public void setGeneOptionDetails() {
 		
-		String thisGeneOption = this.geneOption;//   this.thisRequest.getParameter("geneOption");
+		String thisGeneOption = this.geneOption;
 		if (thisGeneOption != null
 				&& thisGeneOption.equalsIgnoreCase("allgenes")) {
 			isAllGenes = true;
@@ -671,10 +664,10 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 	public void setCytobandRegionStartDetails() {
 
 		String thisRegion = this.region;//this.thisRequest.getParameter("region");
-		String thisChrNumber = this.thisRequest
-				.getParameter("chromosomeNumber");
+		String thisChrNumber = this.chromosomeNumber.trim();
 
-		if (thisChrNumber != null && thisChrNumber.trim().length() > 0) {
+		if (thisChrNumber != null && thisChrNumber.length() > 0 &&
+				!"-1".equals(thisChrNumber)) {
 
 			if (thisRegion != null
 					&& thisRegion.equalsIgnoreCase("cytoband")
@@ -945,8 +938,7 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 		String thisRegion = this.region; //this.thisRequest.getParameter("region");
 		String thisChrNumber = this.chromosomeNumber; 
 		//this.thisRequest.getParameter("chromosomeNumber");
-		String thisBasePairStart = this.thisRequest
-				.getParameter("basePairStart");
+		String thisBasePairStart = this.basePairStart;
 
 		if (thisChrNumber != null && thisChrNumber.trim().length() > 0) {
 			if (thisRegion != null && thisBasePairStart != null
@@ -1037,6 +1029,24 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
 
 	public void setChromosomeNumber(String chromosomeNumber) {
 		this.chromosomeNumber = chromosomeNumber;
+		if(!"".equals(chromosomeNumber) && !"-1".equals(chromosomeNumber)) {
+			//Get the chromosome from the Chromosome List
+			try {
+				ChromosomeBean bean = (ChromosomeBean)chromosomes.get(Integer.parseInt(chromosomeNumber));
+				String chromosomeName = bean.getChromosome();
+				if(regionCriteria == null){
+					regionCriteria = new RegionCriteria();
+				}
+				ChromosomeNumberDE chromosomeDE = new  ChromosomeNumberDE(chromosomeName);
+				regionCriteria.setChromNumber(chromosomeDE);
+				logger.debug("Test Chromosome Criteria "+ regionCriteria.getChromNumber().getValue());
+
+			}catch(NumberFormatException nfe) {
+				logger.error("Expected an Integer index for chromosome, got a char or string");
+				logger.error(nfe);
+			}
+		}
+
 	}
 
 	/**
@@ -1551,10 +1561,11 @@ public class GeneExpressionForm extends BaseForm implements Serializable, Clonea
     public void setCytobandRegionEndDetails() {
 
     	String thisRegion2 = this.region; //this.thisRequest.getParameter("region");
-    	String thisChrNumber2 = this.chromosomeNumber;
+    	String thisChrNumber2 = this.chromosomeNumber.trim();
     	//this.thisRequest.getParameter("chromosomeNumber");
 
-    	if (thisChrNumber2 != null && thisChrNumber2.trim().length() > 0) {
+    	if (thisChrNumber2 != null && thisChrNumber2.length() > 0
+    			&& !"-1".equals(thisChrNumber2)) {
 
     		if (thisRegion2 != null
     				&& thisRegion2.equalsIgnoreCase("cytoband")
