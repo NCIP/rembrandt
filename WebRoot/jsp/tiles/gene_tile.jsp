@@ -56,14 +56,10 @@ String act = request.getParameter("act") + "_Gene_tooltip";
 	
 	<br/>
 		   		
-	<!-- html:errors property="geneFile"/> -->
-	<!--  html:errors property="geneGroup"/>-->
-	<!--  html:errors property="geneList"/>-->
-	<!--  html:errors property="geneType"/>-->
-	<s:actionerror name="geneFile"/>
-	<s:actionerror name="geneGroup"/>
-	<s:actionerror name="geneList"/>
-	<s:actionerror name="geneType"/>
+	<s:fielderror fieldName="geneFile" />
+	<s:fielderror fieldName="geneGroup" />
+	<s:fielderror fieldName="geneList" />
+	<s:fielderror fieldName="geneType" />
 	
 	
 <br/>

@@ -13,7 +13,7 @@ L--%>
 
 <app:cshelp topic="Refine_query" /><br clear="all"/>
 
-<s:actionerror/>
+<s:actionerror />
 <fieldset class="grayRefine">
 <legend class="red">Step 1: Refine your result set</legend>
 	
@@ -68,7 +68,7 @@ L--%>
 					onchange="operandChange()" />
 			</td>
 		</tr>
-		
+		<s:fielderror fieldName="operand"/>
 		</s:iterator>
 				
 		<!-- End  Selected Queries -->
@@ -134,7 +134,7 @@ L--%>
 				<s:select name="refineQueryForm.compoundView" onchange="" id="compoundView" style="width:300px"
 					list="refineQueryForm.compoundViewColl" listKey="value" listValue="label">
 				</s:select>
-				<s:actionerror name="compoundView"/>
+				<s:fielderror fieldName="compoundView"/>
 			</td>
 		</tr>
 	</table>
@@ -152,7 +152,7 @@ L--%>
 				<s:select name="refineQueryForm.instituteView" onchange="" id="instituteView" style="width:300px" 
 					list="refineQueryForm.institueViewColl" listKey="displayName" listValue="displayName" />
 					 
-				<s:actionerror name="instituteView"/>
+				<s:fielderror fieldName="instituteView"/>
 			</td>
 		</tr>
 	</table>
@@ -175,9 +175,6 @@ L--%>
 					<!-- JavaScript here is to create a popup for the ReportResults -->
 					<input type="button" id="runReportButton" name="backbutton" class="xbutton" value="Run Report >>" 
 						onclick="runReport();"/>
-						
-						<s:submit id="runReportButton" value="Run Report >>" class="xbutton" onclick="runReport();">
-			</s:submit>
 				</s:if>
 				
 </fieldset>

@@ -23,17 +23,17 @@ L--%>
 	
 <input type="radio" name="form.segmentMean" value="amplified" class="radio"/> Mean &ge;
 <s:textfield name="form.smAmplified" onfocus="javascript:radioFold(this);" />&nbsp;<br>
-<s:actionerror name="smAmplified"/>
+<s:fielderror fieldName="smAmplified"/>
 <input type="radio" name="form.segmentMean" value="deleted" class="radio"/> Mean &le;
 				<s:textfield name="form.smDeleted" onfocus="javascript:radioFold(this);" />&nbsp;<br>
-<s:actionerror name="smDeleted"/>			
+<s:fielderror fieldName="smDeleted"/>			
 
 <input type="radio" name="form.segmentMean" value="unchange" class="radio"/>Unchanged&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<s:textfield name="form.smUnchangeFrom" onfocus="javascript:radioFold(this);" />-to-
 				<s:textfield name="form.smUnchangeTo" onfocus="javascript:radioFold(this);" />&nbsp;mean
-<s:actionerror name="smUnchangeFrom"/>	
-<s:actionerror name="smUnchangeTo"/>	
-<s:actionerror name="cnerror"/><br>
+<s:fielderror fieldName="smUnchangeFrom"/>	
+<s:fielderror fieldName="smUnchangeTo"/>	
+<s:fielderror fieldName="cnerror"/><br>
 
 </fieldset>
 

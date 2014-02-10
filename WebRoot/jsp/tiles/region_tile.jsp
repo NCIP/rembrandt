@@ -26,13 +26,13 @@ L--%>
 <s:set var="cytobandsAction" value="form.getCytobandsActionName()" />
 <s:hidden id="cytobandsAction" value="%{cytobandsAction}"  />
 
-<label for="chromosomeNumber">&nbsp;&nbsp;Chromosome Number&nbsp;<s:property value='cytobandsAction'/></label>
+<label for="chromosomeNumber">&nbsp;&nbsp;Chromosome Number&nbsp; </label>
 	<s:select id="chromosomeNumber" name="form.chromosomeNumber" headerKey="-1" headerValue=" "
 		list="form.chromosomes" listKey="value" listValue="label"
 			onchange="javascript:cytobandChange()" /> 
 		<br />
 		
-<s:actionerror/>
+<s:fielderror fieldName="chromosomeNumber"/>
 
 	&nbsp;<br>
 	<blockquote>
@@ -52,7 +52,7 @@ L--%>
 	</s:select>	      
     <label for="cytobandRegionEnd">&nbsp;</label>
 			
-	<s:actionerror/>
+	<s:fielderror fieldName="cytobandRegion"/>
 			
 			<br />
 	
@@ -67,10 +67,10 @@ L--%>
  	<s:textfield id="basePairEnd" name="form.basePairEnd" onclick="javascript:radioFold(this);"/>
  		<label for="basePairEnd">&nbsp;</label>
  			</p>
-	<s:actionerror/>
+	<s:fielderror fieldName="basePairEnd"/>
 	</blockquote>	
 
-<s:actionerror/>
+<s:fielderror fieldName="region"/>
 				
 
 				</fieldset>

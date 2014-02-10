@@ -24,8 +24,8 @@ L--%>
 
 </legend>
 
-<s:actionerror name="copyNumberAllGenesAmp"/></br>
-<s:actionerror name="copyNumberAllGenesDel"/></br>
+<s:fielderror fieldName="copyNumberAllGenesAmp"/></br>
+<s:fielderror fieldName="copyNumberAllGenesDel"/></br>
 	
 <input type="radio" id="copyNumber1" name="form.copyNumber" class="radio" value="amplified" />
 
@@ -39,7 +39,7 @@ L--%>
 				
 <s:textfield id="cnDeleted" name="form.cnDeleted" onfocus="javascript:radioFold(this);" />
 <label for="cnDeleted">&nbsp;copies</label></br>
-<s:actionerror name="cnDeleted"/>			
+<s:fielderror fieldName="cnDeleted"/>			
 
 <input type="radio" id="copyNumber3" name="form.copyNumber" value="ampdel" class="radio"/> 
 <label for="copyNumber3">Amplified or Deleted</label> &nbsp;
@@ -54,7 +54,7 @@ Amplified&nbsp;&nbsp;&nbsp; &ge;
 Deleted&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &le;
 <html:text styleId="cnADDeleted" property="cnADDeleted" onfocus="javascript:radioFold(this);" /><label for="cnADDeleted">&nbsp;copies</label>
 &nbsp;
-<s:actionerror name="cnADDeleted"/>	
+<s:fielderror fieldName="cnADDeleted"/>	
 </blockquote>
 
 <input type="radio" id="copyNumber4" name="form.copyNumber" value="unchange" class="radio"/>
@@ -65,9 +65,9 @@ Deleted&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &le;
 
 <s:textfield id="cnUnchangeTo" name="form.cnUnchangeTo" onfocus="javascript:radioFold(this);" />
 <label for="cnUnchangeTo">&nbsp;copies</label>
-<s:actionerror name="cnUnchangeFrom"/>	
-<s:actionerror name="cnUnchangeTo"/>	
-<s:actionerror name="cnerror"/></br>
+<s:fielderror fieldName="cnUnchangeFrom"/>	
+<s:fielderror fieldName="cnUnchangeTo"/>	
+<s:fielderror fieldName="cnerror"/></br>
 
 </fieldset>
 

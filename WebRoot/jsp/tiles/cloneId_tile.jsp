@@ -48,7 +48,7 @@ onfocus="javascript:onRadio(this,1);">
 	<label for="cloneListFileDD">&nbsp;</label>
 <br/>
 
-<s:actionerror/>
+<s:fielderror fieldName="cloneId" />
 <br/>
 </fieldset>
 

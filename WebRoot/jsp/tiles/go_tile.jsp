@@ -24,7 +24,7 @@ L--%>
 <br>
 <b class="message"><label for="goClassification">(Type GO format as 'GO:XXXXXXX' where number is XXXXXXX)</label></b><br>
 <s:textarea id="goClassification" name="form.goClassification" rows="5" cols="40"></s:textarea>
-<s:actionerror/>
+<s:fielderror fieldName="goClassification" />
 <!-- 
 <input type="button" class="sbutton" value="GO Browser..." onclick="javascript:spawn('GOTreeServlet/?go', 580, 500);">
 -->
@@ -35,8 +35,9 @@ L--%>
 			<html:checkbox property="goBiologicalProcess" styleClass="radio" /> Biological Process
 			<html:checkbox property="goCellularComp" styleClass="radio" /> Cellular Component</br>-->
 			
-
-<s:actionerror/>
+<s:fielderror fieldName="goCellularComp" />&nbsp;&nbsp;
+<s:fielderror fieldName="goBiologicalProcess" />&nbsp;&nbsp;
+<s:fielderror fieldName="goMolecularFunction" />
 
 </fieldset>
 

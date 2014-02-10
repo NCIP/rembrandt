@@ -24,6 +24,6 @@ L--%>
 </s:select>
 
 <br/><br/>
-<s:actionerror name="analysisType"/>
+<s:fielderror fieldName="analysisType" />
 </fieldset>
 

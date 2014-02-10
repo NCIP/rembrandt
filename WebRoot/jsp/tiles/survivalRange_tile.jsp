@@ -23,14 +23,14 @@ L--%>
 		
 		<s:select id="survivalLower" name="form.survivalLower" 
 		list="form.survivalLowerColl" listKey="value" listValue="label" />
-	    <s:actionerror name="survivalLower"/>
+	    <s:fielderror fieldName="survivalLower"/>
 		
 		
 		<label for="survivalUpper">upper:&nbsp;</label>
 		
 		<s:select id="survivalUpper" name="form.survivalUpper" 
 		 list="form.survivalUpperColl" listKey="value" listValue="label" />
-	    <s:actionerror name="survivalUpper"/>
+	    <s:fielderror fieldName="survivalUpper"/>
 		&nbsp;<b class="message">(months)</b>
 	 </fieldset>
 	 <br /><br />
@@ -44,12 +44,12 @@ L--%>
 		
 		<s:select id="ageLower" name="form.ageLower" 
 		 list="form.ageLowerColl" listKey="value" listValue="label" />
-	    <s:actionerror name="ageLower"/>
+	    <s:fielderror fieldName="ageLower"/>
 		<label for="ageUpper">upper:&nbsp;</label>
 		
 		<s:select id="ageUpper" name="form.ageUpper" 
 		 list="form.ageUpperColl" listKey="value" listValue="label" />
-	    <s:actionerror name="ageUpper"/>
+	    <s:fielderror fieldName="ageUpper"/>
 		&nbsp;<b class="message">(years)</b>
 		</fieldset>
 		<br /><br />
@@ -64,7 +64,7 @@ L--%>
 			
 			&nbsp;&nbsp;<s:select id="genderType" name="form.genderType" 
 			 list="form.genderTypeColl" listKey="value" listValue="label" />
-	        <s:actionerror name="genderType"/>
+	        <s:fielderror fieldName="genderType"/>
       </fieldset>
       <br />
 

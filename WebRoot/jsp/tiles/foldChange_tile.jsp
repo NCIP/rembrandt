@@ -20,7 +20,7 @@ L--%>
 
 	
 <br />
-<s:actionerror />
+<s:fielderror fieldName="regulationStatusAllGenes" />
 <br />
 
 <input type="radio" name="form.regulationStatus" class="radio" id="regulationStatus1" value="up" />
@@ -63,6 +63,13 @@ Down-regulation &nbsp;&nbsp; &ge;
 				
 <s:textfield id="foldChangeValueUnchangeTo" name="form.foldChangeValueUnchangeTo" size="3" onfocus="javascript:radioFold(this);" />
 <label for="foldChangeValueUnchangeTo">&nbsp;fold(s)</label>
-<s:actionerror/>
+
+<s:fielderror fieldName="foldChangeValueUnchangeFrom" />
+<s:fielderror fieldName="foldChangeValueUnchangeTo" />
+<s:fielderror fieldName="regulationStatus" />
+<s:fielderror fieldName="foldChangeValueUp" />
+<s:fielderror fieldName="foldChangeValueDown" />
+<s:fielderror fieldName="foldChangeValueUDUp" />
+<s:fielderror fieldName="foldChangeValueUDDown" />
 </fieldset>
 

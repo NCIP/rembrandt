@@ -60,5 +60,7 @@ L--%>
 </script>
 <br/>
 
-<s:actionerror />
+<s:fielderror fieldName="sampleFile" />
+<s:fielderror fieldName="sampleGroup" />
+<s:fielderror fieldName="sampleList" />
 </fieldset>

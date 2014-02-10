@@ -20,7 +20,7 @@ L--%>
 <s:select name="form.tumorType" multiple="true" id="dSelect" disabled="false" 
 	list="form.diseaseType" listKey="value" listValue="label" theme="simple" onchange="javascript:onRadio(this, this.value);">
 	</s:select>
-<s:actionerror/>
+<s:fielderror fieldName="tumorGrade" />
 
 &nbsp;
 

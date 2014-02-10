@@ -24,6 +24,6 @@ L--%>
   listKey="key" listValue="value" onchange="">
 </s:select>
 
-<s:actionerror name="assayPlatform"/>
+<s:fielderror fieldName="assayPlatform"/>
 </fieldset>
 

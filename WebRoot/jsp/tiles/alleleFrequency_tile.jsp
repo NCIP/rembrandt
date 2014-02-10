@@ -21,8 +21,7 @@ String act = request.getParameter("act") + "_Allele_tooltip";
    <html:optionsCollection property="alleleTypes" />
     </html:select><br />
 	
-
-<html:errors property="alleleFrequency"/>
+<s:fielderror fieldName="alleleFrequency" />
 </fieldset>
 
 

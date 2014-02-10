@@ -22,7 +22,7 @@ L--%>
 
 <s:select id="onStudyRadiationType" name="form.onStudyRadiationType" 
 list="form.onStudyRadiationTypeColl" listKey="value" listValue="label" />
-<s:actionerror name="onStudyRadiationType"/>
+<s:fielderror fieldName="onStudyRadiationType"/>
 
 <br>
 <s:checkbox id="onStudyChemo" class="radio" name="form.onStudyChemo" value="Specify"/>
@@ -35,7 +35,7 @@ list="form.onStudyRadiationTypeColl" listKey="value" listValue="label" />
 
 <s:select id="onStudyChemoType" name="form.onStudyChemoType" 
 list="form.onStudyChemoAgentTypeColl" listKey="value" listValue="label" />
-<s:actionerror name="onStudyChemoType"/>
+<s:fielderror fieldName="onStudyChemoType"/>
 
 <Br>
 <s:checkbox id="onStudySurgery" class="radio" name="form.onStudySurgery"  value="Specify"/>
@@ -44,13 +44,13 @@ list="form.onStudyChemoAgentTypeColl" listKey="value" listValue="label" />
 
 <s:select sid="onStudySurgeryTitle" name="form.onStudySurgeryTitle" 
 list="form.onStudySurgeryTitleColl" listKey="value" listValue="label" />
-<s:actionerror name="onStudySurgeryTitle"/>
+<s:fielderror fieldName="onStudySurgeryTitle"/>
 
 <Br>
 <label for="onStudySurgeryOutcome">&nbsp;&nbsp;&nbsp;&nbsp;- Outcome:&nbsp;</label>
 <s:select id="onStudySurgeryOutcome" name="form.onStudySurgeryOutcome" 
 list="form.onStudySurgeryOutcomeColl" listKey="value" listValue="label" />
-<s:actionerror name="onStudySurgeryOutcome"/>
+<s:fielderror fieldName="onStudySurgeryOutcome"/>
 
 
 </fieldset>

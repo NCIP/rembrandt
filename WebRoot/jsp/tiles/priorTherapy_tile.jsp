@@ -22,7 +22,7 @@ L--%>
 <label for="radiationType">&nbsp;&nbsp;&nbsp;&nbsp;- radiation type:&nbsp;</label>
 
 <s:select id="radiationType" name="form.radiationType" list="form.radiationTypeColl" listKey="value" listValue="label" theme="simple" />
-<s:actionerror name="radiationType"/>
+<s:fielderror fieldName="radiationType"/>
 
 <br>
 <s:checkbox id="chemo" class="radio" name="form.chemo" value="Specify" theme="simple" />
@@ -34,19 +34,19 @@ L--%>
 </select> --->
 
 <s:select id="chemoType" name="form.chemoType" list="form.chemoAgentTypeColl" listKey="value" listValue="label"/>
-<s:actionerror name="chemoType"/>
+<s:fielderror fieldName="chemoType"/>
 
 <Br>
 <s:checkbox id="surgery" class="radio" name="form.surgery" value="Specify" theme="simple" />
 <label for="surgery">Surgery&nbsp;&nbsp;</label>
 <label for="surgeryTitle">&nbsp;&nbsp;&nbsp;&nbsp;- title:&nbsp;</label>
 <s:select id="surgeryTitle" name="form.surgeryTitle" list="form.surgeryTitleColl" listKey="value" listValue="label" theme="simple"/>
-<s:actionerror name="surgeryTitle"/>
+<s:fielderror fieldName="surgeryTitle"/>
 
 <Br>
 <label for="surgeryOutcome">&nbsp;&nbsp;&nbsp;&nbsp;- Outcome:&nbsp;</label>
 <s:select id="surgeryOutcome" name="form.surgeryOutcome" list="form.surgeryOutcomeColl" listKey="value" listValue="label"/>
-<s:actionerror name="surgeryOutcome"/>
+<s:fielderror fieldName="surgeryOutcome"/>
 
 
 </fieldset>

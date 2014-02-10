@@ -24,6 +24,6 @@ L--%>
 <input id="excludeResections" type="checkbox" name="form.excludeResections" class="radio" >
 <label for="excludeResections">Exclude Re-Resection Tumor Samples</label>
 &nbsp;&nbsp;
-<s:actionerror />
+<s:fielderror fieldName="excludeResections" />
 </fieldset>
 

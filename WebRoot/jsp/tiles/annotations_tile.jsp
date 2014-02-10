@@ -16,7 +16,7 @@ L--%>
 Step 4: Select Annotations
 </label>
 </legend>
-<html:errors property="selectedAnnotations"/>Select 1 or More Annotations <br />
+<s:fielderror fieldName="selectedAnnotations" />Select 1 or More Annotations <br />
 <br/>
 <table align="center" border="0">
     <tr style="vertical-align:top">

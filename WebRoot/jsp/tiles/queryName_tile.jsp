@@ -35,7 +35,7 @@ L--%>
 	
 <s:textfield id="queryName" name="form.queryName" size="50" theme="simple"/> (should be unique)
 <br />
-<s:actionerror/>
+<s:fielderror fieldName="queryName" />
 	
 </fieldset>
 

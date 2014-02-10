@@ -23,7 +23,7 @@ L--%>
 <s:textarea id="pathways" name="form.pathways" rows="5" cols="40" readonly="true">
 			</s:textarea>
 			<label for="pathways">&nbsp;</label>
-<s:actionerror/>
+<s:fielderror fieldName="pathways" />
 
 &nbsp;&nbsp;
 

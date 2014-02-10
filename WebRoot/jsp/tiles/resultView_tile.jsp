@@ -17,7 +17,7 @@ L--%>
 	<!-- <html:form action="<%=act%>" method="get"> -->
 <s:select name="form.resultView" list="form.resultViewColl" />
 				
-<s:actionerror name="resultView"/>
+<s:fielderror fieldName="resultView"/>
 
 &nbsp;<a href="#" class="message">[sample centric example]</a>&nbsp;<a href="#" class="message">[gene centric example]</a>
 </fieldset>

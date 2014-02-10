@@ -26,7 +26,7 @@ onclick="javascript:document.forms[0].rec.disabled=(!(document.forms[0].rec.disa
 	<s:select id="recurrence" name="form.recurrence" 
 	list="form.recurrenceTypeColl" listKey="value" listValue="label" disabled="true" />
 	<label for="recurrence">&nbsp;</label>
-	<s:actionerror name="recurrence"/> 
+	<s:fiederror fieldName="recurrence"/> 
 	
 
 </fieldset>
