@@ -19,6 +19,6 @@ L--%>
 	<Td>
 		<s:select id="operand" name="refineQueryForm.operand" list="refineQueryForm.operands" onchange="operandChange()" />
 			
-		<s:actionerror name="operand"/>
+		<s:fielderror fieldName="operand"/>
 	</td>
 </tr>

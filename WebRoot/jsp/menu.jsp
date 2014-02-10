@@ -64,7 +64,7 @@ if(queryCollection == null){
   
   <fieldset style="width:500px;">
 		<legend>Add to query:</legend>
-		<s:actionerror />
+		<s:fielderror fieldName="org.apache.struts.action.GLOBAL_ERROR"/>
 		
 		  <app:cshelp topic="Advanced_overview" /><br clear="left"/>
 		

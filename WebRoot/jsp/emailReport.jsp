@@ -44,7 +44,7 @@ String act = request.getParameter("act") + "_Allele_tooltip";
 		<html:text property="email" size="80"/>
 	</p>
 	<p align="left">
-		<html:errors property="email"/>
+		<s:fielderror fieldName="email"/>
 	</p>
 	<p align="left">
 		<bean:message key="label.email.notify"/>

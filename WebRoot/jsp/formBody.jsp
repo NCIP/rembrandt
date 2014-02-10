@@ -61,7 +61,7 @@ String param = request.getParameter("s");
 	}
 %>
 <div class="setQuery">
-<s:actionerror name="org.apache.struts.action.GLOBAL_ERROR"/>
+<s:fielderror fieldName="org.apache.struts.action.GLOBAL_ERROR"/>
 </div>
 
 <s:set var="submitAction"><%=act%></s:set>

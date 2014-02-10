@@ -6,8 +6,6 @@
 L--%>
 
 <script type="text/javascript">
-//	spawnx("runReport.do?method=runGeneViewReport&queryName=previewResults&showSampleSelect=false", 770, 550, "_report");
-
 spawnx("emailReport.action", 770, 550, "_report");
 
 </script>

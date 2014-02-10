@@ -27,7 +27,7 @@ gpHomeURL = gpHomeURL + "&target=new";
   <fieldset>
 		<legend>High Order Analysis:</legend>
 		<br clear="both"/>
-		<html:errors property="org.apache.struts.action.GLOBAL_ERROR"/>
+		<s:fielderror fieldName="org.apache.struts.action.GLOBAL_ERROR"/>
 		<app:cshelp topic="HOA_overview" />
 		
 			<table border="0" cellpadding="10" cellspacing="3">
