@@ -434,7 +434,7 @@
 		      		<input id ="{$currentGroup}" class="checkorradio" type="checkbox" name="reportGeneratorForm.samples" value="{$specimen}"/>
 		      	</xsl:if>
 		      	<!--
-		      		<a href="runReport.do?method=switchViews&amp;queryName={$qName}"><xsl:value-of select="Data" /></a>
+		      		<a href="runReport.action?method=switchViews&amp;queryName={$qName}"><xsl:value-of select="Data" /></a>
 		      	-->
 		      		<a href="javascript:switchViews('Cl', '{$specimen}')"><xsl:value-of select="$sample" /></a>
 		      		<xsl:if test="$specimen != ''and $specimen != $sample"> 
@@ -496,7 +496,7 @@
 			      						<xsl:variable name="currentSample" select="@sampleId"/>
 			      						<a href="javascript:switchViews('{$theData}', '{$currentSample}')"><xsl:value-of select="$currentSample"/></a>
 			
-			<!--      						<a href="runReport.do?method=switchViews&amp;queryName={$qName}&amp;reportView={$theData}"><xsl:value-of select="$theData"/></a> -->
+			<!--      						<a href="runReport.action?method=switchViews&amp;queryName={$qName}&amp;reportView={$theData}"><xsl:value-of select="$theData"/></a> -->
 			      					</xsl:when>
 									<xsl:when test="$theData = '-' and $showAllValues = 'true'">
 										<span class="missing" style="color:gray;">null</span>

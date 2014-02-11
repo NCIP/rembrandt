@@ -49,8 +49,8 @@ public class HttpResponseSplittingPreventionFilter
         String requestUrl = ((HttpServletRequest)request).getRequestURL().toString();
         
         if(containsCRorLF(requestUrl)) 
-        	//request.getRequestDispatcher("/login.do").forward(request, response);
-        	((HttpServletResponse)response).sendRedirect( ((HttpServletRequest)request).getContextPath() + "/login.do");
+        	//request.getRequestDispatcher("/login.action").forward(request, response);
+        	((HttpServletResponse)response).sendRedirect( ((HttpServletRequest)request).getContextPath() + "/login.action");
         else
         	chain.doFilter(request, response); 
     } 

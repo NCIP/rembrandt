@@ -97,7 +97,7 @@
 		  <a href="#" onclick="javascript:toggleDiv('hideme');return false;" title="Show or Hide Report Tools"><img align="right" alt="Show or Hide Report Tools" src="images/tools.png" border="0" /></a>
 	  	</span>
 	  	
-		<form action="testReport.do?key={$key}" name="paginate" method="post">
+		<form action="testReport.action?key={$key}" name="paginate" method="post">
 			<input type="hidden" name="queryName" value="{$qName}" />
 			<input type="hidden" name="p_page" value="{$p_page}" />
 			<input type="hidden" name="p_step" value="{$p_step}" />
@@ -137,7 +137,7 @@
  				<div id="hideme">
 
 					<div class="filterForm">
-						<form style="margin-bottom:0;" action="testReport.do?key={$key}" method="post" name="pval_filter_form">
+						<form style="margin-bottom:0;" action="testReport.action?key={$key}" method="post" name="pval_filter_form">
 							<b><span class="lb"><label for="p_pval_filter_mode">Filter p-value:</label></span></b> 
 							<xsl:text>&#160;</xsl:text>
 							Show values:
@@ -168,7 +168,7 @@
 						
 							  
 		<div class="filterForm">
-			<form style="margin-bottom:0;" action="testReport.do?key={$key}" method="post" name="highlight_form">
+			<form style="margin-bottom:0;" action="testReport.action?key={$key}" method="post" name="highlight_form">
 				<b><span class="lb">Highlight:</span></b> 
 				<xsl:text>&#160;</xsl:text>
 				<label for="p_highlight_op">highlight values</label> 
@@ -381,7 +381,7 @@
 			      					<xsl:variable name="currentSample" select="..//Cell[1]/Data"/>
 			      						<a href="javascript:switchViews('{$theData}', '{$currentSample}')"><xsl:value-of select="$theData"/></a>
 			
-			<!--      						<a href="runReport.do?method=switchViews&amp;queryName={$qName}&amp;reportView={$theData}"><xsl:value-of select="$theData"/></a> -->
+			<!--      						<a href="runReport.action?method=switchViews&amp;queryName={$qName}&amp;reportView={$theData}"><xsl:value-of select="$theData"/></a> -->
 			      					</xsl:when>
 									<xsl:when test="$theData = '-' and $showAllValues = 'true'">
 										<span class="missing" style="color:gray;">null</span>

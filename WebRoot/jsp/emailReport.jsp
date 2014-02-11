@@ -12,7 +12,7 @@ L--%>
 <script language="javascript" src="js/lib/scriptaculous/scriptaculous.js"></script>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html:form action="emailReport.do">
+<s:form action="emailReport.action">
 <head><title>REMBRANDT - Repository for Molecular Brain Neoplasia Data</title>
 <link rel="shortcut icon" href="images/favicon.ico" />
 <%@ include file="/jsp/tiles/htmlHead_tile.jsp" %>
@@ -41,7 +41,7 @@ String act = request.getParameter("act") + "_Allele_tooltip";
 
 	<p align="left">
 		<bean:message key="label.email"/>
-		<html:text property="email" size="80"/>
+		<s:text name="email" />
 	</p>
 	<p align="left">
 		<s:fielderror fieldName="email"/>
@@ -51,10 +51,10 @@ String act = request.getParameter("act") + "_Allele_tooltip";
 	</p>
 	<input type="button" class="xbutton" onclick="window.opener.location.reload(); self.close()" class="btn" value="Cancel"/>
 	<!-- <html:submit onclick="self.close()" styleClass="btn"/> -->
-	<html:submit styleId="submittalButton" styleClass="subButton" onclick="window.opener.location.reload();"property="method">
+	<s:submit id="submittalButton" class="subButton" onclick="window.opener.location.reload();" property="method" theme="simple">
 		<bean:message key="buttons_tile.submittalButton" />
-	</html:submit>
+	</s:submit>
 	</div>
 	</fieldset>
 	</body>
-</html:form>
+</s:form>

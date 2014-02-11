@@ -159,7 +159,7 @@ L--%>
 			//html is nothing now
 			imgC.style.display = "none";
 			location.replace(window.location);
-			//location.replace("/rembrandt/testReport.do?key=<%=key%>");
+			//location.replace("/rembrandt/testReport.action?key=<%=key%>");
 		}
 		
 		setTimeout("A_getReport('<%=key%>')", 0100);

@@ -13,7 +13,7 @@ L--%>
 <tr class="report">
   <td>
     <br />
-    <form action="menu.do" method="POST">
+    <form action="menu.action" method="POST">
       <fieldset style="border:0px">
         <legend>
           Advanced Search
