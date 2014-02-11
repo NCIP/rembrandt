@@ -9,6 +9,8 @@
     <constant name="struts.devMode" value="true" />
     <constant name="struts.custom.i18n.resources" value="ApplicationResources" />
     <constant name="struts.multipart.maxSize" value="31457280" />
+    <constant name="struts.action.excludePattern" value="/servlet/DisplayChart/*,/dwr/*,/GOTreeServlet/*,/Captcha.jpg"/>
+    
  	
     <package name="default" extends="struts-default" namespace="/">
 
