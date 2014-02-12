@@ -8,7 +8,7 @@
 package gov.nih.nci.rembrandt.web.struts2.action;
 
 
-import gov.nih.nci.caintegrator.application.util.ApplicationContext;
+import gov.nih.nci.rembrandt.util.ApplicationContext;
 import gov.nih.nci.caintegrator.enumeration.FindingStatus;
 import gov.nih.nci.caintegrator.security.UserCredentials;
 import gov.nih.nci.rembrandt.cache.RembrandtPresentationTierCache;
@@ -61,6 +61,8 @@ public class EmailQueryAction extends ActionSupport implements SessionAware, Ser
     private String  reportBeanCacheKey = null; 
     private String  email = null;
     
+    private String cacheId = null;
+    
     EmailQueryForm emailForm;
     Map<String, Object> sessionMap;
     HttpServletRequest servletRequest;
@@ -91,6 +93,12 @@ public class EmailQueryAction extends ActionSupport implements SessionAware, Ser
 			sessionMap.put("taskId", taskId);
 			return "success";
 		} else {
+			
+			String error = validateEmail();
+			if (error != null && error.length() > 0) {
+				addFieldError("email", error);
+				return "failure";
+			}
 			
 		EmailQueryForm dForm = (EmailQueryForm)emailForm;
 		email = dForm.getEmail();
@@ -124,14 +132,14 @@ public class EmailQueryAction extends ActionSupport implements SessionAware, Ser
 				case Completed:{
 					msg = ApplicationContext.getLabelProperties().getProperty(
 							"gov.nih.nci.rembrandt.ui.struts.form.emailQuery.email.completed.error");
-					addActionError(msg);
+					//addFieldError("email", msg);
 					break;
 
 				}
 				case Error:{
 					msg = ApplicationContext.getLabelProperties().getProperty(
 							"gov.nih.nci.rembrandt.ui.struts.form.emailQuery.email.error.error");
-					addActionError(msg);
+					//addFieldError("email", msg);
 					break;
 
 				}
@@ -144,11 +152,11 @@ public class EmailQueryAction extends ActionSupport implements SessionAware, Ser
 		// If there were errors then return to the input page else go on
 	    if (msg != null)
 	    {
-	    	addActionError(msg);
+	    	addFieldError("email", msg);
 	    	sessionMap.remove("emailform-init");
 	    	sessionMap.remove("taskId");
 	    	
-	    	return "NeedReturnVal";
+	    	return "failure";
 	    	//forward = new ActionForward(mapping.getInput());
 	    }
 	    else{
@@ -237,12 +245,11 @@ public class EmailQueryAction extends ActionSupport implements SessionAware, Ser
 		sessionMap = arg0;
 	}
 
-	//moved from EmailQueryForm
-	@Override
-	public void validate() {
+	public String validateEmail() {
 		// TODO Auto-generated method stub
 		//super.validate();
 		String email = this.emailForm.getEmail();
+		String error = null;
 		
 		if (email != null && email.length() > 0)
 		{
@@ -250,14 +257,14 @@ public class EmailQueryAction extends ActionSupport implements SessionAware, Ser
 			StringBuffer sb1 = new StringBuffer("@");
 			StringBuffer sb2 = new StringBuffer(".");
 			if ((!email.contains(sb1)) || (!email.contains(sb2))) {
-				String msg = (String) ApplicationContext.getLabelProperties().getProperty(
+				error = (String) ApplicationContext.getLabelProperties().getProperty(
 						"gov.nih.nci.rembrandt.ui.struts.form.emailQuery.email.invalid.error");
-				addActionError(msg);
 			}
 		} else {
-			addActionError("Email address is invalid");
+			error ="Email address is invalid";
 		}
 		
+		return error;
 	}
 
 	public EmailQueryForm getEmailForm() {
@@ -266,6 +273,38 @@ public class EmailQueryAction extends ActionSupport implements SessionAware, Ser
 
 	public void setEmailForm(EmailQueryForm emailForm) {
 		this.emailForm = emailForm;
+	}
+
+	public String getTaskId() {
+		return taskId;
+	}
+
+	public void setTaskId(String taskId) {
+		this.taskId = taskId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getCacheId() {
+		return cacheId;
+	}
+
+	public void setCacheId(String cacheId) {
+		this.cacheId = cacheId;
 	}
     
     
