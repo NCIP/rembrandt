@@ -123,7 +123,7 @@
 			
 			<xsl:if test="$rType = 'Clinical'">
 			<span style="margin-left:15px; ">
-				 <a style="text-decoration:none;margin-left:2px;font-weight:normal; font-size:11px;" href="#" onclick="javascript:spawnx('clinicalPlots.do?taskId={$qName}',900,600,'clinicalPlots');">Show Clinical Plots for these samples
+				 <a style="text-decoration:none;margin-left:2px;font-weight:normal; font-size:11px;" href="#" onclick="javascript:spawnx('clinicalPlots.action?taskId={$qName}',900,600,'clinicalPlots');">Show Clinical Plots for these samples
 				 <img alt="Clinical Plot" src="images/plotSmall.png" style="padding:1px;border:1px solid red; vertical-align:middle; margin-left:1px;margin-right:5px; height:13px; width: 28px;" />
 				 </a>
 				 <br/>
