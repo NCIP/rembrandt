@@ -592,11 +592,15 @@
          <result name="failure">error.jsp</result>
     </action>
     
-    
-    
      <action name="runSubmitSamples"
 	       class="gov.nih.nci.rembrandt.web.struts2.action.ReportGeneratorAction" method="submitSamples">
          <result name="runGeneViewReport">jsp/geneViewReport.jsp</result>
+         <result name="failure">error.jsp</result>
+    </action>
+    
+   <action name="runIGVReport"
+	       class="gov.nih.nci.rembrandt.web.struts2.action.ReportGeneratorAction" method="runIGVReport">
+         <result name="runIGVReport">jsp/geneViewReport.jsp</result>
          <result name="failure">error.jsp</result>
     </action>
     <!-- input="nautilus.viewResults"
