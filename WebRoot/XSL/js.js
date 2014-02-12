@@ -393,7 +393,7 @@ function checkElement(id)	{
 function stupidXSLEscape(qname, rtype)	{
 	// For Preview Results, no checkboxes are shown for Samples. So, Export All by default.
 	if ( qname === 'previewResults' ) {
-		var dest = "runGeneViewReport?queryName="+ escape(qname)+"&csv=true";
+		var dest = "runGeneViewReport.action?queryName="+ escape(qname)+"&csv=true";
 		location.href = dest;
 		return;
 	}
@@ -430,8 +430,9 @@ function excel_export_cb(qnameAndrType) {
 }
 function igvEscape(qname)	{
 	// For Preview Results, no checkboxes are shown for Samples. So, Export All by default.
+	
 	if ( qname === 'previewResults' ) {
-		var dest = "runReport.do?method=runIGVReport&queryName="+ escape(qname)+"&igv=true";
+		var dest = "runIGVReport.action?queryName="+ escape(qname)+"&igv=true";
 		location.href = dest;
 		return;
 	}
@@ -459,8 +460,9 @@ function igvEscape(qname)	{
 }
 
 function igv_export_cb(qnameAndrType) {
+	alert("igv_export_cb. type: " + qnameAndrType);
 	var qnameAndrTypeArray = qnameAndrType.split(",");
-	var dest = "runReport.do?method=runIGVReport&queryName="+ escape(qnameAndrTypeArray[0])+"&reportType="+escape(qnameAndrTypeArray[1])+"&checkedAll=true"+"&igv=true";
+	var dest = "runIGVReport.action?queryName="+ escape(qnameAndrTypeArray[0])+"&reportType="+escape(qnameAndrTypeArray[1])+"&checkedAll=true"+"&igv=true";
 	location.href = dest;
 }
 function runFindingCSV(key)	{
@@ -473,6 +475,7 @@ function runFindingCSV(key)	{
 	location.href = dest;
 }
 function doShowAllValues(q, state)	{
+	//alert("doShowAllValues. q: " + q + " state: " + state);
 	if(!state)	{
 		var oldq = "";
 		var tmp = "";
