@@ -31,7 +31,7 @@ L--%>
 	//baselineGroup = "debug";
 	//out.println("BaseLine Group: " + baselineGroup);
 %>
-	<input type="hidden" name="baselineGroup" value="<%=baselineGroup%>"/>
+	<input type="hidden" name="quickSearchForm.baselineGroup" value="<%=baselineGroup%>"/>
 	<!--  s:hidden name="redrawInputForm.geneOrCytoband" value="<s:property value="kmForm.geneOrCytoband" />"/> -->
 	<!--  s:hidden name="redrawInputForm.plotType" value="<s:property value="kmForm.plotType" />"/> -->
 	
