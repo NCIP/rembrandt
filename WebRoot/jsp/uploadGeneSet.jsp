@@ -17,7 +17,7 @@ L--%>
 <body>
 <div style="padding:10px;width:320;height:180;background:#FFFAE1;border:1px dashed red;">
 <h4 class="red">Upload Gene Set</h4>
-<html:form action="uploadGeneSet.do" enctype="multipart/form-data">
+<html:form action="uploadGeneSet.action" enctype="multipart/form-data">
 &nbsp;&nbsp;<html:select property="geneType" disabled="false">
 			<html:optionsCollection property="geneTypeColl" />
 		  </html:select>

@@ -12,7 +12,9 @@ L--%>
 <script language="javascript" src="js/lib/scriptaculous/scriptaculous.js"></script>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
 <s:form action="emailReport" theme="simple">
+
 <head><title>REMBRANDT - Repository for Molecular Brain Neoplasia Data</title>
 <link rel="shortcut icon" href="images/favicon.ico" />
 <%@ include file="/jsp/tiles/htmlHead_tile.jsp" %>
@@ -43,6 +45,7 @@ String act = request.getParameter("act") + "_Allele_tooltip";
 		<!--  bean:message key="label.email"/> -->
 		Fill out email address:
 		<s:textfield name="emailForm.email" size="80" theme="simple" />
+
 	</p>
 	<p align="left">
 		<s:fielderror fieldName="email"/>
@@ -52,6 +55,7 @@ String act = request.getParameter("act") + "_Allele_tooltip";
 		You will be notified by email when your results are ready. You will then have 5 days to download the results from our FTP server before they are removed.
 	</p>
 	<input type="button" class="xbutton" onclick="window.opener.location.reload(); self.close()" class="btn" value="Cancel"/>
+
 	<s:submit type="submit" action="emailReport" class="subButtonInv" value="Submit" theme="simple"/>
 	</div>
 	</fieldset>

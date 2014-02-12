@@ -17,7 +17,7 @@ L--%>
 <body>
 <div style="padding:10px;width:320;height:180;background:#FFFAE1;border:1px dashed red;">
 <h4 class="red">Upload Reporter Set</h4>
-<html:form action="uploadReporterSet.do" enctype="multipart/form-data">
+<html:form action="uploadReporterSet.action" enctype="multipart/form-data">
 
 &nbsp;&nbsp;<html:select property="reporterType" disabled="false">
 	<html:optionsCollection property="cloneTypeColl" />
