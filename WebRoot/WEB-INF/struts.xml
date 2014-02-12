@@ -616,6 +616,8 @@
         <result name="close">jsp/close.jsp</result>
         <result name="viewResults" type="tiles">nautilus.viewResults</result>
         
+        <result name="failure">jsp/emailReport.jsp</result>
+        
         
         <!-- don't know what method=submitReport is -->
         <!--  result name="submitReport" path="/emailReport.do?method=submitReport"/>-->
