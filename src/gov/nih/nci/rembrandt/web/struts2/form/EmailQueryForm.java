@@ -23,34 +23,6 @@ public class EmailQueryForm extends BaseForm
 	// email is the email address the user enters
 	private String email;
 	private String queryName = "";
-
-//	/**
-//	 * The validate method is called when the form is submitted and is
-//	 * responsible for making sure the input is valid.
-//	 * <P>
-//	 * @param mapping The ActionMapping for the posted action
-//	 * @param request The HttpServletRequest for this post
-//	 */
-//	public ActionErrors validate(ActionMapping mapping, HttpServletRequest request)
-//	{
-//		ActionErrors errors = new ActionErrors();
-//		
-//		// Validate that they have selected a study and a query type
-//		//if ((getEmail() == null) || (getEmail().length() < 1))
-//		//	errors.add("email", new ActionMessage("error.email.required"));
-//		//else
-//		if ((getEmail() != null) && (getEmail().length() > 1))
-//		{
-//			// Validate the email address is somewhat valid
-//			String email = getEmail();
-//			StringBuffer sb1 = new StringBuffer("@");
-//			StringBuffer sb2 = new StringBuffer(".");
-//			if ((!email.contains(sb1)) || (!email.contains(sb2)))
-//				errors.add("email", new ActionMessage("gov.nih.nci.rembrandt.ui.struts.form.emailQuery.email.invalid.error"));
-//		}
-//		
-//		return errors;
-//	}
 	
 	/**
 	 * The reset method is called on the loading of this form and anytime the
