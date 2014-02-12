@@ -36,6 +36,10 @@ import gov.nih.nci.rembrandt.web.struts2.form.GeneExpressionForm;
 import gov.nih.nci.rembrandt.web.struts2.form.ReportGeneratorForm;
 import gov.nih.nci.rembrandt.web.xml.CopyNumberIGVReport;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -137,7 +141,9 @@ public class ReportGeneratorAction extends ActionSupport implements ServletReque
     String resultSetName;
     String webGenomeRequestUrl;
     
-    
+    String cacheId;
+    String taskId;
+    String queryName;
     
     @Override
 	public void prepare() throws Exception {
@@ -173,16 +179,36 @@ public class ReportGeneratorAction extends ActionSupport implements ServletReque
     		return "failure";
     	} 	
     	
+    	String filter2 = this.servletRequest.getParameter("filter_value2");
+    	
     	ReportGeneratorForm rgForm = (ReportGeneratorForm) this.reportGeneratorForm;
     	String sessionId = this.servletRequest.getSession().getId();
     	
+    	this.queryName = rgForm.getQueryName();
+    	if (this.queryName == null || this.queryName.length() == 0)
+    		queryName = this.servletRequest.getParameter("queryName");
+		
+    	rgForm.setQueryName(queryName);
+    	
     	// cleanup data - To prevent cross-site scripting
+    	
+    	
     	if( rgForm.getFilter_value1() != null && !rgForm.getFilter_value1().equals(""))
     		rgForm.setFilter_value1(MoreStringUtils.cleanJavascript( rgForm.getFilter_value1()));
-    	if( rgForm.getFilter_value2() != null && !rgForm.getFilter_value2().equals(""))
+    	
+    	
+    	//Filter_value2: page index
+    	if( rgForm.getFilter_value2() != null && !rgForm.getFilter_value2().equals("")) {
     		rgForm.setFilter_value2(MoreStringUtils.cleanJavascript( rgForm.getFilter_value2()));
-    	if( rgForm.getFilter_value3() != null && !rgForm.getFilter_value3().equals(""))
+    		
+    	}
+    	
+    	//Filter_value3: number per page
+    	if( rgForm.getFilter_value3() != null && !rgForm.getFilter_value3().equals("")) {
     		rgForm.setFilter_value3(MoreStringUtils.cleanJavascript( rgForm.getFilter_value3()));
+    	}
+    	
+    	//filter_value4: highlight
     	if( rgForm.getFilter_value4() != null && !rgForm.getFilter_value4().equals(""))
     		rgForm.setFilter_value4(MoreStringUtils.cleanJavascript( rgForm.getFilter_value4()));
     	if( rgForm.getFilter_value5() != null && !rgForm.getFilter_value5().equals(""))
@@ -217,29 +243,29 @@ public class ReportGeneratorAction extends ActionSupport implements ServletReque
     		//get the old query
     		CompoundQuery cQuery = ((CompoundQuery)(reportBean.getAssociatedQuery()));
     		//Mark this as a filter report
-    		String queryName = cQuery.getQueryName();
+    		String queryName2 = cQuery.getQueryName();
     		//don't mark it again as a filter report if it is already a filter 
     		//report at present this will cause the old result in cache
     		//to be overwritten...
-    		if(queryName.indexOf("filter report")<0) {
-    			queryName = queryName + RembrandtConstants.FILTER_REPORT_SUFFIX;
+    		if(queryName2.indexOf("filter report")<0) {
+    			queryName2 = queryName2 + RembrandtConstants.FILTER_REPORT_SUFFIX;
     		}
     		//change the name of the associated query
-    		cQuery.setQueryName(queryName);
+    		cQuery.setQueryName(queryName2);
             if(isIGV!= null && isIGV.equals("true")){
             	cQuery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_IGV ));
            }
     		//Create a new bean to store the new resultant, name, param combination
     		ReportBean newReportBean = new ReportBean();
     		//set the retrieval key for the ReportBean
-    		newReportBean.setResultantCacheKey(queryName);
+    		newReportBean.setResultantCacheKey(queryName2);
 //    		set the modified query in to the resultant and the report bean
     		resultant.setAssociatedQuery(cQuery);
     		newReportBean.setAssociatedQuery(cQuery);
     		//add the resultant to the new bean
     		newReportBean.setResultant(resultant);
     		//put the new bean in cache
-    		BusinessCacheManager.getInstance().addToSessionCache(sessionId, queryName,newReportBean );
+    		BusinessCacheManager.getInstance().addToSessionCache(sessionId, queryName2, newReportBean );
     		/*
     		 *  Generate new XML for the old resultant under the new QueryName.
     		 *	The filter param maps is necesary because it contains data that
@@ -632,6 +658,32 @@ public class ReportGeneratorAction extends ActionSupport implements ServletReque
 	    	//add the Filter Parameters from the form to the forwarding request
     		this.servletRequest.setAttribute(RembrandtConstants.FILTER_PARAM_MAP, rgForm.getFilterParams());
 	    	//put the report xml in the request
+    		
+    		//debug
+//    		try {
+//    			 
+//    			String content = reportBean.getReportXML().asXML();
+//     
+//    			long ts =  System.currentTimeMillis();
+//    			File file = new File("preview" + ts + ".xml");
+//     
+//    			// if file doesnt exists, then create it
+//    			if (!file.exists()) {
+//    				file.createNewFile();
+//    			}
+//     
+//    			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+//    			BufferedWriter bw = new BufferedWriter(fw);
+//    			bw.write(content);
+//    			bw.close();
+//     
+//    			System.out.println("Done");
+//     
+//    		} catch (IOException e) {
+//    			e.printStackTrace();
+//    		}
+    		//debug
+    		
     		this.servletRequest.setAttribute(RembrandtConstants.REPORT_XML, reportBean.getReportXML());
     	}else {
     		//Throw an exception because you should never call this action method
@@ -999,8 +1051,12 @@ public String switchViews()
 	public String runShowAllValuesQuery()
 			throws Exception {
 		
+		//This comes from the "Show all Values" button in the Report view. Action referenced in report.xsl
+		
 		ReportGeneratorForm rgForm = (ReportGeneratorForm)this.reportGeneratorForm;
-		String queryName = rgForm.getQueryName();
+		this.queryName = this.servletRequest.getParameter("queryName");
+		rgForm.setQueryName(queryName);
+		
 		String sessionId = this.servletRequest.getSession().getId();
 		ReportBean reportBean = presentationTierCache.getReportBean(sessionId, queryName);
 		if(reportBean!=null) {
@@ -1143,6 +1199,24 @@ public String switchViews()
 	}
 	public void setForm(BaseForm form) {
 		this.form = form;
+	}
+	public String getCacheId() {
+		return cacheId;
+	}
+	public void setCacheId(String cacheId) {
+		this.cacheId = cacheId;
+	}
+	public String getTaskId() {
+		return taskId;
+	}
+	public void setTaskId(String taskId) {
+		this.taskId = taskId;
+	}
+	public String getQueryName() {
+		return queryName;
+	}
+	public void setQueryName(String queryName) {
+		this.queryName = queryName;
 	}
     
     
