@@ -87,11 +87,11 @@
    	</span>
 
 	<form action="runGeneViewReport" name="paginate" method="post">
-	<input type="hidden" name="queryName" value="{$qName}" />
-	<input type="hidden" name="filter_value2" value="{$filter_value2}" />
-	<input type="hidden" name="filter_value3" value="{$filter_value3}" />
-	<input type="hidden" name="filter_value1" value="{$filter_value1}"/>
-	<input type="hidden" name="showAllValues" value="{$showAllValues}"/>
+	<input type="hidden" id="paginate_queryName" name="reportGeneratorForm.queryName" value="{$qName}" />
+	<input type="hidden" id="paginate_filter_value2" name="reportGeneratorForm.filter_value2" value="{$filter_value2}" />
+	<input type="hidden" id="paginate_filter_value3" name="reportGeneratorForm.filter_value3" value="{$filter_value3}" />
+	<input type="hidden" name="reportGeneratorForm.filter_value1" value="{$filter_value1}"/>
+	<input type="hidden" name="reportGeneratorForm.showAllValues" value="{$showAllValues}"/>
 	</form>
 	
 	<form action="runSwitchViews" method="post" target="_blank" name="switchViewsForm">
@@ -123,7 +123,7 @@
 			
 			<xsl:if test="$rType = 'Clinical'">
 			<span style="margin-left:15px; ">
-				 <a style="text-decoration:none;margin-left:2px;font-weight:normal; font-size:11px;" href="#" onclick="javascript:spawnx('clinicalPlots.action?taskId={$qName}',900,600,'clinicalPlots');">Show Clinical Plots for these samples
+				 <a style="text-decoration:none;margin-left:2px;font-weight:normal; font-size:11px;" href="#" onclick="javascript:spawnx('clinicalPlots.do?taskId={$qName}',900,600,'clinicalPlots');">Show Clinical Plots for these samples
 				 <img alt="Clinical Plot" src="images/plotSmall.png" style="padding:1px;border:1px solid red; vertical-align:middle; margin-left:1px;margin-right:5px; height:13px; width: 28px;" />
 				 </a>
 				 <br/>
@@ -140,9 +140,9 @@
 	  <form style="margin-bottom:0;" action="runGeneViewReport" method="post" name="filter_form">
 		<b><span class="lb">Filter:</span></b> 
 		<xsl:text>&#160;</xsl:text>
-		<span id="showOnlyLabel"><input type="radio" class="checkorradio" name="filter_type" id="showOnly_radio" value="show" /><label for="showOnly_radio">Show Only</label></span>
-		<span id="hideLabel"><input type="radio" class="checkorradio" name="filter_type" id="hide_radio" checked="true" value="hide"/><label for="hide_radio">Hide</label></span>		
-		<select id="filter_element" name="filter_element" onchange="javascript: showCNumberFilter(this.value, 'cNumberFilter')">
+		<span id="showOnlyLabel"><input type="radio" class="checkorradio" name="reportGeneratorForm.filter_type" id="showOnly_radio" value="show" /><label for="showOnly_radio">Show Only</label></span>
+		<span id="hideLabel"><input type="radio" class="checkorradio" name="reportGeneratorForm.filter_type" id="hide_radio" checked="true" value="hide"/><label for="hide_radio">Hide</label></span>		
+		<select id="filter_element" name="reportGeneratorForm.filter_element" onchange="javascript: showCNumberFilter(this.value, 'cNumberFilter')">
 			<xsl:if test="$rType = 'Gene Expression Sample' or $rType = 'Gene Expression Disease'">
 			<option value="gene">Gene(s)</option>
 			</xsl:if>
@@ -153,8 +153,8 @@
 			<option value="reporter">Reporters</option>
 		</select><label for="filter_element">&#160;</label>
 		<span id="fb">
-		<input type="text" name="filter_string"/>
-		<input type="hidden" name="queryName" value="{$qName}"/>
+		<input type="text" name="reportGeneratorForm.filter_string"/>
+		<input type="hidden" name="reportGeneratorForm.queryName" value="{$qName}"/>
 		<input type="submit" id="filter_submit1" name="filter_submit" value="Filter" onclick="javascript:return checkElement(filter_form.filter_string);"/><label for="filter_submit1">&#160;</label>
 		
 		<input type="button" name="filter_submit" onclick="javascript:doShowAllValues('{$qName}', false);" value="Reset (show all)" />
@@ -184,10 +184,10 @@
 			<option value="10">10</option>
 		</select>
 		<xsl:text>&#160;</xsl:text>
-		<input type="checkbox" class="checkorradio" name="filter_value4" value="and" />And (Or by default)
+		<input type="checkbox" class="checkorradio" name="reportGeneratorForm.filter_value4" value="and" />And (Or by default)
 		<xsl:text>&#160;</xsl:text>
 		<label for="filter_value6">% SNPs that match criteria</label>
-		<select name="filter_value6">
+		<select name="reportGeneratorForm.filter_value6">
 			<option value="0"></option>
 			<option value="10">10%</option>
 			<option value="20">20%</option>
@@ -201,7 +201,7 @@
 			<option value="100">100%</option>
 		</select>
 		<xsl:text>&#160;</xsl:text>
-		<input type="hidden" name="queryName" value="{$qName}"/>
+		<input type="hidden" name="reportGeneratorForm.queryName" value="{$qName}"/>
 		<input type="submit" name="filter_submit" value="Submit" />
 		<input type="hidden" name="filter_element" value="copy_number"/>
 		<xsl:text>&#160;</xsl:text>
@@ -226,19 +226,19 @@
 		<b><span class="lb"><label for="filter_value1">Highlight:</label></span></b> 
 		<xsl:text>&#160;</xsl:text>
 		<label for="filter_value4">highlight values</label> 
-		<select id="filter_value4" name="filter_value4">
+		<select id="filter_value4" name="reportGeneratorForm.filter_value4">
 			<option value="gt">&gt;</option>
 			<option value="lt">&lt;</option>
 			<option value="eq">=</option>
 			<option value="lte">&lt;=</option>
 			<option value="gte">&gt;=</option>
 		</select>
-		<input type="text" id="filter_value1" name="filter_value1" size="4" value="{$filter_value1}" />
-		<input type="hidden" name="queryName" value="{$qName}"/>
-		<input type="hidden" name="filter_value2" value="{$filter_value2}"/>
-		<input type="hidden" name="filter_value3" value="{$filter_value3}"/>
+		<input type="text" id="filter_value1" name="reportGeneratorForm.filter_value1" size="4" value="{$filter_value1}" />
+		<input type="hidden" name="reportGeneratorForm.queryName" value="{$qName}"/>
+		<input type="hidden" name="reportGeneratorForm.filter_value2" value="{$filter_value2}"/>
+		<input type="hidden" name="reportGeneratorForm.filter_value3" value="{$filter_value3}"/>
 		<input type="submit" id="filter_submit" name="filter_submit" value="Highlight" /><label for="filter_submit">&#160;</label>
-		<input type="hidden" name="showAllValues" value="{$showAllValues}"/>
+		<input type="hidden" name="reportGeneratorForm.showAllValues" value="{$showAllValues}"/>
 		<input type="submit" name="filter_submit" value="Clear Highlighting" onclick="javascript:document.highlight_form.filter_value1.value='';" />
 	  </form>
 	  </div>
@@ -261,8 +261,7 @@
   	 <div class="filterForm">
 		<b><span class="lb">Show all Values:</span></b> 
 		<xsl:text>&#160;</xsl:text>
-		<input type="button" name="filter_submit" value="Show all values on this report" 
-		onclick="javascript:location.href='runShowAllValuesQuery.action?queryName={$qName}';" />
+		<input type="button" name="filter_submit" value="Show all values on this report" onclick="javascript:location.href='runShowAllValuesQuery.action?queryName={$qName}';" />
 		<xsl:text>&#160;</xsl:text>
 		<input type="button" name="filter_submit" value="View Previous Report" onclick="javascript:doShowAllValues('{$qName}', false);" />
 		<xsl:text>&#160;</xsl:text>
@@ -344,7 +343,7 @@
 	  </xsl:if>
 	  <xsl:text>&#160;</xsl:text>
 	  <xsl:text>&#160;</xsl:text>
-	  <select id="changeStep" name="changeStep" onchange="javascript: goPageChangeStep('{$filter_value2}', this.value);">
+	  <select id="changeStep" name="reportGeneratorForm.filter_value3" onchange="javascript: goPageChangeStep('{$filter_value2}', this.value);">
 	  	<option value=""><xsl:value-of select="$filter_value3"/> per page</option>
 	  	<option value="1">1</option>
 	  	<option value="5">5</option>
@@ -408,7 +407,7 @@
 		</xsl:for-each>
 		
 		<form action="runSubmitSpecimens" method="post" name="prbSamples">
-		<input type="hidden" name="reportGeneratorForm.queryName" value="{$qName}"/>
+		<input type="hidden" name="queryName" value="{$qName}"/>
 		<xsl:for-each select="Row[@name='sampleRow']">
 			<tr class="sampleRow">
 		  	<xsl:for-each select="Cell[@class != 'csv']">
