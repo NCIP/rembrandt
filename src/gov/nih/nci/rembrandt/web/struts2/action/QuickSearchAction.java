@@ -155,9 +155,14 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 		//QuickSearchForm qsForm = (QuickSearchForm) form;
 		//need this to pass the geneSymbol to the JSP
 		
-		servletRequest.getSession().setAttribute("geneSymbol", quickSearchForm.getGeneSymbol());
-		servletRequest.getSession().setAttribute("geneSymbol", MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, 
-				quickSearchForm.getGeneSymbol()));
+		String geneSymbol = quickSearchForm.getGeneSymbol();
+		geneSymbol = MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, geneSymbol);
+		
+		servletRequest.getSession().setAttribute("geneSymbol", geneSymbol);
+		quickSearchForm.setGeneSymbol(geneSymbol);
+		
+		//servletRequest.getSession().setAttribute("geneSymbol", MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, 
+		//		quickSearchForm.getGeneSymbol()));
 		
         //generator.setRequestAttributes(request);
         //generator.setSessionAttributes(request.getSession(true));

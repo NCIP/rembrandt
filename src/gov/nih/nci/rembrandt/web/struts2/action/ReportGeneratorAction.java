@@ -144,6 +144,8 @@ public class ReportGeneratorAction extends ActionSupport implements ServletReque
     String cacheId;
     String taskId;
     String queryName;
+    String csv;
+    String igv;
     
     @Override
 	public void prepare() throws Exception {
@@ -179,20 +181,25 @@ public class ReportGeneratorAction extends ActionSupport implements ServletReque
     		return "failure";
     	} 	
     	
-    	String filter2 = this.servletRequest.getParameter("filter_value2");
-    	
     	ReportGeneratorForm rgForm = (ReportGeneratorForm) this.reportGeneratorForm;
     	String sessionId = this.servletRequest.getSession().getId();
     	
-    	this.queryName = rgForm.getQueryName();
-    	if (this.queryName == null || this.queryName.length() == 0)
-    		queryName = this.servletRequest.getParameter("queryName");
-		
-    	rgForm.setQueryName(queryName);
+    	//Struts1 to 2 note: a couple fields are repeated in this class and in the form class
+    	//When coming from a url, fields in this class are valid, maybe we should remove the repeated
+    	//one from the form class?
+    	
+    	//3 possible ways to get to here:
+    	//1. forwarded from a different action
+    	//2. called from another action in this class
+    	//3. forwarded from a url in jsp, in this case, queryName is set with field in this action class
+    	
+    	String qName = rgForm.getQueryName();
+    	if (qName == null || qName.length() == 0) {
+    		qName = this.queryName;
+    		rgForm.setQueryName(this.queryName);
+    	}
     	
     	// cleanup data - To prevent cross-site scripting
-    	
-    	
     	if( rgForm.getFilter_value1() != null && !rgForm.getFilter_value1().equals(""))
     		rgForm.setFilter_value1(MoreStringUtils.cleanJavascript( rgForm.getFilter_value1()));
     	
@@ -218,9 +225,9 @@ public class ReportGeneratorAction extends ActionSupport implements ServletReque
     			
     	//get the specified report bean from the cache using the query name as the key
     	ReportBean reportBean = presentationTierCache.getReportBean(sessionId,rgForm.getQueryName());
-    	String isIGV = "false";
-    	if(this.servletRequest.getParameter("igv")!=null)
-    		isIGV = (String) this.servletRequest.getParameter("igv");
+//    	String isIGV = "false";
+//    	if(this.servletRequest.getParameter("igv")!=null)
+//    		isIGV = (String) this.servletRequest.getParameter("igv");
     	/*
     	 * check to see if this is a filter submission.  If it is then
     	 * we are going to need to generate XML most likely.  WE should probably
@@ -252,7 +259,9 @@ public class ReportGeneratorAction extends ActionSupport implements ServletReque
     		}
     		//change the name of the associated query
     		cQuery.setQueryName(queryName2);
-            if(isIGV!= null && isIGV.equals("true")){
+            
+    		//if(isIGV!= null && isIGV.equals("true")){
+    		if(this.igv != null && this.igv.equals("true")){
             	cQuery.setAssociatedView(ViewFactory.newView(ViewType.COPYNUMBER_IGV ));
            }
     		//Create a new bean to store the new resultant, name, param combination
@@ -514,8 +523,8 @@ public class ReportGeneratorAction extends ActionSupport implements ServletReque
     	
     	ReportGeneratorForm rgForm = (ReportGeneratorForm) this.reportGeneratorForm;
     	String sessionId = this.servletRequest.getSession().getId();
-		String taskId = this.servletRequest.getParameter("taskId");
-		
+		//String taskId = this.servletRequest.getParameter("taskId");
+    	
 		// cleanup data - To prevent cross-site scripting
     	if( rgForm.getFilter_value1() != null && !rgForm.getFilter_value1().equals(""))
     		rgForm.setFilter_value1(MoreStringUtils.cleanJavascript( rgForm.getFilter_value1()));
@@ -1218,6 +1227,17 @@ public String switchViews()
 	public void setQueryName(String queryName) {
 		this.queryName = queryName;
 	}
-    
-    
+	public String getCsv() {
+		return csv;
+	}
+	public void setCsv(String csv) {
+		this.csv = csv;
+	}
+	public String getIgv() {
+		return igv;
+	}
+	public void setIgv(String igv) {
+		this.igv = igv;
+	}
+	
 }
