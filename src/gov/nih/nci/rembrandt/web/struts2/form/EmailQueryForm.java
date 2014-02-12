@@ -60,7 +60,7 @@ public class EmailQueryForm extends BaseForm
 	 * @param mapping The ActionMapping for the posted action
 	 * @param request The HttpServletRequest for this post
 	 */
-//	public void reset(ActionMapping mapping, HttpServletRequest request)
+//	public void reset()
 //	{
 //		String addr = (String)request.getSession().getAttribute("email");
 //		this.email = addr;
