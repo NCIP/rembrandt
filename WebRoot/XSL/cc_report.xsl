@@ -110,11 +110,11 @@
 			<input type="hidden" name="showAllValues" value="{$showAllValues}"/>
 		</form>
 	
-		<form action="runSwitchViews" method="post" name="switchViewsForm">
+		<s:form action="runSwitchViews" method="post" >
 		     <input type="hidden" name= "reportGeneratorForm.reportView" value="" />
 		     <input type="hidden" name="reportGeneratorForm.queryName" value="{$qName}" />
 		     <input type="hidden" name="reportGeneratorForm.samples" value="" />			
-		</form>
+		</s:form>
 	
 		<div class="rptHeader">	
 			<div class="rowCount">
