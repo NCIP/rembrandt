@@ -483,10 +483,6 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
     public String preview()
             throws Exception {
         
-    	//if (!isTokenValid(request)) {
-		//	return mapping.findForward("failure");
-		//}
-    	
     	setDataFormDetails();
     	
     	List<String> errors =  form.validateForSubmitOrPreview();
