@@ -10,6 +10,7 @@ function openCCHelp() {
 }
 
 function stupidXSL(i, cPage, total)	{
+	
 	var str = "";
 	if(i == cPage)
 		str = "["+(i+1)+"]&nbsp;"
@@ -492,25 +493,31 @@ function doShowAllValues(q, state)	{
 }
 
 function goPage(p)	{
-	try	{
-	 	document.forms['paginate'].filter_value2.value = p;
-	 }
-	 catch(er)	{
-	 	document.forms['paginate'].p_page.value = p;
-	 }
-	 	document.forms['paginate'].submit();
+	var f2 = document.getElementById('paginate_filter_value2');
+	if (f2 != null) {
+		f2.value = p;
+	} else {
+		alert("f2 is null");
+	}
+	 document.forms['paginate'].submit();
 }
+
 function goPageChangeStep(p, s)	{
+	//alert("p: " + p);
+	//alert("s: " + s);
 	if(s != '')	{
-		if(document.forms['paginate'].filter_value2)
-		 	document.forms['paginate'].filter_value2.value = 0; 
-		if(document.forms['paginate'].filter_value3)
-		 	document.forms['paginate'].filter_value3.value = s; 
 		
-		if(document.forms['paginate'].p_page)
-			document.forms['paginate'].p_page.value = 0; 
-		if(document.forms['paginate'].p_step)
-		 	document.forms['paginate'].p_step.value = s; 
+		var f2 = document.getElementById('paginate_filter_value2');
+		var f3 = document.getElementById('paginate_filter_value3');
+		if (f2 != null)
+			f2.value= 0;
+		else
+			alert("f2 null");
+		
+		if (f3 != null) 
+			f3.value = s;
+		else
+			alert("f3 null");
 
 	 	document.forms['paginate'].submit(); 
 	}
