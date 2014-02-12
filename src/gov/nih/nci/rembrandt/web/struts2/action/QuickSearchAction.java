@@ -495,6 +495,7 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 		kmForm.setDownFold(downRegulation);
 		kmForm.setReporterSelection(algorithm);
 		kmForm.setSelectedItems(selectedPlots);
+		kmForm.setSelectedReporter(redrawInputForm.getSelectedReporter());
 
 		String baselineGroup = servletRequest.getParameter("baselineGroup")!=null ? (String)servletRequest.getParameter("baselineGroup") : "ALL GLIOMA";
 		//String baselineGroup = this.redrawInputSearchForm.getBaselineGroup();
