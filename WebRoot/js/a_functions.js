@@ -145,7 +145,7 @@ function A_checkAllTaskResultsStatus_cb(tasks)	{
 	
 			
 			if( tasks[key]["email_timeout"]=='true'){
-				var newhref= "emailReport.do?taskId=" + taskId + "&cacheId=" + cacheId ;
+				var newhref= "emailReport.action?taskId=" + taskId + "&cacheId=" + cacheId ;
 				curElEmailLink.innerHTML = "<img src='images/mail_icon.gif' alt='email results' BORDER=0 />";
 				curElEmailLink.onclick = new Function( "return newWindow('" + newhref + "');" );
  			}
