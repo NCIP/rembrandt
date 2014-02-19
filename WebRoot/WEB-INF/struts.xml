@@ -333,6 +333,7 @@
       	class="gov.nih.nci.rembrandt.web.struts2.action.ComparativeGenomicAction" method="preview">
          <result name="advanceSearchMenu" type="tiles">nautilus.menu</result>
          <result name="backToCGH" type="tiles">nautilus.comparitiveGenomic</result>
+         
          <result name="showAllGenes" type="tiles">nautilus.allGenesCGH</result>
          
          <result name="previewReport" type="redirectAction">
@@ -341,10 +342,6 @@
          
          <result name="viewResults" type="redirectAction">
         	 <param name="actionName">viewResults</param>
-         </result>
-         
-         <result name="viewResults" type="redirectAction">
-        	 <param name="actionName">login</param>
          </result>
          
 	</action>
