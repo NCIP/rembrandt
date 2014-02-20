@@ -26,6 +26,7 @@ String strIncFile2 = "/jsp/tiles/region_tile.jsp?act="+act;
 
 <fieldset style="padding:5px;">
 <legend class="right" align="right">Gene/Region</legend><br clear="both"/><br clear="both"/>
+<s:fielderror fieldName="chromosome" />
 
 <input type="radio" name="form.geneRegionView" <s:property value="form.geneReviewChecked" /> class="radio" value="geneView" 
 		onclick="javascript:toggleGeneRegionView('geneView');"/> Gene View &nbsp;&nbsp;&nbsp;
