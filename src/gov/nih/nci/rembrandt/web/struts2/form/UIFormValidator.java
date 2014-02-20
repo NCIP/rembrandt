@@ -144,8 +144,8 @@ public class UIFormValidator {
 		return errors;
 		
 	}
-
-	public static List<String> validateQueryName(String queryName,
+    
+    public static List<String> validateQueryName(String queryName,
             List<String> errors) {
 		if ((queryName == null || queryName.length() < 1)) {
 			errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.queryname.no.error"));
@@ -153,6 +153,17 @@ public class UIFormValidator {
 		else if (!MoreStringUtils.isURLSafe(queryName))
 			errors.add(ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.queryname.illegal.characters"));
 		return errors;
+	}
+
+	public static String validateQueryName(String queryName) {
+		if ((queryName == null || queryName.length() < 1)) {
+			return ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.queryname.no.error");
+		}
+		
+		if (!MoreStringUtils.isURLSafe(queryName))
+			return ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.queryname.illegal.characters");
+		
+		return null;
 	}
     
     public static List<String> validateAnalysisName(String analysisResultName,
@@ -327,6 +338,30 @@ public class UIFormValidator {
     	return errors;
     }
     
+    /**
+     * Make sure the copy number is a number
+     * 
+     * (Overloaded version of validateCopyNo for struts2)
+     * @param copyNumber
+     * @param actualCopyNoType
+     * @param copyNo
+     * @param copyNoType
+     * @return error message or null if the copy number is validated
+     */
+    public static String validateCopyNo(String copyNumber, String actualCopyNoType,String copyNo) {
+    	
+        if (copyNumber != null && copyNumber.equalsIgnoreCase(actualCopyNoType) && copyNo!= null  && copyNo.trim().length() > 0) {
+        	copyNo = copyNo.trim();
+        	try{
+        		float n = Float.parseFloat(copyNo);
+        	}
+        	catch (NumberFormatException ne){
+        		 return ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.copyno.numeric.error");
+        	}
+        }
+    	return null;
+    }
+    
     
     public static List<String> validateSegmentMean(String segmentMean, String actualSegmentMeanType, 
     		String segMean, String segMeanType,
@@ -344,6 +379,22 @@ public class UIFormValidator {
         	}
         }
     	return errors;
+    }
+    
+    public static String validateSegmentMean(String segmentMean, String actualSegmentMeanType, String segMean) {
+    	
+        if (segmentMean != null && segmentMean.equalsIgnoreCase(actualSegmentMeanType) && segMean != null  && segMean.trim().length() > 0) {
+        	segMean = segMean.trim();
+        	try{
+        		float n = Float.parseFloat(segMean);
+        	}
+        	catch (NumberFormatException ne){
+        		    
+        		 return ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.segmentMean.numeric.error");
+        	 
+        	}
+        }
+    	return null;
     }
     
     public static List<String> validateFoldChange(String regulationStatus, String actualRegulationStatus,
