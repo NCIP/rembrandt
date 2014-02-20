@@ -33,7 +33,7 @@ L--%>
 <s:textfield id="cnAmplified" name="form.cnAmplified" onfocus="javascript:radioFold(this);" />
 <label for="cnAmplified">&nbsp;copies</label></br>
 
-<s:actionerror name="cnAmplified"/>
+<s:fielderror fieldName="cnAmplified"/>
 <input type="radio" id="copyNumber2" name="form.copyNumber" value="deleted" class="radio"/> 
 <label for="copyNumber2">Deleted</label> &nbsp;&nbsp;&le;
 				
@@ -49,7 +49,8 @@ Amplified&nbsp;&nbsp;&nbsp; &ge;
  <s:textfield id="cnADAmplified" name="form.cnADAmplified" onfocus="javascript:radioFold(this);" />
  <label for="cnADAmplified">&nbsp;copies</label>
 &nbsp;
-<html:errors property="cnADAmplified"/>	
+
+<s:fielderror fieldName="cnADAmplified"/>	
 <Br>
 Deleted&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &le;
 <html:text styleId="cnADDeleted" property="cnADDeleted" onfocus="javascript:radioFold(this);" /><label for="cnADDeleted">&nbsp;copies</label>
@@ -65,6 +66,7 @@ Deleted&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &le;
 
 <s:textfield id="cnUnchangeTo" name="form.cnUnchangeTo" onfocus="javascript:radioFold(this);" />
 <label for="cnUnchangeTo">&nbsp;copies</label>
+
 <s:fielderror fieldName="cnUnchangeFrom"/>	
 <s:fielderror fieldName="cnUnchangeTo"/>	
 <s:fielderror fieldName="cnerror"/></br>
