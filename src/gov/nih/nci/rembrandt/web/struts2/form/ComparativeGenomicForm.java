@@ -408,46 +408,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
     	}
     }
     
-    public List<String> validateForSubmitOrPreview() {
-    	List<String> errors = new ArrayList<String>();
-    	//Query Name cannot be blank
-    	errors = UIFormValidator.validateQueryName(queryName, errors);
-    	// Chromosomal region validations
-    	errors = UIFormValidator.validateChromosomalRegion(chromosomeNumber, region, cytobandRegionStart, basePairStart,basePairEnd, errors);
-
-
-    	//JB: Add validation for segment mean
-    	// validate copy number or segment mean,it has to be 
-    	if ( this.getCopyNumberView().equals("calculatedCN") ) {
-    		errors = UIFormValidator.validateCopyNo(copyNumber,"ampdel",cnADAmplified,"cnADAmplified",errors);
-    		errors = UIFormValidator.validateCopyNo(copyNumber,"ampdel",cnADDeleted,"cnADDeleted",errors);
-    		errors = UIFormValidator.validateCopyNo(copyNumber,"amplified",cnAmplified,"cnAmplified",errors);
-    		errors = UIFormValidator.validateCopyNo(copyNumber,"deleted",cnDeleted,"cnDeleted",errors);
-    		errors = UIFormValidator.validateCopyNo(copyNumber,"unchange",cnUnchangeFrom,"cnUnchangeFrom",errors);
-    		errors = UIFormValidator.validateCopyNo(copyNumber,"unchange",cnUnchangeTo,"cnUnchangeTo",errors);
-    	} else { // validate segment mean
-    		errors = UIFormValidator.validateSegmentMean(segmentMean,"amplified",smAmplified,"smAmplified",errors);
-    		errors = UIFormValidator.validateSegmentMean(segmentMean,"deleted",smDeleted,"smDeleted",errors);
-    		errors = UIFormValidator.validateSegmentMean(segmentMean,"unchange",smUnchangeFrom,"smUnchangeFrom",errors);
-    		errors = UIFormValidator.validateSegmentMean(segmentMean,"unchange",smUnchangeTo,"smUnchangeTo",errors);
-    	}
-
-    	// Validate minimum criteria's for CGH Query
-    	if (this.getQueryName() != null && this.getQueryName().length() >= 1 && 
-    			(this.getGeneOption() != null && this.getGeneOption().equalsIgnoreCase("standard"))) {
-    		if ((this.getGeneList() == null || this.getGeneList().trim()
-    				.length() < 1)
-    				&& (this.getChromosomeNumber() == null || this
-    				.getChromosomeNumber().trim().length() < 1)) {
-    			String msg = ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.cgh.minimum.error");
-    			errors.add(msg);
-
-    		}
-    	}
-
-    	return errors;
-    }
-
+    
     
   
     
@@ -564,14 +525,15 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
      *            The geneList to set
      */
     public void setGeneList(String geneList) {
+    	this.geneList = geneList;
 		if (geneList != null )
-			geneList = MoreStringUtils.cleanJavascript(geneList);
+			this.geneList = MoreStringUtils.cleanJavascript(geneList);
     }
     
     public void setGeneListDetails() {
 
 		String thisGeneType =  this.geneType; //this.thisRequest.getParameter("geneType");
-		geneCriteria = new GeneIDCriteria();
+		this.geneCriteria = new GeneIDCriteria();
 		GeneIdentifierDE geneIdentifierDE = null;
 		if ((geneList != null)
 				&& (thisGeneType.length() > 0)
@@ -590,7 +552,7 @@ public class ComparativeGenomicForm extends BaseForm implements Serializable, Cl
 
 				} 
 
-				geneCriteria.setGeneIdentifier(geneIdentifierDE);
+				this.geneCriteria.setGeneIdentifier(geneIdentifierDE);
 			}
 		}
 	}
