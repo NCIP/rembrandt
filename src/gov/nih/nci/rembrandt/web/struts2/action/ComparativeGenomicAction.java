@@ -47,11 +47,10 @@ import gov.nih.nci.rembrandt.web.helper.ChromosomeHelper;
 import gov.nih.nci.rembrandt.web.helper.GroupRetriever;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.helper.ListConvertor;
-import gov.nih.nci.rembrandt.web.helper.ReportGeneratorHelper;
 import gov.nih.nci.rembrandt.web.struts2.form.ComparativeGenomicForm;
-import gov.nih.nci.rembrandt.web.struts2.form.GeneExpressionForm;
 import gov.nih.nci.rembrandt.web.struts2.form.UIFormValidator;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -61,16 +60,9 @@ import java.util.Set;
 
 import javax.naming.OperationNotSupportedException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-//import org.apache.struts.action.ActionError;
-//import org.apache.struts.action.ActionErrors;
-//import org.apache.struts.action.ActionForm;
-//import org.apache.struts.action.ActionForward;
-//import org.apache.struts.action.ActionMapping;
-//import org.apache.struts.actions.LookupDispatchAction;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 
@@ -159,12 +151,12 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
 	}
 
 	//if multiUse button clicked (with styles de-activated) forward back to page
-    public String multiUse()
-	throws Exception {
-        //saveToken(request);
-
-    	return "backToCGH";
-    }
+//    public String multiUse()
+//	throws Exception {
+//        //saveToken(request);
+//
+//    	return "backToCGH";
+//    }
     
     /**
      * Method setup
@@ -184,7 +176,6 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
     //Setup the comparativeGenomicForm from menu page
     public String setup() {
 	
-    	
     	String sID = servletRequest.getHeader("Referer");
     	
     	// prevents Referer Header injection
@@ -370,13 +361,9 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
     	
     	setDataFormDetails();
     	
-    	List<String> errors =  form.validateForSubmitOrPreview();
-    	if (errors != null && errors.size() > 0) {
-    		for (String error : errors)
-    			addActionError(error);
-    		
+    	if (validateForSubmitOrPreview() != 0)
     		return "backToCGH";
-    	}
+    
         
         this.servletRequest.getSession().setAttribute("currentPage", "0");
         this.servletRequest.getSession().removeAttribute("currentPage2");
@@ -485,13 +472,8 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
         
     	setDataFormDetails();
     	
-    	List<String> errors =  form.validateForSubmitOrPreview();
-    	if (errors != null && errors.size() > 0) {
-    		for (String error : errors)
-    			addActionError(error);
-    		
-    		return "backToCGH";
-    	}
+    	if (validateForSubmitOrPreview() != 0)
+    		return "backToCGH"; 
         
         this.servletRequest.getSession().setAttribute("currentPage", "0");
         this.servletRequest.getSession().removeAttribute("currentPage2");
@@ -512,23 +494,20 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
         logger.debug("Associated View for the Preview:"+compoundQuery.getAssociatedView().getClass());
 	    //Save the sessionId that this preview query is associated with
         compoundQuery.setSessionId(this.servletRequest.getSession().getId());
-        //Generate the reportXML for the preview.  It will be stored in the session
-	    //cache for later retrieval
-        //ReportGeneratorHelper reportHelper = new ReportGeneratorHelper(compoundQuery, new HashMap());
-        //return mapping.findForward("previewReport");
-        
+                
         RembrandtAsynchronousFindingManagerImpl asynchronousFindingManagerImpl = new RembrandtAsynchronousFindingManagerImpl();
         try {
 			asynchronousFindingManagerImpl.submitQuery(this.servletRequest.getSession(), compoundQuery);
 		} catch (FindingsQueryException e) {
 			logger.error(e.getMessage());
 		}
-		//wait for few seconds for the jobs to get added to the cache
+		
+        //wait for few seconds for the jobs to get added to the cache
 		Thread.sleep(1000);
         
 		//resetToken(request);
 
-        return "viewResults";
+        return "showResults";
     }
             
     
@@ -801,5 +780,145 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
 	public void setForm(ComparativeGenomicForm form) {
 		this.form = form;
 	}
+	
+	/**
+	 * Validate input data for "preview" or "submit" action
+	 * 
+	 * 4 items to check on:
+	 * 
+	 * 1). Query Name
+	 * 2). Chromosome data: chromosome numnber, cytoband start and end, base pair start and end
+	 * 3). Copy number or segment mean
+	 * 4). CGH Query
+	 * 
+	 * @return 0 if validated. -1 if validation failed
+	 */
+	public int validateForSubmitOrPreview() {
+    	
+		if (validateQueryName() == 0) {
+			if (validateChromosomeInputData() == 0)
+				if (validateCopyNumberorSementMean() == 0)
+					return validateCGHQuery();
+		}
+		
+		return 0;
+	}	
+    
+	protected int validateChromosomeInputData() {
+    	List<String> errors = new ArrayList<String>();
+    	errors = UIFormValidator.validateChromosomalRegion(this.form.getChromosomeNumber(), 
+    			this.form.getRegion(), this.form.getCytobandRegionStart(), 
+    			this.form.getBasePairStart(), this.form.getBasePairEnd(), errors);
+    	if (errors.size() > 0) {
+    		for (String error : errors) {
+    			addFieldError("chromosome", error);
+    		}
+    		return -1;
+    	}	
+    	
+    	return 0;
+	}
+	
+	protected int validateQueryName() {
+		
+		String error = UIFormValidator.validateQueryName(this.form.getQueryName());
+    	if (error != null) {
+    		addFieldError("queryName", error);
+    		return -1;
+    	}
+    	
+    	return 0;
+	}
+	
+	protected int validateCopyNumberorSementMean() {
+
+    	// validate copy number or segment mean
+    	int errorCode = 0;
+    	String error = null;
+    	if ( this.form.getCopyNumberView().equals("calculatedCN") ) {
+    		
+    		error = UIFormValidator.validateCopyNo(this.form.getCopyNumber(),"ampdel",this.form.getCnADAmplified());
+    		if (error != null) {
+    			addFieldError("cnADAmplified", error);
+    			errorCode = -1; 
+    		}
+    		
+    		error = UIFormValidator.validateCopyNo(this.form.getCopyNumber(),"ampdel",this.form.getCnADDeleted());
+    		if (error != null) 
+    			addFieldError("cnADDeleted", error);
+    		
+    		error = UIFormValidator.validateCopyNo(this.form.getCopyNumber(),"amplified",this.form.getCnAmplified());
+    		if (error != null) {
+    			addFieldError("cnAmplified", error);
+    			errorCode = -1;
+    		}
+    		
+    		error = UIFormValidator.validateCopyNo(this.form.getCopyNumber(),"deleted",this.form.getCnDeleted());
+    		if (error != null)  {
+    			addFieldError("cnDeleted", error);
+    			errorCode = -1;
+    		}
+    		
+    		error = UIFormValidator.validateCopyNo(this.form.getCopyNumber(),"unchange",this.form.getCnUnchangeFrom());
+    		if (error != null) {
+    			addFieldError("cnUnchangeFrom", error);
+    			errorCode = -1;
+    		}
+    		
+    		error = UIFormValidator.validateCopyNo(this.form.getCopyNumber(),"unchange",this.form.getCnUnchangeTo());
+    		if (error != null) {
+    			addFieldError("cnUnchangeTo", error);
+    			errorCode = -1;
+    		}
+    		
+    	} else { // validate segment mean
+    		error = UIFormValidator.validateSegmentMean(this.form.getSegmentMean(),"amplified", this.form.getSmAmplified());
+    		if (error != null) {
+    			addFieldError("smAmplified", error);
+    			errorCode = -1;
+    		}
+    		
+    		error = UIFormValidator.validateSegmentMean(this.form.getSegmentMean(),"deleted",this.form.getSmDeleted());
+    		if (error != null) {
+    			addFieldError("smDeleted", error);
+    			errorCode = -1;
+    		}
+    		
+    		error = UIFormValidator.validateSegmentMean(this.form.getSegmentMean(),"unchange",this.form.getSmUnchangeFrom());
+    		if (error != null) {
+    			addFieldError("smUnchangeFrom", error);
+    			errorCode = -1;
+    		}
+    		
+    		error = UIFormValidator.validateSegmentMean(this.form.getSegmentMean(),"unchange",this.form.getSmUnchangeTo());
+    		if (error != null) {
+    			addFieldError("smUnchangeTo", error);
+    			errorCode = -1;
+    		}
+    	}
+    	
+    	return errorCode;
+	}
+
+	protected int validateCGHQuery() {	
+		String queryName = this.form.getQueryName();
+		String geneOption = this.form.getGeneOption();
+		String geneList = this.form.getGeneList().trim();
+		String chromosome = this.form.getChromosomeNumber().trim();
+		
+		// Validate minimum criteria's for CGH Query
+		if (queryName != null && queryName.length() >= 1 && 
+				(geneOption != null && geneOption.equalsIgnoreCase("standard"))) {
+			if ((geneList == null || geneList.trim().length() < 1)
+					&& (chromosome == null || chromosome.length() < 1)) {
+				String msg = ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.cgh.minimum.error");
+				addActionError(msg);
+				return -1;
+			}
+		}
+
+		return 0;
+	}
+
 }
     
