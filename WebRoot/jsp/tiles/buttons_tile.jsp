@@ -42,44 +42,38 @@ function refresh()	{
 	<s:if test="form.geneOption == null || form.geneOption.length() == 0" >
 			
 		<input type="button" id="previewButton" name="previewButton" class="xbutton" value="Preview" 
-			onclick="handlePreviewButton();"/>
+			onclick="handlePreviewButton(); return true;"/>
 			
 		&nbsp;&nbsp;
  	</s:if>
 	
 	<s:if test="form.geneOption.equals('standard')"> 
-	<!--  
-			<s:submit type="button" id="previewButton" action="gePreview" class="xbutton" theme="simple"
-				onclick="handlePreviewButton();">Preview-GE2</s:submit>
-				-->
 			<input type="button" id="previewButton" name="previewButton" class="xbutton" value="Preview" 
-			onclick="handlePreviewButton();"/>
+			onclick="handlePreviewButton(); return true;"/>
 	&nbsp;&nbsp;
  	</s:if>
  	
 	<s:if test="form.geneOption.equals('geneList')">
 	<input type="button" id="previewButton" name="previewButton" class="xbutton" value="Preview" 
-		onclick="handlePreviewButton();"/>
+		onclick="handlePreviewButton(); return true;"/>
 		&nbsp;&nbsp;
  	</s:if>
  	
  	<s:if test="#previewAction.startsWith('cd')">
  		<input type="button" id="previewButton" name="previewButton" class="xbutton" value="Preview" 
-		onclick="handlePreviewButton();"/>
+		onclick="handlePreviewButton(); return true;"/>
 		&nbsp;&nbsp;
  	</s:if>
 
-<input type="button" id="submittalButton" class="subButton" value="Submit" onclick="handleSubmitButton();"/>
-
-<!--  input type="submit" id="multiUseButton" class="subButtonInv" value="MultiUse"/> -->
-<!--  s:submit type="submit" action="getCytobands" id="multiUseButton" class="subButtonInv" value="MultiUse" theme="simple"/>-->
+<input type="button" id="submittalButton" class="subButton" value="Submit" onclick="handleSubmitButton(); return true;"/>
 
 <script language="javascript">
 function handlePreviewButton()	{
 	var actionName = document.getElementById("previewAction").value;
 	//alert(actionName);
-	if (actionName != 'cdPreview')
+	if (actionName != 'cdPreview') {
 		var ret = GeneAlias.validateAliases($('geneList').value, 'Preview');
+	}
 	
 	document.forms[0].action = actionName + '.action';
 	document.forms[0].submit();
