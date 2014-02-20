@@ -423,7 +423,7 @@ public class GeneExpressionAction extends ActionSupport implements SessionAware,
 		Thread.sleep(1000);
         //resetToken(request);
 
-        return "viewResults";
+        return "showResults";
 	}
 	
 	public String getCytobands()
