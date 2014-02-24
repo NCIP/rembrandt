@@ -64,8 +64,7 @@ String param = request.getParameter("s");
 <s:fielderror fieldName="org.apache.struts.action.GLOBAL_ERROR"/>
 </div>
 
-<s:set var="submitAction"><%=act%></s:set>
-<s:form action="%{#submitAction}" enctype="multipart/form-data" theme="simple">
+<s:form enctype="multipart/form-data" theme="simple" >
   <%
     request.getSession().setAttribute("currentPage2", "1");
   	session.removeAttribute("currentPage");
