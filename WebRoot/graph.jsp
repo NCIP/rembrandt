@@ -40,10 +40,12 @@ String graphURL= "";
 	<div>
 <%
  if(request.getParameter("reporter")!=null)	{
+	 out.println("========reporter : " + request.getParameter("reporter"));
 %>
        <app:cshelp topic="Coin_plot" />
        
-<% } else { %>
+<% } else {
+	out.println("========reporter : Other"%>
 	   <app:cshelp topic="Simple_gene_expression_plot" /><br clear="all"/>
 	   
 <% } %>   
@@ -55,8 +57,10 @@ String graphURL= "";
 
 <%
 //String geneSymbol = request.getAttribute("geneSymbol")!=null ? (String) request.getAttribute("geneSymbol") : "N/A";
+String geneSymbol = requestion.getParameter("geneSymbol");
 String alg = request.getParameter("alg")!=null ? (String) request.getParameter("alg") : RembrandtConstants.REPORTER_SELECTION_AFFY; 
-
+out.println("========Gene symbol: " + geneSymbol);
+out.println("=========alg: " + alg);
 %>
 <div align="center">
 	<div>
