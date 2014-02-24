@@ -175,7 +175,7 @@
          	<param name="actionName">previewGeneReport</param>
          	</result>
          
-        <result name="viewResults" type="redirectAction">
+        <result name="showResults" type="redirectAction">
          	<param name="actionName">viewResults</param>
          	</result>
          
@@ -193,7 +193,7 @@
          	<param name="actionName">previewGeneReport</param>
          	</result>
          
-        <result name="viewResults" type="redirectAction">
+        <result name="showResults" type="redirectAction">
          	<param name="actionName">viewResults</param>
          	</result>
          
@@ -211,7 +211,7 @@
          	<param name="actionName">previewGeneReport</param>
          	</result>
          
-        <result name="viewResults" type="redirectAction">
+        <result name="showResults" type="redirectAction">
          	<param name="actionName">viewResults</param>
          	</result>
          
@@ -229,7 +229,7 @@
          	<param name="actionName">previewGeneReport</param>
          	</result>
          
-        <result name="viewResults" type="redirectAction">
+        <result name="showResults" type="redirectAction">
          	<param name="actionName">viewResults</param>
          	</result>
          
@@ -247,7 +247,7 @@
          	<param name="actionName">previewGeneReport</param>
          	</result>
          
-        <result name="viewResults" type="redirectAction">
+        <result name="showResults" type="redirectAction">
          	<param name="actionName">viewResults</param>
          	</result>
          
@@ -265,7 +265,7 @@
          	<param name="actionName">previewGeneReport</param>
          	</result>
          
-        <result name="viewResults" type="redirectAction">
+        <result name="showResults" type="redirectAction">
          	<param name="actionName">viewResults</param>
          	</result>
          
@@ -299,48 +299,28 @@
         	 <param name="actionName">previewCGReport</param>
          </result>
          
-         <result name="viewResults" type="redirectAction">
+         <result name="showResults" type="redirectAction">
         	 <param name="actionName">viewResults</param>
          </result>
          
-         <result name="viewResults" type="redirectAction">
-        	 <param name="actionName">login</param>
-         </result>
 	</action>
 	
 	<!-- Comparative Genomic actions -->
 	<action name="cgSetup"
       	class="gov.nih.nci.rembrandt.web.struts2.action.ComparativeGenomicAction" method="setup">
-         <result name="advanceSearchMenu" type="tiles">nautilus.menu</result>
+         
          <result name="backToCGH" type="tiles">nautilus.comparitiveGenomic</result>
-         <result name="showAllGenes" type="tiles">nautilus.allGenesCGH</result>
-         
-         <result name="previewReport" type="redirectAction">
-        	 <param name="actionName">previewCGReport</param>
-         </result>
-         
-         <result name="viewResults" type="redirectAction">
-        	 <param name="actionName">viewResults</param>
-         </result>
-         
-         <result name="viewResults" type="redirectAction">
-        	 <param name="actionName">login</param>
-         </result>
-         
+          <result name="failure" type="redirectAction">
+         	<param name="actionName">login</param>
+         	</result>
+      
 	</action>
 	
 	<action name="cgPreview"
       	class="gov.nih.nci.rembrandt.web.struts2.action.ComparativeGenomicAction" method="preview">
-         <result name="advanceSearchMenu" type="tiles">nautilus.menu</result>
+         
          <result name="backToCGH" type="tiles">nautilus.comparitiveGenomic</result>
-         
-         <result name="showAllGenes" type="tiles">nautilus.allGenesCGH</result>
-         
-         <result name="previewReport" type="redirectAction">
-        	 <param name="actionName">previewCGReport</param>
-         </result>
-         
-         <result name="viewResults" type="redirectAction">
+         <result name="showResults" type="redirectAction">
         	 <param name="actionName">viewResults</param>
          </result>
          
@@ -351,17 +331,13 @@
          <result name="advanceSearchMenu" type="tiles">nautilus.menu</result>
          <result name="backToCGH" type="tiles">nautilus.comparitiveGenomic</result>
          <result name="showAllGenes" type="tiles">nautilus.allGenesCGH</result>
-         
+         <!--  
          <result name="previewReport" type="redirectAction">
         	 <param name="actionName">previewCGReport</param>
          </result>
-         
-         <result name="viewResults" type="redirectAction">
+         -->
+         <result name="showResults" type="redirectAction">
         	 <param name="actionName">viewResults</param>
-         </result>
-         
-         <result name="viewResults" type="redirectAction">
-        	 <param name="actionName">login</param>
          </result>
          
 	</action>
@@ -376,12 +352,8 @@
         	 <param name="actionName">previewCGReport</param>
          </result>
          
-         <result name="viewResults" type="redirectAction">
+         <result name="showResults" type="redirectAction">
         	 <param name="actionName">viewResults</param>
-         </result>
-         
-         <result name="viewResults" type="redirectAction">
-        	 <param name="actionName">login</param>
          </result>
          
 	</action>
@@ -398,9 +370,7 @@
 		 <result name="viewResults" type="redirectAction">
         	 <param name="actionName">viewResults</param>
          </result>
-         <result name="viewResults" type="redirectAction">
-        	 <param name="actionName">login</param>
-         </result> 
+         
 	</action>
 	
 	<action name="cdPreview"
