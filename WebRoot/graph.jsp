@@ -45,7 +45,7 @@ String graphURL= "";
        <app:cshelp topic="Coin_plot" />
        
 <% } else {
-	out.println("========reporter : Other"%>
+	out.println("========reporter : Other");%>
 	   <app:cshelp topic="Simple_gene_expression_plot" /><br clear="all"/>
 	   
 <% } %>   
@@ -57,7 +57,7 @@ String graphURL= "";
 
 <%
 //String geneSymbol = request.getAttribute("geneSymbol")!=null ? (String) request.getAttribute("geneSymbol") : "N/A";
-String geneSymbol = requestion.getParameter("geneSymbol");
+String geneSymbol = (String) requestion.getParameter("geneSymbol");
 String alg = request.getParameter("alg")!=null ? (String) request.getParameter("alg") : RembrandtConstants.REPORTER_SELECTION_AFFY; 
 out.println("========Gene symbol: " + geneSymbol);
 out.println("=========alg: " + alg);
