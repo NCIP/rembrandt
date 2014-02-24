@@ -57,7 +57,7 @@ String graphURL= "";
 
 <%
 //String geneSymbol = request.getAttribute("geneSymbol")!=null ? (String) request.getAttribute("geneSymbol") : "N/A";
-String geneSymbol = (String) requestion.getParameter("geneSymbol");
+String geneSymbol = (String) request.getParameter("geneSymbol");
 String alg = request.getParameter("alg")!=null ? (String) request.getParameter("alg") : RembrandtConstants.REPORTER_SELECTION_AFFY; 
 out.println("========Gene symbol: " + geneSymbol);
 out.println("=========alg: " + alg);
