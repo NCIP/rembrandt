@@ -128,6 +128,9 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 	
 	static final String QUICK_SEARCH_FORM_OBJ = "quickSearchForm";
 	static final String KMDATASET_FORM_OBJ = "kmForm";
+	
+	//Added here so that gene search plot will show
+	String geneSymbol;
 
 	public void prepare() {
 		quickSearchForm.reset(servletRequest);
@@ -150,22 +153,12 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 	private String doGeneExpPlot()
 			throws Exception {
 		
-		
-		//we will handle the error elsewhere, so no need to findForward("badgraph")
-		//QuickSearchForm qsForm = (QuickSearchForm) form;
-		//need this to pass the geneSymbol to the JSP
-		
-		String geneSymbol = quickSearchForm.getGeneSymbol();
-		geneSymbol = MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, geneSymbol);
+		this.geneSymbol = quickSearchForm.getGeneSymbol();
+		this.geneSymbol = MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, geneSymbol);
 		
 		servletRequest.getSession().setAttribute("geneSymbol", geneSymbol);
 		quickSearchForm.setGeneSymbol(geneSymbol);
 		
-		//servletRequest.getSession().setAttribute("geneSymbol", MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, 
-		//		quickSearchForm.getGeneSymbol()));
-		
-        //generator.setRequestAttributes(request);
-        //generator.setSessionAttributes(request.getSession(true));
         return "histogram";
 		
 	}
@@ -926,6 +919,14 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 
 	public void setRedrawInputSearchForm(QuickSearchForm redrawInputSearchForm) {
 		this.redrawInputSearchForm = redrawInputSearchForm;
+	}
+
+	public String getGeneSymbol() {
+		return geneSymbol;
+	}
+
+	public void setGeneSymbol(String geneSymbol) {
+		this.geneSymbol = geneSymbol;
 	}
 	
 	
