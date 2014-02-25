@@ -13,12 +13,15 @@
  */
 package gov.nih.nci.rembrandt.queryservice.resultset.copynumber;
 
+import org.apache.log4j.Logger;
+
 import gov.nih.nci.caintegrator.dto.de.BioSpecimenIdentifierDE;
 import gov.nih.nci.caintegrator.dto.de.DatumDE;
 import gov.nih.nci.caintegrator.dto.de.DiseaseNameDE;
 import gov.nih.nci.caintegrator.dto.de.GenderDE;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.view.GroupType;
+import gov.nih.nci.rembrandt.queryservice.ResultsetProcessor;
 import gov.nih.nci.rembrandt.queryservice.resultset.ViewByGroupResultsetHandler;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.AgeGroupResultset;
 import gov.nih.nci.rembrandt.queryservice.resultset.gene.DiseaseTypeResultset;
@@ -94,6 +97,8 @@ import gov.nih.nci.rembrandt.queryservice.queryprocessing.cgh.CopyNumber;
 */
 
 public class CopyNumberSingleViewHandler extends CopyNumberViewHandler{
+	private static Logger logger = Logger.getLogger(CopyNumberSingleViewHandler.class);
+	
 	public static CopyNumberSingleViewResultsContainer handleCopyNumberSingleView(CopyNumberSingleViewResultsContainer copyNumberContainer, CopyNumber copyNumberObj,GroupType groupType){
 		CytobandResultset cytobandResultset = null;
 		ReporterResultset reporterResultset = null;
@@ -151,7 +156,10 @@ public class CopyNumberSingleViewHandler extends CopyNumberViewHandler{
 
 		sampleCopyNumberValuesResultset.setSampleIDDE(new SampleIDDE(copyNumberObj.getSampleId()));
 		
-    	String segment = "chr:"+copyNumberObj.getChromosome()+" "+ copyNumberObj.getChromosomeStart()+"-"+copyNumberObj.getChromosomeStart();
+		//2014-02-25: use this format to have unique segment string. This is to fix a bug that was due to segment being used as key
+		//in hashmap while not being unique
+    	String segment = "specimenName:" + copyNumberObj.getSpecimenName() + " SnpSegName:" + copyNumberObj.getSnpSegmentName() +
+    			" chr:"+copyNumberObj.getChromosome()+" "+ copyNumberObj.getChromosomeStart()+"-"+copyNumberObj.getChromosomeStart();
 
 		sampleCopyNumberValuesResultset.setSegment(new DatumDE(DatumDE.COPY_NUMBER,segment));
 		sampleCopyNumberValuesResultset.setChr(copyNumberObj.getChromosome());
@@ -161,14 +169,6 @@ public class CopyNumberSingleViewHandler extends CopyNumberViewHandler{
 		sampleCopyNumberValuesResultset.setSegmentMean(new DatumDE(DatumDE.COPY_NUMBER,copyNumberObj.getSegmentMean()));
 		sampleCopyNumberValuesResultset.setNumberOFMarks(new DatumDE(DatumDE.COPY_NUMBER,copyNumberObj.getNumberMark()));
 		sampleCopyNumberValuesResultset.setDisease(new DiseaseNameDE(copyNumberObj.getDiseaseType()));
-
-		//sampleCopyNumberValuesResultset.setChannelRatioValue(new DatumDE(DatumDE.COPY_NUMBER_CHANNEL_RATIO,copyNumberObj.getChannelRatio()));
-		//sampleCopyNumberValuesResultset.setCopyNumberPvalue(new DatumDE(DatumDE.COPY_NUMBER_RATIO_PVAL,copyNumberObj.getCopynoPval()));
-		//sampleCopyNumberValuesResultset.setLOH(new DatumDE(DatumDE.COPY_NUMBER_LOH,copyNumberObj.getLoh()));		
-		//sampleCopyNumberValuesResultset.setAgeGroup(new DatumDE(DatumDE.AGE_GROUP,copyNumberObj.getAgeGroup()));
-		//sampleCopyNumberValuesResultset.setSurvivalLengthRange(new DatumDE(DatumDE.SURVIVAL_LENGTH_RANGE,copyNumberObj.getSurvivalLengthRange()));
-		//sampleCopyNumberValuesResultset.setGenderCode(new GenderDE(copyNumberObj.getGenderCode()));
-		
   	
   		return sampleCopyNumberValuesResultset;
     }
