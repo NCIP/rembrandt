@@ -500,6 +500,12 @@ public class RefineQueryForm extends BaseForm implements Factory {
 	}
 
 	public void setInstituteView(String[] instituteView) {
+		if (instituteView != null && instituteView.length == 1) {
+			if (instituteView[0].trim().equals("-1")) {
+				return;
+			}
+		} 
+		
 		this.instituteView = instituteView;
 	}
 
