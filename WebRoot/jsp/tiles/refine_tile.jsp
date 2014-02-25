@@ -150,7 +150,8 @@ L--%>
 		<tr><td>
 			
 				<s:select name="refineQueryForm.instituteView" onchange="" id="instituteView" style="width:300px" 
-					list="refineQueryForm.institueViewColl" listKey="displayName" listValue="displayName" />
+					list="refineQueryForm.institueViewColl" listKey="displayName" listValue="displayName" 
+					headerKey="-1" headerValue=" "/>
 					 
 				<s:fielderror fieldName="instituteView"/>
 			</td>
