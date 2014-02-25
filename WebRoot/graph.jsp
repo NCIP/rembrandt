@@ -39,31 +39,19 @@ String graphURL= "";
 <div style="background-color:#ffffff">
 	<div>
 <%
- if(request.getParameter("reporter")!=null)	{
-	 out.println("========reporter : " + request.getParameter("reporter"));
-%>
+ if(request.getParameter("reporter")!=null)	{%>
        <app:cshelp topic="Coin_plot" />
        
-<% } else {
-	out.println("========reporter : Other");%>
+<% } else {%>
 	   <app:cshelp topic="Simple_gene_expression_plot" /><br clear="all"/>
 	   
 <% } %>   
 	</div>
 
-	<!-- 
-	<img src="<%= graphURL %>" border=0 usemap="#<%= filename %>">
-	-->
-
 <%
-//String geneSymbol = request.getAttribute("geneSymbol")!=null ? (String) request.getAttribute("geneSymbol") : "N/A";
-String geneSymbol = (String) request.getParameter("geneSymbol");
 String alg = request.getParameter("alg")!=null ? (String) request.getParameter("alg") : RembrandtConstants.REPORTER_SELECTION_AFFY; 
-out.println("========Gene symbol: " + geneSymbol);
-out.println("=========alg: " + alg);
 %>
 
-=============<s:property value="geneSymbol" /> ============
 <div align="center">
 	<div>
 	<graphing:GenePlot algorithm="<%=alg%>" />
@@ -72,9 +60,7 @@ out.println("=========alg: " + alg);
 	</div>
 
 <br/>
-<!-- 
-<a href="javascript:void(window.print())">[Print this graph]</a><br/><br/>
--->
+
 </div>
 	
 </div>
