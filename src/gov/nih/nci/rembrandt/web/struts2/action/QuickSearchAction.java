@@ -107,15 +107,8 @@ import com.opensymphony.xwork2.ActionSupport;
 * 
 */
 
-/*
- * ToDo: 
- * 
- * Make sure the following from old struts config is implemented here or somewhere
- * input="nautilus.home"
-            validate="true"
- * 
- */
-public class QuickSearchAction extends ActionSupport implements ServletRequestAware { //extends DispatchAction {
+
+public class QuickSearchAction extends ActionSupport implements ServletRequestAware {
 	private static Logger logger = Logger.getLogger(QuickSearchAction.class);
 	private RembrandtPresentationTierCache presentationTierCache = ApplicationFactory.getPresentationTierCache();
 	
@@ -129,7 +122,8 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 	static final String QUICK_SEARCH_FORM_OBJ = "quickSearchForm";
 	static final String KMDATASET_FORM_OBJ = "kmForm";
 	
-	//Added here so that gene search plot will show
+	//Have to add this here because the taglib for gene plot
+	//needs the value in request
 	String geneSymbol;
 
 	public void prepare() {
@@ -153,10 +147,11 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 	private String doGeneExpPlot()
 			throws Exception {
 		
+		//Transfer gene symbol value from form to action
+		//because tag lib to show gene plot needs it in request
 		this.geneSymbol = quickSearchForm.getGeneSymbol();
 		this.geneSymbol = MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, geneSymbol);
 		
-		servletRequest.getSession().setAttribute("geneSymbol", geneSymbol);
 		quickSearchForm.setGeneSymbol(geneSymbol);
 		
         return "histogram";
@@ -592,16 +587,12 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 	public String quickSearch()
 			throws Exception {
 		
-		//if (!isTokenValid(request)) {
-		//	return mapping.findForward("failure");
-		//}
-		
 		List<String> errors = validateFormData();
 		if (errors.size() > 0) {
 			for (String error : errors)
 				addActionError(error);
 			
-			return ERROR;
+			return "failure";
 		}
 		
     	String sID = servletRequest.getHeader("Referer");
@@ -625,13 +616,10 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 		}
 		
 		if (errors.isEmpty()) {
-	        //TODO: what to do
-			//resetToken(request);
 			
 			//Save form to session for chained / redirect action use
 			servletRequest.getSession().setAttribute(QUICK_SEARCH_FORM_OBJ, quickSearchForm);
 			
-
 			String chartType = qsForm.getPlot();
 
 			if (chartType.equalsIgnoreCase("kapMaiPlotGE")) {
@@ -662,14 +650,23 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 				return "kmplot";
 			}
 			else if (chartType.equalsIgnoreCase("geneExpPlot")) {
+				//Transfer gene symbol value from form to action
+				//because tag lib to show gene plot needs it in request
+				this.geneSymbol = quickSearchForm.getGeneSymbol();
+				this.geneSymbol = MoreStringUtils.cleanString(MoreStringUtils.specialCharacters, geneSymbol);
+				
+				quickSearchForm.setGeneSymbol(geneSymbol);
+				return "histogram";
+				/*
 				try {
 					logger.debug("user has requested geneExpPlot");
 					return doGeneExpPlot();
 				} catch (Exception e) {
 					logger.error("Gene Expression Plot Flopped");
 					logger.error(e);
-					return "error"; //Where is this configured Shan
+					return "failure"; 
 				}
+				*/
 			}
 
 		}
@@ -901,8 +898,6 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 	    }
 		
 		return errors;
-		
-
 	}
 
 	public KMDataSetForm getRedrawInputForm() {
