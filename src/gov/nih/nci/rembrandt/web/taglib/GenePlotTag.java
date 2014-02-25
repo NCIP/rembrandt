@@ -126,7 +126,7 @@ public class GenePlotTag extends AbstractGraphingTag {
 				out.print("<div style=\"text-align:left;margin-left:120px; \"> <span style='font-weight:bold'>Data Selection:</span> ");
 				
 				if(algorithm.equals(RembrandtConstants.REPORTER_SELECTION_UNI))	{
-					out.print("<a href=\"graph.do?geneSymbol="+geneSymbol+"&alg="+RembrandtConstants.REPORTER_SELECTION_AFFY+"\">"+RembrandtConstants.REPORTER_SELECTION_AFFY+"</a>");
+					out.print("<a href=\"graph.action?geneSymbol="+geneSymbol+"&alg="+RembrandtConstants.REPORTER_SELECTION_AFFY+"\">"+RembrandtConstants.REPORTER_SELECTION_AFFY+"</a>");
 				}
 				else	{
 					out.print(RembrandtConstants.REPORTER_SELECTION_AFFY);
@@ -134,7 +134,7 @@ public class GenePlotTag extends AbstractGraphingTag {
 				out.print(" | ");
 				
 				if(algorithm.equals(RembrandtConstants.REPORTER_SELECTION_AFFY))	{
-					out.print("<a href=\"graph.do?geneSymbol="+geneSymbol+"&alg="+RembrandtConstants.REPORTER_SELECTION_UNI+"\">"+RembrandtConstants.REPORTER_SELECTION_UNI+"</a>");
+					out.print("<a href=\"graph.action?geneSymbol="+geneSymbol+"&alg="+RembrandtConstants.REPORTER_SELECTION_UNI+"\">"+RembrandtConstants.REPORTER_SELECTION_UNI+"</a>");
 				}
 				else	{
 					out.print(RembrandtConstants.REPORTER_SELECTION_UNI);
