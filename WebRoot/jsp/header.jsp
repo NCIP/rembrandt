@@ -35,11 +35,12 @@ Welcome&nbsp;
 UserCredentials credentials = (UserCredentials)session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
 if (credentials == null || (credentials.getUserName() != null && credentials.getUserName().equalsIgnoreCase("RBTuser"))) {
 	%>
-	<area alt="REMBRANDT application logo" coords="7,8,272,50" href="<s:url action="login" namespace='/' />">
+	<area alt="REMBRANDT application logo" coords="7,8,272,50" href="login.jsp">
 <% 
 }else {
 %>
-<area alt="REMBRANDT application logo" coords="7,8,272,50" href="<s:url action="menu" namespace='/' />">
+<!-- The href here is temporary -->
+<area alt="REMBRANDT application logo" coords="7,8,272,50" href="login.jsp">
 <% 
 } 
  %>
