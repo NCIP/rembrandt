@@ -93,9 +93,12 @@
             parameter="method"> what's this? -->
 	<action name="quickSearch"            
             class="gov.nih.nci.rembrandt.web.struts2.action.QuickSearchAction" method="quickSearch">
+         <result name="histogram" type="tiles">nautilus.graph</result>
+         <!--  
          <result name="histogram" type="redirectAction">
         	 <param name="actionName">graph</param>
-         </result>      
+         </result> 
+         -->     
  		 <result name="mismatch" type="tiles">nautilus.home</result>
  		 <result name="badgraph" type="redirectAction">
         	 <param name="actionName">home</param>
