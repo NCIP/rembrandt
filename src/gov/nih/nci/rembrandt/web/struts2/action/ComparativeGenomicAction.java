@@ -478,21 +478,25 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
         this.servletRequest.getSession().setAttribute("currentPage", "0");
         this.servletRequest.getSession().removeAttribute("currentPage2");
         
-        //ComparativeGenomicForm comparativeGenomicForm = (ComparativeGenomicForm) form;
         logger.debug("This is a Comparative Genomic Preview");
-        //Create Query Objects
+        
         ComparativeGenomicQuery cghQuery = createCGHQuery(form,this.servletRequest.getSession());
-        if(cghQuery != null){
+        if(cghQuery != null)
         	cghQuery.setInstitutionCriteria(InsitutionAccessHelper.getInsititutionCriteria(this.servletRequest.getSession()));
-            }
+            
         //This is required as struts resets the form.  It is later added back to the request
-        this.servletRequest.setAttribute("previewForm", form.cloneMe());
+        
+        //Shan: don't know what's this for. To delet...
+        //this.servletRequest.setAttribute("previewForm", form.cloneMe());
+        
         CompoundQuery compoundQuery = new CompoundQuery(cghQuery);
         compoundQuery.setQueryName(RembrandtConstants.PREVIEW_RESULTS);
         logger.debug("Setting query name to:"+compoundQuery.getQueryName());
+        
         compoundQuery.setAssociatedView(cghQuery.getAssociatedView());
         logger.debug("Associated View for the Preview:"+compoundQuery.getAssociatedView().getClass());
-	    //Save the sessionId that this preview query is associated with
+	    
+        //Save the sessionId that this preview query is associated with
         compoundQuery.setSessionId(this.servletRequest.getSession().getId());
                 
         RembrandtAsynchronousFindingManagerImpl asynchronousFindingManagerImpl = new RembrandtAsynchronousFindingManagerImpl();
