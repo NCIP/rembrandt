@@ -136,6 +136,10 @@
 		 	<param name="actionName">login</param>
 		 </result>
 	</action>
+	
+	<action name="graph">
+		<result type="tiles">nautilus.graph</result>
+     </action>
            
     <action name="home"
 		class="gov.nih.nci.rembrandt.web.struts2.action.DoFirst">
