@@ -353,12 +353,7 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
      //If this is a Submittal do the following
     public String submittal()
             throws Exception {
-        
-    	//Shan: watch impact
-    	//if (!isTokenValid(request)) {
-		//	return mapping.findForward("failure");
-		//}
-    	
+       
     	setDataFormDetails();
     	
     	if (validateForSubmitOrPreview() != 0)
