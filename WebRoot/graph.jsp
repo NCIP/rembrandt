@@ -62,6 +62,8 @@ String alg = request.getParameter("alg")!=null ? (String) request.getParameter("
 out.println("========Gene symbol: " + geneSymbol);
 out.println("=========alg: " + alg);
 %>
+
+=============<s:property value="geneSymbol" /> ============
 <div align="center">
 	<div>
 	<graphing:GenePlot algorithm="<%=alg%>" />
