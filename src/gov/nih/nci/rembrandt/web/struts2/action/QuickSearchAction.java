@@ -28,6 +28,7 @@ import gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot.KaplanMeierP
 import gov.nih.nci.rembrandt.queryservice.resultset.kaplanMeierPlot.SampleKaplanMeierPlotResultset;
 import gov.nih.nci.rembrandt.util.MoreStringUtils;
 import gov.nih.nci.rembrandt.util.RembrandtConstants;
+import gov.nih.nci.rembrandt.web.bean.LabelValueBean;
 import gov.nih.nci.rembrandt.web.factory.ApplicationFactory;
 import gov.nih.nci.rembrandt.web.helper.InsitutionAccessHelper;
 import gov.nih.nci.rembrandt.web.helper.KMDataSetHelper;
