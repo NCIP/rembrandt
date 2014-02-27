@@ -924,5 +924,9 @@ public class QuickSearchAction extends ActionSupport implements ServletRequestAw
 		this.geneSymbol = geneSymbol;
 	}
 	
-	
+	public boolean isItemSelected(String itemName) {
+		String[] items = this.kmForm.getSelectedItems();
+		//boolean s = Arrays.asList(items).contains(itemName.trim());
+		return Arrays.asList(items).contains(itemName.trim());
+	}
 }
