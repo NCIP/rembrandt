@@ -10,10 +10,7 @@ package gov.nih.nci.rembrandt.web.helper;
 import gov.nih.nci.caintegrator.dto.critieria.SampleCriteria;
 import gov.nih.nci.caintegrator.dto.de.SampleIDDE;
 import gov.nih.nci.caintegrator.dto.query.OperatorType;
-import gov.nih.nci.caintegrator.dto.view.ClinicalSampleView;
 import gov.nih.nci.caintegrator.dto.view.View;
-import gov.nih.nci.caintegrator.dto.view.ViewFactory;
-import gov.nih.nci.caintegrator.dto.view.ViewType;
 import gov.nih.nci.caintegrator.dto.view.Viewable;
 import gov.nih.nci.caintegrator.service.findings.ClassComparisonFinding;
 import gov.nih.nci.caintegrator.service.findings.FTestFinding;
@@ -43,7 +40,9 @@ import gov.nih.nci.rembrandt.web.xml.ReportGenerator;
 import gov.nih.nci.rembrandt.web.xml.ReportGeneratorFactory;
 import gov.nih.nci.rembrandt.web.xml.Transformer;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
@@ -687,6 +686,7 @@ public class ReportGeneratorHelper {
 		File styleSheet = new File(RembrandtContextListener.getContextPath()+"/XSL/"+xsltFilename);
 		// load the transformer using JAX
 		logger.debug("Applying XSLT "+xsltFilename);
+		
         Transformer transformer;
 		try {
 			
