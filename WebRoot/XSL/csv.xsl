@@ -83,7 +83,19 @@
 		    </xsl:for-each>
 		</xsl:for-each>
 		<xsl:for-each select="Row[(@name='dataRow')] ">
-			<xsl:for-each select="Cell">
+		
+			<xsl:for-each select="Cell[@group = 'header']">
+				<xsl:value-of select="Data" />
+				<xsl:value-of select="', '"/>
+				<xsl:if test="position() = last()">
+					<xsl:value-of select="', '"/>
+					<xsl:value-of select="', '"/>
+					<xsl:value-of select="', '"/>
+					<xsl:value-of select="', '"/>
+				</xsl:if>
+			</xsl:for-each>
+		
+			<xsl:for-each select="Cell[@group != 'header']">
 				<xsl:value-of select="Data" />
 				<xsl:if test="position() != last()">
 					<xsl:value-of select="', '"/>
@@ -91,8 +103,10 @@
 				<xsl:if test="position() = last()">
 					<xsl:text>&#10;</xsl:text>
 				</xsl:if>
-				</xsl:for-each>
-		</xsl:for-each>		
+				
+			</xsl:for-each>
+		</xsl:for-each>
+		
 	</xsl:if>
 </span>
 </xsl:for-each>
