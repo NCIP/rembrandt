@@ -10,6 +10,7 @@ package gov.nih.nci.rembrandt.web.struts2.form;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import gov.nih.nci.caintegrator.util.CaIntegratorConstants;
@@ -97,6 +98,7 @@ public class QuickSearchForm extends BaseForm implements GeneValidator{
 	private String baselineGroup = null;
 	
 	private List<LabelValueBean> sampleGroupsList;
+	private List<LabelValueBean> sampleGroupsListCompare;
 	
 	private List<String> quickSearchTypes = new ArrayList<String>();
 	
@@ -104,22 +106,27 @@ public class QuickSearchForm extends BaseForm implements GeneValidator{
 		GroupRetriever groupRetriever = new GroupRetriever();
 		
 		List<LabelValueBean> al = groupRetriever.getClinicalGroupsCollectionNoPath(request.getSession());
-
+		
+		this.sampleGroupsListCompare = new ArrayList<LabelValueBean>();
+		this.sampleGroupsListCompare.add(new LabelValueBean("None", "none"));
+		
 		//specifically remove only these values, not to effect the groupRetriever
-		LabelValueBean tmp = new LabelValueBean("UNKNOWN", "UNKNOWN");
-		al.remove(tmp);
-		tmp = new LabelValueBean("ALL", "ALL");
-		al.remove(tmp);
-		tmp = new LabelValueBean("NON_TUMOR", "NON_TUMOR");
-		al.remove(tmp);
+		if (al != null) {
+			for (Iterator<LabelValueBean> i = al.iterator(); i.hasNext(); ) {
+				LabelValueBean sg = (LabelValueBean) i.next();
+
+				if ("UNKNOWN".equals(sg.getLabel()) && "UNKNOWN".equals(sg.getValue())
+						|| "ALL".equals(sg.getLabel()) && "ALL".equals(sg.getValue())
+						|| "NON_TUMOR".equals(sg.getLabel()) && "NON_TUMOR".equals(sg.getValue()))
+					i.remove();
+			}
+			
+			sampleGroupsList = al;
+			this.sampleGroupsListCompare.addAll(this.sampleGroupsList);
+		}	
 		
-		//al.add(new LabelValueBean("None", "none"));
-		//al.add(new LabelValueBean("Rest of the Gliomas", "Rest of the Gliomas"));
-		
-		sampleGroupsList = al;
+		this.sampleGroupsListCompare.add(new LabelValueBean("Rest of the Gliomas", "Rest of the Gliomas"));
 	}
-	
-	
 	
 	public String getPlot() {
 		return plot;
@@ -207,16 +214,16 @@ public class QuickSearchForm extends BaseForm implements GeneValidator{
 		this.baselineGroup = baselineGroup;
 	}
 	
-	public List<LabelValueBean> getSampleGroupListWithExtra() {
-		if (this.sampleGroupsList == null)
-			return new ArrayList<LabelValueBean>();
-		
-		this.sampleGroupsList.add(new LabelValueBean("None", "none"));
-		this.sampleGroupsList.add(new LabelValueBean("Rest of the Gliomas", "Rest of the Gliomas"));
-		
-		return sampleGroupsList;
-		
-	}
+//	public List<LabelValueBean> getSampleGroupListWithExtra() {
+//		if (this.sampleGroupsList == null)
+//			this.sampleGroupsListCompare = new ArrayList<LabelValueBean>();
+//		
+//		this.sampleGroupsList.add(new LabelValueBean("None", "none"));
+//		this.sampleGroupsList.add(new LabelValueBean("Rest of the Gliomas", "Rest of the Gliomas"));
+//		
+//		return sampleGroupsList;
+//		
+//	}
 	
 	public List<String> getQuickSearchTypes() {
 		if (this.quickSearchTypes.size() == 0)
@@ -247,7 +254,17 @@ public class QuickSearchForm extends BaseForm implements GeneValidator{
 		this.sampleGroupsList = sampleGroupsList;
 	}
 
-	
 
+
+	public List<LabelValueBean> getSampleGroupsListCompare() {
+		return sampleGroupsListCompare;
+	}
+
+
+
+	public void setSampleGroupsListCompare(
+			List<LabelValueBean> sampleGroupsListCompare) {
+		this.sampleGroupsListCompare = sampleGroupsListCompare;
+	}
 	
 }
