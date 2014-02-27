@@ -8,7 +8,8 @@ L--%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="/WEB-INF/rembrandt.tld" prefix="app" %>
 
-<%@ page import="java.util.*, java.lang.*, java.io.*, gov.nih.nci.caintegrator.util.CaIntegratorConstants" %>
+<%@ page import="java.util.*, java.lang.*, java.io.*, 
+		gov.nih.nci.caintegrator.util.CaIntegratorConstants" %>
 <br clear="both"/>
 
  
@@ -149,8 +150,7 @@ L--%>
 			 	
 			</s:select>
 	         vs.
-	         <s:select name="quickSearchForm.groupNameCompare" 
-	         list="quickSearchForm.getSampleGroupListWithExtra()" listKey="value" listValue="label"
+	         <s:select name="quickSearchForm.groupNameCompare" list="quickSearchForm.sampleGroupsListCompare" listKey="value" listValue="label" 
 	         theme="simple" id="groupNameCompare" style="width:200px;" disabled="false" onchange="examineGroups(this);needGVal = false;">	         	
 			 	
 			</s:select>
