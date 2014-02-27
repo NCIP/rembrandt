@@ -134,10 +134,11 @@ L--%>
 			<tr>
 				<td align="center" colspan="2" style="font-size:.9em;margin-left:10px">
 					<p align="left">Select which plots should be visible in the redrawn graph:<label for="item">&#160;</label><br/></p>
+					
 					<s:iterator value="kmForm.items" var="item"> 
-						<s:checkbox name="redrawInputForm.selectedItems" fieldValue="%{item}" theme = "simple">
-							<s:property value="#item" />
-						</s:checkbox>
+							<s:checkbox name="redrawInputForm.selectedItems" value="isItemSelected(#item)" fieldValue="%{item}" theme = "simple">
+									<s:property value="#item" />
+							</s:checkbox>
 					</s:iterator>
 				</td>
 			</tr>
@@ -248,17 +249,15 @@ L--%>
     		<s:if test="kmForm.storedData.upSampleCount > 0">
 				<tr>
 					<td>
-					<s:property value="kmForm.upOrAmplified" />:</td>
+						<s:property value="kmForm.upOrAmplified" />:</td>
 					<td>
-					<s:property value="kmForm.storedData.upSampleCount" />
-					upOrAmplified
-					</td>
+						<s:property value="kmForm.storedData.upSampleCount" /></td>
 				</tr>
 			</s:if>
 			<s:if test="kmForm.storedData.downSampleCount > 0">
 				<tr>
 					<td>
-					<s:property value="kmForm.storedData.downOrDeleted" />:</td>
+					<s:property value="kmForm.downOrDeleted" />:</td>
 					<td>
 					<s:property value="kmForm.storedData.downSampleCount" />
 					</td>
