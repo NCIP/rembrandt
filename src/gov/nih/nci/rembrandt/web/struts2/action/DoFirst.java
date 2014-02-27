@@ -217,9 +217,6 @@ public class DoFirst extends ActionSupport implements ServletRequestAware {
 			this.quickSearchForm = new QuickSearchForm();
 			quickSearchForm.reset(request);
 		
-			//TODO: watch this
-			//saveToken(aRequest);
-		
 		return "success";
 
 	}
