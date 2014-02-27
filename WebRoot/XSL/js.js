@@ -26,6 +26,7 @@ function stupidXSL(i, cPage, total)	{
 
 }
 
+//Replaced by checkAllSamples
 	function checkAll(field)	{
 		if(field.length > 1)	{
 			for (i = 0; i < field.length; i++)
@@ -40,9 +41,33 @@ function stupidXSL(i, cPage, total)	{
 				if(c[i].type == 'checkbox' && c[i].id == 'grpcheck')
 					c[i].checked = true;
 			}
-
+	}
+	
+	function checkAllSamples()	{
+		var elems = document.getElementsByName('reportGeneratorForm.samples');
+		
+		if(elems.length > 0)	{
+			for (i = 0; i < elems.length; i++)	{
+				if(elems[i].type == 'checkbox')	{
+					elems[i].checked = true;
+				}
+			}
+		}
+	}
+	
+	function uncheckAllSamples()	{
+		var elems = document.getElementsByName('reportGeneratorForm.samples');
+		
+		if(elems.length > 0)	{
+			for (i = 0; i < elems.length; i++)	{
+				if(elems[i].type == 'checkbox')	{
+					elems[i].checked = false;
+				}
+			}
+		}
 	}
 		
+	//Replaced by uncheckAllSamples
 	function uncheckAll(field)	{
 		if(field.length > 1)	{
 			for (i = 0; i < field.length; i++)
@@ -60,9 +85,10 @@ function stupidXSL(i, cPage, total)	{
 	}
 		
 	function checkById(field, idx)	{
+		alert("In checkById")
 		if(field.length > 1)	{
 			for (i = 0; i < field.length; i++)	{
-				if(field[i].id == idx)	{
+				if(field[i].type == 'checkbox' && field[i].id == idx)	{
 					field[i].checked = true;
 					//field[i].checked = !field[i].checked;
 				}
@@ -77,7 +103,7 @@ function stupidXSL(i, cPage, total)	{
 	function uncheckById(field, idx)	{
 		if(field.length > 1)	{
 			for (i = 0; i < field.length; i++)	{
-				if(field[i].id == idx)
+				if(field[i].type == 'checkbox' && field[i].id == idx)
 					field[i].checked = false;
 			}
 		}
@@ -142,22 +168,23 @@ function stupidXSL(i, cPage, total)	{
 	function checkIfSamplesSelected( savedSamples ) {
 		var can_continue = false;
 		
-		if(document.prbSamples.samples.length > 1)	{
-			for (i = 0; i < document.prbSamples.samples.length; i++)	{
+		var elems = document.getElementsByName('reportGeneratorForm.samples');
+		
+		if(elems.length > 0)	{
+			for (i = 0; i < elems.length; i++)	{
 				// check if they are selected and the Parent cell <td> is not hidden
-				if(document.prbSamples.samples[i].checked == true && document.prbSamples.samples[i].parentNode.style.display != "none" )	{
+				if(elems[i].type == 'checkbox' && elems[i].checked == true 
+						&& elems[i].parentNode.style.display != 'none' )	{
 					can_continue = true;
-					savedSamples.push(document.prbSamples.samples[i].value);
+					savedSamples.push(elems[i].value);
 				}
 			}
 		}
-		else	{
-			if(document.prbSamples.samples.checked == true)	{
-				can_continue = true;
-				savedSamples.push(document.prbSamples.samples.value);
-			}
-		}
-		
+
+//		var hiddenVal = document.getElementById('selectedSamples');
+//		alert(hiddenVal.type);
+//		hiddenVal.value = savedSamples[0];
+//		alert(hiddenVal.value);
 		return can_continue;
 	}
 	
@@ -181,12 +208,24 @@ function stupidXSL(i, cPage, total)	{
 			alert('No samples selected for Web Genome Plot');
 	}
 	
+	//This is replaced with grougCheckSamples
 	function groupCheck(field, idx, ischecked)	{
 		if(ischecked)	{
 			checkById(field, idx);
 		}
 		else	{
 			uncheckById(field, idx);
+		}
+	}
+	
+	function groupCheckSamples(id, ischecked)	{
+		var elems = document.getElementsByName('reportGeneratorForm.samples');
+		
+		if(ischecked)	{
+			checkById(elems, id);
+		}
+		else	{
+			uncheckById(elems, id);
 		}
 	}
 
@@ -391,8 +430,9 @@ function checkElement(id)	{
 }
 
 function stupidXSLEscape(qname, rtype)	{
+	
 	// For Preview Results, no checkboxes are shown for Samples. So, Export All by default.
-	if ( qname === 'previewResults' ) {
+	if ( qname == 'previewResults' ) {
 		var dest = "runGeneViewReport.action?queryName="+ escape(qname)+"&csv=true";
 		location.href = dest;
 		return;
@@ -400,12 +440,13 @@ function stupidXSLEscape(qname, rtype)	{
 	
 	var savedSamples = Array();
 	var can_continue = false;
-	
-	if ( rtype == "Gene Expression Sample" || rtype == "Copy Number" ) 
+	alert(rtype);
+	if ( rtype == "Gene Expression Sample" || rtype == "Copy Number" ) {
 		can_continue = checkIfSamplesSelected( savedSamples );
+	}
 	else
 		can_continue = currentTmpSamplesCount > 0;			// for clinical view, the records selected are stored in this variable.
-	
+
 	if ( can_continue ) {
 		try	{
 			if(savedSamples.length>0)	// only for Gene Expression Sample View or Copy Number View
@@ -425,9 +466,74 @@ function stupidXSLEscape(qname, rtype)	{
 
 function excel_export_cb(qnameAndrType) {
 	var qnameAndrTypeArray = qnameAndrType.split(",");
+	
 	var dest = "runExportToExcelForGeneView.action?queryName="+ escape(qnameAndrTypeArray[0])+"&reportType="+escape(qnameAndrTypeArray[1])+"&csv=true&checkedAll=true";
 	location.href = dest;
 }
+
+//this doesn't work
+//function exportReport(qname, rtype)	{
+//	// For Preview Results, no checkboxes are shown for Samples. So, Export All by default.
+//	alert(rtype);
+//	if ( qname == 'previewResults' ) {
+//		var dest = "runGeneViewReport.action?queryName="+ escape(qname)+"&csv=true";
+//		location.href = dest;
+//		return;
+//	}
+//
+//	var can_continue = false;
+//	alert(can_continue);
+//	if ( rtype == "Gene Expression Sample" || rtype == "Copy Number" ) {
+//		can_continue = hasSelectedSamples();
+//	}
+//	else
+//		can_continue = currentTmpSamplesCount > 0;			// for clinical view, the records selected are stored in this variable.
+//
+//		alert(can_continue);
+//	if ( can_continue ) {
+//		//excel_export_cb_struts2();
+//		DynamicReport.saveSamplesForExcelExport("", qname, rtype, excel_export_cb_struts2);
+//	}
+//	else
+//	{
+//		alert("You must select at least one sample or select Check All.");
+//		return false;
+//	}
+//	
+//}
+
+function hasSelectedSamples() {
+	var hasSamplesChecked = false;
+	alert("there");
+	var elems = document.getElementsByName('reportGeneratorForm.samples');
+	
+	if(elems.length > 0)	{
+		for (i = 0; i < elems.length; i++)	{
+			// check if they are selected and the Parent cell <td> is not hidden
+			if(elems[i].type == 'checkbox' && elems[i].checked == true 
+					&& elems[i].parentNode.style.display != 'none' )	{
+				hasSamplesChecked = true;
+				break;
+			}
+		}
+	}
+	alert(hasSamplesChecked);
+	return hasSamplesChecked;
+}
+
+//function excel_export_cb_struts2() {
+//	//var qnameAndrTypeArray = qnameAndrType.split(",");
+//	alert("In excel_export_cb_struts2");
+//	var form = document.getElementById("prbSamples");
+//	form.action="runExportToExcelForGeneView.action";
+//	form.submit();
+//	
+//	//var dest = "runExportToExcelForGeneView.action?queryName="+ escape(qnameAndrTypeArray[0])+"&reportType="+escape(qnameAndrTypeArray[1])+"&csv=true&checkedAll=true";
+//	//location.href = dest;
+//}
+
+
+
 function igvEscape(qname)	{
 	// For Preview Results, no checkboxes are shown for Samples. So, Export All by default.
 	
@@ -514,13 +620,10 @@ function goPageChangeStep(p, s)	{
 		var f3 = document.getElementById('paginate_filter_value3');
 		if (f2 != null)
 			f2.value= 0;
-		else
-			alert("f2 null");
+		
 		
 		if (f3 != null) 
 			f3.value = s;
-		else
-			alert("f3 null");
 
 	 	document.forms['paginate'].submit(); 
 	}
