@@ -147,6 +147,10 @@ public class ReportGeneratorAction extends ActionSupport implements ServletReque
     String csv;
     String igv;
     
+    String reportType;
+    String checkedAll;
+  
+    
     @Override
 	public void prepare() throws Exception {
 		if (reportGeneratorForm == null) {
@@ -897,18 +901,24 @@ public String exportToExcelForGeneView()
 		throws Exception {
 	
 	ReportGeneratorForm rgForm = (ReportGeneratorForm) this.reportGeneratorForm;
+	
 	//Used to get the old resultant from cache
-	String queryName = rgForm.getQueryName();
+	if (this.queryName == null || this.queryName.length() == 0)
+		this.queryName = rgForm.getQueryName();
+	
 	//This is what the user wants to name the new resultSet
 	String prb_queryName = rgForm.getPrbQueryName();
 	String sessionId = this.servletRequest.getSession().getId();
 	
-	String reportType = this.servletRequest.getParameter( "reportType" );
-	
 	String[] sampleIds = null;
+	this.csv = "true";
+	this.checkedAll = "true";
 	
+	if (this.reportType == null || this.reportType.length() == 0) 
+		this.reportType = this.servletRequest.getParameter("reportType");
 	if( reportType.equals( "Gene Expression Sample" ) || reportType.equals( "Copy Number" ) ){
 		sampleIds = (String[])this.servletRequest.getSession().getAttribute("tmp_excel_export");
+		//sampleIds = rgForm.getSamples();
 	}
 	else {
 		List list = (List)this.servletRequest.getSession().getAttribute("clinical_tmpSampleList");
@@ -935,7 +945,7 @@ public String exportToExcelForGeneView()
 		//This will generate the report and store it in the cache
 		//ReportGeneratorHelper rgHelper = new ReportGeneratorHelper(cquery, sampleIds, false );
 		ReportGeneratorHelper rgHelper = null;	
-			rgHelper = new ReportGeneratorHelper(cquery, sampleIds, false);
+		rgHelper = new ReportGeneratorHelper(cquery, sampleIds, false);
 
 		/*
 		if (!reportType.equals("Gene Expression Sample") && !reportType.equals("Copy Number")) {
@@ -1239,5 +1249,18 @@ public String switchViews()
 	public void setIgv(String igv) {
 		this.igv = igv;
 	}
+	public String getReportType() {
+		return reportType;
+	}
+	public void setReportType(String reportType) {
+		this.reportType = reportType;
+	}
+	public String getCheckedAll() {
+		return checkedAll;
+	}
+	public void setCheckedAll(String checkedAll) {
+		this.checkedAll = checkedAll;
+	}
+	
 	
 }
