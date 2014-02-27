@@ -250,9 +250,9 @@
 		<input type="text" size="30" id="tmp_prb_queryName" name="tmp_prb_queryName" value="{$qName}" />
 		<input type="button" name="filter_submit" value="Save Samples" onclick="javascript:saveSamples();" />
 		<xsl:text>&#160;</xsl:text>
-		<a href="#" onclick="javascript:checkAll(document.prbSamples.samples);return false;">[Check All]</a>
+		<a href="#" onclick="javascript:checkAllSamples(document.prbSamples.samples);return false;">[Check All]</a>
 		<xsl:text>&#160;</xsl:text>
-		<a href="#" onclick="javascript:uncheckAll(document.prbSamples.samples);return false;">[Uncheck All]</a>
+		<a href="#" onclick="javascript:uncheckAllSamples();return false;">[Uncheck All]</a>
 	 	<xsl:text>&#160;</xsl:text>
 	  </div>
 	 </xsl:if>
@@ -396,7 +396,7 @@
 						<td colspan="{$colspan}" class="{$currentGroup}">
 							<xsl:value-of select="Data" />
 							<xsl:if test="/Report[@reportType != 'Gene Expression Disease'] and /Report[@reportType != 'Clinical'] and $showSampleSelect != 'false' and contains($qName, 'previewResults')=false" >
-								<input id="grpcheck" class="checkorradio" type="checkbox" onclick="javascript:groupCheck(document.prbSamples.samples, '{$currentGroup}', this.checked)" />
+								<input id="grpcheck" class="checkorradio" type="checkbox" onclick="javascript:groupCheckSamples('{$currentGroup}', this.checked)" />
 							</xsl:if>
 						</td>
 					</xsl:otherwise>
@@ -406,8 +406,9 @@
 		    </tr>
 		</xsl:for-each>
 		
-		<form action="runSubmitSpecimens" method="post" name="prbSamples">
+		<form action="runSubmitSpecimens" method="post" name="prbSamples" id="prbSamples">
 		<input type="hidden" name="queryName" value="{$qName}"/>
+		<input type="hidden" name="reportType" value="{$rType}" />
 		<xsl:for-each select="Row[@name='sampleRow']">
 			<tr class="sampleRow">
 		  	<xsl:for-each select="Cell[@class != 'csv']">
