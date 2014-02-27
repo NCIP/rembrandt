@@ -26,7 +26,7 @@ L--%>
 		<tr><th></th></tr>
 		<tr>
 			<td colspan="4" class="message">
-				Group Your Queries<BR>== select q size = <s:property value="refineQueryForm.selectedQueries.size()" />
+				Group Your Queries<BR>
 				
 			</td>
 		</tr>
