@@ -41,13 +41,13 @@ L--%>
 	        <!-- <app:help help="Select a search method and enter search criteria, such as a HUGO gene symbol." />-->
 	        </h5>
 	        <br>
-	        <input type="radio" checked="checked" name="quickSearchForm.plot" id="geneExpPlot" class="radio" value="geneExpPlot" onclick="javascript:onRadio(this,0);needGVal = true;">
+	        <input type="radio" checked="checked" name="quickSearchForm.plot" id="geneExpPlot" class="radio" value="geneExpPlot" onclick="javascript:onRadioSimpleSearch('geneExpPlot');needGVal = true;">
 	        <label for="geneExpPlot">Gene Expression plot&nbsp;</label><br />
 	        
-	        <input type="radio" name="quickSearchForm.plot" class="radio" id="kapMaiPlotGE" value="kapMaiPlotGE" onclick="javascript:onRadio(this,1);needGVal = true;">
+	        <input type="radio" name="quickSearchForm.plot" class="radio" id="kapMaiPlotGE" value="kapMaiPlotGE" onclick="javascript:onRadioSimpleSearch('kapMaiPlotGE');needGVal = true;">
 	        <label for="kapMaiPlotGE">Kaplan-Meier survival plot for Gene Expression Data&nbsp;</label><br />
 	        
-	        <input type="radio" name="quickSearchForm.plot" id="kapMaiPlotCN" class="radio" value="kapMaiPlotCN" onclick="javascript:onRadio(this,2);needGVal = true;">
+	        <input type="radio" name="quickSearchForm.plot" id="kapMaiPlotCN" class="radio" value="kapMaiPlotCN" onclick="javascript:onRadioSimpleSearch('kapMaiPlotCN');needGVal = true;">
 	        <label for="kapMaiPlotCN">Kaplan-Meier survival plot for Copy Number Data</label><br/>
 	           
 	           <br>
@@ -128,7 +128,7 @@ L--%>
         	
         	
 	       	<label for="baselineGroupName">Restrict to sample group: </label>
-        	 <s:select property="baselineGroup" list="quickSearchForm.sampleGroupsList" listKey="value" listValue="label"
+        	 <s:select name="quickSearchForm.baselineGroup" list="quickSearchForm.sampleGroupsList" listKey="value" listValue="label"
         	 	id="baselineGroupName" disabled="true" theme="simple">
 			 	
 			</s:select>
@@ -139,7 +139,7 @@ L--%>
 	        <h5>Sample-based Graph&nbsp;&nbsp;&nbsp;&nbsp;</h5>
 	        <br>
 	        <input id="samplePlotRadio" type="radio" name="quickSearchForm.plot" class="radio" 
-	        	value="<%=CaIntegratorConstants.SAMPLE_KMPLOT%>" onclick="javascript:onRadio(this,3); needGVal = false;">
+	        	value="<%=CaIntegratorConstants.SAMPLE_KMPLOT%>" onclick="javascript:onRadioSimpleSearch('samplePlotRadio'); needGVal = false;">
 	        <label for="samplePlotRadio">Kaplan-Meier survival plot for Sample Data&nbsp;</label>
 	        <br><br>
 	        
