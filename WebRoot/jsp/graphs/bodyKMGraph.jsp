@@ -23,28 +23,20 @@ L--%>
    
 </div>
 
-<!--  html:form action="/kmGraph.do?method=redrawKMPlot"> -->
- <s:form action="redrawKMPlot" method="post" >
- <%	
-	String baselineGroup = request.getParameter("baselineGroup")!=null ? (String)request.getParameter("baselineGroup") : "";
-	baselineGroup = MoreStringUtils.cleanJavascriptAndSpecialChars(MoreStringUtils.specialCharacters, baselineGroup);	
-	//baselineGroup = "debug";
-	//out.println("BaseLine Group: " + baselineGroup);
-%>
-	<input type="hidden" name="quickSearchForm.baselineGroup" value="<%=baselineGroup%>"/>
-	<!--  s:hidden name="redrawInputForm.geneOrCytoband" value="<s:property value="kmForm.geneOrCytoband" />"/> -->
-	<!--  s:hidden name="redrawInputForm.plotType" value="<s:property value="kmForm.plotType" />"/> -->
-	
+<s:form action="redrawKMPlot" method="post" >
+
+	<s:set var="baselineGroup" value="quickSearchForm.baselineGroup" />
+	<s:hidden name="redrawInputSearchForm.baselineGroup" id="baselineGroup" value="%{baselineGroup}"  />
+	<!--  input type="hidden" name="redrawInputSearchForm.baselineGroup" value="#quickSearchForm.baselineGroup"/> -->
+
 	<s:set var="cyto" value="<s:property value='kmForm.geneOrCytoband' />" />
-	<!--  s:hidden name="kmForm.geneOrCytoband" value="" /> -->
-	<!--  s:hidden name="kmForm.plotType" value="<s:property value="#kmForm.plotType" />" /> -->
 	
-	<!--  logic:notEqual name="kmDataSetForm" property="plotType" value="SAMPLE_KM_PLOT">-->
 	<s:if test="!kmForm.plotType.equals('SAMPLE_KM_PLOT')">
 	<div>
-	<% if(baselineGroup.length()>0)	{	%>
-		<b>Constrained to group: <%=baselineGroup%></b><br/><br/>
-	<% } %>
+	
+	<s:if test="quickSearchForm.baselineGroup.length() > 0">
+	<b>Constrained to group: <s:property value="quickSearchForm.baselineGroup" /> </b><br/><br/>
+	</s:if>
 		<table style="border:1px solid silver" cellpadding="4" cellspacing="4" summary="This table is used to format page content">
 			<tr>
 				<th></th><th></th>
