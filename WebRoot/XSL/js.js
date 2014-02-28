@@ -440,13 +440,15 @@ function stupidXSLEscape(qname, rtype)	{
 	
 	var savedSamples = Array();
 	var can_continue = false;
-	alert(rtype);
+	
 	if ( rtype == "Gene Expression Sample" || rtype == "Copy Number" ) {
 		can_continue = checkIfSamplesSelected( savedSamples );
 	}
 	else
 		can_continue = currentTmpSamplesCount > 0;			// for clinical view, the records selected are stored in this variable.
 
+		//alert(rtype);
+		
 	if ( can_continue ) {
 		try	{
 			if(savedSamples.length>0)	// only for Gene Expression Sample View or Copy Number View
