@@ -25,7 +25,7 @@ L--%>
 <!-- <b class="message">(Paste comma separated Clone Id list, or upload file using Browse button)</b> -->
 <br />
 
-<input type="radio" name="form.cloneId" class="radio" id="cloneId" value="list" onfocus="javascript:onRadio(this,0);">
+<input type="radio" name="form.cloneId" class="radio" id="cloneId" value="list" onfocus="javascript:onRadioCloneId(0);">
 <label for="cloneId">Type Reporters:&nbsp;&nbsp;</label>
 
 
@@ -40,7 +40,7 @@ onfocus="javascript:radioFold(this);"  onblur="javascript:cRadio(this, document.
 <br/>
 
 <input type="radio" name="form.cloneId" class="radio" id="cloneIdCloneList" value="form.cloneList" 
-onfocus="javascript:onRadio(this,1);">
+onfocus="javascript:onRadioCloneId(1);">
 <label for="cloneIdCloneList">Choose a saved Reporter List:&nbsp;&nbsp;</label>
 
 <s:select name="form.cloneListFile" disabled="false" list="form.savedCloneList" 
