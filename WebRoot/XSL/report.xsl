@@ -482,7 +482,7 @@
 			      			<xsl:when test="$class = 'sample'">
 			      				<xsl:variable name="sample" select="Data"  />
 			      				<xsl:if test="$showSaveSamples != 'false'">
-				      				<input type="checkbox" class="checkorradio" id="{$sample}" name="samples" value="{$sample}" onclick="javascript:A_saveTmpSample(this);" /><label for="{$sample}">&#160;</label>
+				      				<input type="checkbox" class="checkorradio" id="{$sample}" name="reportGeneratorForm.samples" value="{$sample}" onclick="javascript:A_saveTmpSample(this);" /><label for="{$sample}">&#160;</label>
 				      			</xsl:if>
 			      				<xsl:value-of select="Data"/>
 			   
