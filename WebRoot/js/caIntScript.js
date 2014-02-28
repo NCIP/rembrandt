@@ -115,6 +115,25 @@ function deleteRow(queryNum){
 	 } 
  }  
  
+function onRadioCloneId(idx) {
+	 
+	if (idx == 0){
+		 document.getElementById("cloneListSpecify").disabled = false;
+		 document.getElementById("cloneListFileDD").disabled = true;
+		 document.getElementById("cloneListSpecify").focus();
+		 
+//		 document.forms[0].cloneList.disabled = false;	
+//		  document.forms[0].cloneListFile.disabled = true;
+//		  document.forms[0].cloneListSpecify.focus();
+		
+	 } else if (idx == 1) {
+		 document.getElementById("cloneListSpecify").value = "";
+		 document.getElementById("cloneListSpecify").disabled = true;	    
+		 document.getElementById("cloneListFileDD").disabled = false;
+	      //document.forms[0].cloneListFile.focus();
+	 }
+ }  
+ 
  function onRadio(formElement,i){
      
    //selected index of the selected
