@@ -103,7 +103,17 @@ function deleteRow(queryNum){
    }
  }
 
-  
+ function onRadioSimpleSearch(id) {
+	 
+	 if (id == "geneExpPlot" || id == "samplePlotRadio")	{
+	  		document.getElementById("baselineGroupName").disabled = true;
+	  		
+	 } else if (id == "kapMaiPlotGE" || id == "kapMaiPlotCN")	{
+	  	
+		 document.getElementById("baselineGroupName").disabled = false;
+	  	
+	 } 
+ }  
  
  function onRadio(formElement,i){
      
@@ -164,41 +174,6 @@ function deleteRow(queryNum){
 	    document.forms[0].sampleFile.disabled = false;
 	    }
 	  }
-		
-	  if(element == "plot"){
-	  document.forms[0].quickSearchType.options.length = 1;
-	  
-	 	document.forms[0].quickSearchType.disabled = false;
-	  	document.forms[0].quickSearchName.disabled = false;
-	  	document.getElementById("quickSearchName").disabled = false;
-	  	document.getElementById("baselineGroupName").disabled = false;
-	  	
-	  	if(i==0)	{
-	  		document.getElementById("baselineGroupName").disabled = true;
-	  	}
-	  	
-	  if(i==3)	{
-	  	//disable the fields since this is a sample
-	  	document.forms[0].quickSearchType.disabled = true;
-	  	document.getElementById("quickSearchName").value = "";
-	  	document.getElementById("quickSearchName").disabled = true;
-	  	document.getElementById("baselineGroupName").disabled = true;
-	  	//document.forms[0].quickSearchName.disabled = true;
-	  }
-	  else if (i == 2){
-	      myOption = new Option();
-//	      myOption2 = new Option();
-	      myOption.text = "Gene Keyword";
-//		  myOption2.text = "SNP Probe set ID";
-	      document.forms[0].quickSearchType.options[0] = myOption;
-//	      document.forms[0].quickSearchType.options[1] = myOption2;
-		  }	
-	     else /*if(i != 2)*/ {
-	      myOption = new Option();
-		  myOption.text = "Gene Keyword";
-	      document.forms[0].quickSearchType.options[0] = myOption;
-	     }
-	   }	
 		
 	  if(element == "geneGroup"){	
 	      if (i == 0){
