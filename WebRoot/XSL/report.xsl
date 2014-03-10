@@ -94,12 +94,12 @@
 	<input type="hidden" name="reportGeneratorForm.showAllValues" value="{$showAllValues}"/>
 	</form>
 	
-	<form action="runSwitchViews" method="post" target="_blank" name="switchViewsForm">
-	     <input type="hidden" name= "reportGeneratorForm.reportView" value="" />
+	<form action="runSwitchViews" method="post" target="_blank" name="switchViewsForm" id="switchViewsForm">
+	     <input type="hidden" id="reportView" name= "reportGeneratorForm.reportView" value="" />
 	     <input type="hidden" name="reportGeneratorForm.queryName" value="{$qName}" />
 	     <input type="hidden" name="reportGeneratorForm.samples" value="" />			
 	</form>
-	
+	 
 	<div class="rptHeader">	
 	<div class="rowCount">
 	 <div style="background-color:#ffffff; margin-bottom:5px; padding-bottom:5px; border-left:1px solid black; border-right:1px solid black;">
