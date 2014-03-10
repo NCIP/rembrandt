@@ -1035,6 +1035,7 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	public void setNeuroExamTypeDetails() {
 		
 		String thisNeuroExam= this.neuroExam; 
+		this.neuroExamCriteria = new NeuroExamClinicalEvalCriteria();
 
 		// this is to check the type of lanskyType
 		String thisNeuroExamType =this.neuroExamType; // thisRequest.getParameter("neuroExamType");
@@ -1059,14 +1060,14 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	 */
 	public void setAfricanAmerican(String africanAmerican) {
 		this.africanAmerican = africanAmerican;
-	
-		if (africanAmerican != null) {
-			if (africanAmerican.equalsIgnoreCase("Specify")) {	               
-				this.africanAmerican = RaceType.BLACK_OR_AFRICAN_AMERICAN.toString(); //"BLACK";
-				RaceDE raceDE = new RaceDE(this.africanAmerican );
-				raceCriteria.setRace(raceDE);
-				this.africanAmerican ="Specify";
-			}
+
+		if (africanAmerican != null && africanAmerican.equalsIgnoreCase("true")) {
+
+			this.africanAmerican = RaceType.BLACK_OR_AFRICAN_AMERICAN.toString(); //"BLACK";
+			RaceDE raceDE = new RaceDE(this.africanAmerican );
+			raceCriteria.setRace(raceDE);
+			this.africanAmerican ="Specify";
+
 		}
 	}
 
@@ -1082,18 +1083,15 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	 */
 	public void setCaucasion(String caucasion) {
 		this.caucasion = caucasion;	
-	
-		if (caucasion != null) {
-			if (caucasion.equalsIgnoreCase("Specify")) {
-				//this.caucasion = "Caucasion";	     
-				this.caucasion = RaceType.WHITE.toString(); //"WHITE";	 
-				RaceDE raceDE = new RaceDE(this.caucasion );
-				raceCriteria.setRace(raceDE);
-				this.caucasion ="Specify";
 
-			}
-	           
-	        }
+		if (caucasion != null && caucasion.equalsIgnoreCase("true")) {
+
+			//this.caucasion = "Caucasion";	     
+			this.caucasion = RaceType.WHITE.toString(); //"WHITE";	 
+			RaceDE raceDE = new RaceDE(this.caucasion );
+			raceCriteria.setRace(raceDE);
+			this.caucasion ="Specify";	           
+		}
 	}
 
 	/**
@@ -1108,17 +1106,15 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	 */
 	public void setAsian(String asian) {
 		this.asian = asian;
-		 if (asian != null) {
-	            if (asian.equalsIgnoreCase("Specify")) {
-	                //this.caucasion = "Caucasion";	     
-	            	this.asian = RaceType.ASIAN.toString(); //"ASIAN NOS";	 
-	            	RaceDE raceDE = new RaceDE(this.asian );
-	 	            raceCriteria.setRace(raceDE);
-	 	           this.asian ="Specify";
-	            }
-	           
-	          
-	        }
+		if (asian != null && asian.equalsIgnoreCase("true")) {
+
+			//this.caucasion = "Caucasion";	     
+			this.asian = RaceType.ASIAN.toString(); //"ASIAN NOS";	 
+			RaceDE raceDE = new RaceDE(this.asian );
+			raceCriteria.setRace(raceDE);
+			this.asian ="Specify";
+
+		}
 	}
 
 	/**
@@ -1133,17 +1129,15 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	 */
 	public void setNativeHawaiian(String nativeHawaiian) {
 		this.nativeHawaiian = nativeHawaiian;
-		
-		 if (nativeHawaiian != null) {
-	            if (nativeHawaiian.equalsIgnoreCase("Specify")) {
-	                //this.caucasion = "Caucasion";	     
-	            	this.nativeHawaiian = RaceType.NATIVE_HAWAIIAN_OR_PACIFIC_ISLANDER.toString(); //"NATIVE HAWAIIAN";	
-	            	RaceDE raceDE = new RaceDE(this.nativeHawaiian );
-		            raceCriteria.setRace(raceDE);
-		            this.nativeHawaiian="Specify";		          
-	            }
-	            
-	        }
+
+		if (nativeHawaiian != null && nativeHawaiian.equalsIgnoreCase("true")) {
+
+			//this.caucasion = "Caucasion";	     
+			this.nativeHawaiian = RaceType.NATIVE_HAWAIIAN_OR_PACIFIC_ISLANDER.toString(); //"NATIVE HAWAIIAN";	
+			RaceDE raceDE = new RaceDE(this.nativeHawaiian );
+			raceCriteria.setRace(raceDE);
+			this.nativeHawaiian="Specify";		          
+		}
 	}
 
 	/**
@@ -1158,16 +1152,14 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	 */
 	public void setOther(String other) {
 		this.other = other;
-		
-		 if (other != null) {
-	            if (other.equalsIgnoreCase("Specify")) {	                   
-	            	this.other = RaceType.OTHER.toString();	
-	            	RaceDE raceDE = new RaceDE(this.other );
-	 	            raceCriteria.setRace(raceDE);
-	 	            this.other="Specify";
-	            }
-	          
-	        }
+
+		if (other != null && other.equalsIgnoreCase("true")) {
+
+			this.other = RaceType.OTHER.toString();	
+			RaceDE raceDE = new RaceDE(this.other );
+			raceCriteria.setRace(raceDE);
+			this.other="Specify";
+		}
 	}
 
 	/**
@@ -1182,17 +1174,14 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
 	 */
 	public void setUnknown(String unknown) {
 		this.unknown = unknown;
-		 if (unknown != null) {
-	            if (unknown.equalsIgnoreCase("Specify")) {	                   
-	            	this.unknown = RaceType.UNKNOWN.toString();	
-	            	RaceDE raceDE = new RaceDE(this.unknown );
-		            raceCriteria.setRace(raceDE);
-		            this.unknown = "Specify";
-		          
-	            }
-	            
-	        }
-		 
+		if (unknown != null && unknown.equalsIgnoreCase("true")) {
+
+			this.unknown = RaceType.UNKNOWN.toString();	
+			RaceDE raceDE = new RaceDE(this.unknown );
+			raceCriteria.setRace(raceDE);
+			this.unknown = "Specify";
+		}
+
 	}
 
 
