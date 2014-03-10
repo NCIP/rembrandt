@@ -21,7 +21,8 @@ L--%>
 </legend><br />
 
 &nbsp;&nbsp;
-<input id="excludeResections" type="checkbox" name="form.excludeResections" class="radio" >
+<!--  input id="excludeResections" type="checkbox" name="form.excludeResections" class="radio" > -->
+<s:checkbox id="excludeResections" class="radio" name="form.excludeResections" />
 <label for="excludeResections">Exclude Re-Resection Tumor Samples</label>
 &nbsp;&nbsp;
 <s:fielderror fieldName="excludeResections" />
