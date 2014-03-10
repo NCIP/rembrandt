@@ -145,9 +145,7 @@ public class ClinicalDataAction extends ActionSupport implements SessionAware, S
     Map<String, Object> sessionMap;
     
     ClinicalDataForm form;
-    
-    ClinicalDataForm clinicalDataFormInSession;
-    
+      
     @Override
 	public void prepare() throws Exception {
     	
