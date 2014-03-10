@@ -13,7 +13,7 @@ L--%>
 <fieldset class="gray">
 <legend class="red">
 <label for="platSelect">
-<s:if test="geneexpressionForm != null">
+<s:if test="form != null">
 Array Platform
 </s:if>
 <s:if test="gpIntegrationForm != null">
@@ -51,10 +51,9 @@ Step 2: Select Array Platform (Select at least one)
 <!-- /s:if -->
 <!-- s:else -->
 	&nbsp;&nbsp;<select name="form.arrayPlatform" id="platSelect"   
-		<s:if test="geneexpressionForm != null">
+		<s:if test="form == null">
 			onchange="this.options[1].selected=true;"
 		</s:if>	
-		>
 	
 	    <!-- s:if test="param.act eq 'gpintegration'" -->
 	    <% if (act1.equals("gpintegration")) { %>
@@ -62,8 +61,8 @@ Step 2: Select Array Platform (Select at least one)
 		<% } else {%>	
 		<!-- /s:if -->
 		<!-- s:else -->
-						<option value="<%=Constants.ALL_PLATFROM%>">All</option>
-						<option selected="selected" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Affymetrix HG_U133 Plus 2.0</option>
+						<option selected="selected" value="<%=Constants.ALL_PLATFROM%>">All</option>
+						<option value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Affymetrix HG_U133 Plus 2.0</option>
 						<option value="<%=Constants.CDNA_ARRAY_PLATFORM%>">cDNA</option>
 		<% } %>
 		<!-- /s:else -->
@@ -75,7 +74,7 @@ Step 2: Select Array Platform (Select at least one)
 			
 <s:fielderror fieldName="arrayPlatform"/>
 </fieldset>
-<s:if test="geneexpressionForm != null">
+<s:if test="form != null">
 <script type="text/javascript">
 	document.getElementById("platSelect").selectedIndex = 0;
 </script>
