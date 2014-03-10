@@ -654,18 +654,25 @@ function switchViews(view, sample)	{
 }
 
 function switchViewMultiSamples(view, samplesArray)	{
-	document.switchViewsForm.reportView.value = view;
-	var f = document.switchViewsForm;
+	//alert(view);
+	//alert(samplesArray);
+	var f = document.getElementById("switchViewsForm");
+	if (f == null)
+		alert("switchViewsForm null");
 	
+	//document.switchViewsForm.reportView.value = view;
+	var reportView = document.getElementById("reportView");
+	reportView.value = view;
+		
 	for(var i=0; i<samplesArray.length; i++)	{
 		var hid = document.createElement("input");
 		hid.setAttribute("type", "hidden");
-		hid.setAttribute("name", "samples");
+		hid.setAttribute("name", "reportGeneratorForm.samples");
 		hid.setAttribute("value", samplesArray[i]);
 		f.appendChild(hid);
 	}
 
-	document.switchViewsForm.submit();
+	f.submit();
 }
 
 
@@ -841,40 +848,8 @@ function prepQuickClinical()	{
 		if(e.value != "")
 			s.push(e.value);
 	});
-	/*
-	console.log("++++++++++++++++++++++");
-	console.log(document.prbSamples.samples);
-	for(var i=0; i<document.prbSamples.samples.length; i++)	{
-		console.log(document.prbSamples.samples[i].value);
-		if(document.prbSamples.samples[i].value && document.prbSamples.samples[i].value.length>0)
-			s.push(document.prbSamples.samples[i].value);
-	}
-	*/
+	
 	
 	//alert(s);
 	switchViewMultiSamples("CLINICAL", s);
-
-/*
-	//this is the quick clinical way
-	var f = document.getElementById("quickClinicalWrapper");
-	
-	//quickly clear the node, so we dont get duplicate elements when the back button is used
-	while(f.firstChild) f.removeChild(f.firstChild);
-	
-	if(!f)	{ return; }
-	//set up the form
-	f.setAttribute("method", "post");
-	f.setAttribute("action", "quickClinical.do");
-	f.setAttribute("name", "quickClinicalWrapper");
-	
-	for(var i=0; i<pendingSamples.length; i++)	{
-		var hid = document.createElement("input");
-		hid.setAttribute("type", "hidden");
-		hid.setAttribute("name", "sampleList");
-		hid.setAttribute("value", pendingSamples[i]);
-		f.appendChild(hid);
-	}
-	
-	f.submit();
-*/
 }
