@@ -156,6 +156,8 @@ L-->
 		<copy file="jar_source_files/caintegrator-analysis-commons.jar" todir="${anthill.artifacts.dir}" overwrite="true" />
 		<copy file="jar_source_files/caintegrator-application-commons.jar" todir="${anthill.artifacts.dir}" overwrite="true" />
 		<copy file="jar_source_files/caintegrator-spec.jar" todir="${anthill.artifacts.dir}" overwrite="true" />
+		<copy file="jar_source_files/bcprov-jdk15on-1.47.jar" todir="${anthill.artifacts.dir}" overwrite="true" />
+		<copy file="jar_source_files/bcprov-ext-jdk15on-1.47.jar" todir="${anthill.artifacts.dir}" overwrite="true" />
 	</target>
 	<!--
 		TARGET: config_cache
