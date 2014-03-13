@@ -33,6 +33,7 @@ L--%>
 
 <br>
 	
+<s:actionerror />
 <s:textfield id="queryName" name="form.queryName" size="50" theme="simple"/> (should be unique)
 <br />
 <s:fielderror fieldName="queryName" />
