@@ -30,7 +30,6 @@ L--%>
 <b>   </b>
 
 <!-- <b><app:help help="This criteria will be implemented in the upcoming release "/></b>-->
-<s:actionerror/>
 
 <script type="text/javascript">
 var ops = $('dSelect').options;
