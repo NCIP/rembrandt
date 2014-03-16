@@ -48,6 +48,11 @@
 		<result>login.jsp</result>
     </action>
     
+    <action name="guestHome" 
+    class="gov.nih.nci.rembrandt.web.struts2.action.GuestHomeAction">
+		<result name="success">login.jsp</result>
+    </action>
+    
     <action name="alogin"
            class="gov.nih.nci.rembrandt.web.struts2.action.LoginAction">
            <interceptor-ref name="tokenSession"/>  
