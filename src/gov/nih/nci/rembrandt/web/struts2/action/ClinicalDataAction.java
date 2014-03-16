@@ -148,9 +148,6 @@ public class ClinicalDataAction extends ActionSupport implements SessionAware, S
       
     @Override
 	public void prepare() throws Exception {
-    	
-    	
-    	//clinicalDataFormInSession = (ClinicalDataForm)sessionMap.get("clinicalDataForm");
 		
     	if (form == null) {
 			form = new ClinicalDataForm();
