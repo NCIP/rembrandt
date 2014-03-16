@@ -32,12 +32,11 @@ L--%>
 
 
 <%
-UserCredentials credent = (UserCredentials)session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
-if (credent == null || (credent.getUserName() != null && credent.getUserName().equalsIgnoreCase("RBTuser"))) {
+UserCredentials credential = (UserCredentials)session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
+if (credential == null || (credential.getUserName() != null && credential.getUserName().equalsIgnoreCase("RBTuser"))) {	
 %>
-
-	<s:url action="login" namespace="/" id="aURL"></s:url>
-<%} else { %>
+	<s:url action="guestHome" namespace="/" id="aURL"></s:url>
+<%} else {%>
 	<s:url action="menu" namespace="/" id="aURL"></s:url>
 <%} %>
 <s:a style="font-size:.8em" href="%{aURL}">Home</s:a>&nbsp;&nbsp;&nbsp;
