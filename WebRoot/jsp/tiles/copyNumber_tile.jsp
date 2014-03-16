@@ -53,7 +53,7 @@ Amplified&nbsp;&nbsp;&nbsp; &ge;
 <s:fielderror fieldName="cnADAmplified"/>	
 <Br>
 Deleted&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &le;
-<html:text styleId="cnADDeleted" property="cnADDeleted" onfocus="javascript:radioFold(this);" /><label for="cnADDeleted">&nbsp;copies</label>
+<s:textfield id="cnADDeleted" name="form.cnADDeleted" onfocus="javascript:radioFold(this);" /><label for="cnADDeleted">&nbsp;copies</label>
 &nbsp;
 <s:fielderror fieldName="cnADDeleted"/>	
 </blockquote>
