@@ -72,7 +72,10 @@ public class DownloadAction extends ActionSupport
 	protected void setLookups() {
 		GroupRetriever groupRetriever = new GroupRetriever();
 		this.sampleGroupsList = new ArrayList<gov.nih.nci.rembrandt.web.bean.LabelValueBean>();
-		List<gov.nih.nci.rembrandt.web.bean.LabelValueBean> cgCollections = groupRetriever.getClinicalGroupsCollectionNoPath(this.servletRequest.getSession());
+		//List<gov.nih.nci.rembrandt.web.bean.LabelValueBean> cgCollections = 
+		//		groupRetriever.getClinicalGroupsCollectionNoPath(this.servletRequest.getSession());
+		//List<LabelValueBean> cgCollections = 
+		//		groupRetriever.getClinicalGroupsCollectionNoPath(this.servletRequest.getSession());
 		sampleGroupsList.addAll(groupRetriever.getClinicalGroupsCollectionNoPath(this.servletRequest.getSession()));
 		
 		this.arrayPlatformList = new ArrayList<LabelValueBean>();
@@ -94,12 +97,11 @@ public class DownloadAction extends ActionSupport
 		//prepopulate the fields for BRB downloads
 		List<DownloadFileLookup> fileList = LookupManager.getDownloadFileList(null);
 		
+		downloadFileList = new ArrayList<DownloadFileLookup>();
 		if (fileList == null || fileList.isEmpty())	{
-			this.servletRequest.setAttribute("downloadFileList", new ArrayList<DownloadFileLookup>());
+			this.servletRequest.setAttribute("downloadFileList", downloadFileList);
 			return "success";
 		}
-		
-		downloadFileList = new ArrayList<DownloadFileLookup>();
 		
 		Collection<InstitutionDE> collection = InsitutionAccessHelper.getInsititutionCollection(this.servletRequest.getSession());
 
