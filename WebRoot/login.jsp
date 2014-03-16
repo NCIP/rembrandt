@@ -13,14 +13,7 @@ L--%>
 <%@ taglib uri="/WEB-INF/rembrandt.tld"  prefix="app" %>
 <%@ page import="java.util.HashMap,gov.nih.nci.rembrandt.util.StatisticsInfoJob" %>
 <%
-if(session.getAttribute("logged") == "yes")
-{
-//youre already logged in, why are you here?
-response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
 
-String newLocn = "welcome.jsp";
-response.setHeader("Location",newLocn);
-}
 StatisticsInfoJob job = new StatisticsInfoJob();
 HashMap map = job.getStatisticsMap();
 pageContext.setAttribute("map", map);
