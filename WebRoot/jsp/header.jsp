@@ -31,19 +31,18 @@ Welcome&nbsp;
 
 <div style="width:765px; border-bottom: 1px solid #000000; margin:0px;">
 <map name="headerMap">
-<% 
-UserCredentials credentials = (UserCredentials)session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
-if (credentials == null || (credentials.getUserName() != null && credentials.getUserName().equalsIgnoreCase("RBTuser"))) {
-	%>
-	<area alt="REMBRANDT application logo" coords="7,8,272,50" href="login.jsp">
-<% 
-}else {
+
+<%
+UserCredentials credent = (UserCredentials)session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
+if (credent == null || (credent.getUserName() != null && credent.getUserName().equalsIgnoreCase("RBTuser"))) {	
 %>
-<!-- The href here is temporary -->
-<area alt="REMBRANDT application logo" coords="7,8,272,50" href="login.jsp">
-<% 
-} 
- %>
+	<s:url action="guestHome" namespace="/" id="aURL"></s:url>
+	<area alt="REMBRANDT application logo" coords="7,8,272,50" href="guestHome.action">
+	
+<%} else {%>
+	<s:url action="menu" namespace="/" id="aURL"></s:url>
+	<area alt="REMBRANDT application logo" coords="7,8,272,50" href="menu.action">
+<%} %>
 
 </map>
 <img src="images/header.jpg" width="765" height="65" alt="REMBRANDT application logo" border="0" usemap="#headerMap">
