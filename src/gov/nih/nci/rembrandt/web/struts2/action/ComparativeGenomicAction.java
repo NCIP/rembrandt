@@ -354,11 +354,10 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
     public String submittal()
             throws Exception {
        
-    	setDataFormDetails();
-    	
     	if (validateForSubmitOrPreview() != 0)
     		return "backToCGH";
-    
+    	
+    	setDataFormDetails();   
         
         this.servletRequest.getSession().setAttribute("currentPage", "0");
         this.servletRequest.getSession().removeAttribute("currentPage2");
@@ -465,11 +464,11 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
     public String preview()
             throws Exception {
         
+    	if (validateForSubmitOrPreview() != 0)
+    		return "backToCGH";
+    	
     	setDataFormDetails();
     	
-    	if (validateForSubmitOrPreview() != 0)
-    		return "backToCGH"; 
-        
         this.servletRequest.getSession().setAttribute("currentPage", "0");
         this.servletRequest.getSession().removeAttribute("currentPage2");
         
@@ -798,9 +797,9 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
 			if (validateChromosomeInputData() == 0)
 				if (validateCopyNumberorSementMean() == 0)
 					return validateCGHQuery();
-		}
+		} 
 		
-		return 0;
+		return -1; //error
 	}	
     
 	protected int validateChromosomeInputData() {
@@ -908,8 +907,8 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
 		// Validate minimum criteria's for CGH Query
 		if (queryName != null && queryName.length() >= 1 && 
 				(geneOption != null && geneOption.equalsIgnoreCase("standard"))) {
-			if ((geneList == null || geneList.trim().length() < 1)
-					&& (chromosome == null || chromosome.length() < 1)) {
+			if ((geneList == null || geneList.length() == 0)
+					&& (chromosome == null || (chromosome.length() > 0 && chromosome.equals("-1")))) {
 				String msg = ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.cgh.minimum.error");
 				addActionError(msg);
 				return -1;
