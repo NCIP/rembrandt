@@ -52,10 +52,12 @@ strIncFile6 = "/jsp/tiles/segmentMean_tile.jsp?act="+act;
 <%
 if(act.equalsIgnoreCase("comparitivegenomic"))	{
 %>
-
-<input type="radio" name="copyNumberView" class="radio" checked value="calculatedCN" onclick="javascript:toggleCopyNumberView('calculatedCN');"/>
- Calculated Copy Number &nbsp;&nbsp;&nbsp;
-<input type="radio" name="copyNumberView" class="radio" value="segmentMean" onclick="javascript:toggleCopyNumberView('segmentMean');"/>Segment Mean
+		
+<input type="radio" name="form.copyNumberView" checked class="radio" value="calculatedCN" 
+		onclick="javascript:toggleCopyNumberView('calculatedCN');"/> Calculated Copy Number &nbsp;&nbsp;&nbsp;
+		
+<input type="radio" name="form.copyNumberView" class="radio" value="segmentMean" 
+		onclick="javascript:toggleCopyNumberView('segmentMean');"/> Segment MeanM
 
 <br/>
 <br/>
