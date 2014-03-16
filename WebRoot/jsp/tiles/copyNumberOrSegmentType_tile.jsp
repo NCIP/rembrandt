@@ -15,8 +15,16 @@ L--%>
 
 
 <fieldset class="gray">
-<html:radio property="copyNumberView" value="calculatedCN" styleClass="radio" onclick="javascript:toggleCopyNumberView('calculatedCN');" /> Calculated Copy Number &nbsp;&nbsp;&nbsp;
-<html:radio property="copyNumberView" value="segmentMean" styleClass="radio" onclick="javascript:toggleCopyNumberView('segmentMean');" /> Segment Mean 
+<!--   html:radio property="copyNumberView" value="calculatedCN" styleClass="radio" onclick="javascript:toggleCopyNumberView('calculatedCN');" /> Calculated Copy Number &nbsp;&nbsp;&nbsp;-->
+<input type="radio" name="form.copyNumberView" class="radio" id="calculatedCN" value="calculatedCN" 
+		onclick="javascript:toggleCopyNumberView('calculatedCN');" />
+	    <label for="calculatedCN">Calculated Copy Numberr &nbsp;&nbsp;&nbsp;</label>
+
+<!--  html:radio property="copyNumberView" value="segmentMean" styleClass="radio" onclick="javascript:toggleCopyNumberView('segmentMean');" /> Segment Mean  -->
+<input type="radio" name="form.copyNumberView" class="radio" id="segmentMean" value="segmentMean" 
+		onclick="javascript:toggleCopyNumberView('segmentMean');" />
+	    <label for="segmentMean">Segment Mean</label>
+
 <br/>
 <br/>
 
