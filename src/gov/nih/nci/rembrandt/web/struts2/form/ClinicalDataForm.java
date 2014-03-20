@@ -806,7 +806,8 @@ public class ClinicalDataForm extends BaseForm implements Serializable, Cloneabl
      *            request The servlet request we are processing.
      */
 
-    public void reset(ActionMapping mapping, HttpServletRequest request) {
+    public void reset(HttpServletRequest request) {
+    	super.reset(request);
 
         queryName = "";
         resultView = "";    
