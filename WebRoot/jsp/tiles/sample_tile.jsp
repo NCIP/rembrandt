@@ -43,13 +43,13 @@ L--%>
 <br/>	
 &nbsp;&nbsp;
   
-<input type="radio" name="form.sampleGroup" class="radio" id="sampleGroup1" value="Specify" onfocus="javascript:onRadio(this,0);" />
+<input type="radio" name="form.sampleGroup" class="radio" id="sampleGroup1" value="Specify" onfocus="javascript:onRadioSampleGroup(0);" />
 <s:textfield id="sampleList" name="form.sampleList" disabled="false" onfocus="javascript:radioFold(this);" 
 	onblur="javascript:cRadio(this, document.forms[0].sampleGroup[0]);" />
 
 
 <label for="sampleGroup2">&nbsp;-or-&nbsp;</label>
-<input type="radio" name="form.sampleGroup" class="radio" id="sampleGroup2" value="Upload" onfocus="javascript:onRadio(this,1);" />
+<input type="radio" name="form.sampleGroup" class="radio" id="sampleGroup2" value="Upload" onfocus="javascript:onRadioSampleGroup(1);" />
 
 <s:select name="form.sampleFile" id="sampleFile" disabled="false" list="form.savedSampleList"
 	onblur="javascript:cRadio(this, document.forms[0].sampleGroup[1]);" onfocus="javascript:document.forms[0].sampleGroup[1].checked = true; updateG()" />
