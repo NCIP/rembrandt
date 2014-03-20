@@ -133,6 +133,19 @@ function onRadioCloneId(idx) {
 	      //document.forms[0].cloneListFile.focus();
 	 }
  }  
+
+function onRadioSampleGroup(idx) {
+	 alert("in onRadioSampleGroup");
+	    if(i == 0){
+	    	document.getElementById("sampleGroup1").disabled = true;
+	    	document.getElementById("sampleGroup2").disabled = false;
+	    } else if(i == 1){
+	    	document.getElementById("sampleGroup1").value = "";
+	    	document.getElementById("sampleGroup1").disabled = true;
+	    	document.getElementById("sampleGroup2").disabled = false;
+	    }
+	 
+ }  
  
  function onRadio(formElement,i){
      
@@ -181,18 +194,6 @@ function onRadioCloneId(idx) {
 	    checkToggle(formElement, "qrows");
 	    }
 	   }	
-	  
-	  if(element == "sampleGroup"){
-	    if(i == 0){
-	    document.forms[0].sampleFile.disabled = true;
-	    document.forms[0].sampleList.disabled = false;
-	    }
-	    if(i == 1){
-	    document.forms[0].sampleList.value = "";
-	    document.forms[0].sampleList.disabled = true;
-	    document.forms[0].sampleFile.disabled = false;
-	    }
-	  }
 		
 	  if(element == "geneGroup"){	
 	      if (i == 0){
