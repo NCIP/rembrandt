@@ -5,18 +5,43 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page import="org.apache.struts2.views.jsp.TagUtils"%>  
+<%@ page import="com.opensymphony.xwork2.ognl.OgnlValueStack"%>
+
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
 <%@ taglib uri="/WEB-INF/c.tld" prefix="c" %>
 
 <%@ taglib uri="/WEB-INF/c-rt.tld" prefix="c-rt" %>
 <%@ taglib uri="/WEB-INF/rembrandt.tld"  prefix="app" %>
-<%@ page import="java.util.HashMap,gov.nih.nci.rembrandt.util.StatisticsInfoJob" %>
+<%@ page import="java.util.HashMap,java.util.List,java.util.ArrayList,gov.nih.nci.rembrandt.util.StatisticsInfoJob" %>
 <%
 
 StatisticsInfoJob job = new StatisticsInfoJob();
-HashMap map = job.getStatisticsMap();
-pageContext.setAttribute("map", map);
+HashMap statisticsMap = job.getStatisticsMap();
+pageContext.setAttribute("map", statisticsMap);
+
+OgnlValueStack valStack = (OgnlValueStack)TagUtils.getStack(pageContext);  
+
+List<List<String>> statList = new ArrayList<List<String>>();
+Iterator<String> ite = statisticsMap.keySet().iterator();
+while (ite.hasNext()) {
+	
+	//List<List<String>> stats = new ArrayList<List<String>>();
+	String key = ite.next();
+	
+	HashMap tempMap = (HashMap)statisticsMap.get(key);
+
+	List<String> data = new ArrayList<String>();
+
+	data.add(key);
+	data.add((String)tempMap.get("sample"));
+	data.add((String)tempMap.get("specieman"));	
+	statList.add(data);
+}
+
+valStack.getContext().put("statList", statList);
+valStack.setValue("#attr['statList']", statList, false);
 
 %>
 
@@ -143,8 +168,23 @@ pageContext.setAttribute("map", map);
 									<c:out value="No. of Specimens"/>
 								</td>
 							</tr>
-							<tr><td>c.tld tags need fixes here</td></tr>
-						
+							
+							<s:if test="#statList != null">
+							
+							<s:iterator value="#statList" var="aStat">
+							
+							<tr>								
+								<td style="color:#002185;background-color:#e0e0e0;font-size:0.9em;padding:0px 5px 0px 5px">
+									<s:property value="#aStat.get(0)" /></td>
+								<td style="background-color:#e0e0e0;font-size:0.9em;padding:0px 5px 0px 5px">
+									<s:property value="#aStat.get(1)" /></td>
+								<td style="background-color:#e0e0e0;font-size:0.9em;padding:0px 5px 0px 5px">
+									<s:property value="#aStat.get(2)" /></td>	
+								
+							</tr>
+							
+							</s:iterator>
+							</s:if>
 						</table>
 					</td>
 				</tr>
