@@ -7,6 +7,8 @@
 
 package gov.nih.nci.rembrandt.web.ajax;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -148,7 +150,10 @@ public class DynamicReportGenerator {
 			}
 			catch(Exception e)	{
 				html = "Error Generating the report.";
-				html = e.toString();
+				StringWriter stack = new StringWriter();
+				e.printStackTrace(new PrintWriter(stack));
+
+				html = stack.toString();
 			}
 		}
 		else	{
