@@ -148,6 +148,7 @@ public class DynamicReportGenerator {
 			}
 			catch(Exception e)	{
 				html = "Error Generating the report.";
+				html = e.toString();
 			}
 		}
 		else	{
