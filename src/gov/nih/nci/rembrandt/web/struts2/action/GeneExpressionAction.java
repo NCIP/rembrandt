@@ -726,6 +726,10 @@ public class GeneExpressionAction extends ActionSupport implements SessionAware,
 	public void setForm(GeneExpressionForm form) {
 		this.form = form;
 	}
+	
+	public GeneExpressionForm getGeneExpressionForm() {
+		return form;
+	}	
 
 	@Override
 	public void setServletRequest(HttpServletRequest arg0) {
