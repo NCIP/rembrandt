@@ -57,7 +57,7 @@ if(act.equalsIgnoreCase("comparitivegenomic"))	{
 		onclick="javascript:toggleCopyNumberView('calculatedCN');"/> Calculated Copy Number &nbsp;&nbsp;&nbsp;
 		
 <input type="radio" name="form.copyNumberView" class="radio" value="segmentMean" 
-		onclick="javascript:toggleCopyNumberView('segmentMean');"/> Segment MeanM
+		onclick="javascript:toggleCopyNumberView('segmentMean');"/> Segment Mean
 
 <br/>
 <br/>
