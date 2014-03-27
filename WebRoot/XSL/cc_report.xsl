@@ -98,7 +98,7 @@
 	  	</span>
 	  	
 		<form action="testReport.action?key={$key}" name="paginate" method="post">
-			<input type="hidden" name="reportGeneratorForm.queryName" value="{$qName}" />
+			<input type="hidden" name="queryName" value="{$qName}" />
 			<input type="hidden" name="p_page" value="{$p_page}" />
 			<input type="hidden" name="p_step" value="{$p_step}" />
 			<input type="hidden" name="p_highlight" value="{$p_highlight}"/>
@@ -110,11 +110,11 @@
 			<input type="hidden" name="showAllValues" value="{$showAllValues}"/>
 		</form>
 	
-		<s:form action="runSwitchViews" method="post" >
+		<form action="runSwitchViews" method="post" name="switchViewsForm">
 		     <input type="hidden" name= "reportGeneratorForm.reportView" value="" />
 		     <input type="hidden" name="reportGeneratorForm.queryName" value="{$qName}" />
 		     <input type="hidden" name="reportGeneratorForm.samples" value="" />			
-		</s:form>
+		</form>
 	
 		<div class="rptHeader">	
 			<div class="rowCount">

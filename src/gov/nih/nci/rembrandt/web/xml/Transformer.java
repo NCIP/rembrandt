@@ -20,6 +20,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.io.DocumentResult;
 import org.dom4j.io.DocumentSource;
@@ -95,6 +96,7 @@ public class Transformer {
     private Map m_params;
     private File m_xsl;
     private Templates m_template;
+    private static Logger logger = Logger.getLogger(Transformer.class);
  
    /**
      * Constructor for Transformer.
@@ -127,7 +129,7 @@ public class Transformer {
         try {
             createTemplate(new StreamSource(m_xsl));
         } catch (TransformerException e) {
-            //@todo handle this
+            logger.error("Transformer Exception", e);
         }
     }
     
