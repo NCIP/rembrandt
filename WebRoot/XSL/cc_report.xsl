@@ -98,7 +98,7 @@
 	  	</span>
 	  	
 		<form action="testReport.action?key={$key}" name="paginate" method="post">
-			<input type="hidden" name="queryName" value="{$qName}" />
+			<input type="hidden" name="reportGeneratorForm.queryName" value="{$qName}" />
 			<input type="hidden" name="p_page" value="{$p_page}" />
 			<input type="hidden" name="p_step" value="{$p_step}" />
 			<input type="hidden" name="p_highlight" value="{$p_highlight}"/>
