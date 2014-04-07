@@ -9,6 +9,8 @@ L-->
 	<property name="build.dir" location="." />
 	<property name="antcontrib.lib.dir" location="${build.dir}/jar_source_files" />
 	
+	<property name="jboss6-modules.dir" location="${build.dir}/jboss6-modules" />
+	
 	<path id="antcontrib.lib.classpath">
 			<fileset dir="${antcontrib.lib.dir}">
 				<include name="**/ant*.jar" />
@@ -333,6 +335,7 @@ L-->
 		    <classes dir="${build.classes.dir}"/>
 		</war>
 		<antcall target="retrieve_deployment_artifacts"></antcall>
+		
 		<copy file="rembrandt.war" todir="${anthill.artifacts.dir}"/>
 
 	</target>
@@ -370,6 +373,11 @@ L-->
 		<copy file="csm_deploy/properties-service.xml" todir="${anthill.artifacts.dir}"/>
 		<copy file="src/castor_query.xml" todir="${anthill.artifacts.dir}"/>
 		<copy file="conf/wikihelp.properties" todir="${anthill.artifacts.dir}"/>
+		
+		<copy todir="${anthill.artifacts.dir}" overwrite="true" >  
+				  <fileset dir="${jboss6-modules.dir}" includes="**/*"/>
+				</copy>
+		
 	</target>
 	<target name="noop"/>
 	<!--
