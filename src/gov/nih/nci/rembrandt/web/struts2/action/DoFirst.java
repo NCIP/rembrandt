@@ -146,14 +146,12 @@ public class DoFirst extends ActionSupport implements ServletRequestAware {
 			credentials = (UserCredentials)session.getAttribute(RembrandtConstants.USER_CREDENTIALS);
 			
 			if( credentials == null ) {
+				
 				try {
 					credentials = securityManager.authorization("RBTuser");
 				} catch (AuthenticationException e) {
 					logger.error(e);
 				}
-		
-				//Shan: what's this for?
-				//session.invalidate();
 				
 				if (credentials != null && credentials.authenticated()) {
 					session.setAttribute(RembrandtConstants.USER_CREDENTIALS,credentials);
@@ -161,7 +159,7 @@ public class DoFirst extends ActionSupport implements ServletRequestAware {
 			
 				session.setAttribute("logged", "yes");
 				session.setAttribute("autoLogged", "yes");
-//				aRequest.getSession().setAttribute("name", "RBTuser");
+				
 	            UserPreferencesBean userPreferencesBean = new UserPreferencesBean();
 	            session.setAttribute(RembrandtConstants.USER_PREFERENCES,userPreferencesBean);
 	            _cacheManager.putSessionQueryBag(session.getId(), new SessionQueryBag());
