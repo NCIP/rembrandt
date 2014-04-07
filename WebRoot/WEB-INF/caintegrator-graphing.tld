@@ -13,8 +13,8 @@
 		<tag-class>
 			gov.nih.nci.rembrandt.web.taglib.KaplanMeierPlotTag
 		</tag-class>
-		<bodycontent>empty</bodycontent>
-		<desciption>The Kaplan Meier Survival Plot</desciption>
+		<body-content>empty</body-content>
+		<description>The Kaplan Meier Survival Plot</description>
 		<attribute>
 			<name>bean</name>
 			<required>true</required>
@@ -29,8 +29,8 @@
 		<tag-class>
 			gov.nih.nci.rembrandt.web.taglib.PCAPlotTag
 		</tag-class>
-		<bodycontent>empty</bodycontent>
-		<desciption>The Principal Component Analysis Plots</desciption>
+		<body-content>empty</body-content>
+		<description>The Principal Component Analysis Plots</description>
 		<attribute>
 			<name>taskId</name>
 			<required>true</required>
@@ -52,8 +52,8 @@
 		<tag-class>
 			gov.nih.nci.rembrandt.web.taglib.HCPlotTag
 		</tag-class>
-		<bodycontent>empty</bodycontent>
-		<desciption>The Hierarchical Clustering Analysis Plot</desciption>
+		<body-content>empty</body-content>
+		<description>The Hierarchical Clustering Analysis Plot</description>
 		<attribute>
 			<name>taskId</name>
 			<required>true</required>
@@ -65,7 +65,7 @@
 		<tag-class>
 			gov.nih.nci.rembrandt.web.taglib.HCPlotReport
 		</tag-class>
-		<bodycontent>empty</bodycontent>
+		<body-content>empty</body-content>
 		<description>The Hierarchical Clustering Analysis Report</description>
 		<attribute>
 			<name>taskId</name>
@@ -78,7 +78,7 @@
 		<tag-class>
 			gov.nih.nci.rembrandt.web.taglib.GenePlotTag
 		</tag-class>
-		<bodycontent>empty</bodycontent>
+		<body-content>empty</body-content>
 		<description>The Gene Expression Plot</description>
 		<attribute>
 			<name>algorithm</name>
@@ -91,7 +91,7 @@
 		<tag-class>
 			gov.nih.nci.rembrandt.web.taglib.ClinicalPlotTag
 		</tag-class>
-		<bodycontent>empty</bodycontent>
+		<body-content>empty</body-content>
 		<description>The Clinical Plot</description>
 		<attribute>
 			<name>taskId</name>
