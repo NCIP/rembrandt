@@ -44,11 +44,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
-import com.sun.org.apache.xerces.internal.parsers.DOMParser;
-
-//import com.sun.org.apache.xerces.internal.impl.xs.dom.DOMParser;
-
-
+import com.google.gxp.org.apache.xerces.parsers.DOMParser;
 
 /**
  * @todo comment this!
@@ -196,6 +192,7 @@ public class ApplicationContext{
 
 		  //load the second properties file
 		  propertiesFileName = System.getProperty("gov.nih.nci.rembrandtData.properties");
+		  logger.debug("propertiesFileName: " + propertiesFileName);
 		  in = new FileInputStream(propertiesFileName);
 		  if(propertiesFileName != null && in!=null)	{
 			  rembrandtProperties.load(in);  
@@ -212,9 +209,13 @@ public class ApplicationContext{
 		  //Initialize db
 		  // PersistenceBrokerFactoryIF pbf = PersistenceBrokerFactoryFactory.instance();
 		  String dbalias = System.getProperty("gov.nih.nci.rembrandt.dbalias");
+		  logger.debug("dbalias: " + dbalias);
 		  String username = System.getProperty("gov.nih.nci.rembrandt.db.username");
+		  logger.debug("username: " + username);
 		  String password = System.getProperty("gov.nih.nci.rembrandt.db.password");
+		  logger.debug("password: " + password);
 		  String jcdalias = System.getProperty("gov.nih.nci.rembrandt.jcd_alias");
+		  logger.debug("jcdalias: " + jcdalias);
 		  
 		  if (jcdalias != null && jcdalias.length() > 0){
 			  MetadataManager mm = MetadataManager.getInstance();
@@ -233,20 +234,25 @@ public class ApplicationContext{
 		  //end of initialize
 
 		  String jmsProviderURL = System.getProperty("gov.nih.nci.rembrandt.jms.jboss_url");
+		  logger.debug("jmsProviderURL: " + jmsProviderURL);
 		  String jndiFactoryName = System.getProperty("gov.nih.nci.rembrandt.jms.factory_jndi");
+		  logger.debug("jndiFactoryName: " + jndiFactoryName);
 		  String requestQueueName = System.getProperty("gov.nih.nci.rembrandt.jms.analysis_request_queue");
+		  logger.debug("requestQueueName: " + requestQueueName);
 		  String responseQueueName = System.getProperty("gov.nih.nci.rembrandt.jms.analysis_response_queue");
+		  logger.debug("responseQueueName: " + responseQueueName);
 		
 		 
 		  analysisServerClientManager.setJMSparameters(jmsProviderURL, jndiFactoryName,requestQueueName, responseQueueName);
-		  
+		  logger.debug("analysisServerClientManager setJMSparameters ");
 //        ANALYSIS SERVER  SET the CACHE and GeneExpressionAnnotationService 
 
 		  analysisServerClientManager.setCache(ApplicationFactory.getBusinessTierCache());
+		  logger.debug("analysisServerClientManager setCache ");
 //		  analysisServerClientManager.setGeneExprAnnotationService();
 		
 		  analysisServerClientManager.establishQueueConnection();
-		  
+		  logger.debug("analysisServerClientManager establishQueueConnection ");
 		  //Initialize Annotation loading
 		  List<String> affyReporters = AnnotationHandler.getAllReporters(ArrayPlatformType.AFFY_OLIGO_PLATFORM);
 		  //List<String> unifiedReporters = AnnotationHandler.getAllReporters(ArrayPlatformType.UNIFIED_GENE);
