@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>  
+<module xmlns="urn:jboss:module:1.1" name="org.apache.log4j.rembrandt">  
+    <resources>  
+        <resource-root path=""/>  
+    </resources>  
+    <dependencies>  
+        <module name="org.apache.log4j"/>  
+    </dependencies>  
+</module>  
