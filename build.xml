@@ -374,6 +374,7 @@ L-->
 		<copy file="src/castor_query.xml" todir="${anthill.artifacts.dir}"/>
 		<copy file="conf/wikihelp.properties" todir="${anthill.artifacts.dir}"/>
 		
+		<copy file="conf/standalone-full.xml" todir="${anthill.artifacts.dir}" />
 		<copy todir="${anthill.artifacts.dir}" overwrite="true" >  
 				  <fileset dir="${jboss6-modules.dir}" includes="**/*"/>
 				</copy>
