@@ -13,7 +13,7 @@ L-->
 <hibernate-configuration>
     <session-factory>
         <!-- properties  -->
-        <property name="connection.datasource">java:/rembrandtcsm</property>
+        <property name="connection.datasource">java:jboss/rembrandtcsm</property>
         <property name="hibernate.show_sql">true</property>
         <property name="dialect">org.hibernate.dialect.Oracle9Dialect</property>
         <mapping resource="gov/nih/nci/security/authorization/domainobjects/Privilege.hbm.xml"/>
