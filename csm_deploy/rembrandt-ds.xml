@@ -19,7 +19,7 @@ L-->
 <!-- ==================================================================== -->
 <datasources>
    <local-tx-datasource>
-               <jndi-name>rembrandt</jndi-name>
+               <jndi-name>java:jboss/datasources/rembrandt</jndi-name>
                <connection-url>jdbc:oracle:thin:@ncidb-int-d.nci.nih.gov:1550:INTDEV</connection-url>
                <user-name>rembdev</user-name>
                <password>dev!234</password>
@@ -28,7 +28,7 @@ L-->
    </local-tx-datasource>
    
    <local-tx-datasource>
-               <jndi-name>rembrandtcsm</jndi-name>
+               <jndi-name>java:jboss/datasources/rembrandtcsm</jndi-name>
                <connection-url>jdbc:oracle:thin:@ncidb-int-d.nci.nih.gov:1550:INTDEV</connection-url>
                <user-name>rembdev</user-name>
                <password>dev!234</password>
