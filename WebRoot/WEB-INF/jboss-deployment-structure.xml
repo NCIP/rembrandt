@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='UTF-8'?>
+<jboss-deployment-structure>
+ <deployment>
+ 
+ 	<dependencies>  
+            <module name="org.apache.log4j.rembrandt" />  
+        </dependencies>
+        
+ 	<!-- Exclusions allow you to prevent the server from automatically 
+		adding some dependencies -->
+ 	<exclusions>
+ 		<module name="org.apache.log4j" />
+ 	</exclusions>
+ 
+   <resources>  
+         <resource-root path="WEB-INF/lib/bcprov-jdk15on-1.47.jar" use-physical-code-source="true"/>
+      </resources>  
+   </deployment> 
+
+ 
+</jboss-deployment-structure>
