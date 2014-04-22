@@ -135,15 +135,14 @@ function onRadioCloneId(idx) {
  }  
 
 function onRadioSampleGroup(idx) {
-	 alert("in onRadioSampleGroup");
-	    if(i == 0){
-	    	document.getElementById("sampleGroup1").disabled = true;
-	    	document.getElementById("sampleGroup2").disabled = false;
-	    } else if(i == 1){
-	    	document.getElementById("sampleGroup1").value = "";
-	    	document.getElementById("sampleGroup1").disabled = true;
-	    	document.getElementById("sampleGroup2").disabled = false;
-	    }
+	 if(idx == 0){
+		document.getElementById("sampleFile").disable = true;
+	    document.getElementById("sampleList").disabled = false;
+	 } else if(idx == 1){
+		document.getElementById("sampleList").value = "";
+	    document.getElementById("sampleList").disabled = true;
+	    document.getElementById("sampleFile").disabled = false;
+	 }
 	 
  }  
  
