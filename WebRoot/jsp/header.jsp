@@ -5,6 +5,8 @@
   See http://ncip.github.com/rembrandt/LICENSE.txt for details.
 L--%>
 
+<%@ taglib prefix="s" uri="/struts-tags"%>
+
 <%@ page import="gov.nih.nci.rembrandt.util.RembrandtConstants,
 					gov.nih.nci.caintegrator.security.UserCredentials" %>
 					
