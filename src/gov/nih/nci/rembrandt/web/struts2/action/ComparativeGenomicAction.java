@@ -150,14 +150,7 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
 		
 	}
 
-	//if multiUse button clicked (with styles de-activated) forward back to page
-//    public String multiUse()
-//	throws Exception {
-//        //saveToken(request);
-//
-//    	return "backToCGH";
-//    }
-    
+
     /**
      * Method setup
      * 
@@ -182,9 +175,6 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
     	if ( sID != null && sID != "" && !sID.contains("rembrandt")) {
     		return "failure";
     	}
-
-		//comparativeGenomicForm = comparativeGenomicFormInSession;
-		//this.geneExpressionForm = geneExpressionFormInSession;
 		
     	//Since Chromosomes is a static variable there is no need to set it twice.
 		//It is only a lookup option collection
@@ -196,30 +186,7 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
         GroupRetriever groupRetriever = new GroupRetriever();
         form.setSavedSampleList(groupRetriever.getClinicalGroupsCollectionNoPath(servletRequest.getSession()));
         
-        //saveToken(request);
-        //sessionMap.put("comparativeGenomicForm", comparativeGenomicForm);
 		return "backToCGH";
-    }
-    
-    /*This method is needed for the apparant problem with LookupDispatchAction class in Struts
-     *  (non-Javadoc)
-     * Doesn't appear that the developer can make a call to any of the methods in this
-     * class via a url path (e.g. myaction.do?method=setup). The work around is not specifying
-     * a method, in which case struts will call the following "unspecified" method call below.
-     * In this case the desired effect is to reset the form(setup) with the prefilled dropdowns...
-     * so ALL this method does is call the setup method.
-     */
-    /**TODO change the action to a DispatchAction for more flexibility in the future.
-     * -KR
-     */
-    public String unspecified()
-    throws Exception {
-        
-    	this.setup();
-        //saveToken(request);
-
-        return "backToCGH";
-        
     }
     
     public String getCytobands()
@@ -230,6 +197,7 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
     	
     	//This is the static list of chromosomes that is fetched the first time it is needed
     	List chromosomes = cgForm.getChromosomes();
+    	
     	//IMPORTANT! geForm.chromosomeNumber is NOT the chromosome number.  It is the index
     	//into the static chromosomes list where the chromosome can be found.
     	if(!"".equals(cgForm.getChromosomeNumber())) {
@@ -242,58 +210,6 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
     	cgForm.setGeneRegionViewChange();
     	
     	return "backToCGH";
-    }
-    
-    
-    /**
-     * Method submitAllGenes
-     * 
-     * @param ActionMapping
-     *            mapping
-     * @param ActionForm
-     *            form
-     * @param HttpServletRequest
-     *            request
-     * @param HttpServletResponse
-     *            response
-     * @return ActionForward
-     * @throws Exception
-     */
-    
-    //If this is an All Genes submit
-    public String submitAllGenes()
-	throws Exception {
-        
-    	//Shan: whatch impact
-    	//if (!isTokenValid(request)) {
-		//	return mapping.findForward("failure");
-		//}
-        
-        this.servletRequest.getSession().setAttribute("currentPage", "0");
-		this.servletRequest.getSession().removeAttribute("currentPage2");
-		
-		//ComparativeGenomicForm comparativeGenomicForm = (ComparativeGenomicForm) comparitiveGenomicForm;
-		                       
-        //set all Genes query and give copyNumber default value
-		this.form.setSampleType("PairedTissue");
-		form.setGeneGroup("");
-		form.setCopyNumberView("calculatedCN");
-		form.setGeneRegionView("geneView");
-		form.setCopyNumber("amplified");
-		form.setCnAmplified(RembrandtConstants.ALL_GENES_COPY_NUMBER_REGULATION);
-		form.setCnADAmplified(RembrandtConstants.ALL_GENES_COPY_NUMBER_REGULATION);
-		form.setCnADDeleted("1");
-		form.setCnDeleted("1");
-
-		form.setSegmentMean("");
-		form.setSmAmplified("");
-		form.setSmDeleted("");
-         
-		logger.debug("This is an All Genes cgh Submital");
-       
-		//resetToken(request);
-
-		return "showAllGenes";
     }
     
     /**
@@ -349,67 +265,22 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
      * @return ActionForward
      * @throws Exception
      */
-    
-     //If this is a Submittal do the following
     public String submittal()
             throws Exception {
        
-    	if (validateForSubmitOrPreview() != 0)
+    	if (validateForSubmitOrPreview() != 0) {
+    		if (this.form.getGeneRegionView().equals("regionView")) {
+    			this.form.setSelectedView("regionView");
+    			this.form.setGeneRegionViewChange();
+    		}
     		return "backToCGH";
+    	}
     	
     	setDataFormDetails();   
         
         this.servletRequest.getSession().setAttribute("currentPage", "0");
         this.servletRequest.getSession().removeAttribute("currentPage2");
-        String sessionId = this.servletRequest.getSession().getId();
-        
-        //ComparativeGenomicForm comparativeGenomicForm = (ComparativeGenomicForm) form;
-        
-        /*The following 15 lines of code/logic will eventually need to be moved/re-organized. All Genes queries should have their own actions, forms, etc. For
-   	  * now, in order to properly validate an all genes query and STILL be able to forward back to
-   	  * the appropriate query page (tile order), this logic has been placed in the action itself, so
-   	  * that there can be proper forwarding when errors are generated from an all genes submission.
-   	  * This logic checks if the query is an all genes query and then if the copy number value is
-   	  * less than 10 for amplified and greater than 1 for deletion. If it is less than 10 for amp and greater than 1 for deleted,
-   	  * an error is created and sent with the request to the forward.
-   	  * BEGINS HERE!!
-   	  */
-   		   if (form.getIsAllGenes()){
-   		       try{
-   		        int intCnAmplified = Integer.parseInt(form.getCnAmplified());
-   		        float floatCnDeleted = Float.parseFloat(form.getCnDeleted());
-   		        int intCnADAmplified = Integer.parseInt(form.getCnADAmplified());
-   		        float floatCnADDeleted = Float.parseFloat(form.getCnADDeleted());
-   			        if((intCnAmplified < 10 && form.getCopyNumber().equalsIgnoreCase("amplified")) || 
-   			             (intCnADAmplified < 10 && form.getCopyNumber().equalsIgnoreCase("ampdel"))){
-   			            
-   			        	//ActionErrors errors = new ActionErrors();
-			            //errors.add("copyNumberAllGenesAmp", new ActionError(
-						//"gov.nih.nci.nautilus.ui.struts.form.copyNumberAmp.allGenes.error")); 
-			            //this.saveErrors(request, errors);
-					    String error = ApplicationContext.getLabelProperties().getProperty(
-					    		"gov.nih.nci.nautilus.ui.struts.form.copyNumberAmp.allGenes.error");
-			            addFieldError("copyNumberAllGenesAmp", error);
-			            return "showAllGenes"; 
-   			        }
-   			        if((floatCnDeleted > 1 && form.getCopyNumber().equalsIgnoreCase("deleted")) ||
-   			             (floatCnADDeleted > 1 && form.getCopyNumber().equalsIgnoreCase("ampdel"))) {
-   			            
-   			            String error = ApplicationContext.getLabelProperties().getProperty(
-					    		"gov.nih.nci.nautilus.ui.struts.form.copyNumberDel.allGenes.error");
-   			            addFieldError("copyNumberAllGenesDel", error);
-   					    return "showAllGenes"; 
-   			        }
-   		     } catch (NumberFormatException ex) {
-		            
-		            String error = ApplicationContext.getLabelProperties().getProperty(
-				    		"gov.nih.nci.nautilus.ui.struts.form.copyNumberDel.allGenes.error");
-		            addFieldError("copyNumberAllGenesDel", error);
-				    return "showAllGenes";    
-  		    }
-        }
-   		  //All Genes validation ENDS HERE  
-   		
+        String sessionId = this.servletRequest.getSession().getId();   		
         
         logger.debug("This is a Comparative Genomic Submittal");
         //Create Query Objects
@@ -418,33 +289,29 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
         //Check user credentials and constrain query by Institutions
         if(cghQuery != null){
         	cghQuery.setInstitutionCriteria(InsitutionAccessHelper.getInsititutionCriteria(this.servletRequest.getSession()));
-            }
+        }
         
         //This is required as struts resets the form.  It is later added back to the request
         this.servletRequest.setAttribute("previewForm", form.cloneMe());
        
-        
-            try {
-                //Store the query in the SessionQueryBag
-                if (!cghQuery.isEmpty()) {
-                    SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
-                    queryBag.putQuery(cghQuery, form);
-                    presentationTierCache.putSessionQueryBag(sessionId, queryBag);
-                } else {                    
-                    addActionError(ApplicationContext.getLabelProperties().getProperty(
-				    		"gov.nih.nci.nautilus.ui.struts.form.query.cgh.error"));
-                    return "backToCGH";
-                }
-            }
-            catch (Exception e) {
-               logger.error(e);
-            }
-           
-            
-            //resetToken(request);
-
-            return "advanceSearchMenu";
+        try {
+        	//Store the query in the SessionQueryBag
+        	if (!cghQuery.isEmpty()) {
+        		SessionQueryBag queryBag = presentationTierCache.getSessionQueryBag(sessionId);
+        		queryBag.putQuery(cghQuery, form);
+        		presentationTierCache.putSessionQueryBag(sessionId, queryBag);
+        	} else {                    
+        		addActionError(ApplicationContext.getLabelProperties().getProperty(
+        				"gov.nih.nci.nautilus.ui.struts.form.query.cgh.error"));
+        		return "backToCGH";
+        	}
         }
+        catch (Exception e) {
+        	logger.error(e);
+        }
+
+        return "advanceSearchMenu";
+   }
   
     
     /**
@@ -464,8 +331,13 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
     public String preview()
             throws Exception {
         
-    	if (validateForSubmitOrPreview() != 0)
+    	if (validateForSubmitOrPreview() != 0) {
+    		if (this.form.getGeneRegionView().equals("regionView")) {
+    			this.form.setSelectedView("regionView");
+    			this.form.setGeneRegionViewChange();
+    		}
     		return "backToCGH";
+    	}
     	
     	setDataFormDetails();
     	
@@ -477,11 +349,6 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
         ComparativeGenomicQuery cghQuery = createCGHQuery(form,this.servletRequest.getSession());
         if(cghQuery != null)
         	cghQuery.setInstitutionCriteria(InsitutionAccessHelper.getInsititutionCriteria(this.servletRequest.getSession()));
-            
-        //This is required as struts resets the form.  It is later added back to the request
-        
-        //Shan: don't know what's this for. To delet...
-        //this.servletRequest.setAttribute("previewForm", form.cloneMe());
         
         CompoundQuery compoundQuery = new CompoundQuery(cghQuery);
         compoundQuery.setQueryName(RembrandtConstants.PREVIEW_RESULTS);
@@ -512,6 +379,7 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
     private ComparativeGenomicQuery createCGHQuery(ComparativeGenomicForm comparativeGenomicForm, HttpSession session){
         UserListBeanHelper helper = new UserListBeanHelper(session); 
         //Create Query Objects
+       
         ComparativeGenomicQuery cghQuery = (ComparativeGenomicQuery) QueryManager
                 .createQuery(QueryType.CGH_QUERY_TYPE);
         cghQuery.setQueryName(comparativeGenomicForm.getQueryName());
@@ -555,7 +423,7 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
 			}
 		}
 		
-		if (!geneIDCrit.isEmpty())	{
+		if (comparativeGenomicForm.getGeneRegionView().equals("geneView") && !geneIDCrit.isEmpty())	{
 			cghQuery.setGeneIDCrit(geneIDCrit);
 		}
         
@@ -619,7 +487,7 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
 		
         // set region criteria
         RegionCriteria regionCrit = comparativeGenomicForm.getRegionCriteria();
-        if (!regionCrit.isEmpty()) {
+        if (comparativeGenomicForm.getGeneRegionView().equals("regionView") && !regionCrit.isEmpty()) {
         	regionCrit.setRegion(comparativeGenomicForm.getRegion());
             cghQuery.setRegionCrit(regionCrit);
         }
@@ -794,12 +662,14 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
 	public int validateForSubmitOrPreview() {
     	
 		if (validateQueryName() == 0) {
-			if (validateChromosomeInputData() == 0)
-				if (validateCopyNumberorSementMean() == 0)
-					return validateCGHQuery();
-		} 
+			if (this.form.getGeneRegionView().equals("regionView") && validateChromosomeInputData() != 0) 
+				return -1;
+			
+			if (validateCopyNumberorSementMean() == 0)
+				return validateCGHQuery();
+		}
 		
-		return -1; //error
+		return -1; 
 	}	
     
 	protected int validateChromosomeInputData() {
@@ -899,14 +769,12 @@ public class ComparativeGenomicAction extends ActionSupport implements SessionAw
 	}
 
 	protected int validateCGHQuery() {	
-		String queryName = this.form.getQueryName();
 		String geneOption = this.form.getGeneOption();
 		String geneList = this.form.getGeneList().trim();
 		String chromosome = this.form.getChromosomeNumber().trim();
 		
 		// Validate minimum criteria's for CGH Query
-		if (queryName != null && queryName.length() >= 1 && 
-				(geneOption != null && geneOption.equalsIgnoreCase("standard"))) {
+		if (geneOption != null && geneOption.equalsIgnoreCase("standard")) {
 			if ((geneList == null || geneList.length() == 0)
 					&& (chromosome == null || (chromosome.length() > 0 && chromosome.equals("-1")))) {
 				String msg = ApplicationContext.getLabelProperties().getProperty("gov.nih.nci.nautilus.ui.struts.form.cgh.minimum.error");
