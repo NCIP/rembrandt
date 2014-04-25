@@ -78,6 +78,19 @@ function spawnx(url,winw,winh, name) {
 	}
 } 
 
+function spawnCentered(url, winw,winh) {  
+	var left = (screen.width/2)-(winw/2);
+	
+	var w = window.open(url, '_blank', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no, width='+winw+', height='+winh+', top=30, left='+left);
+	if (w==null || typeof(w)=="undefined") {
+		alert("You have pop-ups blocked.  Please click the highlighted link at the top of this page to view the report.  You may disable your pop-up blocker for this site to avoid doing this in the future.");
+		document.write("<Br><Br><span class=\"pop\">You have pop-ups blocked.  Click <a href=\"javascript:spawnx('"+url+"',"+winw+","+winh+",'"+name+"');\">here</a> to view the report.</span>");
+	} else {
+		w.focus();
+	}
+  };
+
+
 function spawn(url,winw,winh) {
   var w = window.open(url, "_blank",
       "screenX=0,screenY=0,status=yes,toolbar=no,menubar=no,location=no,width=" + winw + ",height=" + winh + 
