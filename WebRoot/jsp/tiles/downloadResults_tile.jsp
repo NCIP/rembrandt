@@ -72,16 +72,15 @@ L--%>
 			<s:select id="fileType" name="downloadForm.fileType" list="fileTypeList" />
 				
 		</fieldset><br/>
-			<s:if test="#disableDownload != null && #disableDownload.length() > 0">
-				<legend class="red">caArray File Download is unavailable at this time <br>
-				as we are unable to successfully connect with caArray server,<br> 
-				Please visit http://array.nci.nih.gov to download the data directly.</legend><br/>
-	       		<input type="submit" value="download" style="width:70px" disabled/>	
-			</s:if>
-			<s:else>
 			
-	       		<input type="submit" value="download" style="width:70px"/>	 
-			</s:else>
+			<!-- Disabled due to inability to login to caArray after jboss 6 upgrade -->
+			<legend class="red">caArray File Download is unavailable at this time <br>
+				as we are unable to successfully connect with caArray server,<br> 
+				Please click <a href="" onclick="javascript:spawnCentered('jsp/caArrayQueryInstructions.jsp', 580, 400);" > here </span></a>
+				for instructions to query Rembrandt Data in caArray site directly.</legend><br/>
+			
+	       		<input type="submit" disabled value="download" style="width:70px;"/>	 
+			
      
 	
 </fieldset>
