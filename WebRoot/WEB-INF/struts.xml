@@ -364,13 +364,9 @@
          <result name="advanceSearchMenu" type="tiles">nautilus.menu</result>
          <result name="backToClinical" type="tiles">nautilus.clinical</result>
          
-         <result name="previewReport" type="redirectAction">
-        	 <param name="actionName">previewCGReport</param>
-         </result>
-		 <result name="viewResults" type="redirectAction">
-        	 <param name="actionName">viewResults</param>
-         </result>
-         
+         <result name="showResults" type="redirectAction">
+         	<param name="actionName">viewResults</param>
+         	</result>
 	</action>
 	
 	<action name="cdPreview"
