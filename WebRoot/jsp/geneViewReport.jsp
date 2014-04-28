@@ -60,12 +60,38 @@ response.setDateHeader ("Expires", -1);
 response.setHeader("Cache-Control","no-store"); //HTTP 1.1
 
 %>
+ <!--  
 	<span id="spnLoading"  style="display:inline; width:500; text-align:center; width:100%" >
 		<br><p align="center" style="font: 14px arial bold">
 		<img src="images/statusBar2.gif">
 		<br>Loading...please wait<br>
 		</p>
 	</span>
+-->
+
+<html>
+  	<head>
+		<title>My Report</title>
+		
+		<LINK href="/rembrandt/XSL/css.css" rel="stylesheet" type="text/css" />
+		<script language="JavaScript" type="text/javascript" src="/rembrandt/js/overlib.js"></script>
+		<script language="JavaScript" type="text/javascript" src="js/overlib_hideform.js"></script>
+		<script language="JavaScript" type="text/javascript" src="js/caIntScript.js"></script> 
+		<script language="JavaScript" type="text/javascript" src="XSL/js.js"></script> 
+		<script language="JavaScript" type="text/javascript" src="XSL/a_saveSamples.js"></script>
+		<script language="JavaScript" type="text/javascript" src="js/lib/prototype_1.5pre.js"></script>
+		<script language="javascript" src="js/lib/Help.js"></script>
+		<script language="javascript" src="js/lib/json.js"></script>
+		<script type='text/javascript' src='/rembrandt/dwr/interface/DynamicReport.js'></script>
+		<script type='text/javascript' src='/rembrandt/dwr/engine.js'></script>
+		<script type='text/javascript' src='/rembrandt/dwr/util.js'></script>
+		<script language="JavaScript" type="text/javascript" src="js/rembrandtScript.js"></script>
+		<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE" />
+		<META HTTP-EQUIV="Expires" CONTENT="-1" />
+		
+		
+	</head>
+
 <%
 	response.flushBuffer();	
 	try	{
@@ -104,3 +130,6 @@ response.setHeader("Cache-Control","no-store"); //HTTP 1.1
 	} 
 }
 %>
+
+</html>
+ 
