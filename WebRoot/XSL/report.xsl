@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-<xsl:output method="html" omit-xml-declaration="yes" /> 
+<xsl:output /> 
 
 <xsl:param name="filter_value1"></xsl:param>
 
@@ -28,44 +28,15 @@
 </xsl:variable>
 
 <xsl:template match="/">
-
-<html xml:lang="en" lang="en">
-  	<head>
-		<title>My Report</title>
-		<script language="JavaScript" type="text/javascript" src="js/overlib.js"></script>
-		<script language="JavaScript" type="text/javascript" src="js/overlib_hideform.js"></script>
-		<script language="JavaScript" type="text/javascript" src="js/caIntScript.js"></script> 
-		<script language="JavaScript" type="text/javascript" src="XSL/js.js"></script> 
-		<script language="JavaScript" type="text/javascript" src="XSL/a_saveSamples.js"></script>
-		<script language="JavaScript" type="text/javascript" src="js/lib/prototype_1.5pre.js"></script>
-		<script language="javascript" src="js/lib/Help.js"></script>
-		<script language="javascript" src="js/lib/json.js"></script>
-		<script type='text/javascript' src='/rembrandt/dwr/interface/DynamicReport.js'></script>
-		<script type='text/javascript' src='/rembrandt/dwr/engine.js'></script>
-		<script type='text/javascript' src='/rembrandt/dwr/util.js'></script>
-		<script language="JavaScript" type="text/javascript" src="js/rembrandtScript.js"></script>
-		
-		<LINK href="XSL/css.css" rel="stylesheet" type="text/css" />
-		<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE" />
-		<META HTTP-EQUIV="Expires" CONTENT="-1" />
-	</head>
+  
   <body onload="javascript:A_clearTmpSamples();return false;">
   <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;">Help</div>
 
   <div style="background-color: #ffffff"><img alt="Rembrandt" src="images/smallHead.jpg" /></div>
   <p align="center" style="background:red; color:#ffffff; font-size:12px; font-weight:bold;"><xsl:value-of select="$statusMsg" /></p>
- 
+
    <xsl:for-each select="Report">
 
-    <!--
-    <fieldset>
-    <legend>DEBUG USE ONLY, PLEASE IGNORE THIS</legend>
-    <h3>Test: <xsl:value-of select="$showSaveSamples"/>,
-    <xsl:value-of select="$filter_value2"/>,
-    <xsl:value-of select="$filter_value3"/>
-    </h3>
-	</fieldset><br/>
-	-->
 	<xsl:variable name="reportMsg" select="@msg" />
 	<xsl:variable name="helpLink" select="@helpLink" />
 	<xsl:variable name="colCount" select="count(Row[2]/Cell)" />
@@ -78,15 +49,17 @@
 	
     <span style="z-index:900; float:right;position:absolute;top:10px;right:10px;">
 	  <!-- navigation icons courtesy of:  Anthony J. Brutico, D.O. -->
+	  
 	  <a href="#" onclick="javascript:window.close();" title="Close this report."><img alt="Close" align="right" src="images/close.png" border="0" /> </a> 
 	  <a href="javascript:openHelpWindow('{$helpLink}');" title="Click here for additional information about this report."><img alt="Help" align="right" src="images/help.png" border="0"  /></a>
 	  <a href="#" onclick="javascript:stupidXSLEscape('{$qName}', '{$rType}')" title="Download for Excel."><img align="right" src="images/excel.png" border="0" alt="download for excel" /></a>
 	  <a href="#" onclick="javascript:window.print();" title="Print this report."><img alt="Print" align="right" src="images/print.png" border="0" /> </a> 
 	  <a href="#queryInfo" title="View Query Information."><img alt="View Query Info" align="right" src="images/text.png" border="0" /></a>
 	  <a href="#" onclick="javascript:toggleDiv('hideme');return false;" title="Show or Hide Report Tools."><img alt="Show or Hide Report Tools" align="right" src="images/tools.png" border="0" /></a>
+   
    	</span>
-
-	<form action="runGeneViewReport" name="paginate" method="post">
+   	
+   	<form action="runGeneViewReport" name="paginate" method="post">
 	<input type="hidden" id="paginate_queryName" name="reportGeneratorForm.queryName" value="{$qName}" />
 	<input type="hidden" id="paginate_filter_value2" name="reportGeneratorForm.filter_value2" value="{$filter_value2}" />
 	<input type="hidden" id="paginate_filter_value3" name="reportGeneratorForm.filter_value3" value="{$filter_value3}" />
@@ -343,7 +316,7 @@
 	  </xsl:if>
 	  <xsl:text>&#160;</xsl:text>
 	  <xsl:text>&#160;</xsl:text>
-	  <select id="changeStep" name="reportGeneratorForm.filter_value3" onchange="javascript: goPageChangeStep('{$filter_value2}', this.value);">
+	  <select id="changeStep" name="reportGeneratorForm.filter_value3" onchange="javascript:goPageChangeStep('{$filter_value2}', this.value);">
 	  	<option value=""><xsl:value-of select="$filter_value3"/> per page</option>
 	  	<option value="1">1</option>
 	  	<option value="5">5</option>
@@ -575,11 +548,13 @@
 		 <br/><a style="margin-right:10px" href="javascript:history.back()">Back </a><a href="javascript:window.close()">Close</a></h3>
 		 -->
 		 <br/><a href="javascript:window.close()">Close</a></h3>
-  	</xsl:if>
+   	
+   	
+   	</xsl:if>
   </xsl:for-each>
-
-  
+	
+		 
   </body>
-  </html>
+
 </xsl:template>
 </xsl:stylesheet>
