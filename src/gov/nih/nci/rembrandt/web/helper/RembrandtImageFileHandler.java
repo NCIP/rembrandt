@@ -113,14 +113,14 @@ public class RembrandtImageFileHandler {
 	    	File directory = new File(jbossTempDeployDirPath);
 			String[] list = directory.list();
 			File[] fileList = directory.listFiles();
-			for(File file:fileList) {
-				if(file.isDirectory()) {
-					if(file.getName().contains("rembrandt")&&file.getName().contains(".war")){
-						tempDir = file.getPath();
-						break;
-					}
-				}
-			}
+//			for(File file:fileList) {
+//				if(file.isDirectory()) {
+//					if(file.getName().contains("rembrandt")&&file.getName().contains(".war")){
+//						tempDir = file.getPath();
+//						break;
+//					}
+//				}
+//			}
 			
 			if(tempDir.equals("")) {
 				tempDir = RembrandtContextListener.getContextPath();
