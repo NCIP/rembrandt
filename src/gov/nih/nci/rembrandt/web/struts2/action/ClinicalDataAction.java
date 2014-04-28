@@ -326,7 +326,7 @@ public class ClinicalDataAction extends ActionSupport implements SessionAware, S
 		Thread.sleep(2000);
         //resetToken(request);
 
-        return "viewResults";
+        return "showResults";
 	}
        
     /**
