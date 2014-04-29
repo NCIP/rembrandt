@@ -1,0 +1,83 @@
+# Rembrandt CLI script
+connect
+batch
+
+##############################################################
+#             System Properties                      
+##############################################################
+
+/system-property=gov.nih.nci.rembrandt.properties:add(value=/local/content/rembrandt/config/rembrandt.properties)
+/system-property=gov.nih.nci.rembrandtData.properties:add(value=/local/content/rembrandt/config/rembrandtData.properties)
+/system-property=gov.nih.nci.security.configFile:add(value=/local/content/rembrandt/config/ApplicationSecurityConfig.xml)
+/system-property=rembrandt.application.releaseNotes:add(value=/local/content/rembrandt/config/releaseNotes.html)
+/system-property=gov.nih.nci.rembrandt.wikihelpProperties:add(value=/local/content/rembrandt/config/wikihelp.properties)
+ 
+##############################################################
+#             datasource configuration                      
+##############################################################
+
+
+module add --name=com.oracle --resources=artifacts/oracle/ojdbc6.jar --dependencies=javax.api,javax.transaction.api
+
+# Add oracle JDBC driver
+/subsystem=datasources/jdbc-driver=oracle:add( \
+    driver-name=oracle, \
+    driver-module-name=com.oracle, \
+    driver-class-name=oracle.jdbc.driver.OracleDriver \
+)
+ 
+# Add 2 datasources: rembrandt and rembrandtcsm
+data-source add \
+    --name=rembrandt \
+    --driver-name=oracle \
+    --connection-url=jdbc:oracle:thin:@ncidb-int-d.nci.nih.gov:1550:INTDEV \
+    --jndi-name=java:jboss/rembrandt \
+    --user-name=rembdev \
+    --password=dev!234 \
+    --use-ccm=false \
+    --max-pool-size=100 \
+    --blocking-timeout-wait-millis=5000 
+data-source enable --name=rembrandt
+
+data-source add \
+    --name=rembrandtcsm \
+    --driver-name=oracle \
+    --connection-url=jdbc:oracle:thin:@ncidb-int-d.nci.nih.gov:1550:INTDEV \
+    --jndi-name=java:jboss/rembrandtcsm \
+    --user-name=rembdev \
+    --password=dev!234 \
+    --use-ccm=false \
+    --max-pool-size=100 \
+    --blocking-timeout-wait-millis=5000 
+data-source enable --name=rembrandtcsm
+
+reload
+
+##############################################################
+#               CSM configuration                             
+##############################################################
+module add --name=gov.nih.nci.security --resources=artifacts\csm\csmapi-5.1.jar --dependencies=org.apache.log4j,org.hibernate,org.jdom,org.slf4j.jcl-over-slf4j
+
+/subsystem=security/security-domain=rembrandt/:add(cache-type=default)
+/subsystem=security/security-domain=rembrandt/authentication=classic:remove() {allow-resource-service-restart=true}
+/subsystem=security/security-domain=rembrandt/authentication=classic:add( \
+    login-modules=[ \   
+        { \
+            "code" => "gov.nih.nci.security.authentication.loginmodules.LDAPLoginModule", \
+            "flag" => "required", \
+            "module" => "gov.nih.nci.security", \
+            "module-options" => [("ldapHost"=>"ldaps://cbioweb-stage-ldap.nci.nih.gov:636"), ("ldapSearchableBase"=>"ou=nci,o=nih"), ("ldapUserIdLabel"=>"cn")] \
+        } \     
+    ] \
+) {allow-resource-service-restart=true}
+
+
+##############################################################
+#               JMS configuration                             
+##############################################################
+jms-queue add --queue-address=SharedAnalysisRequest --entries=queue/SharedAnalysisRequest,java:jboss/queue/SharedAnalysisRequest
+jms-queue add --queue-address=RembrandtAnalysisResponse --entries=queue/RembrandtAnalysisResponse,java:jboss/queue/RembrandtAnalysisResponse
+ 
+# Execute and reload
+run-batch
+:reload
