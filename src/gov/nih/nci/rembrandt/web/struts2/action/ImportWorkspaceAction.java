@@ -175,7 +175,7 @@ public class ImportWorkspaceAction extends ActionSupport implements SessionAware
 		
 		try
 		{
-			if ( form.getFileType().equals( "QUERY" ))		
+			if ( form.getFileType().equals( "LIST" ))		
 			{
 				jsonArray = WorkspaceHelper.generateListJSONArray( session );
 	
@@ -205,9 +205,11 @@ public class ImportWorkspaceAction extends ActionSupport implements SessionAware
 			{
 				jsonArray = WorkspaceHelper.generateQueryJSONArray( session );
 	
+//				URL castor_location = new URL("file:///c:/local/content/rembrandt/config/castor_query.xml");
 				URL castor_location = new URL("file:///local/content/rembrandt/config/castor_query.xml");
 				InputSource is = new InputSource(castor_location.getPath());
 
+//				InputSource is = new InputSource(getClass().getClassLoader().getResource("castor_query.xml").getPath());
 				Mapping castorMapping = new Mapping();
 				castorMapping.loadMapping(is);
 				
@@ -237,7 +239,8 @@ public class ImportWorkspaceAction extends ActionSupport implements SessionAware
 				}
 			}
 		}
-		catch( Exception e ) {	
+		catch( Exception e )
+		{
 			String msg = ApplicationContext.getLabelProperties().getProperty(
         			"gov.nih.nci.nautilus.ui.struts.form.importFile.malformed.error");
         	msg = MoreStringUtils.insertParameterToErrorString(msg, this.workspaceFileFileName, 0);
@@ -512,6 +515,7 @@ public class ImportWorkspaceAction extends ActionSupport implements SessionAware
 	private ComparativeGenomicForm createComparativeGenomicForm( HttpServletRequest request, ComparativeGenomicQuery cghQuery)
 	{
 		ComparativeGenomicForm comparativeGenomicForm = new ComparativeGenomicForm();
+		comparativeGenomicForm.reset(request);
 		comparativeGenomicForm.reset(new ActionMapping(), request);
 		
 		comparativeGenomicForm.setQueryName(cghQuery.getQueryName());
