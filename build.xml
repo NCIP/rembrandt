@@ -301,6 +301,9 @@ L-->
 						<include name="struts.xml"/>
 					</fileset>
 				</copy>
+		
+		<copy file="${basedir}/conf/log4j.xml" todir="${build.classes.dir}"/>
+		
 		<war destfile="${app.war.name}.war" webxml="${webapp.dir}/WEB-INF/web.xml">
 			<fileset file="${webapp.dir}/*.*"/>
 			<zipfileset dir="${webapp.dir}/css" prefix="css"/>
@@ -354,18 +357,21 @@ L-->
 		<replaceregexp file="${anthill.artifacts.dir}/rembrandt.properties" match="@RELEASE_DATE@" replace="${rembrandt.application.releaseDate}" flags="g"/>
 		<copy file="conf/releaseNotes.html" todir="${anthill.artifacts.dir}"/>
 		<copy file="conf/rembrandtData.properties" todir="${anthill.artifacts.dir}"/>
-<!--		<copy file="conf/rembrandt-properties-service.xml" todir="${anthill.artifacts.dir}"/>		-->
-		<copy file="conf/rembrandt-jbossmq-destinations-service.xml" todir="${anthill.artifacts.dir}"/>
-		<copy file="conf/caintegrator-jbossmq-destinations-service.xml" todir="${anthill.artifacts.dir}"/>
+
 		<copy file="conf/igv-template.xml" todir="${anthill.artifacts.dir}"/>
 		<copy file="conf/rembrandt-igv-template.jnlp" todir="${anthill.artifacts.dir}"/>
 		<copy file="conf/rembrandt_ehcache.xml" todir="${anthill.artifacts.dir}"/>
-		<copy file="conf/log4Configuration.txt" todir="${anthill.artifacts.dir}"/>		
-		<copy file="conf/log4j.xml" todir="${anthill.artifacts.dir}"/>
+			
+		<copy file="csm_deploy/rembrandt.hibernate.cfg.xml" todir="${anthill.artifacts.dir}"/>
+		
+		<!-- 
+		<copy file="conf/rembrandt-properties-service.xml" todir="${anthill.artifacts.dir}"/>
+		<copy file="conf/rembrandt-jbossmq-destinations-service.xml" todir="${anthill.artifacts.dir}"/>
+		<copy file="conf/caintegrator-jbossmq-destinations-service.xml" todir="${anthill.artifacts.dir}"/>
+		<copy file="conf/log4Configuration.txt" todir="${anthill.artifacts.dir}"/>	
 		<copy file="conf/login-config.xml" todir="${anthill.artifacts.dir}"/>
 		<replaceregexp file="${anthill.artifacts.dir}/login-config.xml" match="@LDAP_SERVER@" replace="${ldap.provider.url}" flags="g"/>
 		<copy file="csm_deploy/ApplicationSecurityConfig.xml" todir="${anthill.artifacts.dir}"/>
-		<copy file="csm_deploy/rembrandt.hibernate.cfg.xml" todir="${anthill.artifacts.dir}"/>
 		<replaceregexp file="csm_deploy/oracle-ds.xml" match="DATASOURCE_REMBRANDT" replace="${rembrandt.connection.datasource}" flags="g"/>
 		<copy file="csm_deploy/oracle-ds.xml" todir="${anthill.artifacts.dir}"/>
 		<replaceregexp file="csm_deploy/properties-service.xml" match="@REMBRANDT_DATA_PROPERTIES@" replace="${ncicb.configure.directory}${rembrandt.data.properties.file}" flags="g"/>
@@ -373,11 +379,16 @@ L-->
 		<copy file="csm_deploy/properties-service.xml" todir="${anthill.artifacts.dir}"/>
 		<copy file="src/castor_query.xml" todir="${anthill.artifacts.dir}"/>
 		<copy file="conf/wikihelp.properties" todir="${anthill.artifacts.dir}"/>
-		
+		-->
+		<!-- 
 		<copy file="conf/standalone-full.xml" todir="${anthill.artifacts.dir}" />
+		-->
 		<copy todir="${anthill.artifacts.dir}" overwrite="true" >  
 				  <fileset dir="${jboss6-modules.dir}" includes="**/*"/>
 				</copy>
+		
+		<copy file="conf/rembrandt_batch.cli" todir="${anthill.artifacts.dir}"/>
+		<copy file="conf/rembrandt_modules.cli" todir="${anthill.artifacts.dir}"/>
 		
 	</target>
 	<target name="noop"/>
