@@ -98,7 +98,7 @@ L-->
 		Compiles the source directory with anthill dependencies
 	-->
 <!--	<target name="compile_anthill" depends="warning,build:sub-projects">  -->
-	<target name="compile_anthill" depends="warning,copy_dependancy_jars">		
+	<target name="compile_anthill" depends="warning">		
 			<delete dir="${build.classes.dir}"/>
 			<mkdir dir="${build.classes.dir}"/>
 			<javac srcdir="${source.dir}" destdir="${build.classes.dir}" source="1.5" excludes="**/test/**" debug="true" debuglevel="lines,vars,source">
@@ -109,9 +109,13 @@ L-->
 					<fileset dir="${source.nondeploy.lib.dir}">
 						<include name="*.jar"/>
 					</fileset>
-					<fileset dir="${anthill.dependency.artifacts.dir}">
+					
+					<fileset dir="${jar.source.files.dir}">
 						<include name="*.jar"/>
 					</fileset>
+					<!-- fileset dir="${anthill.dependency.artifacts.dir}">
+						<include name="*.jar"/>
+					</fileset> -->
 				</classpath>
 			</javac>
 			<javac srcdir="${applet.dir}" destdir="${applet.dir}" source="1.4" debug="true" debuglevel="lines,vars,source">
@@ -158,8 +162,8 @@ L-->
 		<copy file="jar_source_files/caintegrator-analysis-commons.jar" todir="${anthill.artifacts.dir}" overwrite="true" />
 		<copy file="jar_source_files/caintegrator-application-commons.jar" todir="${anthill.artifacts.dir}" overwrite="true" />
 		<copy file="jar_source_files/caintegrator-spec.jar" todir="${anthill.artifacts.dir}" overwrite="true" />
-		<copy file="jar_source_files/bcprov-jdk15on-1.47.jar" todir="${anthill.artifacts.dir}" overwrite="true" />
-		<copy file="jar_source_files/bcprov-ext-jdk15on-1.47.jar" todir="${anthill.artifacts.dir}" overwrite="true" />
+		<!-- copy file="jar_source_files/bcprov-jdk15on-1.47.jar" todir="${anthill.artifacts.dir}" overwrite="true" /> -->
+		<!-- copy file="jar_source_files/bcprov-ext-jdk15on-1.47.jar" todir="${anthill.artifacts.dir}" overwrite="true" /> -->
 	</target>
 	<!--
 		TARGET: config_cache
@@ -303,6 +307,8 @@ L-->
 				</copy>
 		
 		<copy file="${basedir}/conf/log4j.xml" todir="${build.classes.dir}"/>
+		<copy file="${basedir}/conf/log4j.xml" todir="${webapp.dir}/WEB-INF"/>
+		<copy file="${webapp.dir}/WEB-INF/lib/log4j-1.2.13.jar" todir="${build.classes.dir}"/>
 		
 		<war destfile="${app.war.name}.war" webxml="${webapp.dir}/WEB-INF/web.xml">
 			<fileset file="${webapp.dir}/*.*"/>
@@ -384,8 +390,9 @@ L-->
 		<copy file="conf/standalone-full.xml" todir="${anthill.artifacts.dir}" />
 		-->
 		<copy todir="${anthill.artifacts.dir}" overwrite="true" >  
-				  <fileset dir="${jboss6-modules.dir}" includes="**/*"/>
-				</copy>
+			<fileset dir="${jboss6-modules.dir}" includes="csm/*"/>
+			<fileset dir="${jboss6-modules.dir}" includes="oracle/*"/>
+		</copy>
 		
 		<copy file="conf/rembrandt_batch.cli" todir="${anthill.artifacts.dir}"/>
 		<copy file="conf/rembrandt_modules.cli" todir="${anthill.artifacts.dir}"/>
