@@ -1,10 +1,24 @@
 # Rembrandt CLI script
-connect
-batch
+connect localhost:10099
 
 ##############################################################
 #             System Properties                      
 ##############################################################
+
+#if (outcome == success) of /system-property=gov.nih.nci.rembrandt.properties:read-resource
+/system-property=gov.nih.nci.rembrandt.properties:remove
+
+#if (outcome == success) of /system-property=gov.nih.nci.rembrandtData.properties:read-resource
+/system-property=gov.nih.nci.rembrandtData.properties:remove
+
+#if (outcome == success) of /system-property=gov.nih.nci.security.configFile:read-resource
+/system-property=gov.nih.nci.security.configFile:remove
+
+#if (outcome == success) of /system-property=rembrandt.application.releaseNotes:read-resource
+/system-property=rembrandt.application.releaseNotes:remove
+
+#if (outcome == success) of /system-property=gov.nih.nci.rembrandt.wikihelpProperties:read-resource
+/system-property=gov.nih.nci.rembrandt.wikihelpProperties:remove
 
 /system-property=gov.nih.nci.rembrandt.properties:add(value=/local/content/rembrandt/config/rembrandt.properties)
 /system-property=gov.nih.nci.rembrandtData.properties:add(value=/local/content/rembrandt/config/rembrandtData.properties)
@@ -16,17 +30,20 @@ batch
 #             datasource configuration                      
 ##############################################################
 
-
-module add --name=com.oracle --resources=artifacts/oracle/ojdbc6.jar --dependencies=javax.api,javax.transaction.api
+#module add --name=com.oracle --resources=artifacts/oracle/ojdbc6.jar --dependencies=javax.api,javax.transaction.api
 
 # Add oracle JDBC driver
+/subsystem=datasources/jdbc-driver=oracle:remove {allow-resource-service-restart=true}
 /subsystem=datasources/jdbc-driver=oracle:add( \
     driver-name=oracle, \
     driver-module-name=com.oracle, \
     driver-class-name=oracle.jdbc.driver.OracleDriver \
-)
+) {allow-resource-service-restart=true}
+
+reload
  
 # Add 2 datasources: rembrandt and rembrandtcsm
+data-source remove --name=rembrandt
 data-source add \
     --name=rembrandt \
     --driver-name=oracle \
@@ -39,6 +56,7 @@ data-source add \
     --blocking-timeout-wait-millis=5000 
 data-source enable --name=rembrandt
 
+data-source remove --name=rembrandtcsm
 data-source add \
     --name=rembrandtcsm \
     --driver-name=oracle \
@@ -56,8 +74,9 @@ reload
 ##############################################################
 #               CSM configuration                             
 ##############################################################
-module add --name=gov.nih.nci.security --resources=artifacts\csm\csmapi-5.1.jar --dependencies=org.apache.log4j,org.hibernate,org.jdom,org.slf4j.jcl-over-slf4j
+#module add --name=gov.nih.nci.security --resources=artifacts\csm\csmapi-5.1.jar --dependencies=org.apache.log4j,org.hibernate,org.jdom,org.slf4j.jcl-over-slf4j
 
+/subsystem=security/security-domain=rembrandt/:remove {allow-resource-service-restart=true}
 /subsystem=security/security-domain=rembrandt/:add(cache-type=default)
 /subsystem=security/security-domain=rembrandt/authentication=classic:remove() {allow-resource-service-restart=true}
 /subsystem=security/security-domain=rembrandt/authentication=classic:add( \
@@ -75,9 +94,11 @@ module add --name=gov.nih.nci.security --resources=artifacts\csm\csmapi-5.1.jar 
 ##############################################################
 #               JMS configuration                             
 ##############################################################
+jms-queue remove --name=SharedAnalysisRequest
 jms-queue add --queue-address=SharedAnalysisRequest --entries=queue/SharedAnalysisRequest,java:jboss/queue/SharedAnalysisRequest
+
+jms-queue remove --name=RembrandtAnalysisResponse
 jms-queue add --queue-address=RembrandtAnalysisResponse --entries=queue/RembrandtAnalysisResponse,java:jboss/queue/RembrandtAnalysisResponse
  
 # Execute and reload
-run-batch
 :reload
