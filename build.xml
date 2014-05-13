@@ -98,7 +98,7 @@ L-->
 		Compiles the source directory with anthill dependencies
 	-->
 <!--	<target name="compile_anthill" depends="warning,build:sub-projects">  -->
-	<target name="compile_anthill" depends="warning">		
+	<target name="compile_anthill" depends="warning, copy_dependancy_jars">		
 			<delete dir="${build.classes.dir}"/>
 			<mkdir dir="${build.classes.dir}"/>
 			<javac srcdir="${source.dir}" destdir="${build.classes.dir}" source="1.5" excludes="**/test/**" debug="true" debuglevel="lines,vars,source">
@@ -110,12 +110,9 @@ L-->
 						<include name="*.jar"/>
 					</fileset>
 					
-					<fileset dir="${jar.source.files.dir}">
+					<fileset dir="${anthill.dependency.artifacts.dir}">
 						<include name="*.jar"/>
 					</fileset>
-					<!-- fileset dir="${anthill.dependency.artifacts.dir}">
-						<include name="*.jar"/>
-					</fileset> -->
 				</classpath>
 			</javac>
 			<javac srcdir="${applet.dir}" destdir="${applet.dir}" source="1.4" debug="true" debuglevel="lines,vars,source">
@@ -330,7 +327,7 @@ L-->
 				 <include name="*.*"/>
 				 <exclude name="web.xml"/>
 			</zipfileset>			
-		    <lib dir="${anthill.dependency.artifacts.dir}">
+		    <lib dir="${jar.source.files.dir}">
 		  	   <include name="caintegrator-analysis-commons.jar"/>
 		       <include name="caintegrator-application-commons.jar"/>
 		       <include name="caintegrator-spec.jar"/>
