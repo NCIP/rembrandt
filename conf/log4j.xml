@@ -169,7 +169,7 @@ L-->
    <!-- ============================= -->
    
    <appender name="CAINTEGRATOR_FILE" class="org.apache.log4j.RollingFileAppender">
-        <param name="File" value="${jboss.server.home.dir}/log/caIntegrator.log"/>
+        <param name="File" value="${jboss.server.log.dir}/caIntegrator.log"/>
         <param name="Append" value="true"/>
         <param name="MaxFileSize" value="500KB"/>
      	<param name="MaxBackupIndex" value="5"/>        
@@ -179,7 +179,7 @@ L-->
    </appender>
    
    <appender name="ANALYSIS_JMS_FILE" class="org.apache.log4j.RollingFileAppender">
-           <param name="File" value="${jboss.server.home.dir}/log/caIntegratorAnalysisServer.log"/>
+           <param name="File" value="${jboss.server.log.dir}/caIntegratorAnalysisServer.log"/>
            <param name="Append" value="true"/>
            <param name="MaxFileSize" value="500KB"/>
      	   <param name="MaxBackupIndex" value="5"/>           
@@ -196,7 +196,7 @@ L-->
    </appender>
 
    <appender name="CAINTEGRATOR_CSM_FILE" class="org.apache.log4j.RollingFileAppender">
-           <param name="File" value="${jboss.server.home.dir}/log/caIntegratorCSM.log"/>
+           <param name="File" value="${jboss.server.log.dir}/caIntegratorCSM.log"/>
            <param name="Append" value="true"/>
            <param name="MaxFileSize" value="500KB"/>
      	   <param name="MaxBackupIndex" value="5"/>  
@@ -211,7 +211,7 @@ L-->
    <!-- ============================= -->   
   
    <appender name="REMBRANDT_FILE" class="org.apache.log4j.RollingFileAppender">
-           <param name="File" value="${jboss.server.home.dir}/log/rembrandt.log"/>
+           <param name="File" value="${jboss.server.log.dir}/rembrandt.log"/>
            <param name="Append" value="true"/>
            <param name="MaxFileSize" value="500KB"/>
      	   <param name="MaxBackupIndex" value="5"/>  
@@ -231,7 +231,6 @@ L-->
       	<!-- ========================================= -->
       	<!--  CAINTEGRATOR LOGGERS AFTER ALL APPENDERS -->
       	<!-- ========================================= -->
-      	
 
          	<!-- Default logger for Analysis Server. Used where no logger is declared -->
          	 <logger name="gov.nih.nci.caintegrator.analysis" additivity="false">
@@ -254,7 +253,7 @@ L-->
          	</logger>
       	<!-- Default logger for caintegrator. Used where no logger is declared -->
 	      <logger name="gov.nih.nci.security" additivity="false">
-	         	<level value="ERROR"/>
+	         	<level value="DEBUG"/>
 	         	<appender-ref ref="CAINTEGRATOR_CSM_FILE"/>
 	         	<appender-ref ref="CAINTEGRATOR_CONSOLE"/>
          	</logger>
