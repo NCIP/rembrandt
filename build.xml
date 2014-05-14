@@ -327,7 +327,7 @@ L-->
 				 <include name="*.*"/>
 				 <exclude name="web.xml"/>
 			</zipfileset>			
-		    <lib dir="${jar.source.files.dir}">
+		    <lib dir="${anthill.dependency.artifacts.dir}">
 		  	   <include name="caintegrator-analysis-commons.jar"/>
 		       <include name="caintegrator-application-commons.jar"/>
 		       <include name="caintegrator-spec.jar"/>
