@@ -2,9 +2,9 @@
 connect localhost:10099
 
 ### Oracle driver module
-module add --name=com.oracle --resources=artifacts/oracle/ojdbc6.jar --dependencies=javax.api,javax.transaction.api
+module add --name=com.oracle --resources=/local/content/jboss/modules/oracle/ojdbc6.jar --dependencies=javax.api,javax.transaction.api
 
 ### CSM security module
-module add --name=gov.nih.nci.security --resources=artifacts\csm\csmapi-5.1.jar --dependencies=org.apache.log4j,org.hibernate,org.jdom,org.slf4j.jcl-over-slf4j
+module add --name=gov.nih.nci.security --resources=/local/content/jboss/modules/csm/csmapi-5.1.jar --dependencies=org.apache.log4j,org.hibernate,org.jdom,org.slf4j.jcl-over-slf4j
 
 reload
