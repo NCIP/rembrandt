@@ -1,4 +1,4 @@
-################# Rembrandt CLI script to install modules  ###############
+############### Rembrandt CLI script to install modules  #############
 connect localhost:10099
 
 ### Oracle driver module
