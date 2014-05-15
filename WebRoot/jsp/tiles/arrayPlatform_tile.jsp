@@ -61,9 +61,7 @@ Step 2: Select Array Platform (Select at least one)
 		<% } else {%>	
 		<!-- /s:if -->
 		<!-- s:else -->
-						<option value="<%=Constants.ALL_PLATFROM%>">All</option>
 						<option selected="selected" value="<%=Constants.AFFY_OLIGO_PLATFORM%>">Affymetrix HG_U133 Plus 2.0</option>
-						<option value="<%=Constants.CDNA_ARRAY_PLATFORM%>">cDNA</option>
 		<% } %>
 		<!-- /s:else -->
 	

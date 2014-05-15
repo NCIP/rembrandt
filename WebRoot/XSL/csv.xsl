@@ -11,7 +11,7 @@
 		<xsl:for-each select="Row[(@name='dataRow')]">
 	  		<xsl:value-of select="Cell[1]/Data" />
 	  		<xsl:if test="position() != last()">
-				<xsl:value-of select="', '"/>
+				<xsl:text>&#x9;</xsl:text>
 			</xsl:if>
 			<xsl:if test="position() = last()">
 				<xsl:text>&#10;</xsl:text>
@@ -22,7 +22,7 @@
   		<xsl:for-each select="Row[(@name='dataRow')]">
 	  		<xsl:value-of select="Cell[2]/Data" />
 	  		<xsl:if test="position() != last()">
-				<xsl:value-of select="', '"/>
+				<xsl:text>&#x9;</xsl:text>
 			</xsl:if>
 			<xsl:if test="position() = last()">
 				<xsl:text>&#10;</xsl:text>
@@ -34,11 +34,11 @@
 			  	<xsl:if test="Data != ' '">
 			  		<xsl:variable name="pos" select="position()" />
 			  		<xsl:value-of select="Data" />
-			  		<xsl:value-of select="', '"/>
+			  		<xsl:text>&#x9;</xsl:text>
 			  		<xsl:for-each select="//Row[(@name='dataRow')]/Cell[position() = $pos]">
 				  		<xsl:value-of select="Data" />
 				  		<xsl:if test="position() != last()">
-							<xsl:value-of select="', '"/>
+							<xsl:text>&#x9;</xsl:text>
 						</xsl:if>
 			  		</xsl:for-each>
 					<xsl:text>&#10;</xsl:text>
@@ -51,7 +51,7 @@
 			<xsl:for-each select="Cell[@group = 'header']">
 				<xsl:value-of select="Data"/>
 				<xsl:if test="position() != last()">
-					<xsl:value-of select="', '"/>
+					<xsl:text>&#x9;</xsl:text>
 				</xsl:if>
 				<xsl:if test="position() = last()">
 					<xsl:text>&#10;</xsl:text>
@@ -64,7 +64,7 @@
 			  <xsl:choose>
 			  	<xsl:when test="Data = ' '"> 
 			  		<xsl:if test="position() != last()">
-						<xsl:value-of select="', '"/>
+						<xsl:text>&#x9;</xsl:text>
 					</xsl:if>
 					<xsl:if test="position() = last()">
 						<xsl:text>&#10;</xsl:text>
@@ -73,7 +73,7 @@
 			  	<xsl:otherwise>
 			  		<xsl:value-of select="Data" />
 			  		<xsl:if test="position() != last()">
-						<xsl:value-of select="', '"/>
+						<xsl:text>&#x9;</xsl:text>
 					</xsl:if>
 					<xsl:if test="position() = last()">
 						<xsl:text>&#10;</xsl:text>
@@ -86,19 +86,19 @@
 		
 			<xsl:for-each select="Cell[@group = 'header']">
 				<xsl:value-of select="Data" />
-				<xsl:value-of select="', '"/>
+				<xsl:text>&#x9;</xsl:text>
 				<xsl:if test="position() = last()">
-					<xsl:value-of select="', '"/>
-					<xsl:value-of select="', '"/>
-					<xsl:value-of select="', '"/>
-					<xsl:value-of select="', '"/>
+					<xsl:text>&#x9;</xsl:text>
+					<xsl:text>&#x9;</xsl:text>
+					<xsl:text>&#x9;</xsl:text>
+					<xsl:text>&#x9;</xsl:text>
 				</xsl:if>
 			</xsl:for-each>
 		
 			<xsl:for-each select="Cell[@group != 'header']">
 				<xsl:value-of select="Data" />
 				<xsl:if test="position() != last()">
-					<xsl:value-of select="', '"/>
+					<xsl:text>&#x9;</xsl:text>
 				</xsl:if>
 				<xsl:if test="position() = last()">
 					<xsl:text>&#10;</xsl:text>
