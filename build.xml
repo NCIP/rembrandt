@@ -393,6 +393,7 @@ L-->
 		
 		<copy file="conf/rembrandt_batch.cli" todir="${anthill.artifacts.dir}"/>
 		<copy file="conf/rembrandt_modules.cli" todir="${anthill.artifacts.dir}"/>
+		<copy file="conf/standalone-18080.xml" todir="${anthill.artifacts.dir}"/>
 		
 	</target>
 	<target name="noop"/>
