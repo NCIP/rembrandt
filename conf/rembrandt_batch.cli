@@ -49,8 +49,8 @@ data-source add \
     --driver-name=oracle \
     --connection-url=jdbc:oracle:thin:@ncidb-int-d.nci.nih.gov:1550:INTDEV \
     --jndi-name=java:jboss/rembrandt \
-    --user-name=rembdev \
-    --password=dev!234 \
+    --user-name= \
+    --password= \
     --use-ccm=false \
     --max-pool-size=100 \
     --blocking-timeout-wait-millis=5000 
