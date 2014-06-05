@@ -143,8 +143,8 @@
                         <max-pool-size>100</max-pool-size>
                     </pool>
                     <security>
-                        <user-name>rembdev</user-name>
-                        <password>dev!234</password>
+                        <user-name></user-name>
+                        <password></password>
                     </security>
                 </datasource>
                 <datasource jndi-name="java:jboss/rembrandtcsm" pool-name="rembrandtcsm" enabled="true" use-java-context="true">
@@ -155,8 +155,8 @@
                         <max-pool-size>100</max-pool-size>
                     </pool>
                     <security>
-                        <user-name>rembdev</user-name>
-                        <password>dev!234</password>
+                        <user-name></user-name>
+                        <password></password>
                     </security>
                 </datasource>
                 <drivers>
